@@ -3,3 +3,38 @@
 ################################################################################
 
 /nopCommerce_4.10_Source/.vs/NopCommerce/v15/Server/sqlite3
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+*.lock.json
+*.nuget.targets
+*.nuget.props
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+x64/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+*.lock.json
+
+# Roslyn cache directories
+*.ide/
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+#NUNIT
+*.VisualState.xml
+TestResult.xml
+
+# Build Results of an ATL Project
+[Dd]ebugPS/
+[Rr]eleasePS/
+dlldata.c
