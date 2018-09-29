@@ -1,0 +1,5 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/nopCommerce_4.10_Source/.vs/NopCommerce/v15/Server/sqlite3
