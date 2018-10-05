@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Nop.Core.Domain.Topics;
+using Nop.Plugin.Api.DTOs.Manufacturers;
 using Nop.Plugin.Api.DTOs.Topics;
 
 namespace Nop.Plugin.Api.Helpers
@@ -379,6 +380,11 @@ namespace Nop.Plugin.Api.Helpers
         public TopicDto PrepateTopicDto(Topic topic)
         {
             return new TopicDto {Id =topic.Id ,Body = topic.Body, Title = topic.Title};
+        }
+
+        public ManufacturerDto PrepateManufacturerDto(Manufacturer manufacturer)
+        {
+            return new ManufacturerDto { Id = manufacturer.Id, Name = manufacturer.Name, Description = manufacturer.Description };
         }
     }
 }
