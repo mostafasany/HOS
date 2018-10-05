@@ -1,5 +1,6 @@
 ﻿{
   "DataProvider": "sqlserver",
-  "DataConnectionString": "Data Source=ZALANDO-27029;Initial Catalog=HouseOfSupplementsLocal;Integrated Security=True;Persist Security Info=False",
+  //"DataConnectionString": "Data Source=ZALANDO-27029;Initial Catalog=HouseOfSupplementsLocal;Integrated Security=True;Persist Security Info=False",
+  "DataConnectionString": "Data Source=tcp:houseofsupplementsserver.database.windows.net,1433;Initial Catalog=HouseOfSupplementsDatabase;Persist Security Info=False;User ID=hosadmin;Password=P@$$w0rd;MultipleActiveResultSets=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False",
   "RawDataSettings": {}
 }

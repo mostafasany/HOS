@@ -12,5 +12,6 @@
   "Shipping.UPS",
   "Tax.FixedOrByCountryStateZip",
   "Widgets.GoogleAnalytics",
-  "Widgets.NivoSlider"
+  "Widgets.NivoSlider",
+  "Nop.Plugin.Api"
 ]
