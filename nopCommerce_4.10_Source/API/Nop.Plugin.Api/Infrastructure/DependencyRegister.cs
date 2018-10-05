@@ -56,6 +56,7 @@ namespace Nop.Plugin.Api.Infrastructure
             builder.RegisterType<NewsLetterSubscriptionApiService>().As<INewsLetterSubscriptionApiService>().InstancePerLifetimeScope();
             builder.RegisterType<TopicApiService>().As<ITopicApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ManufacturerApiService>().As<IManufacturerApiService>().InstancePerLifetimeScope();
+            builder.RegisterType<MenuApiService>().As<IMenuApiService>().InstancePerLifetimeScope();
             builder.RegisterType<MappingHelper>().As<IMappingHelper>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerRolesHelper>().As<ICustomerRolesHelper>().InstancePerLifetimeScope();
             builder.RegisterType<JsonHelper>().As<IJsonHelper>().InstancePerLifetimeScope();
