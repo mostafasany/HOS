@@ -10,12 +10,12 @@ namespace Nop.Plugin.Api.Services
     {
         private readonly ICategoryApiService _categoryApiService;
         private readonly IDTOHelper _dtoHelper;
-        private readonly IPictureService _pictureService;
         private readonly IManufacturerApiService _manufacturerApiService;
+        private readonly IPictureService _pictureService;
         private readonly IProductApiService _productApiService;
 
         public MenuApiService(IProductApiService productApiService, ICategoryApiService categoryApiService, IDTOHelper dtoHelper,
-            IPictureService pictureService,IManufacturerApiService manufacturerApiService)
+            IPictureService pictureService, IManufacturerApiService manufacturerApiService)
         {
             _productApiService = productApiService;
             _categoryApiService = categoryApiService;
@@ -84,18 +84,23 @@ namespace Nop.Plugin.Api.Services
                 Id = a.Id,
                 ParentCategoryId = a.ParentCategoryId
             });
-
-            IEnumerable<MenuCategoryDto> allManufacturers = _manufacturerApiService.GetManufacturers(limit:5).Select(a => new MenuCategoryDto
+            IEnumerable<MenuCategoryDto> allManufacturers = _manufacturerApiService.GetManufacturers(limit: 5).Select(a => new MenuCategoryDto
             {
                 Description = a.Description,
                 Name = a.Name,
                 Url = a.Name,
-                Id = a.Id,
+                Id = a.Id
             });
 
-            IEnumerable<MenuCategoryDto> ingerdientCategories = allCategories.Where(a => a.ParentCategoryId == 24);
-            IEnumerable<MenuCategoryDto> goalCategories = allCategories.Where(a => a.ParentCategoryId == 26);
-            IEnumerable<MenuCategoryDto> categoriesCategories = allCategories.Where(a => a.ParentCategoryId == 27);
+            List<MenuCategoryDto> ingerdientCategories = allCategories.Where(a => a.ParentCategoryId == 24).ToList();
+            ingerdientCategories.Add(new MenuCategoryDto {Name = "All Ingredients", Url = "All"});
+
+            List<MenuCategoryDto> goalCategories = allCategories.Where(a => a.ParentCategoryId == 26).ToList();
+            goalCategories.Add(new MenuCategoryDto {Name = "All Goals", Url = "All"});
+
+            List<MenuCategoryDto> categoriesCategories = allCategories.Where(a => a.ParentCategoryId == 27).ToList();
+            categoriesCategories.Add(new MenuCategoryDto {Name = "All Categories", Url = "All"});
+
             var mainStoreProducts = new List<MenuProductsDto>
             {
                 new MenuProductsDto
@@ -146,8 +151,7 @@ namespace Nop.Plugin.Api.Services
                 {
                     MenuItemName = "Categories",
                     CategoriesFirstRow = categoriesCategories
-                }
-                ,
+                },
                 new MenuCategoriesDto
                 {
                     MenuItemName = "Brands",
@@ -166,21 +170,21 @@ namespace Nop.Plugin.Api.Services
 
         private List<MenuArticlesDto> GetArticlesAndVideos()
         {
-            List<MenuArticlesDto> articles = new List<MenuArticlesDto>
+            var articles = new List<MenuArticlesDto>
             {
                 new MenuArticlesDto
                 {
                     MenuItemName = "Workout",
                     ArticlesFirstRow = new List<MenuArticleDto>
                     {
-                        new MenuArticleDto {Id = 1, Name = "Workout 1", Url = ""},
-                        new MenuArticleDto {Id = 1, Name = "Workout 2", Url = ""},
+                        new MenuArticleDto {Id = 1, Name = "Workout 1", Url = "", Image = "/src/images/gifts.png"},
+                        new MenuArticleDto {Id = 1, Name = "Workout 2", Url = "", Image = "/src/images/gifts.png"}
                     },
                     ArticlesSecondRow = new List<MenuArticleDto>
                     {
-                        new MenuArticleDto {Id = 1, Name = "Workout 3", Url = ""},
-                        new MenuArticleDto {Id = 1, Name = "Workout 4", Url = ""},
-                        new MenuArticleDto {Id = 1, Name = "Workout 5", Url = ""}
+                        new MenuArticleDto {Id = 1, Name = "Workout 3", Url = "", Image = "/src/images/gifts.png"},
+                        new MenuArticleDto {Id = 1, Name = "Workout 4", Url = "", Image = "/src/images/gifts.png"},
+                        new MenuArticleDto {Id = 1, Name = "Workout 5", Url = "", Image = "/src/images/gifts.png"}
                     }
                 },
                 new MenuArticlesDto
@@ -188,14 +192,14 @@ namespace Nop.Plugin.Api.Services
                     MenuItemName = "Motivation",
                     ArticlesFirstRow = new List<MenuArticleDto>
                     {
-                        new MenuArticleDto {Id = 1, Name = "Motivation 1", Url = ""},
-                        new MenuArticleDto {Id = 1, Name = "Motivation 2", Url = ""},
+                        new MenuArticleDto {Id = 1, Name = "Motivation 1", Url = "", Image = "/src/images/gifts.png"},
+                        new MenuArticleDto {Id = 1, Name = "Motivation 2", Url = "", Image = "/src/images/gifts.png"}
                     },
                     ArticlesSecondRow = new List<MenuArticleDto>
                     {
-                        new MenuArticleDto {Id = 1, Name = "Motivation 3", Url = ""},
-                        new MenuArticleDto {Id = 1, Name = "Motivation 4", Url = ""},
-                        new MenuArticleDto {Id = 1, Name = "Motivation 5", Url = ""}
+                        new MenuArticleDto {Id = 1, Name = "Motivation 3", Url = "", Image = "/src/images/gifts.png"},
+                        new MenuArticleDto {Id = 1, Name = "Motivation 4", Url = "", Image = "/src/images/gifts.png"},
+                        new MenuArticleDto {Id = 1, Name = "Motivation 5", Url = "", Image = "/src/images/gifts.png"}
                     }
                 },
                 new MenuArticlesDto
@@ -203,17 +207,16 @@ namespace Nop.Plugin.Api.Services
                     MenuItemName = "Supplementation",
                     ArticlesFirstRow = new List<MenuArticleDto>
                     {
-                        new MenuArticleDto {Id = 1, Name = "Supplementation 1", Url = ""},
-                        new MenuArticleDto {Id = 1, Name = "Supplementation 2", Url = ""},
+                        new MenuArticleDto {Id = 1, Name = "Supplementation 1", Url = "", Image = "/src/images/gifts.png"},
+                        new MenuArticleDto {Id = 1, Name = "Supplementation 2", Url = "", Image = "/src/images/gifts.png"}
                     },
                     ArticlesSecondRow = new List<MenuArticleDto>
                     {
-                        new MenuArticleDto {Id = 1, Name = "Supplementation 3", Url = ""},
-                        new MenuArticleDto {Id = 1, Name = "Supplementation 4", Url = ""},
-                        new MenuArticleDto {Id = 1, Name = "Motivation 5", Url = ""}
+                        new MenuArticleDto {Id = 1, Name = "Supplementation 3", Url = "", Image = "/src/images/gifts.png"},
+                        new MenuArticleDto {Id = 1, Name = "Supplementation 4", Url = "", Image = "/src/images/gifts.png"},
+                        new MenuArticleDto {Id = 1, Name = "Supplementation 5", Url = ""}
                     }
                 }
-
             };
 
             return articles;

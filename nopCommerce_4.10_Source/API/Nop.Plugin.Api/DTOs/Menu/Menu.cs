@@ -19,7 +19,7 @@ namespace Nop.Plugin.Api.DTOs.Menu
         [JsonProperty("MainStoreCategories")]
         public List<MenuCategoriesDto> MainStoreCategories { get; set; }
 
-        [JsonProperty("ArticlesAndVideo")]
+        [JsonProperty("ArticlesAndVideos")]
         public List<MenuArticlesDto> ArticlesAndVideos { get; set; }
 
 
@@ -122,6 +122,9 @@ namespace Nop.Plugin.Api.DTOs.Menu
 
         [JsonProperty("Url")]
         public string Url { get; set; }
+
+        [JsonProperty("Image")]
+        public string Image { get; set; }
     }
 
 
