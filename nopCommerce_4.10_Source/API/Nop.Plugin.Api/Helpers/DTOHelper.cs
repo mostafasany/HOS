@@ -28,6 +28,8 @@ using Nop.Services.Stores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nop.Core.Domain.Topics;
+using Nop.Plugin.Api.DTOs.Topics;
 
 namespace Nop.Plugin.Api.Helpers
 {
@@ -372,6 +374,11 @@ namespace Nop.Plugin.Api.Helpers
         public SpecificationAttributeDto PrepareSpecificationAttributeDto(SpecificationAttribute specificationAttribute)
         {
             return specificationAttribute.ToDto();
+        }
+
+        public TopicDto PrepateTopicDto(Topic topic)
+        {
+            return new TopicDto {Id =topic.Id ,Body = topic.Body, Title = topic.Title};
         }
     }
 }

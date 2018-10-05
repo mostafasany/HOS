@@ -43,6 +43,13 @@ namespace Nop.Plugin.Api
         // TODO: extract all methods into extensions.
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+
             services.AddDbContext<ApiObjectContext>(optionsBuilder =>
             {
                 optionsBuilder.UseSqlServerWithLazyLoading(services);
@@ -61,12 +68,14 @@ namespace Nop.Plugin.Api
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseCors("CorsPolicy");
+
             // During a clean install we should not register any middlewares i.e IdentityServer as it won't be able to create its  
             // tables without a connection string and will throw an exception
             var dataSettings = DataSettingsManager.LoadSettings();
             if (!dataSettings?.IsValid ?? true)
                 return;
-
+            //https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-2.1&tabs=visual-studio%2Cvisual-studio-xml
             // The default route templates for the Swagger docs and swagger - ui are "swagger/docs/{apiVersion}" and "swagger/ui/index#/{assetPath}" respectively.
             //app.UseSwagger();
             //app.UseSwaggerUI(options =>
@@ -98,7 +107,7 @@ namespace Nop.Plugin.Api
             app.UseMiddleware<IdentityServerScopeParameterMiddleware>();
 
             ////uncomment only if the client is an angular application that directly calls the oauth endpoint
-            //// app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            // app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             UseIdentityServer(app);
 
             //need to enable rewind so we can read the request body multiple times (this should eventually be refactored, but both JsonModelBinder and all of the DTO validators need to read this stream)

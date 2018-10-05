@@ -15,7 +15,8 @@
           "Microsoft.AspNetCore.Rewrite": "2.1.1",
           "Newtonsoft.Json": "11.0.2",
           "Nop.Core": "4.1.0",
-          "Nop.Web.Framework": "4.1.0"
+          "Nop.Web.Framework": "4.1.0",
+          "System.Web.Http": "5.2.6.0"
         },
         "runtime": {
           "Nop.Plugin.Api.dll": {}
@@ -4446,6 +4447,14 @@
         "runtime": {
           "Nop.Web.Framework.dll": {}
         }
+      },
+      "System.Web.Http/5.2.6.0": {
+        "runtime": {
+          "System.Web.Http.dll": {
+            "assemblyVersion": "5.2.6.0",
+            "fileVersion": "5.2.60510.0"
+          }
+        }
       }
     }
   },
@@ -6740,6 +6749,11 @@
     },
     "Nop.Web.Framework/4.1.0": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "System.Web.Http/5.2.6.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     }
