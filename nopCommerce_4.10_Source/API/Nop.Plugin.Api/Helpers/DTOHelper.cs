@@ -28,7 +28,9 @@ using Nop.Services.Stores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nop.Core.Domain.Articles;
 using Nop.Core.Domain.Topics;
+using Nop.Plugin.Api.DTOs.Articles;
 using Nop.Plugin.Api.DTOs.Manufacturers;
 using Nop.Plugin.Api.DTOs.Topics;
 
@@ -385,6 +387,38 @@ namespace Nop.Plugin.Api.Helpers
         public ManufacturerDto PrepateManufacturerDto(Manufacturer manufacturer)
         {
             return new ManufacturerDto { Id = manufacturer.Id, Name = manufacturer.Name, Description = manufacturer.Description };
+        }
+
+        public ArticlesDto PrepateArticleDto(FNS_Article article)
+        {
+            var picture = _pictureService.GetPictureById(article.PictureId);
+            var imageDto = PrepareImageDto(picture);
+
+           
+            var articleDto= new ArticlesDto
+            {
+                Id = article.Id,
+                Body  = article.Body,
+                Title = article.Title,
+                AllowComments = article.AllowComments,
+                CommentCount = article.CommentCount,
+                CreatedOnUtc = article.CreatedOnUtc,
+                MetaDescription = article.MetaDescription,
+                MetaTitle = article.MetaTitle,
+                Tags = article.Tags,
+            };
+
+            if (imageDto != null)
+            {
+                articleDto.Image = imageDto;
+            }
+
+            return articleDto;
+        }
+
+        public ArticleGroupDto PrepateArticleGroupDto(FNS_ArticleGroup articleGroup)
+        {
+            return new ArticleGroupDto{Id = articleGroup.Id,Name = articleGroup.Name,ParentGroupId = articleGroup.ParentGroupId};
         }
     }
 }

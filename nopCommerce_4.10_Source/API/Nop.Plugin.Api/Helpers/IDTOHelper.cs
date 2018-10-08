@@ -1,8 +1,10 @@
-﻿using Nop.Core.Domain.Catalog;
+﻿using Nop.Core.Domain.Articles;
+using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Stores;
 using Nop.Core.Domain.Topics;
+using Nop.Plugin.Api.DTOs.Articles;
 using Nop.Plugin.Api.DTOs.Categories;
 using Nop.Plugin.Api.DTOs.Languages;
 using Nop.Plugin.Api.DTOs.Manufacturers;
@@ -33,5 +35,9 @@ namespace Nop.Plugin.Api.Helpers
         TopicDto PrepateTopicDto(Topic topic);
 
         ManufacturerDto PrepateManufacturerDto(Manufacturer manufacturer);
+
+        ArticlesDto PrepateArticleDto(FNS_Article article);
+
+        ArticleGroupDto PrepateArticleGroupDto(FNS_ArticleGroup article);
     }
 }
