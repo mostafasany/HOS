@@ -99,7 +99,7 @@ namespace Nop.Plugin.Api.Controllers
             if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
 
             IEnumerable<FNS_Article> allArticles = _articleApiService.GetArticles(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
-                parameters.UpdatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId, parameters.CategoryId, parameters.GroupId,
+                parameters.UpdatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId, parameters.CategoryId, parameters.GroupId, parameters.Keyword, parameters.Tag,
                 parameters.PublishedStatus);
 
             IList<ArticlesDto> articlesAsDtos = allArticles.Select(article =>

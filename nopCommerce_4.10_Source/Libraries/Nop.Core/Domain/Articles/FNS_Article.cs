@@ -5,7 +5,9 @@ namespace Nop.Core.Domain.Articles
 {
    public class FNS_Article : BaseEntity
     {
-        private ICollection<FNS_ArticleGroup> _articleGroups;
+        private ICollection<FNS_ArticleGroup_Mapping> _articleGroups;
+        private ICollection<FNS_ArticleCategory> _articleCategories;
+        
         public string Title { get; set; }
 
         public string Body { get; set; }
@@ -33,11 +35,21 @@ namespace Nop.Core.Domain.Articles
         /// <summary>
         /// Gets or sets the collection of ProductCategory
         /// </summary>
-        public virtual ICollection<FNS_ArticleGroup> ArticleGroups
+        public virtual ICollection<FNS_ArticleGroup_Mapping> ArticleGroups
         {
-            get => _articleGroups ?? (_articleGroups = new List<FNS_ArticleGroup>());
+            get => _articleGroups ?? (_articleGroups = new List<FNS_ArticleGroup_Mapping>());
             protected set => _articleGroups = value;
         }
 
+
+
+        /// <summary>
+        /// Gets or sets the collection of ProductCategory
+        /// </summary>
+        public virtual ICollection<FNS_ArticleCategory> ArticleCategories
+        {
+            get => _articleCategories ?? (_articleCategories = new List<FNS_ArticleCategory>());
+            protected set => _articleCategories = value;
+        }
     }
 }

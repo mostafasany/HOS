@@ -14,6 +14,12 @@ namespace Nop.Plugin.Api.DTOs.Articles
         [JsonProperty("body")]
         public string Body { get; set; }
 
+        [JsonProperty("se_name")]
+        public string SeName { get; set; }
+
+        [JsonProperty("parent_id")]
+        public int ParentId { get; set; }
+
         [JsonProperty("metaTitle")]
         public string MetaTitle { get; set; }
 
@@ -32,6 +38,8 @@ namespace Nop.Plugin.Api.DTOs.Articles
         [JsonProperty("createdOnUtc")]
         public DateTime CreatedOnUtc { get; set; }
 
+        [JsonProperty("updatedOnUtc")]
+        public DateTime UpdatedOnUtc { get; set; }
 
         [JsonProperty("image")]
         public ImageDto Image { get; set; }

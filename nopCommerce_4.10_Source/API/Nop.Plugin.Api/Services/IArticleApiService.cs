@@ -12,7 +12,7 @@ namespace Nop.Plugin.Api.Services
         IList<FNS_Article> GetArticles(IList<int> ids = null,
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
-            int? categoryId = null, int? groupId = null, bool? publishedStatus = null);
+            int? categoryId = null, int? groupId = null,string keyword = null,string tag = null, bool? publishedStatus = null);
 
         int GetArticlesCount(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, bool? publishedStatus = null,

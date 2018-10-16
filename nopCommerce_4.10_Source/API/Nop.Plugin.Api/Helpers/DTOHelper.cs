@@ -381,7 +381,8 @@ namespace Nop.Plugin.Api.Helpers
 
         public TopicDto PrepateTopicDto(Topic topic)
         {
-            return new TopicDto {Id =topic.Id ,Body = topic.Body, Title = topic.Title};
+            var seName = _urlRecordService.GetSeName(topic);
+            return new TopicDto {Id =topic.Id ,Body = topic.Body, Title = topic.Title,SeName = seName};
         }
 
         public ManufacturerDto PrepateManufacturerDto(Manufacturer manufacturer)
@@ -403,6 +404,7 @@ namespace Nop.Plugin.Api.Helpers
                 AllowComments = article.AllowComments,
                 CommentCount = article.CommentCount,
                 CreatedOnUtc = article.CreatedOnUtc,
+                UpdatedOnUtc = article.UpdatedOnUtc,
                 MetaDescription = article.MetaDescription,
                 MetaTitle = article.MetaTitle,
                 Tags = article.Tags,

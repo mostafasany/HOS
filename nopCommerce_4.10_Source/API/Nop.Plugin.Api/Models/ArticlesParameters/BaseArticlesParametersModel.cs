@@ -15,6 +15,8 @@ namespace Nop.Plugin.Api.Models.ArticlesParameters
             PublishedStatus = null;
             CategoryId = null;
             GroupId = null;
+            Keyword = null;
+            Tag = null;
         }
 
         /// <summary>
@@ -62,5 +64,17 @@ namespace Nop.Plugin.Api.Models.ArticlesParameters
         /// </summary>
         [JsonProperty("group_id")]
         public int? GroupId { get; set; }
+
+        /// <summary>
+        /// Show only the products mapped to the specified category
+        /// </summary>
+        [JsonProperty("keyword")]
+        public string Keyword { get; set; }
+
+        /// <summary>
+        /// Show only the products mapped to the specified category
+        /// </summary>
+        [JsonProperty("tag")]
+        public string Tag { get; set; }
     }
 }

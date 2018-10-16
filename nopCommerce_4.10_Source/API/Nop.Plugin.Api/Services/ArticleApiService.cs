@@ -13,22 +13,24 @@ namespace Nop.Plugin.Api.Services
         private readonly IRepository<FNS_Article> _articleRepository;
         private readonly IRepository<FNS_ArticleGroup> _articleGroupRepository;
         private readonly IRepository<FNS_ArticleGroup_Mapping> _articleGroupMappingRepository;
+        private readonly IRepository<FNS_ArticleCategory> _articleCategoryRepository;
 
         public ArticleApiService(IRepository<FNS_Article> articleRepository, IRepository<FNS_ArticleGroup> articleGroupRepository,
-            IRepository<FNS_ArticleGroup_Mapping> articleGroupMappingRepository)
+            IRepository<FNS_ArticleGroup_Mapping> articleGroupMappingRepository, IRepository<FNS_ArticleCategory> articleCategoryRepository)
         {
             _articleRepository = articleRepository;
             _articleGroupRepository = articleGroupRepository;
             _articleGroupMappingRepository = articleGroupMappingRepository;
+            _articleCategoryRepository = articleCategoryRepository;
         }
 
         public IList<FNS_Article> GetArticles(IList<int> ids = null,
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
-            int? categoryId = null, int? groupId = null, bool? publishedStatus = null)
+            int? categoryId = null, int? groupId = null, string keyword = null, string tag = null, bool? publishedStatus = null)
         {
             IQueryable<FNS_Article> query = GetArticlesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
-                publishedStatus, categoryId: categoryId, groupId: groupId);
+                publishedStatus, categoryId: categoryId, groupId: groupId,tag:tag,keyword:keyword);
 
             if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
 
@@ -64,7 +66,7 @@ namespace Nop.Plugin.Api.Services
 
         private IQueryable<FNS_Article> GetArticlesQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
-            bool? publishedStatus = null, IList<int> ids = null, int? groupId = null, int? categoryId = null)
+            bool? publishedStatus = null, IList<int> ids = null, int? groupId = null, int? categoryId = null, string keyword = null, string tag = null)
 
         {
             IQueryable<FNS_Article> query = _articleRepository.Table;
@@ -94,6 +96,30 @@ namespace Nop.Plugin.Api.Services
                         join productCategoryMapping in categoryMappingsForProduct on product.Id equals productCategoryMapping.ArticleId
                         select product;
             }
+
+            if (categoryId != null)
+            {
+                var categoryMappingsForArticles = from productCategoryMapping in _articleCategoryRepository.Table
+                    where productCategoryMapping.CategoryId == categoryId
+                                                 select productCategoryMapping;
+
+                query = from article in query
+                    join productCategoryMapping in categoryMappingsForArticles on article.Id equals productCategoryMapping.ArticleId
+                    select article;
+            }
+
+            if (tag != null)
+            {
+                query = query.Where(c => c.Tags.Contains(tag));
+            }
+
+            if (keyword != null)
+            {
+                keyword = keyword.ToLower();
+                query = query.Where(c => c.Title.Contains(keyword));
+            }
+
+
 
             query = query.OrderBy(product => product.Id);
 

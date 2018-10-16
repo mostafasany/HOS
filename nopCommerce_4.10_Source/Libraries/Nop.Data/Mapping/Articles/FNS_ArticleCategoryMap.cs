@@ -7,7 +7,7 @@ namespace Nop.Data.Mapping.Articles
     /// <summary>
     /// Mapping class
     /// </summary>
-    public partial class FNS_ArticleGroupMap : NopEntityTypeConfiguration<FNS_ArticleGroup_Mapping>
+    public partial class FNS_ArticleCategoryMap : NopEntityTypeConfiguration<FNS_ArticleCategory>
     {
         #region Methods
 
@@ -15,20 +15,22 @@ namespace Nop.Data.Mapping.Articles
         /// Configures the entity
         /// </summary>
         /// <param name="builder">The builder to be used to configure the entity</param>
-        public override void Configure(EntityTypeBuilder<FNS_ArticleGroup_Mapping> builder)
+        public override void Configure(EntityTypeBuilder<FNS_ArticleCategory> builder)
         {
-            builder.ToTable(nameof(FNS_ArticleGroup_Mapping));
+            builder.ToTable(nameof(FNS_ArticleCategory));
             builder.HasKey(articleGroupMap => articleGroupMap.Id);
 
+        
+            builder.HasOne(productCategory => productCategory.Category)
+                .WithMany()
+                .HasForeignKey(productCategory => productCategory.CategoryId)
+                .IsRequired();
+
             builder.HasOne(productCategory => productCategory.Article)
-                .WithMany(groups=>groups.ArticleGroups)
+                .WithMany(category => category.ArticleCategories)
                 .HasForeignKey(productCategory => productCategory.ArticleId)
                 .IsRequired();
 
-            builder.HasOne(productCategory => productCategory.Group)
-                .WithMany()
-                .HasForeignKey(productCategory => productCategory.GroupId)
-                .IsRequired();
 
             base.Configure(builder);
         }

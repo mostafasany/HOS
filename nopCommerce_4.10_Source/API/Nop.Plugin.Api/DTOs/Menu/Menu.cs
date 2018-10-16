@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Nop.Plugin.Api.DTOs.Articles;
 using Nop.Plugin.Api.DTOs.Base;
+using Nop.Plugin.Api.DTOs.Categories;
+using Nop.Plugin.Api.DTOs.Products;
 
 namespace Nop.Plugin.Api.DTOs.Menu
 {
@@ -23,18 +26,17 @@ namespace Nop.Plugin.Api.DTOs.Menu
         public List<MenuArticlesDto> ArticlesAndVideos { get; set; }
 
 
+        [JsonProperty("Exercises")]
+        public List<MenuArticlesDto> Exercises { get; set; }
+
+
         [JsonProperty("Nutrations")]
         public List<MenuArticlesDto> Nutrations { get; set; }
-
-
-        [JsonProperty("Trainings")]
-        public List<MenuArticlesDto> Trainings { get; set; }
 
         public string GetPrimaryPropertyName() => "MenuDto";
 
         public Type GetPrimaryPropertyType() => typeof(List<MenuProductsDto>);
     }
-
 
     [JsonObject(Title = "menuCategories")]
     public class MenuCategoriesDto : BaseDto
@@ -49,9 +51,8 @@ namespace Nop.Plugin.Api.DTOs.Menu
         ///     Gets or sets the menuItems First Row
         /// </summary>
         [JsonProperty("MenuItemsFirstRow")]
-        public IEnumerable<MenuCategoryDto> CategoriesFirstRow { get; set; }
+        public IEnumerable<CategoryDto> CategoriesFirstRow { get; set; }
     }
-
 
     [JsonObject(Title = "menuArticles")]
     public class MenuArticlesDto : BaseDto
@@ -66,10 +67,10 @@ namespace Nop.Plugin.Api.DTOs.Menu
         ///     Gets or sets the menuItems First Row
         /// </summary>
         [JsonProperty("MenuItemsFirstRow")]
-        public List<MenuArticleDto> ArticlesFirstRow { get; set; }
+        public List<ArticlesDto> ArticlesFirstRow { get; set; }
 
         [JsonProperty("MenuItemsSecondRow")]
-        public List<MenuArticleDto> ArticlesSecondRow { get; set; }
+        public List<ArticlesDto> ArticlesSecondRow { get; set; }
     }
 
     [JsonObject(Title = "menuProducts")]
@@ -85,68 +86,12 @@ namespace Nop.Plugin.Api.DTOs.Menu
         ///     Gets or sets the menuItems First Row
         /// </summary>
         [JsonProperty("MenuItemsFirstRow")]
-        public IEnumerable<MenuProductDto> ProductsFirstRow { get; set; }
+        public IEnumerable<ProductDto> ProductsFirstRow { get; set; }
 
         /// <summary>
         ///     Gets or sets the menuItems First Row
         /// </summary>
         [JsonProperty("MenuItemsSecondRow")]
-        public IEnumerable<MenuProductDto> ProductsSecondRow { get; set; }
-    }
-
-
-    [JsonObject(Title = "menuCategory")]
-    public class MenuCategoryDto : BaseDto
-    {
-        [JsonProperty("Name")]
-        public string Name { get; set; }
-
-        [JsonProperty("Description")]
-        public string Description { get; set; }
-
-        [JsonProperty("Url")]
-        public string Url { get; set; }
-
-        [JsonProperty("ParentCategoryId")]
-        public int ParentCategoryId { get; set; }
-    }
-
-    [JsonObject(Title = "menuArticle")]
-    public class MenuArticleDto : BaseDto
-    {
-        [JsonProperty("Name")]
-        public string Name { get; set; }
-
-        [JsonProperty("Description")]
-        public string Description { get; set; }
-
-        [JsonProperty("Url")]
-        public string Url { get; set; }
-
-        [JsonProperty("Image")]
-        public string Image { get; set; }
-    }
-
-
-    [JsonObject(Title = "menuProduct")]
-    public class MenuProductDto : BaseDto
-    {
-        [JsonProperty("Name")]
-        public string Name { get; set; }
-
-        [JsonProperty("Description")]
-        public string Description { get; set; }
-
-        [JsonProperty("Price")]
-        public decimal Price { get; set; }
-
-        [JsonProperty("Discount")]
-        public string Discount { get; set; }
-
-        [JsonProperty("Image")]
-        public string Image { get; set; }
-
-        [JsonProperty("Url")]
-        public string Url { get; set; }
+        public IEnumerable<ProductDto> ProductsSecondRow { get; set; }
     }
 }
