@@ -29,8 +29,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Nop.Core.Domain.Articles;
+using Nop.Core.Domain.Discounts;
 using Nop.Core.Domain.Topics;
 using Nop.Plugin.Api.DTOs.Articles;
+using Nop.Plugin.Api.DTOs.Discounts;
 using Nop.Plugin.Api.DTOs.Manufacturers;
 using Nop.Plugin.Api.DTOs.Topics;
 
@@ -352,7 +354,7 @@ namespace Nop.Plugin.Api.Helpers
 
             return productAttributeValueDto;
         }
-       
+
         public void PrepareProductSpecificationAttributes(IEnumerable<ProductSpecificationAttribute> productSpecificationAttributes, ProductDto productDto)
         {
             if (productDto.ProductSpecificationAttributes == null)
@@ -382,7 +384,7 @@ namespace Nop.Plugin.Api.Helpers
         public TopicDto PrepateTopicDto(Topic topic)
         {
             var seName = _urlRecordService.GetSeName(topic);
-            return new TopicDto {Id =topic.Id ,Body = topic.Body, Title = topic.Title,SeName = seName};
+            return new TopicDto { Id = topic.Id, Body = topic.Body, Title = topic.Title, SeName = seName };
         }
 
         public ManufacturerDto PrepateManufacturerDto(Manufacturer manufacturer)
@@ -395,11 +397,11 @@ namespace Nop.Plugin.Api.Helpers
             var picture = _pictureService.GetPictureById(article.PictureId);
             var imageDto = PrepareImageDto(picture);
 
-           
-            var articleDto= new ArticlesDto
+
+            var articleDto = new ArticlesDto
             {
                 Id = article.Id,
-                Body  = article.Body,
+                Body = article.Body,
                 Title = article.Title,
                 AllowComments = article.AllowComments,
                 CommentCount = article.CommentCount,
@@ -420,7 +422,26 @@ namespace Nop.Plugin.Api.Helpers
 
         public ArticleGroupDto PrepateArticleGroupDto(FNS_ArticleGroup articleGroup)
         {
-            return new ArticleGroupDto{Id = articleGroup.Id,Name = articleGroup.Name,ParentGroupId = articleGroup.ParentGroupId};
+            return new ArticleGroupDto { Id = articleGroup.Id, Name = articleGroup.Name, ParentGroupId = articleGroup.ParentGroupId };
+        }
+
+        public DiscountDto PrepateDiscountDto(Discount discount)
+        {
+            return new DiscountDto
+            {
+                CouponCode = discount.CouponCode,
+                Name = discount.Name,
+                Id = discount.Id,
+                DiscountLimitationId = discount.DiscountLimitationId,
+                DiscountPercentage = discount.DiscountPercentage,
+                DiscountTypeId = discount.DiscountTypeId,
+                IsCumulative = discount.IsCumulative,
+                LimitationTimes = discount.LimitationTimes,
+                MaximumDiscountAmount = discount.MaximumDiscountAmount,
+                MaximumDiscountedQuantity = discount.MaximumDiscountedQuantity,
+                RequiresCouponCode = discount.RequiresCouponCode,
+                UsePercentage = discount.UsePercentage
+            };
         }
     }
 }

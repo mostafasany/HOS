@@ -1,11 +1,13 @@
 ﻿using Nop.Core.Domain.Articles;
 using Nop.Core.Domain.Catalog;
+using Nop.Core.Domain.Discounts;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Stores;
 using Nop.Core.Domain.Topics;
 using Nop.Plugin.Api.DTOs.Articles;
 using Nop.Plugin.Api.DTOs.Categories;
+using Nop.Plugin.Api.DTOs.Discounts;
 using Nop.Plugin.Api.DTOs.Languages;
 using Nop.Plugin.Api.DTOs.Manufacturers;
 using Nop.Plugin.Api.DTOs.OrderItems;
@@ -39,5 +41,7 @@ namespace Nop.Plugin.Api.Helpers
         ArticlesDto PrepateArticleDto(FNS_Article article);
 
         ArticleGroupDto PrepateArticleGroupDto(FNS_ArticleGroup article);
+
+        DiscountDto PrepateDiscountDto(Discount article);
     }
 }
