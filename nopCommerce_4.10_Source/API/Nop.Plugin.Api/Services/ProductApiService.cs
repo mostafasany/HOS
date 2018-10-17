@@ -16,24 +16,26 @@ namespace Nop.Plugin.Api.Services
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<ProductCategory> _productCategoryMappingRepository;
         private readonly IRepository<Vendor> _vendorRepository;
+        private readonly IRepository<RelatedProduct> _relatedProductRepository;
 
         public ProductApiService(IRepository<Product> productRepository,
             IRepository<ProductCategory> productCategoryMappingRepository,
             IRepository<Vendor> vendorRepository,
-            IStoreMappingService storeMappingService)
+            IStoreMappingService storeMappingService, IRepository<RelatedProduct> relatedProductRepository)
         {
             _productRepository = productRepository;
             _productCategoryMappingRepository = productCategoryMappingRepository;
             _vendorRepository = vendorRepository;
             _storeMappingService = storeMappingService;
+            _relatedProductRepository = relatedProductRepository;
         }
 
         public IList<Product> GetProducts(IList<int> ids = null,
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
-           int? categoryId = null, string vendorName = null, bool? publishedStatus = null)
+           int? categoryId = null, string vendorName = null, string keyword = null, bool? publishedStatus = null)
         {
-            var query = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName, publishedStatus, ids, categoryId);
+            var query = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName, keyword, publishedStatus, ids, categoryId);
 
             if (sinceId > 0)
             {
@@ -44,10 +46,10 @@ namespace Nop.Plugin.Api.Services
         }
         
         public int GetProductsCount(DateTime? createdAtMin = null, DateTime? createdAtMax = null, 
-            DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, bool? publishedStatus = null, string vendorName = null, 
+            DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, bool? publishedStatus = null, string vendorName = null, string keyword = null,
             int? categoryId = null)
         {
-            var query = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName,
+            var query = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName, keyword,
                                          publishedStatus, categoryId: categoryId);
 
             return query.ToList().Count(p => _storeMappingService.Authorize(p));
@@ -70,7 +72,7 @@ namespace Nop.Plugin.Api.Services
         }
 
         private IQueryable<Product> GetProductsQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null, 
-            DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, string vendorName = null, 
+            DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, string vendorName = null, string keyword = null,
             bool? publishedStatus = null, IList<int> ids = null, int? categoryId = null)
             
         {
@@ -108,6 +110,11 @@ namespace Nop.Plugin.Api.Services
             {
                 query = query.Where(c => c.UpdatedOnUtc < updatedAtMax.Value);
             }
+            if (keyword != null)
+            {
+                keyword = keyword.ToLower();
+                query = query.Where(c => c.Name.ToLower().Contains(keyword));
+            }
 
             if (!string.IsNullOrEmpty(vendorName))
             {
@@ -131,6 +138,28 @@ namespace Nop.Plugin.Api.Services
             query = query.OrderBy(product => product.Id);
 
             return query;
+        }
+
+
+        public List<Product> GetRelatedProducts(int productId1, bool showHidden = false)
+        {
+            var query = from rp in _relatedProductRepository.Table
+                join p in _productRepository.Table on rp.ProductId2 equals p.Id
+                where rp.ProductId1 == productId1 &&
+                      !p.Deleted &&
+                      (showHidden || p.Published)
+                orderby rp.DisplayOrder, rp.Id
+                select rp;
+            var relatedProducts = query.ToList();
+
+            var products = new List<Product>();
+            foreach (var relatedProduct in relatedProducts)
+            {
+                var product= GetProductById(relatedProduct.ProductId2);
+                products.Add(product);
+            }
+
+            return products;
         }
     }
 }

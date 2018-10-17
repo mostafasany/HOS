@@ -15,6 +15,7 @@ namespace Nop.Plugin.Api.Models.ProductsParameters
             PublishedStatus = null;
             VendorName = null;
             CategoryId = null;
+            Keyword = string.Empty;
         }
 
         /// <summary>
@@ -62,5 +63,11 @@ namespace Nop.Plugin.Api.Models.ProductsParameters
         /// </summary>
         [JsonProperty("category_id")]
         public int? CategoryId { get; set; }
+
+        /// <summary>
+        /// Show only the products mapped to the specified category
+        /// </summary>
+        [JsonProperty("keyword")]
+        public string Keyword { get; set; }
     }
 }

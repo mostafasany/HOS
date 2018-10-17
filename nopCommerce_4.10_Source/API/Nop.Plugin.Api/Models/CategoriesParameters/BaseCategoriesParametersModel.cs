@@ -9,6 +9,7 @@ namespace Nop.Plugin.Api.Models.CategoriesParameters
         public BaseCategoriesParametersModel()
         {
             ProductId = null;
+            ParentId = null;
             CreatedAtMin = null;
             CreatedAtMax = null;
             UpdatedAtMin = null;
@@ -55,5 +56,11 @@ namespace Nop.Plugin.Api.Models.CategoriesParameters
         /// </summary>
         [JsonProperty("product_id")]
         public int? ProductId { get; set; }
+
+        /// <summary>
+        /// Show only the categories to which the parent id is mapped to
+        /// </summary>
+        [JsonProperty("parent_id")]
+        public int? ParentId { get; set; }
     }
 }

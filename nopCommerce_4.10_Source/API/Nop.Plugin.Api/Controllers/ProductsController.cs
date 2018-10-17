@@ -98,7 +98,7 @@ namespace Nop.Plugin.Api.Controllers
 
             var allProducts = _productApiService.GetProducts(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
                                                                         parameters.UpdatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId, parameters.CategoryId,
-                                                                        parameters.VendorName, parameters.PublishedStatus)
+                                                                        parameters.VendorName, parameters.Keyword, parameters.PublishedStatus)
                                                 .Where(p => StoreMappingService.Authorize(p));
             
             IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
@@ -127,7 +127,7 @@ namespace Nop.Plugin.Api.Controllers
         public IActionResult GetProductsCount(ProductsCountParametersModel parameters)
         {
             var allProductsCount = _productApiService.GetProductsCount(parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
-                                                                       parameters.UpdatedAtMax, parameters.PublishedStatus, parameters.VendorName,
+                                                                       parameters.UpdatedAtMax, parameters.PublishedStatus, parameters.VendorName, parameters.Keyword,
                                                                        parameters.CategoryId);
 
             var productsCountRootObject = new ProductsCountRootObject()
@@ -605,5 +605,36 @@ namespace Nop.Plugin.Api.Controllers
                 _productService.UpdateProduct(newAssociatedProduct);
             }
         }
+
+        /// <summary>
+        /// Receive a list of all products
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/products/{id}/related")]
+        [ProducesResponseType(typeof(ProductsRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetRelatedProducts(int id, string fields = "")
+        {
+           
+            var allProducts = _productApiService.GetRelatedProducts(id)
+                                                .Where(p => StoreMappingService.Authorize(p));
+
+            IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
+
+            var productsRootObject = new ProductsRootObjectDto()
+            {
+                Products = productsAsDtos
+            };
+
+            var json = JsonFieldsSerializer.Serialize(productsRootObject, fields);
+
+            return new RawJsonActionResult(json);
+        }
+
     }
 }

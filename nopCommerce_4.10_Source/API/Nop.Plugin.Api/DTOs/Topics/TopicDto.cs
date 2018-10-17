@@ -17,5 +17,8 @@ namespace Nop.Plugin.Api.DTOs.Topics
         /// </summary>
         [JsonProperty("body")]
         public string Body { get; set; }
+
+        [JsonProperty("se_name")]
+        public string SeName { get; set; }
     }
 }

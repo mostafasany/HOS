@@ -27,10 +27,10 @@ namespace Nop.Plugin.Api.Services
         public IList<Category> GetCategories(IList<int> ids = null,
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId, 
-            int? productId = null,
+            int? productId = null, int? parenttId = null,
             bool? publishedStatus = null)
         {
-            var query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, publishedStatus, productId, ids);
+            var query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, publishedStatus, productId, parenttId, ids);
 
 
             if (sinceId > 0)
@@ -63,7 +63,7 @@ namespace Nop.Plugin.Api.Services
 
         private IQueryable<Category> GetCategoriesQuery(
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
-            bool? publishedStatus = null, int? productId = null, IList<int> ids = null)
+            bool? publishedStatus = null, int? productId = null, int? parenttId=null, IList<int> ids = null)
         {
             var query = _categoryRepository.Table;
 
@@ -99,6 +99,12 @@ namespace Nop.Plugin.Api.Services
             {
                 query = query.Where(c => c.UpdatedOnUtc < updatedAtMax.Value);
             }
+
+            if (parenttId != null)
+            {
+                query = query.Where(c => c.ParentCategoryId == parenttId);
+            }
+
 
             if (productId != null)
             {
