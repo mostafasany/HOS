@@ -8,7 +8,9 @@ namespace Nop.Plugin.Api.MappingExtensions
     {
         public static ProductDto ToDto(this Product product)
         {
-            return product.MapTo<Product, ProductDto>();
+            var productDto= product.MapTo<Product, ProductDto>();
+            productDto.FullDescription = product.FullDescription;
+            return productDto;
         }
 
         public static ProductAttributeValueDto ToDto(this ProductAttributeValue productAttributeValue)
