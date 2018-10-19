@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Nop.Plugin.Api.DTOs.Articles;
 using Nop.Plugin.Api.DTOs.Base;
 using Nop.Plugin.Api.DTOs.Categories;
+using Nop.Plugin.Api.DTOs.Manufacturers;
 using Nop.Plugin.Api.DTOs.Products;
 
 namespace Nop.Plugin.Api.DTOs.Menu
@@ -33,6 +34,12 @@ namespace Nop.Plugin.Api.DTOs.Menu
         [JsonProperty("Nutrations")]
         public List<MenuArticlesDto> Nutrations { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the Main Store Products
+        /// </summary>
+        [JsonProperty("MainStoreBrands")]
+        public List<MenuCategoriesDto> MainStoreBrands { get; set; }
+
         public string GetPrimaryPropertyName() => "MenuDto";
 
         public Type GetPrimaryPropertyType() => typeof(List<MenuProductsDto>);
@@ -48,10 +55,38 @@ namespace Nop.Plugin.Api.DTOs.Menu
         public string MenuItemName { get; set; }
 
         /// <summary>
+        ///     Gets or sets the menu Item  se name
+        /// </summary>
+        [JsonProperty("se_name")]
+        public string SeName { get; set; }
+
+        /// <summary>
         ///     Gets or sets the menuItems First Row
         /// </summary>
         [JsonProperty("MenuItemsFirstRow")]
         public IEnumerable<CategoryDto> CategoriesFirstRow { get; set; }
+    }
+
+    [JsonObject(Title = "menuBrands")]
+    public class MenuBrandDto : BaseDto
+    {
+        /// <summary>
+        ///     Gets or sets the menu Item  name
+        /// </summary>
+        [JsonProperty("MenuItemName")]
+        public string MenuItemName { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the menu Item  se name
+        /// </summary>
+        [JsonProperty("se_name")]
+        public string SeName { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the menuItems First Row
+        /// </summary>
+        [JsonProperty("MenuItemsFirstRow")]
+        public IEnumerable<ManufacturerDto> CategoriesFirstRow { get; set; }
     }
 
     [JsonObject(Title = "menuArticles")]
@@ -62,6 +97,12 @@ namespace Nop.Plugin.Api.DTOs.Menu
         /// </summary>
         [JsonProperty("MenuItemName")]
         public string MenuItemName { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the menu Item  se name
+        /// </summary>
+        [JsonProperty("se_name")]
+        public string SeName { get; set; }
 
         /// <summary>
         ///     Gets or sets the menuItems First Row
@@ -81,6 +122,13 @@ namespace Nop.Plugin.Api.DTOs.Menu
         /// </summary>
         [JsonProperty("MenuItemName")]
         public string MenuItemName { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the menu Item  se name
+        /// </summary>
+        [JsonProperty("se_name")]
+        public string SeName { get; set; }
+
 
         /// <summary>
         ///     Gets or sets the menuItems First Row

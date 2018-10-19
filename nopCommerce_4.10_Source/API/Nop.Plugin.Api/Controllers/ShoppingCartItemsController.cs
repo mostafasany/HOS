@@ -23,6 +23,7 @@ using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Plugin.Api.Helpers;
 using Nop.Core;
+using Nop.Plugin.Api.DTOs.Products;
 
 namespace Nop.Plugin.Api.Controllers
 {
@@ -354,5 +355,36 @@ namespace Nop.Plugin.Api.Controllers
 
             return new RawJsonActionResult("{}");
         }
+
+
+        /// <summary>
+        /// Receive a list of all products
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/shopping_cart_items/crosssells")]
+        [ProducesResponseType(typeof(ProductsRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetCorssSellsProducts(ShoppingCartItemsForCrossSellsParametersModel parameters)
+        {
+            var allProducts = _productService.GetCrosssellProductsByShoppingCart(parameters.ProductIds?.Select(a=>new ShoppingCartItem{ProductId = a}).ToList(), parameters.Limit)
+                .Where(p => StoreMappingService.Authorize(p));
+
+            IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
+
+            var productsRootObject = new ProductsRootObjectDto()
+            {
+                Products = productsAsDtos
+            };
+
+            var json = JsonFieldsSerializer.Serialize(productsRootObject, parameters.Fields);
+
+            return new RawJsonActionResult(json);
+        }
+
     }
 }
