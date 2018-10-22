@@ -126,6 +126,53 @@ namespace Nop.Plugin.Api.Controllers
         }
 
         /// <summary>
+        /// Receive a list of all shopping cart items
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/shopping_cart_items/cart")]
+        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetOnlyShoppingCartItems(ShoppingCartItemsParametersModel parameters)
+        {
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+            {
+                return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
+            }
+
+            if (parameters.Page < Configurations.DefaultPageValue)
+            {
+                return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
+            }
+
+            IList<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems(customerId: null,
+                                                                                                         createdAtMin: parameters.CreatedAtMin,
+                                                                                                         createdAtMax: parameters.CreatedAtMax,
+                                                                                                         updatedAtMin: parameters.UpdatedAtMin,
+                                                                                                         updatedAtMax: parameters.UpdatedAtMax,
+                                                                                                         limit: parameters.Limit,
+                                                                                                         page: parameters.Page);
+
+            var shoppingCartItemsDtos = _dtoHelper.PrepareExtendedShoppingCartItemDto(
+                shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart));
+                
+       
+
+            var shoppingCartsRootObject = new ExtendedShoppingCartItemsRootObject()
+            {
+                ShoppingCart = shoppingCartItemsDtos
+            };
+
+            var json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
+
+            return new RawJsonActionResult(json);
+        }
+
+        /// <summary>
         /// Receive a list of all shopping cart items by customer id
         /// </summary>
         /// <param name="customerId">Id of the customer whoes shopping cart items you want to get</param>

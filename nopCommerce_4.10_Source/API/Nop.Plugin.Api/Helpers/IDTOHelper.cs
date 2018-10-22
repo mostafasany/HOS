@@ -1,4 +1,5 @@
-﻿using Nop.Core.Domain.Articles;
+﻿using System.Collections.Generic;
+using Nop.Core.Domain.Articles;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Discounts;
 using Nop.Core.Domain.Localization;
@@ -27,6 +28,9 @@ namespace Nop.Plugin.Api.Helpers
         CategoryDto PrepareCategoryDTO(Category category);
         OrderDto PrepareOrderDTO(Order order);
         ShoppingCartItemDto PrepareShoppingCartItemDTO(ShoppingCartItem shoppingCartItem);
+
+        ExtendedShoppingCartDto PrepareExtendedShoppingCartItemDto(IEnumerable<ShoppingCartItem> shoppingCartItem);
+
         OrderItemDto PrepareOrderItemDTO(OrderItem orderItem);
         StoreDto PrepareStoreDTO(Store store);
         LanguageDto PrepateLanguageDto(Language language);
