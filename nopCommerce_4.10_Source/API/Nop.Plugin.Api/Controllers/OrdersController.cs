@@ -49,11 +49,12 @@ namespace Nop.Plugin.Api.Controllers
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly IShippingService _shippingService;
-        private readonly IDTOHelper _dtoHelper;        
+        private readonly IDTOHelper _dtoHelper;
         private readonly IProductAttributeConverter _productAttributeConverter;
         private readonly IStoreContext _storeContext;
         private readonly IFactory<Order> _factory;
 
+        private readonly IShoppingCartItemApiService _shoppingCartItemApiService;
         // We resolve the order settings this way because of the tests.
         // The auto mocking does not support concreate types as dependencies. It supports only interfaces.
         private OrderSettings _orderSettings;
@@ -79,9 +80,10 @@ namespace Nop.Plugin.Api.Controllers
             IShippingService shippingService,
             IPictureService pictureService,
             IDTOHelper dtoHelper,
-            IProductAttributeConverter productAttributeConverter)
+            IProductAttributeConverter productAttributeConverter,
+            IShoppingCartItemApiService shoppingCartItemApiService)
             : base(jsonFieldsSerializer, aclService, customerService, storeMappingService,
-                 storeService, discountService, customerActivityService, localizationService,pictureService)
+                 storeService, discountService, customerActivityService, localizationService, pictureService)
         {
             _orderApiService = orderApiService;
             _factory = factory;
@@ -94,6 +96,7 @@ namespace Nop.Plugin.Api.Controllers
             _dtoHelper = dtoHelper;
             _productService = productService;
             _productAttributeConverter = productAttributeConverter;
+            _shoppingCartItemApiService = shoppingCartItemApiService;
         }
 
         /// <summary>
@@ -250,13 +253,13 @@ namespace Nop.Plugin.Api.Controllers
 
             // We doesn't have to check for value because this is done by the order validator.
             var customer = CustomerService.GetCustomerById(orderDelta.Dto.CustomerId.Value);
-            
+
             if (customer == null)
             {
                 return Error(HttpStatusCode.NotFound, "customer", "not found");
             }
 
-            var shippingRequired = false;
+           
 
             if (orderDelta.Dto.OrderItems != null)
             {
@@ -266,20 +269,22 @@ namespace Nop.Plugin.Api.Controllers
                     return Error(HttpStatusCode.BadRequest);
                 }
 
-                shippingRequired = IsShippingAddressRequired(orderDelta.Dto.OrderItems);
+                //  shippingRequired = IsShippingAddressRequired(orderDelta.Dto.OrderItems);
             }
+            List<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems(customer.Id).
+                Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart).ToList();
+
+          //  var orderItems = _orderApiService.GetOrdersByCustomerId(customer.Id).SelectMany(x => x.OrderItems).ToList();
+            var shippingRequired = shoppingCartItems.Any(a => a.Product.IsShipEnabled);
 
             if (shippingRequired)
             {
                 var isValid = true;
-
+               // var orderItemsDto = orderItems.Select(a => _dtoHelper.PrepareOrderItemDTO(a));
                 isValid &= SetShippingOption(orderDelta.Dto.ShippingRateComputationMethodSystemName,
                                             orderDelta.Dto.ShippingMethod,
                                             orderDelta.Dto.StoreId ?? _storeContext.CurrentStore.Id,
-                                            customer, 
-                                            BuildShoppingCartItemsFromOrderItemDtos(orderDelta.Dto.OrderItems.ToList(), 
-                                                                                    customer.Id, 
-                                                                                    orderDelta.Dto.StoreId ?? _storeContext.CurrentStore.Id));
+                                            customer, shoppingCartItems);
 
                 if (!isValid)
                 {
@@ -301,7 +306,7 @@ namespace Nop.Plugin.Api.Controllers
             {
                 newOrder.StoreId = _storeContext.CurrentStore.Id;
             }
-            
+
             var placeOrderResult = PlaceOrder(newOrder, customer);
 
             if (!placeOrderResult.Success)
@@ -342,7 +347,7 @@ namespace Nop.Plugin.Api.Controllers
             {
                 return Error(HttpStatusCode.BadRequest, "id", "invalid id");
             }
-            
+
             var orderToDelete = _orderApiService.GetOrderById(id);
 
             if (orderToDelete == null)
@@ -394,7 +399,7 @@ namespace Nop.Plugin.Api.Controllers
                     var storeId = orderDelta.Dto.StoreId ?? _storeContext.CurrentStore.Id;
 
                     isValid &= SetShippingOption(orderDelta.Dto.ShippingRateComputationMethodSystemName ?? currentOrder.ShippingRateComputationMethodSystemName,
-                        orderDelta.Dto.ShippingMethod, 
+                        orderDelta.Dto.ShippingMethod,
                         storeId,
                         customer, BuildShoppingCartItemsFromOrderItems(currentOrder.OrderItems.ToList(), customer.Id, storeId));
                 }
@@ -410,7 +415,7 @@ namespace Nop.Plugin.Api.Controllers
             }
 
             orderDelta.Merge(currentOrder);
-            
+
             customer.BillingAddress = currentOrder.BillingAddress;
             customer.ShippingAddress = currentOrder.ShippingAddress;
 
@@ -459,7 +464,7 @@ namespace Nop.Plugin.Api.Controllers
 
                     var shippingOption = shippingOptions
                         .Find(so => !string.IsNullOrEmpty(so.Name) && so.Name.Equals(shippingOptionName, StringComparison.InvariantCultureIgnoreCase));
-                    
+
                     _genericAttributeService.SaveAttribute(customer,
                         NopCustomerDefaults.SelectedShippingOptionAttribute,
                         shippingOption, storeId);
@@ -573,10 +578,10 @@ namespace Nop.Plugin.Api.Controllers
                         orderItem.RentalEndDateUtc = null;
                     }
 
-                    var attributesXml = _productAttributeConverter.ConvertToXml(orderItem.Attributes.ToList(), product.Id);                
+                    var attributesXml = _productAttributeConverter.ConvertToXml(orderItem.Attributes.ToList(), product.Id);
 
                     var errors = _shoppingCartService.AddToCart(customer, product,
-                        ShoppingCartType.ShoppingCart, storeId,attributesXml,
+                        ShoppingCartType.ShoppingCart, storeId, attributesXml,
                         0M, orderItem.RentalStartDateUtc, orderItem.RentalEndDateUtc,
                         orderItem.Quantity ?? 1);
 
@@ -594,5 +599,5 @@ namespace Nop.Plugin.Api.Controllers
 
             return shouldReturnError;
         }
-     }
+    }
 }

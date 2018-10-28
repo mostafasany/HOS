@@ -8,10 +8,12 @@ using Nop.Core.Domain.Discounts;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Media;
 using Nop.Core.Domain.Orders;
+using Nop.Core.Domain.Shipping;
 using Nop.Core.Domain.Stores;
 using Nop.Core.Domain.Topics;
 using Nop.Plugin.Api.DTOs.Articles;
 using Nop.Plugin.Api.DTOs.Categories;
+using Nop.Plugin.Api.DTOs.Countries;
 using Nop.Plugin.Api.DTOs.Customers;
 using Nop.Plugin.Api.DTOs.Discounts;
 using Nop.Plugin.Api.DTOs.Images;
@@ -310,6 +312,7 @@ namespace Nop.Plugin.Api.Helpers
 
                 cart.ShoppingCartItems.Add(extendedShoppingCartItem);
             }
+           // IEnumerable<Discount> subTotalDiscount = shoppingCartItem.Product.AppliedDiscounts.Where(discount => now > discount.StartDateUtc && now < discount.EndDateUtc && discount.DiscountType == DiscountType.AssignedToSkus).ToArray();
 
             cart.SubTotal = cart.ShoppingCartItems.Sum(a => a.Total);
             cart.SubTotalDiscount = cart.ShoppingCartItems.Sum(a => a.Discount);
@@ -319,6 +322,8 @@ namespace Nop.Plugin.Api.Helpers
             cart.Tax = 0;
             return cart;
         }
+
+        public StateProvinceDto PrepateProvinceStateDto(StateProvince state) => new StateProvinceDto {Abbreviation = state.Abbreviation, Id = state.Id, Name = state.Name, CountryId = state.CountryId};
 
         public void PrepareProductSpecificationAttributes(IEnumerable<ProductSpecificationAttribute> productSpecificationAttributes, ProductDto productDto)
         {
@@ -333,6 +338,17 @@ namespace Nop.Plugin.Api.Helpers
             }
         }
 
+
+        public ShippingOptionDto PrepareShippingOptionItemDTO(ShippingOption shippingOption)
+        {
+            return new ShippingOptionDto
+            {
+                Description = shippingOption.Description,
+                Name = shippingOption.Name,
+                Rate = shippingOption.Rate,
+                ShippingRateComputationMethodSystemName = shippingOption.ShippingRateComputationMethodSystemName
+            };
+        }
         protected ImageDto PrepareImageDto(Picture picture)
         {
             ImageDto image = null;
