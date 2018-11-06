@@ -424,7 +424,11 @@ namespace Nop.Plugin.Api.Helpers
                     // then the attribute value is not updated and it will point to a picture that has been deleted
                     ProductPicture productPicture =
                         product.ProductPictures.FirstOrDefault(pp => pp.PictureId == productAttributeValue.PictureId);
-                    if (productPicture != null) productAttributeValueDto.ProductPictureId = productPicture.Id;
+                    if (productPicture != null)
+                    {
+                        productAttributeValueDto.ProductPictureId = productPicture.Id;
+                        productAttributeValueDto.PictureId = productPicture.PictureId;
+                    }
                 }
             }
 
@@ -445,6 +449,7 @@ namespace Nop.Plugin.Api.Helpers
                     var productImageDto = new ImageMappingDto
                     {
                         Id = productPicture.Id,
+                        PictureId = productPicture.PictureId,
                         Position = productPicture.DisplayOrder,
                         Src = imageDto.Src,
                         Attachment = imageDto.Attachment

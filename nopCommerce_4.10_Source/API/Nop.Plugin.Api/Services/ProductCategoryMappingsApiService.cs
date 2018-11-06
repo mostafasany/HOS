@@ -58,7 +58,7 @@ namespace Nop.Plugin.Api.Services
                 query = query.Where(mapping => mapping.Id > sinceId);
             }
 
-            query = query.OrderBy(mapping => mapping.Id);
+            query = query.OrderByDescending(mapping => mapping.DisplayOrder);
 
             return query;
         }

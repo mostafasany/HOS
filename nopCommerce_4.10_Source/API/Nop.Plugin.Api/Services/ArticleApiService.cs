@@ -121,7 +121,7 @@ namespace Nop.Plugin.Api.Services
 
 
 
-            query = query.OrderBy(product => product.Id);
+            query = query.OrderByDescending(article => article.UpdatedOnUtc);
 
             return query;
         }

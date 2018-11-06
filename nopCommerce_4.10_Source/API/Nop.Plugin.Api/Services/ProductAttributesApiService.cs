@@ -46,7 +46,7 @@ namespace Nop.Plugin.Api.Services
                 query = query.Where(productAttribute => productAttribute.Id > sinceId);
             }
 
-            query = query.OrderBy(productAttribute => productAttribute.Id);
+            query = query.OrderByDescending(productAttribute => productAttribute.Id);
 
             return query;
         }

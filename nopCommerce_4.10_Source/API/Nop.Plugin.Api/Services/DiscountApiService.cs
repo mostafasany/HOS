@@ -26,7 +26,7 @@ namespace Nop.Plugin.Api.Services
 
             if (ids != null && ids.Count > 0) query = query.Where(c => ids.Contains(c.Id));
 
-            query = query.OrderBy(product => product.Id);
+            query = query.OrderByDescending(product => product.EndDateUtc);
 
             return query;
         }

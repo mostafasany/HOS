@@ -69,7 +69,7 @@ namespace Nop.Plugin.Api.Services
             var currentStoreId = _storeContext.CurrentStore.Id;
             query = query.Where(c => c.StoreId == currentStoreId);
 
-            query = query.OrderBy(shoppingCartItem => shoppingCartItem.Id);
+            query = query.OrderByDescending(shoppingCartItem => shoppingCartItem.CreatedOnUtc);
 
             return query;
         }

@@ -58,7 +58,7 @@ namespace Nop.Plugin.Api.Services
 
             if (publishedStatus != null) query = query.Where(c => c.Published == publishedStatus.Value);
 
-            query = query.OrderBy(category => category.Id);
+            query = query.OrderByDescending(category => category.DisplayOrder);
 
             return query;
         }

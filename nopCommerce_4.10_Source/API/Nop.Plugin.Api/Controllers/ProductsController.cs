@@ -97,8 +97,8 @@ namespace Nop.Plugin.Api.Controllers
             }
 
             var allProducts = _productApiService.GetProducts(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
-                                                                        parameters.UpdatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId, parameters.CategoryId,
-                                                                        parameters.VendorName, parameters.Keyword, parameters.PublishedStatus)
+                                                                        parameters.UpdatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId, parameters.CategoryId,parameters.CategorySlug,
+                                                                        parameters.VendorName,parameters.ManufacturerName, parameters.Keyword, parameters.PublishedStatus)
                                                 .Where(p => StoreMappingService.Authorize(p));
             
             IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
