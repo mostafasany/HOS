@@ -45,7 +45,7 @@ namespace Nop.Plugin.Api.Helpers
 
         ManufacturerDto PrepateManufacturerDto(Manufacturer manufacturer);
 
-        ArticlesDto PrepateArticleDto(FNS_Article article);
+        ArticlesDto PrepateArticleDto(Article article);
 
         ArticleGroupDto PrepateArticleGroupDto(FNS_ArticleGroup article);
 

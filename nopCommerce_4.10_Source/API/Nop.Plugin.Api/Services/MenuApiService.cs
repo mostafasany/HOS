@@ -87,8 +87,8 @@ namespace Nop.Plugin.Api.Services
 
             List<CategoryDto> allManufacturers = _manufacturerApiService.GetManufacturers(limit: 5).Select(a => new CategoryDto
             {
-                Description = a.Description,
-                Name = a.Name,
+                Description = _localizationService.GetLocalized(a, x => x.Description, _currentLangaugeId),
+                Name = _localizationService.GetLocalized(a, x => x.Name, _currentLangaugeId),
                 SeName = _urlRecordService.GetSeName(a),
                 Id = a.Id
             }).ToList();

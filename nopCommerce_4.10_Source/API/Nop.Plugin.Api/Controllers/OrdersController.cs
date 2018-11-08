@@ -308,7 +308,8 @@ namespace Nop.Plugin.Api.Controllers
             }
 
             var placeOrderResult = PlaceOrder(newOrder, customer);
-            placeOrderResult.PlacedOrder.OrderNotes.Add(new OrderNote{Note = orderDelta.Dto.OrderNotes});
+            if(!string.IsNullOrEmpty(orderDelta.Dto.OrderNotes))
+                placeOrderResult.PlacedOrder.OrderNotes?.Add(new OrderNote{Note = orderDelta.Dto.OrderNotes});
 
             if (!placeOrderResult.Success)
             {

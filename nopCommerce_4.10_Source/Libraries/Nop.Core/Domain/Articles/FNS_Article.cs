@@ -4,7 +4,7 @@ using Nop.Core.Domain.Localization;
 
 namespace Nop.Core.Domain.Articles
 {
-   public class FNS_Article : BaseEntity, ILocalizedEntity
+   public class Article : BaseEntity, ILocalizedEntity
     {
         private ICollection<FNS_ArticleGroup_Mapping> _articleGroups;
         private ICollection<FNS_ArticleCategory> _articleCategories;
