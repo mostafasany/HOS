@@ -224,14 +224,17 @@ namespace Nop.Plugin.Api.Controllers
                                                                                                          limit: parameters.Limit,
                                                                                                          page: parameters.Page);
 
-            var shoppingCartItemsDtos = _dtoHelper.PrepareExtendedShoppingCartItemDto(
-                shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart));
 
+            ShoppingCartModel model = new ShoppingCartModel();
+                _shoppingCartItemApiService.PrepareShoppingCartModel(model, shoppingCartItems);
+            model.SubTotal = model.Items.Sum(a => a.SubTotalNumber);
+            model.SubTotalDiscount = model.Items.Sum(a => a.DiscountlNumber);
+          //  var shoppingCartItemsDtos = _dtoHelper.PrepareExtendedShoppingCartItemDto(
+            //    shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart));
 
-
-            var shoppingCartsRootObject = new ExtendedShoppingCartItemsRootObject()
+            var shoppingCartsRootObject = new ExtendedShoppingCartItemsRootObject
             {
-                ShoppingCart = shoppingCartItemsDtos
+                ShoppingCart = model
             };
 
             var json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);

@@ -295,5 +295,12 @@ namespace Nop.Plugin.Api.DTOs.Orders
         /// </summary>
         [JsonProperty("customer_tax_display_type")]
         public string CustomerTaxDisplayType { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the payment method system name
+        /// </summary>
+        [JsonProperty("order_notes")]
+        public string OrderNotes { get; set; }
+
     }
 }

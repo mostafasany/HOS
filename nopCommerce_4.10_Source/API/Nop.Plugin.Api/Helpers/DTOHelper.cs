@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Nop.Core.Domain.Articles;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Directory;
@@ -55,6 +56,7 @@ namespace Nop.Plugin.Api.Helpers
         private readonly IStoreMappingService _storeMappingService;
         private readonly IStoreService _storeService;
         private readonly IUrlRecordService _urlRecordService;
+        private readonly int _currentLangaugeId;
 
         public DTOHelper(IProductService productService,
             IAclService aclService,
@@ -69,7 +71,7 @@ namespace Nop.Plugin.Api.Helpers
             IStoreService storeService,
             ILocalizationService localizationService,
             IUrlRecordService urlRecordService,
-            IProductTagService productTagService)
+            IProductTagService productTagService, IHttpContextAccessor httpContextAccessor)
         {
             _productService = productService;
             _aclService = aclService;
@@ -85,11 +87,28 @@ namespace Nop.Plugin.Api.Helpers
             _localizationService = localizationService;
             _urlRecordService = urlRecordService;
             _productTagService = productTagService;
+            var headers = httpContextAccessor.HttpContext.Request.Headers;
+            if (headers.ContainsKey("Accept-Language"))
+            {
+                var lan = headers["Accept-Language"];
+                if (lan.ToString() == "en")
+                {
+                    _currentLangaugeId = 1;
+                }
+                else
+                {
+                    _currentLangaugeId = 2;
+                }
+            }
         }
 
         public ProductDto PrepareProductDTO(Product product)
         {
             ProductDto productDto = product.ToDto();
+
+            productDto.Name = _localizationService.GetLocalized(product, x => x.Name, _currentLangaugeId);
+            productDto.ShortDescription = _localizationService.GetLocalized(product, x => x.ShortDescription, _currentLangaugeId);
+            productDto.FullDescription = _localizationService.GetLocalized(product, x => x.FullDescription, _currentLangaugeId);
 
             PrepareProductImages(product.ProductPictures, productDto);
             PrepareProductAttributes(product.ProductAttributeMappings, productDto);
@@ -109,27 +128,31 @@ namespace Nop.Plugin.Api.Helpers
                     .Select(associatedProduct => associatedProduct.Id)
                     .ToList();
 
-            IList<Language> allLanguages = _languageService.GetAllLanguages();
+            //IList<Language> allLanguages = _languageService.GetAllLanguages();
 
-            productDto.LocalizedNames = new List<LocalizedNameDto>();
+            //productDto.LocalizedNames = new List<LocalizedNameDto>();
 
-            foreach (Language language in allLanguages)
-            {
-                var localizedNameDto = new LocalizedNameDto
-                {
-                    LanguageId = language.Id,
-                    LocalizedName = _localizationService.GetLocalized(product, x => x.Name, language.Id)
-                };
+            //foreach (Language language in allLanguages)
+            //{
+            //    var localizedNameDto = new LocalizedNameDto
+            //    {
+            //        LanguageId = language.Id,
+            //        LocalizedName = _localizationService.GetLocalized(product, x => x.Name, language.Id)
+            //    };
 
-                productDto.LocalizedNames.Add(localizedNameDto);
-            }
+            //    productDto.LocalizedNames.Add(localizedNameDto);
+            //}
 
+          
+            // productDto.LocalizedNames.FirstOrDefault(a => a.LanguageId == _currentLangaugeId)?.LocalizedName;
             return productDto;
         }
 
         public CategoryDto PrepareCategoryDTO(Category category)
         {
             CategoryDto categoryDto = category.ToDto();
+            categoryDto.Name = _localizationService.GetLocalized(category, x => x.Name, _currentLangaugeId);
+            categoryDto.Description = _localizationService.GetLocalized(category, x => x.Description, _currentLangaugeId);
 
             Picture picture = _pictureService.GetPictureById(category.PictureId);
             ImageDto imageDto = PrepareImageDto(picture);
@@ -248,7 +271,8 @@ namespace Nop.Plugin.Api.Helpers
                 MetaTitle = article.MetaTitle,
                 Tags = article.Tags
             };
-
+            articleDto.Title = _localizationService.GetLocalized(article, x => x.Title, _currentLangaugeId);
+            articleDto.Body = _localizationService.GetLocalized(article, x => x.Body, _currentLangaugeId);
             if (imageDto != null) articleDto.Image = imageDto;
 
             return articleDto;

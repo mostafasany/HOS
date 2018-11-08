@@ -7,11 +7,11 @@ namespace Nop.Plugin.Api.DTOs.ShoppingCarts
     {
         public ExtendedShoppingCartItemsRootObject()
         {
-            ShoppingCart = new ExtendedShoppingCartDto();
+            ShoppingCart = new ShoppingCartModel();
         }
 
         [JsonProperty("shopping_cart")]
-        public ExtendedShoppingCartDto ShoppingCart { get; set; }
+        public ShoppingCartModel ShoppingCart { get; set; }
 
         public string GetPrimaryPropertyName()
         {

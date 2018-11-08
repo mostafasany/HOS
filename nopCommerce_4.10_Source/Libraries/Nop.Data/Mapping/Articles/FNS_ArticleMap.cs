@@ -17,7 +17,7 @@ namespace Nop.Data.Mapping.Articles
         /// <param name="builder">The builder to be used to configure the entity</param>
         public override void Configure(EntityTypeBuilder<FNS_Article> builder)
         {
-            builder.ToTable(nameof(FNS_Article));
+            builder.ToTable(NopMappingDefaults.ArticlesTable);
             builder.HasKey(article => article.Id);
 
             base.Configure(builder);

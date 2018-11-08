@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.DTOs.Articles;
 using Nop.Plugin.Api.DTOs.Categories;
 using Nop.Plugin.Api.DTOs.Images;
 using Nop.Plugin.Api.DTOs.Menu;
 using Nop.Plugin.Api.DTOs.Products;
+using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Seo;
 
@@ -19,14 +21,15 @@ namespace Nop.Plugin.Api.Services
         private readonly IPictureService _pictureService;
         private readonly IProductApiService _productApiService;
         private readonly IUrlRecordService _urlRecordService;
+        private readonly ILocalizationService _localizationService;
         private const int ProductCategoryId = 34;
         private const int ExercisesArticlesCategoryId = 37;
         private const int NutrationArticlesCategoryId = 38;
         private const int ArticlesAndVideosArticlesCategoryId = 39;
         private const int CategoiresCategoryId = 55;
-
-        public MenuApiService(IProductApiService productApiService, ICategoryApiService categoryApiService, IUrlRecordService urlRecordService,
-            IPictureService pictureService, IManufacturerApiService manufacturerApiService, IArticleApiService articleApiService)
+        private readonly int _currentLangaugeId;
+        public MenuApiService(IProductApiService productApiService, ICategoryApiService categoryApiService, IUrlRecordService urlRecordService, ILocalizationService localizationService,
+            IPictureService pictureService, IManufacturerApiService manufacturerApiService, IArticleApiService articleApiService, IHttpContextAccessor httpContextAccessor)
         {
             _productApiService = productApiService;
             _categoryApiService = categoryApiService;
@@ -34,6 +37,20 @@ namespace Nop.Plugin.Api.Services
             _pictureService = pictureService;
             _manufacturerApiService = manufacturerApiService;
             _articleApiService = articleApiService;
+            _localizationService = localizationService;
+            var headers = httpContextAccessor.HttpContext.Request.Headers;
+            if (headers.ContainsKey("Accept-Language"))
+            {
+                var lan = headers["Accept-Language"];
+                if (lan.ToString() == "en")
+                {
+                    _currentLangaugeId = 1;
+                }
+                else
+                {
+                    _currentLangaugeId = 2;
+                }
+            }
         }
 
         public MenuDto GetMenu()
@@ -41,8 +58,8 @@ namespace Nop.Plugin.Api.Services
             IList<Category> allCategories = _categoryApiService.GetCategories().Where(cat => cat.IncludeInTopMenu).ToList();
             List<CategoryDto> allCategoriesDto = allCategories.Select(a => new CategoryDto
             {
-                Description = a.Description,
-                Name = a.Name,
+                Description = _localizationService.GetLocalized(a, x => x.Description, _currentLangaugeId),
+                Name = _localizationService.GetLocalized(a, x => x.Name, _currentLangaugeId),
                 SeName = _urlRecordService.GetSeName(a),
                 Id = a.Id,
                 ParentCategoryId = a.ParentCategoryId
@@ -141,9 +158,9 @@ namespace Nop.Plugin.Api.Services
                 {
                     SeName = a.Title,
                     Id = a.Id,
-                    Title = a.Title,
+                    Title = _localizationService.GetLocalized(a, x => x.Title, _currentLangaugeId),
                     Image = new ImageDto {Src = _pictureService.GetPictureUrl(a.PictureId)},
-                    Body = a.Body
+                    Body = _localizationService.GetLocalized(a, x => x.Body, _currentLangaugeId)
                 }).ToList();
                 MenuArticlesDto dto;
                 if (oneRow)
@@ -174,8 +191,8 @@ namespace Nop.Plugin.Api.Services
         {
             IEnumerable<ProductDto> products = _productApiService.GetProducts(categoryId: category.Id, limit: limit).Select(product => new ProductDto
             {
-                ShortDescription = product.ShortDescription,
-                Name = product.Name,
+                ShortDescription = _localizationService.GetLocalized(product, x => x.ShortDescription, _currentLangaugeId),
+                Name = _localizationService.GetLocalized(product, x => x.Name, _currentLangaugeId),
                 Price = product.Price,
                 SeName = _urlRecordService.GetSeName(product),
                 Images = new List<ImageMappingDto>
