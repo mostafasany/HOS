@@ -79,7 +79,8 @@ namespace Nop.Plugin.Api.DTOs.Products
         /// <summary>
         /// Gets or sets the picture (identifier) associated with this value. This picture should replace a product main picture once clicked (selected).
         /// </summary>
-        [JsonIgnore]
+        //[JsonIgnore]
+        [JsonProperty("pictureId")]
         public int? PictureId { get; set; }
 
         [JsonProperty("product_image_id")]

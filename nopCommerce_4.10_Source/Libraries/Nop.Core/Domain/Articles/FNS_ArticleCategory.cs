@@ -11,6 +11,6 @@ namespace Nop.Core.Domain.Articles
 
        public virtual Category Category { get; set; }
 
-        public virtual FNS_Article Article { get; set; }
+        public virtual Article Article { get; set; }
     }
 }

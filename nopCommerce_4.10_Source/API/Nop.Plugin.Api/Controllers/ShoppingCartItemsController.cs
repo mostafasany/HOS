@@ -23,6 +23,10 @@ using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Plugin.Api.Helpers;
 using Nop.Core;
+using Nop.Core.Domain.Common;
+using Nop.Core.Domain.Directory;
+using Nop.Plugin.Api.DTOs.Products;
+using Nop.Services.Shipping;
 
 namespace Nop.Plugin.Api.Controllers
 {
@@ -41,8 +45,8 @@ namespace Nop.Plugin.Api.Controllers
         private readonly IProductAttributeConverter _productAttributeConverter;
         private readonly IDTOHelper _dtoHelper;
         private readonly IStoreContext _storeContext;
-
-        public ShoppingCartItemsController(IShoppingCartItemApiService shoppingCartItemApiService,
+        private readonly IShippingService _shippingService;
+        public ShoppingCartItemsController(IShoppingCartItemApiService shoppingCartItemApiService, IShippingService shippingService,
             IJsonFieldsSerializer jsonFieldsSerializer,
             IAclService aclService,
             ICustomerService customerService,
@@ -75,6 +79,7 @@ namespace Nop.Plugin.Api.Controllers
             _productAttributeConverter = productAttributeConverter;
             _dtoHelper = dtoHelper;
             _storeContext = storeContext;
+            _shippingService = shippingService;
         }
 
         /// <summary>
@@ -91,6 +96,7 @@ namespace Nop.Plugin.Api.Controllers
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetShoppingCartItems(ShoppingCartItemsParametersModel parameters)
         {
+
             if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
             {
                 return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
@@ -111,12 +117,124 @@ namespace Nop.Plugin.Api.Controllers
 
             var shoppingCartItemsDtos = shoppingCartItems.Select(shoppingCartItem =>
             {
-               return _dtoHelper.PrepareShoppingCartItemDTO(shoppingCartItem);
+                return _dtoHelper.PrepareShoppingCartItemDTO(shoppingCartItem);
             }).ToList();
 
             var shoppingCartsRootObject = new ShoppingCartItemsRootObject()
             {
                 ShoppingCartItems = shoppingCartItemsDtos
+            };
+
+            var json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
+
+            return new RawJsonActionResult(json);
+        }
+
+
+        /// <summary>
+        /// Receive a list of all shopping cart items
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/shopping_cart_items/shipping/estimation")]
+        [ProducesResponseType(typeof(ShippingOptionRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetShippingEstimation(ShoppingCartItemsShipmentEstimationModel parameters)
+        {
+
+            if (parameters.CountryId <=0)
+            {
+                return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
+            }
+
+            if (parameters.StateProvinceId <=0 )
+            {
+                return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
+            }
+
+            IList<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems();
+
+            //var y = _shippingService.LoadActiveShippingRateComputationMethods();
+            //var x = _shippingService.GetAllShippingMethods(123);
+            //var z = _shippingService.LoadAllShippingRateComputationMethods();
+            var n = _shippingService.LoadShippingRateComputationMethodBySystemName("Shipping.FixedByWeightByTotal");
+            var optionsRequest = new GetShippingOptionRequest
+            {
+                ShippingAddress = new Address { Address1 = "-", City = "-", CountryId = parameters.CountryId, StateProvinceId = parameters.StateProvinceId }
+            };
+            List<GetShippingOptionRequest.PackageItem> items = new List<GetShippingOptionRequest.PackageItem>();
+            foreach (var shoppingCart in shoppingCartItems)
+            {
+                items.Add(new GetShippingOptionRequest.PackageItem(shoppingCart));
+            }
+
+            optionsRequest.Items = items;
+
+            var shippingOptionResponse = n.GetShippingOptions(optionsRequest);
+            
+
+            var shippingOptionDto = shippingOptionResponse.ShippingOptions.Select(shoppingCartItem =>
+            {
+                return _dtoHelper.PrepareShippingOptionItemDTO(shoppingCartItem);
+            }).ToList();
+
+            var shippingOptionRootObject = new ShippingOptionRootObject
+            {
+                ShippingOptions = shippingOptionDto
+            };
+
+            var json = JsonFieldsSerializer.Serialize(shippingOptionRootObject, "");
+
+            return new RawJsonActionResult(json);
+        }
+
+        /// <summary>
+        /// Receive a list of all shopping cart items
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/shopping_cart_items/cart")]
+        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetOnlyShoppingCartItems(ShoppingCartItemsParametersModel parameters)
+        {
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+            {
+                return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
+            }
+
+            if (parameters.Page < Configurations.DefaultPageValue)
+            {
+                return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
+            }
+
+            IList<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems(customerId: null,
+                                                                                                         createdAtMin: parameters.CreatedAtMin,
+                                                                                                         createdAtMax: parameters.CreatedAtMax,
+                                                                                                         updatedAtMin: parameters.UpdatedAtMin,
+                                                                                                         updatedAtMax: parameters.UpdatedAtMax,
+                                                                                                         limit: parameters.Limit,
+                                                                                                         page: parameters.Page);
+
+
+            ShoppingCartModel model = new ShoppingCartModel();
+                _shoppingCartItemApiService.PrepareShoppingCartModel(model, shoppingCartItems);
+            model.SubTotal = model.Items.Sum(a => a.SubTotalNumber);
+            model.SubTotalDiscount = model.Items.Sum(a => a.DiscountlNumber);
+          //  var shoppingCartItemsDtos = _dtoHelper.PrepareExtendedShoppingCartItemDto(
+            //    shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart));
+
+            var shoppingCartsRootObject = new ExtendedShoppingCartItemsRootObject
+            {
+                ShoppingCart = model
             };
 
             var json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
@@ -224,7 +342,7 @@ namespace Nop.Plugin.Api.Controllers
                 newShoppingCartItem.RentalEndDateUtc = null;
             }
 
-            var attributesXml =_productAttributeConverter.ConvertToXml(shoppingCartItemDelta.Dto.Attributes, product.Id);
+            var attributesXml = _productAttributeConverter.ConvertToXml(shoppingCartItemDelta.Dto.Attributes, product.Id);
 
             var currentStoreId = _storeContext.CurrentStore.Id;
 
@@ -241,7 +359,8 @@ namespace Nop.Plugin.Api.Controllers
 
                 return Error(HttpStatusCode.BadRequest);
             }
-            else {
+            else
+            {
                 // the newly added shopping cart item should be the last one
                 newShoppingCartItem = customer.ShoppingCartItems.LastOrDefault();
             }
@@ -281,7 +400,7 @@ namespace Nop.Plugin.Api.Controllers
                 return Error(HttpStatusCode.NotFound, "shopping_cart_item", "not found");
             }
 
-            shoppingCartItemDelta.Merge(shoppingCartItemForUpdate);            
+            shoppingCartItemDelta.Merge(shoppingCartItemForUpdate);
 
             if (!shoppingCartItemForUpdate.Product.IsRental)
             {
@@ -354,5 +473,36 @@ namespace Nop.Plugin.Api.Controllers
 
             return new RawJsonActionResult("{}");
         }
+
+
+        /// <summary>
+        /// Receive a list of all products
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/shopping_cart_items/crosssells")]
+        [ProducesResponseType(typeof(ProductsRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetCorssSellsProducts(ShoppingCartItemsForCrossSellsParametersModel parameters)
+        {
+            var allProducts = _productService.GetCrosssellProductsByShoppingCart(parameters.ProductIds?.Select(a => new ShoppingCartItem { ProductId = a }).ToList(), parameters.Limit)
+                .Where(p => StoreMappingService.Authorize(p));
+
+            IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
+
+            var productsRootObject = new ProductsRootObjectDto()
+            {
+                Products = productsAsDtos
+            };
+
+            var json = JsonFieldsSerializer.Serialize(productsRootObject, parameters.Fields);
+
+            return new RawJsonActionResult(json);
+        }
+
     }
 }

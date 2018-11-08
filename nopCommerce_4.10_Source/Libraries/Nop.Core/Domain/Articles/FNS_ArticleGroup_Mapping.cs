@@ -9,6 +9,6 @@ namespace Nop.Core.Domain.Articles
 
        public virtual FNS_ArticleGroup Group { get; set; }
 
-        public virtual FNS_Article Article { get; set; }
+        public virtual Article Article { get; set; }
     }
 }

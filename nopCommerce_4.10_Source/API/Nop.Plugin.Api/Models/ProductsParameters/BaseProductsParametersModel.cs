@@ -14,7 +14,9 @@ namespace Nop.Plugin.Api.Models.ProductsParameters
             UpdatedAtMax = null;
             PublishedStatus = null;
             VendorName = null;
+            ManufacturerName = null;
             CategoryId = null;
+            CategorySlug = null;
             Keyword = string.Empty;
         }
 
@@ -67,7 +69,20 @@ namespace Nop.Plugin.Api.Models.ProductsParameters
         /// <summary>
         /// Show only the products mapped to the specified category
         /// </summary>
+        [JsonProperty("category_slug")]
+        public string CategorySlug { get; set; }
+
+        /// <summary>
+        /// Show only the products mapped to the specified category
+        /// </summary>
         [JsonProperty("keyword")]
         public string Keyword { get; set; }
+
+        /// <summary>
+        /// Show only the products mapped to the specified category
+        /// </summary>
+        [JsonProperty("manufacturer_name")]
+        public string ManufacturerName { get; set; }
+        
     }
 }

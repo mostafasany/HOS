@@ -66,7 +66,7 @@ namespace Nop.Plugin.Api.Controllers
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            FNS_Article article = _articleApiService.GetArticleById(id);
+            Article article = _articleApiService.GetArticleById(id);
 
             if (article == null) return Error(HttpStatusCode.NotFound, "article", "article not found");
 
@@ -98,7 +98,7 @@ namespace Nop.Plugin.Api.Controllers
 
             if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
 
-            IEnumerable<FNS_Article> allArticles = _articleApiService.GetArticles(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
+            IEnumerable<Article> allArticles = _articleApiService.GetArticles(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
                 parameters.UpdatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId, parameters.CategoryId, parameters.GroupId, parameters.Keyword, parameters.Tag,
                 parameters.PublishedStatus);
 

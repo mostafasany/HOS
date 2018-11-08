@@ -6,6 +6,8 @@ using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Vendors;
 using Nop.Plugin.Api.Constants;
 using Nop.Plugin.Api.DataStructures;
+using Nop.Services.Catalog;
+using Nop.Services.Seo;
 using Nop.Services.Stores;
 
 namespace Nop.Plugin.Api.Services
@@ -16,26 +18,30 @@ namespace Nop.Plugin.Api.Services
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<ProductCategory> _productCategoryMappingRepository;
         private readonly IRepository<Vendor> _vendorRepository;
+        private readonly IRepository<Manufacturer> _manufacturerRepository;
         private readonly IRepository<RelatedProduct> _relatedProductRepository;
-
+        private readonly IUrlRecordService _urlRecordService;
         public ProductApiService(IRepository<Product> productRepository,
             IRepository<ProductCategory> productCategoryMappingRepository,
             IRepository<Vendor> vendorRepository,
-            IStoreMappingService storeMappingService, IRepository<RelatedProduct> relatedProductRepository)
+            IStoreMappingService storeMappingService, IRepository<RelatedProduct> relatedProductRepository
+            , IUrlRecordService urlRecordService, IRepository<Manufacturer> manufacturerRepository)
         {
             _productRepository = productRepository;
             _productCategoryMappingRepository = productCategoryMappingRepository;
             _vendorRepository = vendorRepository;
             _storeMappingService = storeMappingService;
             _relatedProductRepository = relatedProductRepository;
+            _urlRecordService = urlRecordService;
+            _manufacturerRepository = manufacturerRepository;
         }
 
         public IList<Product> GetProducts(IList<int> ids = null,
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
-           int? categoryId = null, string vendorName = null, string keyword = null, bool? publishedStatus = null)
+           int? categoryId = null, string categorySlug = null, string vendorName = null, string manufacturerName = null, string keyword = null, bool? publishedStatus = null)
         {
-            var query = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName, keyword, publishedStatus, ids, categoryId);
+            var query = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName, manufacturerName, keyword, publishedStatus, ids, categoryId, categorySlug);
 
             if (sinceId > 0)
             {
@@ -44,13 +50,13 @@ namespace Nop.Plugin.Api.Services
 
             return new ApiList<Product>(query, page - 1, limit);
         }
-        
-        public int GetProductsCount(DateTime? createdAtMin = null, DateTime? createdAtMax = null, 
+
+        public int GetProductsCount(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, bool? publishedStatus = null, string vendorName = null, string keyword = null,
             int? categoryId = null)
         {
             var query = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName, keyword,
-                                         publishedStatus, categoryId: categoryId);
+                                         publishedStatus: publishedStatus, categoryId: categoryId);
 
             return query.ToList().Count(p => _storeMappingService.Authorize(p));
         }
@@ -71,10 +77,10 @@ namespace Nop.Plugin.Api.Services
             return _productRepository.Table.FirstOrDefault(product => product.Id == productId && !product.Deleted);
         }
 
-        private IQueryable<Product> GetProductsQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null, 
-            DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, string vendorName = null, string keyword = null,
-            bool? publishedStatus = null, IList<int> ids = null, int? categoryId = null)
-            
+        private IQueryable<Product> GetProductsQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
+            DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, string vendorName = null, string manufacturerName = null, string keyword = null,
+            bool? publishedStatus = null, IList<int> ids = null, int? categoryId = null, string categorySlug = null)
+
         {
             var query = _productRepository.Table;
 
@@ -103,7 +109,7 @@ namespace Nop.Plugin.Api.Services
 
             if (updatedAtMin != null)
             {
-               query = query.Where(c => c.UpdatedOnUtc > updatedAtMin.Value);
+                query = query.Where(c => c.UpdatedOnUtc > updatedAtMin.Value);
             }
 
             if (updatedAtMax != null)
@@ -124,18 +130,41 @@ namespace Nop.Plugin.Api.Services
                         select product;
             }
 
+            if (!string.IsNullOrEmpty(manufacturerName))
+            {
+                var manufacturerTable = _manufacturerRepository.Table.FirstOrDefault(a => a.Name.ToLower() == manufacturerName.ToLower());
+                if (manufacturerTable != null && !manufacturerTable.Deleted)
+                {
+                    query = from product in _productRepository.Table
+                            where product.ProductManufacturers.Select(a => a.ManufacturerId).Contains(manufacturerTable.Id)
+                            select product;
+                }
+
+            }
+
+            if (categoryId == null && categorySlug != null)
+            {
+                var urlRecord = _urlRecordService.GetBySlug(categorySlug);
+                categoryId = urlRecord.EntityId;
+            }
+
             if (categoryId != null)
             {
+
                 var categoryMappingsForProduct = from productCategoryMapping in _productCategoryMappingRepository.Table
                                                  where productCategoryMapping.CategoryId == categoryId
                                                  select productCategoryMapping;
 
                 query = from product in query
                         join productCategoryMapping in categoryMappingsForProduct on product.Id equals productCategoryMapping.ProductId
+                        orderby productCategoryMapping.DisplayOrder descending
                         select product;
             }
-
-            query = query.OrderBy(product => product.Id);
+            else
+            {
+                query = query.OrderByDescending(product => product.DisplayOrder);
+            }
+           
 
             return query;
         }
@@ -144,18 +173,18 @@ namespace Nop.Plugin.Api.Services
         public List<Product> GetRelatedProducts(int productId1, bool showHidden = false)
         {
             var query = from rp in _relatedProductRepository.Table
-                join p in _productRepository.Table on rp.ProductId2 equals p.Id
-                where rp.ProductId1 == productId1 &&
-                      !p.Deleted &&
-                      (showHidden || p.Published)
-                orderby rp.DisplayOrder, rp.Id
-                select rp;
+                        join p in _productRepository.Table on rp.ProductId2 equals p.Id
+                        where rp.ProductId1 == productId1 &&
+                              !p.Deleted &&
+                              (showHidden || p.Published)
+                        orderby rp.DisplayOrder, rp.Id
+                        select rp;
             var relatedProducts = query.ToList();
 
             var products = new List<Product>();
             foreach (var relatedProduct in relatedProducts)
             {
-                var product= GetProductById(relatedProduct.ProductId2);
+                var product = GetProductById(relatedProduct.ProductId2);
                 products.Add(product);
             }
 

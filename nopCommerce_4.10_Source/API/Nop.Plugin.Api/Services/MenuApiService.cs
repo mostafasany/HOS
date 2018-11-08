@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.DTOs.Articles;
 using Nop.Plugin.Api.DTOs.Categories;
 using Nop.Plugin.Api.DTOs.Images;
 using Nop.Plugin.Api.DTOs.Menu;
 using Nop.Plugin.Api.DTOs.Products;
+using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Seo;
 
@@ -19,9 +21,15 @@ namespace Nop.Plugin.Api.Services
         private readonly IPictureService _pictureService;
         private readonly IProductApiService _productApiService;
         private readonly IUrlRecordService _urlRecordService;
-
-        public MenuApiService(IProductApiService productApiService, ICategoryApiService categoryApiService, IUrlRecordService urlRecordService,
-            IPictureService pictureService, IManufacturerApiService manufacturerApiService, IArticleApiService articleApiService)
+        private readonly ILocalizationService _localizationService;
+        private const int ProductCategoryId = 34;
+        private const int ExercisesArticlesCategoryId = 37;
+        private const int NutrationArticlesCategoryId = 38;
+        private const int ArticlesAndVideosArticlesCategoryId = 39;
+        private const int CategoiresCategoryId = 55;
+        private readonly int _currentLangaugeId;
+        public MenuApiService(IProductApiService productApiService, ICategoryApiService categoryApiService, IUrlRecordService urlRecordService, ILocalizationService localizationService,
+            IPictureService pictureService, IManufacturerApiService manufacturerApiService, IArticleApiService articleApiService, IHttpContextAccessor httpContextAccessor)
         {
             _productApiService = productApiService;
             _categoryApiService = categoryApiService;
@@ -29,205 +37,146 @@ namespace Nop.Plugin.Api.Services
             _pictureService = pictureService;
             _manufacturerApiService = manufacturerApiService;
             _articleApiService = articleApiService;
+            _localizationService = localizationService;
+            var headers = httpContextAccessor.HttpContext.Request.Headers;
+            if (headers.ContainsKey("Accept-Language"))
+            {
+                var lan = headers["Accept-Language"];
+                if (lan.ToString() == "en")
+                {
+                    _currentLangaugeId = 1;
+                }
+                else
+                {
+                    _currentLangaugeId = 2;
+                }
+            }
         }
 
         public MenuDto GetMenu()
         {
-            IEnumerable<ProductDto> promotionsProducts = _productApiService.GetProducts(categoryId: 17, limit: 5).Select(product => new ProductDto
+            IList<Category> allCategories = _categoryApiService.GetCategories().Where(cat => cat.IncludeInTopMenu).ToList();
+            List<CategoryDto> allCategoriesDto = allCategories.Select(a => new CategoryDto
             {
-                ShortDescription = product.ShortDescription,
-                Name = product.Name,
-                Price = product.Price,
-                SeName = _urlRecordService.GetSeName(product),
-                Images = new List<ImageMappingDto>
-                {
-                    new ImageMappingDto
-                    {
-                        Src = _pictureService.GetPictureUrl(product.ProductPictures?.FirstOrDefault()?.Picture)
-                    }
-                },
-                Id = product.Id
-            });
-            IEnumerable<ProductDto> top10Products = _productApiService.GetProducts(categoryId: 18, limit: 5).Select(product => new ProductDto
-            {
-                ShortDescription = product.ShortDescription,
-                Name = product.Name,
-                Price = product.Price,
-                SeName = _urlRecordService.GetSeName(product),
-                Images = new List<ImageMappingDto>
-                {
-                    new ImageMappingDto
-                    {
-                        Src = _pictureService.GetPictureUrl(product.ProductPictures?.FirstOrDefault()?.Picture)
-                    }
-                },
-                Id = product.Id
-            });
-            IEnumerable<ProductDto> justArriveProducts = _productApiService.GetProducts(categoryId: 19, limit: 5).Select(product => new ProductDto
-            {
-                ShortDescription = product.ShortDescription,
-                Name = product.Name,
-                Price = product.Price,
-                SeName = _urlRecordService.GetSeName(product),
-                Images = new List<ImageMappingDto>
-                {
-                    new ImageMappingDto
-                    {
-                        Src = _pictureService.GetPictureUrl(product.ProductPictures?.FirstOrDefault()?.Picture)
-                    }
-                },
-                Id = product.Id
-            });
-            IEnumerable<ProductDto> accessoriesProducts = _productApiService.GetProducts(categoryId: 20, limit: 5).Select(product => new ProductDto
-            {
-                ShortDescription = product.ShortDescription,
-                Name = product.Name,
-                Price = product.Price,
-                SeName = _urlRecordService.GetSeName(product),
-                Images = new List<ImageMappingDto>
-                {
-                    new ImageMappingDto
-                    {
-                        Src = _pictureService.GetPictureUrl(product.ProductPictures?.FirstOrDefault()?.Picture)
-                    }
-                },
-                Id = product.Id
-            });
-            IEnumerable<ProductDto> stackProducts = _productApiService.GetProducts(categoryId: 22, limit: 5).Select(product => new ProductDto
-            {
-                ShortDescription = product.ShortDescription,
-                Name = product.Name,
-                Price = product.Price,
-                SeName = _urlRecordService.GetSeName(product),
-                Images = new List<ImageMappingDto>
-                {
-                    new ImageMappingDto
-                    {
-                        Src = _pictureService.GetPictureUrl(product.ProductPictures?.FirstOrDefault()?.Picture)
-                    }
-                },
-                Id = product.Id
-            });
-            IEnumerable<CategoryDto> allCategories = _categoryApiService.GetCategories().Select(a => new CategoryDto
-            {
-                Description = a.Description,
-                Name = a.Name,
+                Description = _localizationService.GetLocalized(a, x => x.Description, _currentLangaugeId),
+                Name = _localizationService.GetLocalized(a, x => x.Name, _currentLangaugeId),
                 SeName = _urlRecordService.GetSeName(a),
                 Id = a.Id,
                 ParentCategoryId = a.ParentCategoryId
-            });
-            IEnumerable<CategoryDto> allManufacturers = _manufacturerApiService.GetManufacturers(limit: 5).Select(a => new CategoryDto
-            {
-                Description = a.Description,
-                Name = a.Name,
-                SeName = _urlRecordService.GetSeName(a),
-                Id = a.Id
-            });
+            }).ToList();
+            List<CategoryDto> exercisesArticlesCategories = allCategoriesDto.Where(cat => cat.ParentCategoryId == ExercisesArticlesCategoryId).ToList();
+            List<CategoryDto> nutrationArticlesCategories = allCategoriesDto.Where(cat => cat.ParentCategoryId == NutrationArticlesCategoryId).ToList();
+            List<CategoryDto> articlesAndVideosCategories = allCategoriesDto.Where(cat => cat.ParentCategoryId == ArticlesAndVideosArticlesCategoryId).ToList();
+            List<CategoryDto> productsCategories = allCategoriesDto.Where(cat => cat.ParentCategoryId == ProductCategoryId).ToList();
+            List<CategoryDto> categoriesCategories = allCategoriesDto.Where(cat => cat.ParentCategoryId == CategoiresCategoryId).ToList();
 
-            List<CategoryDto> ingerdientCategories = allCategories.Where(a => a.ParentCategoryId == 24).ToList();
-            ingerdientCategories.Add(new CategoryDto {Name = "All Ingredients", SeName = "all-ingredients", Id = 24});
-
-            List<CategoryDto> goalCategories = allCategories.Where(a => a.ParentCategoryId == 26).ToList();
-            goalCategories.Add(new CategoryDto {Name = "All Goals", SeName = "all-goals", Id = 26});
-
-            List<CategoryDto> categoriesCategories = allCategories.Where(a => a.ParentCategoryId == 27).ToList();
-            categoriesCategories.Add(new CategoryDto {Name = "All Categories", SeName = "all-categories", Id = 27});
-
-            var mainStoreProducts = new List<MenuProductsDto>
-            {
-                new MenuProductsDto
-                {
-                    MenuItemName = "Promotions",
-                    ProductsFirstRow = promotionsProducts.Skip(0).Take(2),
-                    ProductsSecondRow = promotionsProducts.Skip(2).Take(3)
-                },
-                new MenuProductsDto
-                {
-                    MenuItemName = "Top 10",
-                    ProductsFirstRow = top10Products.Skip(0).Take(2),
-                    ProductsSecondRow = top10Products.Skip(2).Take(3)
-                },
-                new MenuProductsDto
-                {
-                    MenuItemName = "Just Arrive",
-                    ProductsFirstRow = justArriveProducts.Skip(0).Take(2),
-                    ProductsSecondRow = justArriveProducts.Skip(2).Take(3)
-                },
-                new MenuProductsDto
-                {
-                    MenuItemName = "Stack",
-                    ProductsFirstRow = stackProducts.Skip(0).Take(2),
-                    ProductsSecondRow = stackProducts.Skip(2).Take(3)
-                },
-                new MenuProductsDto
-                {
-                    MenuItemName = "Accessories",
-                    ProductsFirstRow = accessoriesProducts.Skip(0).Take(2),
-                    ProductsSecondRow = accessoriesProducts.Skip(2).Take(3)
-                }
-            };
-
-            var mainStoreCategories = new List<MenuCategoriesDto>
-            {
-                new MenuCategoriesDto
-                {
-                    MenuItemName = "Goals",
-                    CategoriesFirstRow = goalCategories
-                },
-                new MenuCategoriesDto
-                {
-                    MenuItemName = "Ingerdients",
-                    CategoriesFirstRow = ingerdientCategories
-                },
-                new MenuCategoriesDto
-                {
-                    MenuItemName = "Categories",
-                    CategoriesFirstRow = categoriesCategories
-                },
-                new MenuCategoriesDto
-                {
-                    MenuItemName = "Brands",
-                    CategoriesFirstRow = allManufacturers
-                }
-            };
-
-            IList<Category> exercisesArticlesCategories = _categoryApiService.GetCategories(parenttId: 37);
-            IList<Category> nutrationArticlesCategories = _categoryApiService.GetCategories(parenttId: 38);
-            IList<Category> articlesAndVideosCategories = _categoryApiService.GetCategories(parenttId: 39);
             return new MenuDto
             {
-                MainStoreProducts = mainStoreProducts,
-                MainStoreCategories = mainStoreCategories,
-                ArticlesAndVideos = GetArticles(articlesAndVideosCategories),
-                Nutrations = GetArticles(nutrationArticlesCategories, true),
-                Exercises = GetArticles(exercisesArticlesCategories, true)
+                MainStoreProducts = GetMenuProducts(productsCategories),
+                MainStoreCategories = GetMenuCategories(allCategoriesDto, categoriesCategories),
+                MainStoreBrands = GetMenuBrands(),
+                ArticlesAndVideos = GetMeuArticles(articlesAndVideosCategories),
+                Nutrations = GetMeuArticles(nutrationArticlesCategories, true),
+                Exercises = GetMeuArticles(exercisesArticlesCategories, true)
             };
         }
 
-        private List<MenuArticlesDto> GetArticles(IEnumerable<Category> categories, bool oneRow = false)
+        private List<MenuCategoriesDto> GetMenuBrands()
+        {
+            var mainStoreCategories = new List<MenuCategoriesDto>();
+
+            List<CategoryDto> allManufacturers = _manufacturerApiService.GetManufacturers(limit: 5).Select(a => new CategoryDto
+            {
+                Description = _localizationService.GetLocalized(a, x => x.Description, _currentLangaugeId),
+                Name = _localizationService.GetLocalized(a, x => x.Name, _currentLangaugeId),
+                SeName = _urlRecordService.GetSeName(a),
+                Id = a.Id
+            }).ToList();
+
+            if (allManufacturers.Any())
+                mainStoreCategories.Add(new MenuCategoriesDto
+                {
+                    Id = -1,
+                    MenuItemName = "Brands",
+                    SeName = "brands",
+                    CategoriesFirstRow = allManufacturers
+                });
+            return mainStoreCategories;
+        }
+
+        private List<MenuCategoriesDto> GetMenuCategories(List<CategoryDto> allCategoriesDto, List<CategoryDto> allMenuCategoriesDto)
+        {
+            var mainStoreCategories = new List<MenuCategoriesDto>();
+
+            if (allMenuCategoriesDto == null)
+                return mainStoreCategories;
+
+            foreach (CategoryDto categroyDto in allMenuCategoriesDto)
+            {
+                List<CategoryDto> ingerdientCategories = allCategoriesDto.Where(a => a.ParentCategoryId == categroyDto.Id).ToList();
+                ingerdientCategories.Add(new CategoryDto {Name = "All " + categroyDto.Name, SeName = "all-" + categroyDto.SeName, Id = categroyDto.Id});
+                mainStoreCategories.Add(new MenuCategoriesDto
+                {
+                    Id = categroyDto.Id,
+                    MenuItemName = categroyDto.Name,
+                    SeName = categroyDto.SeName,
+                    CategoriesFirstRow = ingerdientCategories
+                });
+            }
+
+            return mainStoreCategories;
+        }
+
+        private List<MenuProductsDto> GetMenuProducts(List<CategoryDto> allCategoriesDto)
+        {
+            var mainStoreProducts = new List<MenuProductsDto>();
+            if (allCategoriesDto == null)
+                return mainStoreProducts;
+
+            foreach (CategoryDto categoryDto in allCategoriesDto)
+            {
+                IEnumerable<ProductDto> promotionsProducts = GetProducts(categoryDto);
+                mainStoreProducts.Add(new MenuProductsDto
+                {
+                    Id = categoryDto.Id,
+                    MenuItemName = categoryDto.Name,
+                    SeName = categoryDto.SeName,
+                    ProductsFirstRow = promotionsProducts.Skip(0).Take(2),
+                    ProductsSecondRow = promotionsProducts.Skip(2).Take(3)
+                });
+            }
+
+            return mainStoreProducts;
+        }
+
+        private List<MenuArticlesDto> GetMeuArticles(List<CategoryDto> categoriesDto, bool oneRow = false)
         {
             var articles = new List<MenuArticlesDto>();
-            foreach (Category category in categories)
+            foreach (CategoryDto category in categoriesDto)
             {
-                IEnumerable<ArticlesDto> articlesDto = _articleApiService.GetArticles(categoryId: category.Id, limit: 5).Select(a => new ArticlesDto
+                List<ArticlesDto> articlesDto = _articleApiService.GetArticles(categoryId: category.Id, limit: 5).Select(a => new ArticlesDto
                 {
                     SeName = a.Title,
                     Id = a.Id,
-                    Title = a.Title,
+                    Title = _localizationService.GetLocalized(a, x => x.Title, _currentLangaugeId),
                     Image = new ImageDto {Src = _pictureService.GetPictureUrl(a.PictureId)},
-                    Body = a.Body
-                });
+                    Body = _localizationService.GetLocalized(a, x => x.Body, _currentLangaugeId)
+                }).ToList();
                 MenuArticlesDto dto;
                 if (oneRow)
                     dto = new MenuArticlesDto
                     {
+                        Id = category.Id,
                         MenuItemName = category.Name,
+                        SeName = category.SeName,
                         ArticlesFirstRow = articlesDto.ToList()
                     };
                 else
                     dto = new MenuArticlesDto
                     {
+                        Id = category.Id,
                         MenuItemName = category.Name,
+                        SeName = category.SeName,
                         ArticlesFirstRow = articlesDto.Skip(0).Take(2).ToList(),
                         ArticlesSecondRow = articlesDto.Skip(2).Take(3).ToList()
                     };
@@ -238,115 +187,24 @@ namespace Nop.Plugin.Api.Services
             return articles;
         }
 
-        private List<MenuArticlesDto> GetArticlesAndVideos(IEnumerable<Category> category)
+        private List<ProductDto> GetProducts(CategoryDto category, int limit = 5)
         {
-            IEnumerable<ArticlesDto> health = _articleApiService.GetArticles(categoryId: 46, limit: 5).Select(a => new ArticlesDto
+            IEnumerable<ProductDto> products = _productApiService.GetProducts(categoryId: category.Id, limit: limit).Select(product => new ProductDto
             {
-                SeName = a.Title,
-                Id = a.Id,
-                Title = a.Title,
-                Image = new ImageDto {Src = _pictureService.GetPictureUrl(a.PictureId)},
-                Body = a.Body
-            });
-            IEnumerable<ArticlesDto> strength = _articleApiService.GetArticles(categoryId: 47, limit: 5).Select(a => new ArticlesDto
-            {
-                SeName = a.Title,
-                Id = a.Id,
-                Title = a.Title,
-                Image = new ImageDto {Src = _pictureService.GetPictureUrl(a.PictureId)},
-                Body = a.MetaDescription
-            });
-            var articles = new List<MenuArticlesDto>
-            {
-                new MenuArticlesDto
+                ShortDescription = _localizationService.GetLocalized(product, x => x.ShortDescription, _currentLangaugeId),
+                Name = _localizationService.GetLocalized(product, x => x.Name, _currentLangaugeId),
+                Price = product.Price,
+                SeName = _urlRecordService.GetSeName(product),
+                Images = new List<ImageMappingDto>
                 {
-                    MenuItemName = "Health",
-                    ArticlesFirstRow = health.Skip(0).Take(2).ToList(),
-                    ArticlesSecondRow = health.Skip(2).Take(3).ToList()
+                    new ImageMappingDto
+                    {
+                        Src = _pictureService.GetPictureUrl(product.ProductPictures?.FirstOrDefault()?.Picture)
+                    }
                 },
-                new MenuArticlesDto
-                {
-                    MenuItemName = "Strength",
-                    ArticlesFirstRow = strength.Skip(0).Take(2).ToList(),
-                    ArticlesSecondRow = strength.Skip(2).Take(3).ToList()
-                }
-            };
-
-            return articles;
-        }
-
-        private List<MenuArticlesDto> GetExercisesArticles(IEnumerable<Category> category)
-        {
-            IEnumerable<ArticlesDto> upperBodyExercises = _articleApiService.GetArticles(categoryId: 42, limit: 5).Select(a => new ArticlesDto
-            {
-                SeName = a.Title,
-                Id = a.Id,
-                Title = a.Title,
-                Image = new ImageDto {Src = _pictureService.GetPictureUrl(a.PictureId)},
-                Body = a.MetaDescription
+                Id = product.Id
             });
-            IEnumerable<ArticlesDto> lowerBodyExercises = _articleApiService.GetArticles(categoryId: 43, limit: 5).Select(a => new ArticlesDto
-            {
-                SeName = a.Title,
-                Id = a.Id,
-                Title = a.Title,
-                Image = new ImageDto {Src = _pictureService.GetPictureUrl(a.PictureId)},
-                Body = a.MetaDescription
-            });
-            var articles = new List<MenuArticlesDto>
-            {
-                new MenuArticlesDto
-                {
-                    MenuItemName = "Upper Body Exercises",
-                    ArticlesFirstRow = upperBodyExercises.Skip(0).Take(2).ToList(),
-                    ArticlesSecondRow = upperBodyExercises.Skip(2).Take(3).ToList()
-                },
-                new MenuArticlesDto
-                {
-                    MenuItemName = "Lower Body Exercises",
-                    ArticlesFirstRow = lowerBodyExercises.Skip(0).Take(2).ToList(),
-                    ArticlesSecondRow = lowerBodyExercises.Skip(2).Take(3).ToList()
-                }
-            };
-
-            return articles;
-        }
-
-        private List<MenuArticlesDto> GetNutrationsArticles(IEnumerable<Category> category)
-        {
-            IEnumerable<ArticlesDto> keto = _articleApiService.GetArticles(categoryId: 44, limit: 5).Select(a => new ArticlesDto
-            {
-                SeName = a.Title,
-                Id = a.Id,
-                Title = a.Title,
-                Image = new ImageDto {Src = _pictureService.GetPictureUrl(a.PictureId)},
-                Body = a.MetaDescription
-            });
-            IEnumerable<ArticlesDto> chemical = _articleApiService.GetArticles(categoryId: 45, limit: 5).Select(a => new ArticlesDto
-            {
-                SeName = a.Title,
-                Id = a.Id,
-                Title = a.Title,
-                Image = new ImageDto {Src = _pictureService.GetPictureUrl(a.PictureId)},
-                Body = a.MetaDescription
-            });
-            var articles = new List<MenuArticlesDto>
-            {
-                new MenuArticlesDto
-                {
-                    MenuItemName = "Keto",
-                    ArticlesFirstRow = keto.Skip(0).Take(2).ToList(),
-                    ArticlesSecondRow = keto.Skip(2).Take(3).ToList()
-                },
-                new MenuArticlesDto
-                {
-                    MenuItemName = "Chemical",
-                    ArticlesFirstRow = chemical.Skip(0).Take(2).ToList(),
-                    ArticlesSecondRow = chemical.Skip(2).Take(3).ToList()
-                }
-            };
-
-            return articles;
+            return products.ToList();
         }
     }
 }

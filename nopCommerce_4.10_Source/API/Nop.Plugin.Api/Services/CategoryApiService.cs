@@ -117,7 +117,7 @@ namespace Nop.Plugin.Api.Services
                         select category;
             }
 
-            query = query.OrderBy(category => category.Id);
+            query = query.OrderByDescending(category => category.DisplayOrder);
 
             return query;
         }

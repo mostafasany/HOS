@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Api.Constants;
+using Nop.Plugin.Api.DTOs.ShoppingCarts;
 
 namespace Nop.Plugin.Api.Services
 {
@@ -12,5 +13,10 @@ namespace Nop.Plugin.Api.Services
                                                     int page = Configurations.DefaultPageValue);
 
         ShoppingCartItem GetShoppingCartItem(int id);
+
+        ShoppingCartModel PrepareShoppingCartModel(ShoppingCartModel model,
+            IList<ShoppingCartItem> cart, bool isEditable = true,
+            bool validateCheckoutAttributes = false,
+            bool prepareAndDisplayOrderReviewData = false);
     }
 }

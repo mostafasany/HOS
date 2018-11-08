@@ -13,5 +13,7 @@
   "Tax.FixedOrByCountryStateZip",
   "Widgets.GoogleAnalytics",
   "Widgets.NivoSlider",
-  "Nop.Plugin.Api"
+  "Nop.Plugin.Api",
+  "DiscountRequirement.PurchasedAllProducts",
+  "DiscountRequirement.HasAllProducts"
 ]

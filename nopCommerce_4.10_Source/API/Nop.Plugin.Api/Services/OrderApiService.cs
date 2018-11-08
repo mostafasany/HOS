@@ -109,7 +109,7 @@ namespace Nop.Plugin.Api.Services
                 query = query.Where(order => order.StoreId == storeId);
             }
 
-            query = query.OrderBy(order => order.Id);
+            query = query.OrderByDescending(order => order.CreatedOnUtc);
 
             //query = query.Include(c => c.Customer);
             //query = query.Include(c => c.BillingAddress);
