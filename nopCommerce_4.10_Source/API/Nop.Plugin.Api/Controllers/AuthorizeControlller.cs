@@ -20,15 +20,15 @@ namespace Nop.Plugin.Api.Controllers
     public class AuthorizeController : BaseApiController
     {
         //#if DEBUG
-        //private readonly string _clientId = "de2c9a4c-c982-4c3b-bc0f-cb9b6a6463e9";
-        //private readonly string _clientSecret = "45a80076-62b0-455f-90e9-8bb481d4df02";
+        //private readonly string _clientId = "e32f1123-a4f8-403f-847c-def7a9e4f4cc";
+        //private readonly string _clientSecret = "c8ef6162-0a70-4cea-a0d3-55c23ebaab64";
         //private readonly string _redirectUrl = "http://localhost:15536/api/authorize";
         //private readonly string _serverUrl = "http://localhost:15536";
         //#elif !DEBUG
         private readonly string _clientId = "1d21bd69-4c79-4036-9ee0-cf7318887807";
         private readonly string _clientSecret = "56a67572-d9e5-45e4-990e-74a947297199";
-        private readonly string _redirectUrl = "http://houseofsupplements.azurewebsites.net/api/authorize";
-        private readonly string _serverUrl = "http://houseofsupplements.azurewebsites.net";
+        private readonly string _redirectUrl = "https://hosapp.azurewebsites.net/api/authorize";
+        private readonly string _serverUrl = "https://hosapp.azurewebsites.net";
         //#endif
         public AuthorizeController(
             IJsonFieldsSerializer jsonFieldsSerializer,

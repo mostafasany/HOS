@@ -1,0 +1,180 @@
+@model FoxNetSoft.Plugin.Misc.Articles.Models.Admin.ArticleModel
+@inject ICategoryService categoryService
+@inject AdminAreaSettings adminAreaSettings
+@using Nop.Core.Domain.Common
+@using Nop.Services.Catalog
+@using Microsoft.AspNetCore.Routing
+@using System.Text.Encodings.Web
+
+<div class="panel-group">
+    @if (Model.Id > 0)
+    {
+        if (Model.NumberOfAvailableCategories > 0)
+        {
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @{
+                        var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+                        var gridPageSizes = adminAreaSettings.GridPageSizes;
+                    }
+                    <div id="articlecategories-grid"></div>
+                    <script>
+                            $(document).ready(function () {
+                                $("#articlecategories-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("ArticleCategoryList", "ArticleAdmin", new RouteValueDictionary { {"articleId" , Model.Id} }))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: addAntiForgeryToken
+                                            },
+                                            create: {
+                                                url: "@Html.Raw(Url.Action("ArticleCategoryInsert", "ArticleAdmin", new RouteValueDictionary { {"articleId" , Model.Id} }))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: addAntiForgeryToken
+                                            },
+                                            update: {
+                                                url:"@Html.Raw(Url.Action("ArticleCategoryUpdate", "ArticleAdmin"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: addAntiForgeryToken
+                                            },
+                                            destroy: {
+                                                url: "@Html.Raw(Url.Action("ArticleCategoryDelete", "ArticleAdmin"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: addAntiForgeryToken
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors",
+                                            model: {
+                                                id: "Id",
+                                                fields: {
+                                                    Category: { editable: true, type: "string" },
+                                                    //ContentId: { editable: false, type: "number" },
+                                                    CategoryId: { editable: true, type: "number" },
+                                                    DisplayOrder2: { editable: true, type: "number" },
+                                                    Id: { editable: false, type: "number" }
+                                                }
+                                            }
+                                        },
+                                        requestEnd: function (e) {
+                                            if (e.type == "create" || e.type == "update") {
+                                                this.read();
+                                            }
+                                        },
+                                        error: function (e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        numeric: false,
+                                        previousNext: false,
+                                        info: false
+                                    },
+                                    toolbar: ["create"],
+                                    edit: function(e) {
+                                        if (e.model.isNew()) {
+                                            //little hack here
+                                            //pre-select the first value of kendoui dropdownlist datasource
+                                            //for some reasons (maybe, bug) it always sends 0
+                                            //if no value has been selected (changed) in the dropdownlist
+                                            if (allCategories.length > 0) {
+                                                e.model.CategoryId = allCategories[0].Id;
+                                            }
+                                        }
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+                                    columns: [{
+                                        field: "CategoryId",
+                                        title: "@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Categories.Fields.Category")",
+                                        width: 500,
+                                        editor: categoryDropDownEditor,
+                                        template: "#:Category#"
+                                    },
+                                    {
+                                        field: "DisplayOrder2",
+                                        title: "@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Categories.Fields.DisplayOrder")",
+                                        width: 100,
+                                        //integer format
+                                        format: "{0:0}"
+                                    }, {
+                                        command: [{
+                                            name: "edit",
+                                            text: "@T("Admin.Common.Edit")"
+                                        }, {
+                                            name: "destroy",
+                                            text: "@T("Admin.Common.Delete")"
+                                        }],
+                                        width: 200
+                                    }]
+                                });
+                            });
+
+                            //local datasource
+                            var allCategories = [
+                                @{
+            var allCategories = categoryService.GetAllCategories(showHidden: true);
+                }
+                                @for (int i = 0; i < allCategories.Count; i++)
+                {
+                    var category = allCategories[i];
+                    <text>
+                                        {
+                                            Id: @(category.Id),
+                                            Name: "@(Html.Raw(JavaScriptEncoder.Default.Encode(categoryService.GetFormattedBreadCrumb(category, allCategories))))"
+                                        }
+                                        </text>
+                    if (i != allCategories.Count - 1)
+                    {
+                        <text>,</text>
+                    }
+                }
+                            ];
+
+                            function categoryDropDownEditor(container, options) {
+                                $('<input required data-text-field="Name" data-value-field="Id" data-bind="value:CategoryId"/>')
+                                    .appendTo(container)
+                                    .kendoDropDownList({
+                                        autoBind: false,
+                                        dataSource: allCategories
+                                    });
+                            }
+                    </script>
+                </div>
+            </div>
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @T("Admin.FoxNetSoft.Plugin.Misc.Articles.Categories.NoCategoriesAvailable")
+            </div>
+        </div>
+        }
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @T("Admin.FoxNetSoft.Plugin.Misc.Articles.Categories.SaveBeforeEdit")
+            </div>
+        </div>
+    }
+</div>

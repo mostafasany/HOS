@@ -1,0 +1,35 @@
+@model FoxNetSoft.Plugin.Misc.Articles.Models.Admin.ArticleGroupModel
+@{
+    Layout = "_AdminLayout";
+    //page title
+    ViewBag.Title = @T("Admin.FoxNetSoft.Plugin.Misc.Articles.ArticleGroup.Edit").Text;
+
+    Html.SetActiveMenuItemSystemName("FoxNetSoft.Articles.Groups");
+}
+<form asp-controller="ArticleGroup" asp-action="Edit" method="post" id="articlegroup-form">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.FoxNetSoft.Plugin.Misc.Articles.ArticleGroup.Edit") - @Model.Name
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-action="List">@T("Admin.FoxNetSoft.Plugin.Misc.Articles.ArticleGroup.BackToList")</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+            <button type="submit" name="save-continue" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.SaveContinue")
+            </button>
+            <span id="articlegroup-delete" class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                @T("Admin.Common.Delete")
+            </span>
+        </div>
+    </div>
+    @await Html.PartialAsync(Model.PathView + "_CreateOrUpdate.cshtml", Model)
+</form>
+<nop-delete-confirmation asp-model-id="@Model.Id" asp-button-id="articlegroup-delete" />

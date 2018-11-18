@@ -1,0 +1,189 @@
+@model FoxNetSoft.Plugin.Misc.Articles.Models.Admin.ArticleModel
+@inject IArticleService articleService
+@inject AdminAreaSettings adminAreaSettings
+@using Nop.Core.Domain.Common
+@using FoxNetSoft.Plugin.Misc.Articles.Services
+@using Microsoft.AspNetCore.Routing
+@using System.Text.Encodings.Web
+<div class="panel-group">
+    @if (Model.Id > 0)
+    {
+        if (Model.NumberOfAvailableGroups > 0)
+        {
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @{
+                        var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+                        var gridPageSizes = adminAreaSettings.GridPageSizes;
+                    }
+
+                    <div id="articlegroups-grid"></div>
+                    <script>
+                            $(document).ready(function () {
+                                $("#articlegroups-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("ArticleGroupList", "ArticleAdmin", new RouteValueDictionary { {"articleId" , Model.Id} }))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: addAntiForgeryToken
+                                            },
+                                            create: {
+                                                url: "@Html.Raw(Url.Action("ArticleGroupInsert", "ArticleAdmin", new RouteValueDictionary { {"articleId" , Model.Id} }))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: addAntiForgeryToken
+                                            },
+                                            update: {
+                                                url:"@Html.Raw(Url.Action("ArticleGroupUpdate", "ArticleAdmin"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: addAntiForgeryToken
+                                            },
+                                            destroy: {
+                                                url: "@Html.Raw(Url.Action("ArticleGroupDelete", "ArticleAdmin", new RouteValueDictionary { { "area", "Admin" } }))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: addAntiForgeryToken
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors",
+                                            model: {
+                                                id: "Id",
+                                                fields: {
+                                                    Group: { editable: true, type: "string" },
+                                                    //ContentId: { editable: false, type: "number" },
+                                                    GroupId: { editable: true, type: "number" },
+                                                    Published: { editable: false, type: "boolean" },
+                                                    DisplayOrder: { editable: true, type: "number" },
+                                                    Id: { editable: false, type: "number" }
+                                                }
+                                            }
+                                        },
+                                        requestEnd: function (e) {
+                                            if (e.type == "create" || e.type == "update") {
+                                                this.read();
+                                            }
+                                        },
+                                        error: function (e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true,
+                                        numeric: false,
+                                        previousNext: false,
+                                        info: false
+                                    },
+                                    toolbar: ["create"],
+                                    edit: function(e) {
+                                        if (e.model.isNew()) {
+                                            //little hack here
+                                            //pre-select the first value of kendoui dropdownlist datasource
+                                            //for some reasons (maybe, bug) it always sends 0
+                                            //if no value has been selected (changed) in the dropdownlist
+                                            if (allGroups.length > 0) {
+                                                e.model.GroupId = allGroups[0].Id;
+                                            }
+                                        }
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+                                    columns: [{
+                                        field: "GroupId",
+                                        title: "@T("Admin.FoxNetSoft.Plugin.Misc.Articles.ArticleGroup.Fields.GroupName")",
+                                        width: 500,
+                                        editor: groupDropDownEditor,
+                                        template: "#:Group#"
+                                    },
+                                    {
+                                        field: "Published",
+                                        title: "@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Published")",
+                                        width: 100,
+                                        headerAttributes: { style: "text-align:center" },
+                                        attributes: { style: "text-align:center" },
+                                        template: '# if(Published) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                    },
+                                    {
+                                        field: "DisplayOrder",
+                                        title: "@T("Admin.FoxNetSoft.Plugin.Misc.Articles.DisplayOrder")",
+                                        width: 100,
+                                        //integer format
+                                        format: "{0:0}"
+                                    }, {
+                                        command: [{
+                                            name: "edit",
+                                            text: "@T("Admin.Common.Edit")"
+                                        }, {
+                                            name: "destroy",
+                                            text: "@T("Admin.Common.Delete")"
+                                        }],
+                                        width: 200
+                                    }]
+                                });
+                            });
+
+                            //local datasource
+                            var allGroups = [
+                                @{
+            var allGroups = articleService.GetAllArticleGroups(showHidden: true);
+                }
+                                @for (int i = 0; i < allGroups.Count; i++)
+                {
+                    var group = allGroups[i];
+                    <text>
+                                        {
+                                            Id: @(group.Id),
+                                            Name: "@(Html.Raw(JavaScriptEncoder.Default.Encode(group.GetFormattedBreadCrumb(allGroups))))"
+                                        }
+                                        </text>
+                    if (i != allGroups.Count - 1)
+                    {
+                        <text>,</text>
+                    }
+                }
+                            ];
+
+                            function groupDropDownEditor(container, options) {
+                                $('<input required data-text-field="Name" data-value-field="Id" data-bind="value:GroupId"/>')
+                                    .appendTo(container)
+                                    .kendoDropDownList({
+                                        autoBind: false,
+                                        dataSource: allGroups
+                                    });
+                            }
+                    </script>
+                </div>
+            </div>
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @T("Admin.FoxNetSoft.Plugin.Misc.Articles.Groups.NoGroupsAvailable")
+            </div>
+        </div>
+        }
+    }
+    else
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @T("Admin.FoxNetSoft.Plugin.Misc.Articles.Groups.SaveBeforeEdit")
+            </div>
+        </div>
+    }
+</div>
