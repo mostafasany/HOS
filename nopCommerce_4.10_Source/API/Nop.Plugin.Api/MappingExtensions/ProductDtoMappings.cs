@@ -15,7 +15,9 @@ namespace Nop.Plugin.Api.MappingExtensions
 
         public static ProductAttributeValueDto ToDto(this ProductAttributeValue productAttributeValue)
         {
-            return productAttributeValue.MapTo<ProductAttributeValue, ProductAttributeValueDto>();
+            var productAttributeValueDto = productAttributeValue.MapTo<ProductAttributeValue, ProductAttributeValueDto>();
+            productAttributeValueDto.PriceAdjustmentUsePercentage = productAttributeValue.PriceAdjustmentUsePercentage;
+            return productAttributeValueDto;
         }
     }
 }

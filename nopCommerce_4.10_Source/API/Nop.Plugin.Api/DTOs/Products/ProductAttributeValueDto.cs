@@ -47,6 +47,12 @@ namespace Nop.Plugin.Api.DTOs.Products
         public decimal? PriceAdjustment { get; set; }
 
         /// <summary>
+        /// Gets or sets the price adjustment (used only with AttributeValueType.Simple)
+        /// </summary>
+        [JsonProperty("price_adjustment_use_percentage")]
+        public bool PriceAdjustmentUsePercentage { get; set; }
+
+        /// <summary>
         /// Gets or sets the weight adjustment (used only with AttributeValueType.Simple)
         /// </summary>
         [JsonProperty("weight_adjustment")]

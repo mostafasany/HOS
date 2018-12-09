@@ -81,6 +81,40 @@ namespace Nop.Plugin.Api.Controllers
             return new RawJsonActionResult(json);
         }
 
+
+        /// <summary>
+        ///     Receive a list of all Articles
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/articles/{id}/recommended")]
+        [ProducesResponseType(typeof(ArticlesRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetRecommendedArticles(int id, ArticlelsParametersModel parameters)
+        {
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
+
+            if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
+
+            IEnumerable<Article> allArticles = _articleApiService.GetArticlesSimilarByTag(id,parameters.Limit, parameters.Page, parameters.SinceId);
+
+            IList<ArticlesDto> articlesAsDtos = allArticles.Select(article =>
+                _dtoHelper.PrepateArticleDto(article)).ToList();
+
+            var artcilesRootObject = new ArticlesRootObject
+            {
+                Articles = articlesAsDtos
+            };
+
+            string json = JsonFieldsSerializer.Serialize(artcilesRootObject, parameters.Fields);
+
+            return new RawJsonActionResult(json);
+        }
+
+
         /// <summary>
         ///     Receive a list of all Articles
         /// </summary>

@@ -47,6 +47,36 @@ namespace Nop.Plugin.Api.Services
             return category;
         }
 
+        public IList<Article> GetArticlesSimilarByTag(int articleId, int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId)
+        {
+            if (articleId <= 0)
+                return null;
+
+            Article art = _articleRepository.Table.FirstOrDefault(article => article.Id == articleId);
+            var tags = art?.Tags.Split(new[] { ',' });
+            IQueryable<Article> query = _articleRepository.Table;
+            //query= query.Where(a => a.Tags!=null &&  a.Tags.Split(new[] { ',' })
+            //    .Intersect(tags)
+            //    .Any());
+            query = query.Where(a => tags.Any(v => a.Tags.Contains(v)));
+            // always return products that are not deleted!!!
+            query = query.Where(c => !c.Deleted);
+            query = query.OrderByDescending(article => article.UpdatedOnUtc);
+            if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
+
+            return new ApiList<Article>(query, page - 1, limit);
+        }
+
+        public bool ContainsAll(string str, params string[] values)
+        {
+            return
+                !string.IsNullOrEmpty(str) &&
+                values != null &&
+                values
+                    .Where(x => !string.IsNullOrEmpty(x))
+                    .All(v => str.Contains(v));
+        }
+
         public int GetArticlesCount(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, bool? publishedStatus = null,
             int? categoryId = null, int? groupId = null)
@@ -97,7 +127,7 @@ namespace Nop.Plugin.Api.Services
                         select product;
             }
 
-            if (categoryId != null)
+            if (categoryId != null && categoryId>0)
             {
                 var categoryMappingsForArticles = from productCategoryMapping in _articleCategoryRepository.Table
                     where productCategoryMapping.CategoryId == categoryId

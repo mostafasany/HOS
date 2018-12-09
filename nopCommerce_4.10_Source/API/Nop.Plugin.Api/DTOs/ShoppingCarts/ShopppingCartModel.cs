@@ -124,6 +124,10 @@ namespace Nop.Plugin.Api.DTOs.ShoppingCarts
 
             public string VendorName { get; set; }
 
+            public decimal OriginalPrice { get; set; }
+
+            public bool HasDiscount =>UnitPriceNumber< OriginalPrice;
+
             public PictureModel Picture { get; set; }
 
             public ProductDto Product { get; set; }
@@ -134,6 +138,7 @@ namespace Nop.Plugin.Api.DTOs.ShoppingCarts
             public string ProductSeName { get; set; }
 
             public string UnitPrice { get; set; }
+            public decimal UnitPriceNumber { get; set; }
 
             public string SubTotal { get; set; }
 

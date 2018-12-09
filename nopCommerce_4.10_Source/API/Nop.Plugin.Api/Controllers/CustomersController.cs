@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Nop.Core;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Infrastructure;
 using Nop.Plugin.Api.Attributes;
@@ -16,14 +17,17 @@ using Nop.Plugin.Api.MappingExtensions;
 using Nop.Plugin.Api.ModelBinders;
 using Nop.Plugin.Api.Models.CustomersParameters;
 using Nop.Plugin.Api.Services;
+using Nop.Services.Authentication;
 using Nop.Services.Common;
 using Nop.Services.Customers;
 using Nop.Services.Directory;
 using Nop.Services.Discounts;
+using Nop.Services.Events;
 using Nop.Services.Localization;
 using Nop.Services.Logging;
 using Nop.Services.Media;
 using Nop.Services.Messages;
+using Nop.Services.Orders;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
@@ -46,29 +50,22 @@ namespace Nop.Plugin.Api.Controllers
         private readonly INewsLetterSubscriptionService _newsLetterSubscriptionService;
         private readonly ILanguageService _languageService;
         private readonly IFactory<Customer> _factory;
-
-        // We resolve the customer settings this way because of the tests.
-        // The auto mocking does not support concreate types as dependencies. It supports only interfaces.
-        private CustomerSettings _customerSettings;
-
-        private CustomerSettings CustomerSettings
-        {
-            get
-            {
-                if (_customerSettings == null)
-                {
-                    _customerSettings = EngineContext.Current.Resolve<CustomerSettings>();
-                }
-
-                return _customerSettings;
-            }
-        }
+        private readonly ICustomerRegistrationService _customerRegistrationService;
+        private readonly IShoppingCartService _shoppingCartService;
+        private readonly IAuthenticationService _authenticationService;
+        private readonly ICustomerActivityService _customerActivityService;
+        private readonly IWorkContext _workContext;
+        private readonly ICustomerService _customerService;
+        private readonly IEventPublisher _eventPublisher;
+        private readonly ILocalizationService _localizationService;
+        private readonly CustomerSettings _customerSettings;
 
         public CustomersController(
             ICustomerApiService customerApiService, 
             IJsonFieldsSerializer jsonFieldsSerializer,
             IAclService aclService,
             ICustomerService customerService,
+            CustomerSettings customerSettings,
             IStoreMappingService storeMappingService,
             IStoreService storeService,
             IDiscountService discountService,
@@ -81,7 +78,13 @@ namespace Nop.Plugin.Api.Controllers
             ICountryService countryService, 
             IMappingHelper mappingHelper, 
             INewsLetterSubscriptionService newsLetterSubscriptionService,
-            IPictureService pictureService, ILanguageService languageService) : 
+            IPictureService pictureService, ILanguageService languageService,
+            ICustomerRegistrationService customerRegistrationService,
+            IShoppingCartService shoppingCartService,
+            IAuthenticationService authenticationService,
+            IWorkContext workContext,
+            IEventPublisher eventPublisher
+            ) : 
             base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService,pictureService)
         {
             _customerApiService = customerApiService;
@@ -93,6 +96,15 @@ namespace Nop.Plugin.Api.Controllers
             _encryptionService = encryptionService;
             _genericAttributeService = genericAttributeService;
             _customerRolesHelper = customerRolesHelper;
+            _customerActivityService = customerActivityService;
+            _customerRegistrationService = customerRegistrationService;
+            _shoppingCartService = shoppingCartService;
+            _authenticationService = authenticationService;
+            _workContext = workContext;
+            _customerService = customerService;
+            _localizationService = localizationService;
+            _eventPublisher = eventPublisher;
+            _customerSettings = customerSettings;
         }
 
         /// <summary>
@@ -190,6 +202,79 @@ namespace Nop.Plugin.Api.Controllers
 
             return Ok(customersCountRootObject);
         }
+
+
+        /// <summary>
+        /// Get a count of all customers
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpPost]
+        [Route("/api/customers/login")]
+        [ProducesResponseType(typeof(CustomersCountRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        public IActionResult Login(string username,string password)
+        {
+            var loginResult = _customerRegistrationService.ValidateCustomer(username, password);
+            switch (loginResult)
+            {
+                case CustomerLoginResults.Successful:
+                    {
+                        var customer = _customerSettings.UsernamesEnabled
+                            ? _customerService.GetCustomerByUsername(username)
+                            : _customerService.GetCustomerByEmail(username);
+
+                        var customerDto = _customerApiService.GetCustomerById(customer.Id);
+
+                        //migrate shopping cart
+                        _shoppingCartService.MigrateShoppingCart(_workContext.CurrentCustomer, customer, true);
+
+                        //sign in new customer
+                        _authenticationService.SignIn(customer, true);
+
+                        //raise event       
+                        _eventPublisher.Publish(new CustomerLoggedinEvent(customer));
+
+                        //activity log
+                        _customerActivityService.InsertActivity(customer, "PublicStore.Login",
+                            _localizationService.GetResource("ActivityLog.PublicStore.Login"), customer);
+
+                        var customersRootObject = new CustomersRootObject();
+                        customersRootObject.Customers.Add(customerDto);
+
+                        var json = JsonFieldsSerializer.Serialize(customersRootObject, "");
+
+                        return new RawJsonActionResult(json);
+                        //if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
+                        //    return RedirectToRoute("HomePage");
+                       // return Ok(customer);
+                        //return Redirect(returnUrl);
+                    }
+                case CustomerLoginResults.CustomerNotExist:
+                    ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials.CustomerNotExist"));
+                    break;
+                case CustomerLoginResults.Deleted:
+                    ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials.Deleted"));
+                    break;
+                case CustomerLoginResults.NotActive:
+                    ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials.NotActive"));
+                    break;
+                case CustomerLoginResults.NotRegistered:
+                    ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials.NotRegistered"));
+                    break;
+                case CustomerLoginResults.LockedOut:
+                    ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials.LockedOut"));
+                    break;
+                case CustomerLoginResults.WrongPassword:
+                default:
+                    ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials"));
+                    break;
+            }
+
+            return null;
+        }
+
 
         /// <summary>
         /// Search for customers matching supplied query
@@ -524,11 +609,11 @@ namespace Nop.Plugin.Api.Controllers
             var customerPassword = new CustomerPassword
             {
                 Customer = customer,
-                PasswordFormat = CustomerSettings.DefaultPasswordFormat,
+                PasswordFormat = _customerSettings.DefaultPasswordFormat,
                 CreatedOnUtc = DateTime.UtcNow
             };
 
-            switch (CustomerSettings.DefaultPasswordFormat)
+            switch (_customerSettings.DefaultPasswordFormat)
             {
                 case PasswordFormat.Clear:
                     {
@@ -544,7 +629,7 @@ namespace Nop.Plugin.Api.Controllers
                     {
                         var saltKey = _encryptionService.CreateSaltKey(5);
                         customerPassword.PasswordSalt = saltKey;
-                        customerPassword.Password = _encryptionService.CreatePasswordHash(newPassword, saltKey, CustomerSettings.HashedPasswordFormat);
+                        customerPassword.Password = _encryptionService.CreatePasswordHash(newPassword, saltKey, _customerSettings.HashedPasswordFormat);
                     }
                     break;
             }

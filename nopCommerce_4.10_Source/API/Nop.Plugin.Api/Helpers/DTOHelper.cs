@@ -441,6 +441,7 @@ namespace Nop.Plugin.Api.Helpers
             if (productAttributeValue != null)
             {
                 productAttributeValueDto = productAttributeValue.ToDto();
+ 
                 productAttributeValueDto.Name = _localizationService.GetLocalized(productAttributeValue, x => x.Name, _currentLangaugeId);
                 if (productAttributeValue.ImageSquaresPictureId > 0)
                 {
@@ -472,6 +473,7 @@ namespace Nop.Plugin.Api.Helpers
         {
             if (productDto.Images == null) productDto.Images = new List<ImageMappingDto>();
 
+            productPictures = productPictures.OrderBy(a => a.DisplayOrder);
             // Here we prepare the resulted dto image.
             foreach (ProductPicture productPicture in productPictures)
             {

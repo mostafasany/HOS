@@ -224,7 +224,7 @@ namespace Nop.Plugin.Api.Controllers
                                                                                                          limit: parameters.Limit,
                                                                                                          page: parameters.Page);
 
-
+            shoppingCartItems = shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart).ToList();
             ShoppingCartModel model = new ShoppingCartModel();
                 _shoppingCartItemApiService.PrepareShoppingCartModel(model, shoppingCartItems);
             model.SubTotal = model.Items.Sum(a => a.SubTotalNumber);

@@ -16,6 +16,7 @@ using Nop.Core.Domain.Vendors;
 using Nop.Core.Http.Extensions;
 using Nop.Plugin.Api.Constants;
 using Nop.Plugin.Api.DataStructures;
+using Nop.Plugin.Api.DTOs.Products;
 using Nop.Plugin.Api.DTOs.ShoppingCarts;
 using Nop.Plugin.Api.Helpers;
 using Nop.Services.Catalog;
@@ -53,6 +54,7 @@ namespace Nop.Plugin.Api.Services
         private readonly IProductService _productService;
         private readonly ShippingSettings _shippingSettings;
         private readonly IRepository<ShoppingCartItem> _shoppingCartItemsRepository;
+        private readonly IProductAttributeConverter _productAttributeConverter;
         private readonly IShoppingCartService _shoppingCartService;
         private readonly ShoppingCartSettings _shoppingCartSettings;
         private readonly IStateProvinceService _stateProvinceService;
@@ -90,7 +92,8 @@ namespace Nop.Plugin.Api.Services
             ShippingSettings shippingSettings,
             ShoppingCartSettings shoppingCartSettings,
             VendorSettings vendorSettings,
-            IDTOHelper dtoHelper)
+            IDTOHelper dtoHelper,
+            IProductAttributeConverter productAttributeConverter)
         {
             _dtoHelper = dtoHelper;
             _shoppingCartItemsRepository = shoppingCartItemsRepository;
@@ -122,6 +125,7 @@ namespace Nop.Plugin.Api.Services
             _shippingSettings = shippingSettings;
             _shoppingCartSettings = shoppingCartSettings;
             _vendorSettings = vendorSettings;
+            _productAttributeConverter = productAttributeConverter;
         }
 
         public List<ShoppingCartItem> GetShoppingCartItems(int? customerId = null, DateTime? createdAtMin = null, DateTime? createdAtMax = null,
@@ -251,7 +255,6 @@ namespace Nop.Plugin.Api.Services
 
             if (sci == null)
                 throw new ArgumentNullException(nameof(sci));
-
             var cartItemModel = new ShoppingCartModel.ShoppingCartItemModel
             {
                 Id = sci.Id,
@@ -264,6 +267,34 @@ namespace Nop.Plugin.Api.Services
                 Quantity = sci.Quantity,
                 AttributeInfo = _productAttributeFormatter.FormatAttributes(sci.Product, sci.AttributesXml)
             };
+            var productAttributes = _productAttributeConverter.Parse(sci.AttributesXml);
+            decimal originalPrice =0;
+            if (cartItemModel.Product.Price.HasValue)
+            {
+                originalPrice = cartItemModel.Product.Price.Value;
+                if (productAttributes != null && productAttributes.Any())
+                {
+                    var firstAttribute = productAttributes.FirstOrDefault();
+                    ProductAttributeMappingDto productAttributeMappingDto = cartItemModel.Product.ProductAttributeMappings.FirstOrDefault(a => firstAttribute != null && a.Id == firstAttribute.Id);
+                    ProductAttributeValueDto productAttributeValueDto = productAttributeMappingDto?.ProductAttributeValues.FirstOrDefault(a => firstAttribute != null && a.Id == int.Parse(firstAttribute.Value));
+                    if (productAttributeValueDto?.PriceAdjustment != null)
+                    {
+                        var adjustedAmount = productAttributeValueDto.PriceAdjustment.Value;
+                        if (!productAttributeValueDto.PriceAdjustmentUsePercentage)
+                        {
+                            originalPrice += adjustedAmount;
+                        }
+                        else
+                        {
+                            var adjustedDiscountAmount = (originalPrice * adjustedAmount) / 100;
+                            originalPrice += adjustedDiscountAmount;
+                        }
+                    }
+                }
+            }
+
+            cartItemModel.OriginalPrice= originalPrice;
+
 
             //allow editing?
             //1. setting enabled?
@@ -315,12 +346,14 @@ namespace Nop.Plugin.Api.Services
                 (!_orderSettings.AllowAdminsToBuyCallForPriceProducts || _workContext.OriginalCustomerIfImpersonated == null))
             {
                 cartItemModel.UnitPrice = _localizationService.GetResource("Products.CallForPrice");
+                cartItemModel.UnitPriceNumber = _taxService.GetProductPrice(sci.Product, _priceCalculationService.GetUnitPrice(sci), out decimal _);
             }
             else
             {
                 decimal shoppingCartUnitPriceWithDiscountBase = _taxService.GetProductPrice(sci.Product, _priceCalculationService.GetUnitPrice(sci), out decimal _);
                 decimal shoppingCartUnitPriceWithDiscount = _currencyService.ConvertFromPrimaryStoreCurrency(shoppingCartUnitPriceWithDiscountBase, _workContext.WorkingCurrency);
                 cartItemModel.UnitPrice = _priceFormatter.FormatPrice(shoppingCartUnitPriceWithDiscount);
+                cartItemModel.UnitPriceNumber = shoppingCartUnitPriceWithDiscount;
             }
 
             //subtotal, discount
