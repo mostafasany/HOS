@@ -51,11 +51,11 @@ namespace Nop.Plugin.Api.Controllers
         public IActionResult GetCarsoul()
         {
             var carsoul = new CarsoulRootObject();
-            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner2.jpg", Url = ""});
-            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner3.jpg", Url = ""});
-            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner2.jpg", Url = ""});
-            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner2.jpg", Url = ""});
-            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner1.jpg", Url = ""});
+            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner2.jpg", Topic = 17});
+            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner3.jpg", Topic = 18});
+            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner2.jpg", Topic = 19});
+            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner2.jpg", Topic = 20});
+            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner1.jpg", Topic = 21});
             string json = JsonFieldsSerializer.Serialize(carsoul, string.Empty);
             return new RawJsonActionResult(json);
         }

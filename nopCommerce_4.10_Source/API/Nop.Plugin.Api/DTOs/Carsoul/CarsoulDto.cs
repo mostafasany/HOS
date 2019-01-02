@@ -8,8 +8,8 @@ namespace Nop.Plugin.Api.DTOs.Carsoul
         [JsonProperty("image")]
         public string Image { get; set; }
 
-        [JsonProperty("url")]
-        public string Url { get; set; }
+        [JsonProperty("topicId")]
+        public int Topic { get; set; }
     }
    
 }

@@ -58,7 +58,7 @@ namespace Nop.Plugin.Api.Services
             //query= query.Where(a => a.Tags!=null &&  a.Tags.Split(new[] { ',' })
             //    .Intersect(tags)
             //    .Any());
-            query = query.Where(a => tags.Any(v => a.Tags.Contains(v)));
+            query = query.Where(a =>a.Id!=art.Id && tags.Any(v => a.Tags.Contains(v)));
             // always return products that are not deleted!!!
             query = query.Where(c => !c.Deleted);
             query = query.OrderByDescending(article => article.UpdatedOnUtc);

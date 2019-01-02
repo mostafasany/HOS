@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Constants;
+using Nop.Plugin.Api.DTOs.Products;
 
 namespace Nop.Plugin.Api.Services
 {
     public interface IProductApiService
     {
-        IList<Product> GetProducts(IList<int> ids = null,
+        Tuple<IList<Product>, List<ProductsFiltersDto>> GetProducts(IList<int> ids = null,
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId, 
            int? categoryId = null, string categorySlug = null, string vendorName = null, string manufacturerName=null, string keyword=null, bool? publishedStatus = null);

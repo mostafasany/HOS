@@ -189,7 +189,7 @@ namespace Nop.Plugin.Api.Services
 
         private List<ProductDto> GetProducts(CategoryDto category, int limit = 5)
         {
-            IEnumerable<ProductDto> products = _productApiService.GetProducts(categoryId: category.Id, limit: limit).Select(product => new ProductDto
+            IEnumerable<ProductDto> products = _productApiService.GetProducts(categoryId: category.Id, limit: limit).Item1.Select(product => new ProductDto
             {
                 ShortDescription = _localizationService.GetLocalized(product, x => x.ShortDescription, _currentLangaugeId),
                 Name = _localizationService.GetLocalized(product, x => x.Name, _currentLangaugeId),

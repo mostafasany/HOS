@@ -138,6 +138,57 @@ namespace Nop.Plugin.Api.Controllers
         /// <response code="400">Bad Request</response>
         /// <response code="401">Unauthorized</response>
         [HttpGet]
+        [Route("/api/shopping_cart_items/{customerId}/wishlist")]
+        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetWishlistItems(int customerId, ShoppingCartItemsParametersModel parameters)
+        {
+
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+            {
+                return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
+            }
+
+            if (parameters.Page < Configurations.DefaultPageValue)
+            {
+                return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
+            }
+
+            IList<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems(customerId,
+                                                                                                         createdAtMin: parameters.CreatedAtMin,
+                                                                                                         createdAtMax: parameters.CreatedAtMax,
+                                                                                                         updatedAtMin: parameters.UpdatedAtMin,
+                                                                                                         updatedAtMax: parameters.UpdatedAtMax,
+                                                                                                         limit: parameters.Limit,
+                                                                                                         page: parameters.Page);
+
+            shoppingCartItems = shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.Wishlist).ToList();
+
+            var shoppingCartItemsDtos = shoppingCartItems.Select(shoppingCartItem =>
+            {
+                return _dtoHelper.PrepareShoppingCartItemDTO(shoppingCartItem);
+            }).ToList();
+
+            var shoppingCartsRootObject = new ShoppingCartItemsRootObject()
+            {
+                ShoppingCartItems = shoppingCartItemsDtos
+            };
+
+            var json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
+
+            return new RawJsonActionResult(json);
+        }
+
+      
+        /// <summary>
+        /// Receive a list of all shopping cart items
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
         [Route("/api/shopping_cart_items/shipping/estimation")]
         [ProducesResponseType(typeof(ShippingOptionRootObject), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
@@ -199,12 +250,12 @@ namespace Nop.Plugin.Api.Controllers
         /// <response code="400">Bad Request</response>
         /// <response code="401">Unauthorized</response>
         [HttpGet]
-        [Route("/api/shopping_cart_items/cart")]
+        [Route("/api/shopping_cart_items/{customerId}/cart")]
         [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
-        public IActionResult GetOnlyShoppingCartItems(ShoppingCartItemsParametersModel parameters)
+        public IActionResult GetOnlyShoppingCartItems(int customerId,ShoppingCartItemsParametersModel parameters)
         {
             if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
             {
@@ -216,7 +267,7 @@ namespace Nop.Plugin.Api.Controllers
                 return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
             }
 
-            IList<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems(customerId: null,
+            IList<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems(customerId,
                                                                                                          createdAtMin: parameters.CreatedAtMin,
                                                                                                          createdAtMax: parameters.CreatedAtMax,
                                                                                                          updatedAtMin: parameters.UpdatedAtMin,

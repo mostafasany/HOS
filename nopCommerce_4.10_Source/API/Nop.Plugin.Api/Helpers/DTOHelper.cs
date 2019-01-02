@@ -12,6 +12,7 @@ using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Shipping;
 using Nop.Core.Domain.Stores;
 using Nop.Core.Domain.Topics;
+using Nop.Plugin.Api.DataStructures;
 using Nop.Plugin.Api.DTOs.Articles;
 using Nop.Plugin.Api.DTOs.Categories;
 using Nop.Plugin.Api.DTOs.Countries;
@@ -112,6 +113,7 @@ namespace Nop.Plugin.Api.Helpers
 
             PrepareProductImages(product.ProductPictures, productDto);
             PrepareProductAttributes(product.ProductAttributeMappings, productDto);
+            PrepareProductAttributesCombination(product.ProductAttributeCombinations, productDto);
             PrepareProductSpecificationAttributes(product.ProductSpecificationAttributes, productDto);
 
             productDto.SeName = _urlRecordService.GetSeName(product);
@@ -419,6 +421,48 @@ namespace Nop.Plugin.Api.Helpers
             return productAttributeMappingDto;
         }
 
+        private ProductAttributeCombinationDto PrepareProductAttributeCombinationDto(
+            ProductAttributeCombination productAttributeMapping)
+        {
+            ProductAttributeCombinationDto productAttributeMappingDto = null;
+
+            if (productAttributeMapping != null)
+                productAttributeMappingDto = new ProductAttributeCombinationDto
+                {
+                  PictureId = productAttributeMapping.PictureId,
+                    AllowOutOfStockOrders = productAttributeMapping.AllowOutOfStockOrders,
+                    ProductId = productAttributeMapping.ProductId,
+                    AttributesXml = productAttributeMapping.AttributesXml,
+                    Gtin = productAttributeMapping.Gtin,
+                    ManufacturerPartNumber = productAttributeMapping.ManufacturerPartNumber,
+                    NotifyAdminForQuantityBelow = productAttributeMapping.NotifyAdminForQuantityBelow,
+                    OverriddenPrice = productAttributeMapping.OverriddenPrice,
+                    Sku = productAttributeMapping.Sku,
+                    StockQuantity = productAttributeMapping.StockQuantity,
+                };
+
+            return productAttributeMappingDto;
+        }
+
+
+        private void PrepareProductAttributesCombination(IEnumerable<ProductAttributeCombination> productAttributeCombinations,
+            ProductDto productDto)
+        {
+           productDto.ProductAttributesCombinations = new List<ProductAttributeCombinationDto>();
+
+            foreach (ProductAttributeCombination productAttributeCombination in productAttributeCombinations)
+            {
+                ProductAttributeCombinationDto productAttributeComnatbionDto =
+                    PrepareProductAttributeCombinationDto(productAttributeCombination);
+                var attributes = _productAttributeConverter.Parse(productAttributeComnatbionDto.AttributesXml);
+                var attributeValue = attributes.FirstOrDefault(a => a.Id == 26);
+                if (attributeValue != null)
+                {
+                    productAttributeComnatbionDto.ProductAttributId = int.Parse(attributeValue.Value);
+                }
+                if (productAttributeComnatbionDto != null) productDto.ProductAttributesCombinations.Add(productAttributeComnatbionDto);
+            }
+        }
         private void PrepareProductAttributes(IEnumerable<ProductAttributeMapping> productAttributeMappings,
             ProductDto productDto)
         {

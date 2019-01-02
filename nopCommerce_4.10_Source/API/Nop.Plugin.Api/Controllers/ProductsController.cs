@@ -96,16 +96,17 @@ namespace Nop.Plugin.Api.Controllers
                 return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
             }
 
-            var allProducts = _productApiService.GetProducts(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
-                                                                        parameters.UpdatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId, parameters.CategoryId,parameters.CategorySlug,
-                                                                        parameters.VendorName,parameters.ManufacturerName, parameters.Keyword, parameters.PublishedStatus)
-                                                .Where(p => StoreMappingService.Authorize(p));
+            var tuple = _productApiService.GetProducts(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
+                parameters.UpdatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId, parameters.CategoryId, parameters.CategorySlug,
+                parameters.VendorName, parameters.ManufacturerName, parameters.Keyword, parameters.PublishedStatus);
+            var allProducts = tuple.Item1.Where(p => StoreMappingService.Authorize(p));
             
             IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
 
-            var productsRootObject = new ProductsRootObjectDto()
+            var productsRootObject = new ProductsRootObjectDto
             {
-                Products = productsAsDtos
+                Products = productsAsDtos,
+                Filters = tuple.Item2,
             };
 
             var json = JsonFieldsSerializer.Serialize(productsRootObject, parameters.Fields);

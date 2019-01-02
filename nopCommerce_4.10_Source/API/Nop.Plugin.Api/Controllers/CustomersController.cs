@@ -59,6 +59,7 @@ namespace Nop.Plugin.Api.Controllers
         private readonly IEventPublisher _eventPublisher;
         private readonly ILocalizationService _localizationService;
         private readonly CustomerSettings _customerSettings;
+        private readonly IWorkflowMessageService _workflowMessageService;
 
         public CustomersController(
             ICustomerApiService customerApiService, 
@@ -83,7 +84,8 @@ namespace Nop.Plugin.Api.Controllers
             IShoppingCartService shoppingCartService,
             IAuthenticationService authenticationService,
             IWorkContext workContext,
-            IEventPublisher eventPublisher
+            IEventPublisher eventPublisher,
+            IWorkflowMessageService workflowMessageService
             ) : 
             base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService,pictureService)
         {
@@ -105,6 +107,7 @@ namespace Nop.Plugin.Api.Controllers
             _localizationService = localizationService;
             _eventPublisher = eventPublisher;
             _customerSettings = customerSettings;
+            _workflowMessageService = workflowMessageService;
         }
 
         /// <summary>
@@ -214,16 +217,16 @@ namespace Nop.Plugin.Api.Controllers
         [ProducesResponseType(typeof(CustomersCountRootObject), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
-        public IActionResult Login(string username,string password)
+        public IActionResult Login([ModelBinder(typeof(JsonModelBinder<LoginDto>))] Delta<LoginDto> loginDelta)
         {
-            var loginResult = _customerRegistrationService.ValidateCustomer(username, password);
+            var loginResult = _customerRegistrationService.ValidateCustomer(loginDelta.Dto.UserNameOrEmail, loginDelta.Dto.Password);
             switch (loginResult)
             {
                 case CustomerLoginResults.Successful:
                     {
                         var customer = _customerSettings.UsernamesEnabled
-                            ? _customerService.GetCustomerByUsername(username)
-                            : _customerService.GetCustomerByEmail(username);
+                            ? _customerService.GetCustomerByUsername(loginDelta.Dto.UserNameOrEmail)
+                            : _customerService.GetCustomerByEmail(loginDelta.Dto.UserNameOrEmail);
 
                         var customerDto = _customerApiService.GetCustomerById(customer.Id);
 
@@ -275,6 +278,119 @@ namespace Nop.Plugin.Api.Controllers
             return null;
         }
 
+
+        /// <summary>
+        /// Get a count of all customers
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpPost]
+        [Route("/api/customers/forget")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        public IActionResult Forget([ModelBinder(typeof(JsonModelBinder<ForgetDto>))] Delta<ForgetDto> forgetDelta)
+        {
+            var customer = _customerService.GetCustomerByEmail(forgetDelta.Dto.Email);
+            if (customer != null && customer.Active && !customer.Deleted)
+            {
+                //save token and current date
+                var passwordRecoveryToken = Guid.NewGuid();
+                _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.PasswordRecoveryTokenAttribute,
+                    passwordRecoveryToken.ToString());
+                DateTime? generatedDateTime = DateTime.UtcNow;
+                _genericAttributeService.SaveAttribute(customer,
+                    NopCustomerDefaults.PasswordRecoveryTokenDateGeneratedAttribute, generatedDateTime);
+
+                //send email
+                _workflowMessageService.SendCustomerPasswordRecoveryMessage(customer,
+                    _workContext.WorkingLanguage.Id);
+
+                //return new RawJsonActionResult(_localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent"));
+                return Ok(_localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent"));
+            }
+            else
+            {
+                return  BadRequest(_localizationService.GetResource("Account.PasswordRecovery.EmailNotFound"));
+            }
+        }
+
+
+        /// <summary>
+        /// Get a count of all customers
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpPost]
+        [Route("/api/customers/changepassword")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        public IActionResult ChangePassword([ModelBinder(typeof(JsonModelBinder<ChangePasswordDto>))] Delta<ChangePasswordDto> changeDelta)
+        {
+            //if (!_workContext.CurrentCustomer.IsRegistered())
+            //    return Challenge();
+
+            //var customer = _workContext.CurrentCustomer;
+            ChangePasswordResult result = null;
+            if (ModelState.IsValid)
+            {
+                var changePasswordRequest = new ChangePasswordRequest(changeDelta.Dto.Email,
+                    true, _customerSettings.DefaultPasswordFormat, changeDelta.Dto.NewPassword, changeDelta.Dto.OldPassword);
+                result = _customerRegistrationService.ChangePassword(changePasswordRequest);
+                if (result.Success)
+                {
+                    return Ok(_localizationService.GetResource("Account.ChangePassword.Success"));
+                }
+
+                //errors
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("", error);
+            }
+
+            return BadRequest(result.Errors);
+        }
+
+        /// <summary>
+        /// Get a count of all customers
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpPost]
+        [Route("/api/customers/logout")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        public IActionResult Logout()
+        {
+            if (_workContext.OriginalCustomerIfImpersonated != null)
+            {
+                //activity log
+                _customerActivityService.InsertActivity(_workContext.OriginalCustomerIfImpersonated, "Impersonation.Finished",
+                    string.Format(_localizationService.GetResource("ActivityLog.Impersonation.Finished.StoreOwner"),
+                        _workContext.CurrentCustomer.Email, _workContext.CurrentCustomer.Id),
+                    _workContext.CurrentCustomer);
+
+                _customerActivityService.InsertActivity("Impersonation.Finished",
+                    string.Format(_localizationService.GetResource("ActivityLog.Impersonation.Finished.Customer"),
+                        _workContext.OriginalCustomerIfImpersonated.Email, _workContext.OriginalCustomerIfImpersonated.Id),
+                    _workContext.OriginalCustomerIfImpersonated);
+
+                //logout impersonated customer
+                _genericAttributeService
+                    .SaveAttribute<int?>(_workContext.OriginalCustomerIfImpersonated, NopCustomerDefaults.ImpersonatedCustomerIdAttribute, null);
+
+            }
+
+            //activity log
+            _customerActivityService.InsertActivity(_workContext.CurrentCustomer, "PublicStore.Logout",
+                _localizationService.GetResource("ActivityLog.PublicStore.Logout"), _workContext.CurrentCustomer);
+
+            //standard logout 
+            _authenticationService.SignOut();
+
+            //raise logged out event       
+            _eventPublisher.Publish(new CustomerLoggedOutEvent(_workContext.CurrentCustomer));
+
+            return Ok();
+        }
 
         /// <summary>
         /// Search for customers matching supplied query

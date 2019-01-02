@@ -19,14 +19,19 @@ namespace Nop.Plugin.Api.Services
             _orderRepository = orderRepository;
         }
 
-        public IList<Order> GetOrdersByCustomerId(int customerId)
+        public IList<Order> GetOrdersByCustomerId(IList<int> ids = null, DateTime? createdAtMin = null, DateTime? createdAtMax = null,
+            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
+            OrderStatus? status = null, PaymentStatus? paymentStatus = null, ShippingStatus? shippingStatus = null, int? customerId = null,
+            int? storeId = null)
         {
-            var query = from order in _orderRepository.Table
-                        where order.CustomerId == customerId && !order.Deleted
-                        orderby order.Id
-                        select order;
+            var query = GetOrdersQuery(createdAtMin, createdAtMax, status, paymentStatus, shippingStatus, ids, customerId, storeId);
 
-            return new ApiList<Order>(query, 0, Configurations.MaxLimit);
+            if (sinceId > 0)
+            {
+                query = query.Where(order => order.Id > sinceId);
+            }
+
+            return new ApiList<Order>(query, page - 1, limit);
         }
 
         public IList<Order> GetOrders(IList<int> ids = null, DateTime? createdAtMin = null, DateTime? createdAtMax = null,

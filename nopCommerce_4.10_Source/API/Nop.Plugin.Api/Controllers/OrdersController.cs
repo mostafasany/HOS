@@ -212,20 +212,27 @@ namespace Nop.Plugin.Api.Controllers
         /// Retrieve all orders for customer
         /// </summary>
         /// <param name="customerId">Id of the customer whoes orders you want to get</param>
+        ///  <param name="parameters">Id of the customer whoes orders you want to get</param>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
+        /// 
         [HttpGet]
-        [Route("/api/orders/customer/{customer_id}")]
+        [Route("/api/orders/customer/{customerId}")]
         [ProducesResponseType(typeof(OrdersRootObject), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
-        public IActionResult GetOrdersByCustomerId(int customerId)
+        public IActionResult GetOrdersByCustomerId(int customerId, OrdersParametersModel parameters)
         {
-            IList<OrderDto> ordersForCustomer = _orderApiService.GetOrdersByCustomerId(customerId).Select(x => _dtoHelper.PrepareOrderDTO(x)).ToList();
+           var ordersForCustomer = _orderApiService.GetOrdersByCustomerId(parameters.Ids, parameters.CreatedAtMin,
+               parameters.CreatedAtMax,
+               parameters.Limit, parameters.Page, parameters.SinceId,
+               parameters.Status, parameters.PaymentStatus, parameters.ShippingStatus,
+               customerId, null);
+            IList<OrderDto> ordersAsDtos = ordersForCustomer.Select(x => _dtoHelper.PrepareOrderDTO(x)).ToList();
 
             var ordersRootObject = new OrdersRootObject()
             {
-                Orders = ordersForCustomer
+                Orders = ordersAsDtos
             };
 
             return Ok(ordersRootObject);
