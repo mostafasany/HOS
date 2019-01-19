@@ -14,37 +14,28 @@ namespace Nop.Plugin.Api.Services
     {
         private readonly IRepository<Order> _orderRepository;
 
-        public OrderApiService(IRepository<Order> orderRepository)
-        {
-            _orderRepository = orderRepository;
-        }
+        public OrderApiService(IRepository<Order> orderRepository) => _orderRepository = orderRepository;
 
         public IList<Order> GetOrdersByCustomerId(IList<int> ids = null, DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
             OrderStatus? status = null, PaymentStatus? paymentStatus = null, ShippingStatus? shippingStatus = null, int? customerId = null,
             int? storeId = null)
         {
-            var query = GetOrdersQuery(createdAtMin, createdAtMax, status, paymentStatus, shippingStatus, ids, customerId, storeId);
+            IQueryable<Order> query = GetOrdersQuery(createdAtMin, createdAtMax, status, paymentStatus, shippingStatus, ids, customerId, storeId);
 
-            if (sinceId > 0)
-            {
-                query = query.Where(order => order.Id > sinceId);
-            }
+            if (sinceId > 0) query = query.Where(order => order.Id > sinceId);
 
             return new ApiList<Order>(query, page - 1, limit);
         }
 
         public IList<Order> GetOrders(IList<int> ids = null, DateTime? createdAtMin = null, DateTime? createdAtMax = null,
-           int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId, 
-           OrderStatus? status = null, PaymentStatus? paymentStatus = null, ShippingStatus? shippingStatus = null, int? customerId = null, 
-           int? storeId = null)
+            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
+            OrderStatus? status = null, PaymentStatus? paymentStatus = null, ShippingStatus? shippingStatus = null, int? customerId = null,
+            int? storeId = null)
         {
-            var query = GetOrdersQuery(createdAtMin, createdAtMax, status, paymentStatus, shippingStatus, ids, customerId, storeId);
+            IQueryable<Order> query = GetOrdersQuery(createdAtMin, createdAtMax, status, paymentStatus, shippingStatus, ids, customerId, storeId);
 
-            if (sinceId > 0)
-            {
-                query = query.Where(order => order.Id > sinceId);
-            }
+            if (sinceId > 0) query = query.Where(order => order.Id > sinceId);
 
             return new ApiList<Order>(query, page - 1, limit);
         }
@@ -58,61 +49,37 @@ namespace Nop.Plugin.Api.Services
         }
 
         public int GetOrdersCount(DateTime? createdAtMin = null, DateTime? createdAtMax = null, OrderStatus? status = null,
-                                 PaymentStatus? paymentStatus = null, ShippingStatus? shippingStatus = null,
-                                 int? customerId = null, int? storeId = null)
+            PaymentStatus? paymentStatus = null, ShippingStatus? shippingStatus = null,
+            int? customerId = null, int? storeId = null)
         {
-            var query = GetOrdersQuery(createdAtMin, createdAtMax, status, paymentStatus, shippingStatus, customerId: customerId, storeId: storeId);
+            IQueryable<Order> query = GetOrdersQuery(createdAtMin, createdAtMax, status, paymentStatus, shippingStatus, customerId: customerId, storeId: storeId);
 
             return query.Count();
         }
 
         private IQueryable<Order> GetOrdersQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null, OrderStatus? status = null,
-            PaymentStatus? paymentStatus = null, ShippingStatus? shippingStatus = null, IList<int> ids = null, 
+            PaymentStatus? paymentStatus = null, ShippingStatus? shippingStatus = null, IList<int> ids = null,
             int? customerId = null, int? storeId = null)
         {
-            var query = _orderRepository.Table;
-            
-            if (customerId != null)
-            {
-                query = query.Where(order => order.CustomerId == customerId);
-            }
+            IQueryable<Order> query = _orderRepository.Table;
 
-            if (ids != null && ids.Count > 0)
-            {
-                query = query.Where(c => ids.Contains(c.Id));
-            }
-            
-            if (status != null)
-            {
-                query = query.Where(order => order.OrderStatusId == (int)status);
-            }
-            
-            if (paymentStatus != null)
-            {
-                query = query.Where(order => order.PaymentStatusId == (int)paymentStatus);
-            }
-            
-            if (shippingStatus != null)
-            {
-                query = query.Where(order => order.ShippingStatusId == (int)shippingStatus);
-            }
+            if (customerId != null) query = query.Where(order => order.CustomerId == customerId);
+
+            if (ids != null && ids.Count > 0) query = query.Where(c => ids.Contains(c.Id));
+
+            if (status != null) query = query.Where(order => order.OrderStatusId == (int) status);
+
+            if (paymentStatus != null) query = query.Where(order => order.PaymentStatusId == (int) paymentStatus);
+
+            if (shippingStatus != null) query = query.Where(order => order.ShippingStatusId == (int) shippingStatus);
 
             query = query.Where(order => !order.Deleted);
 
-            if (createdAtMin != null)
-            {
-                query = query.Where(order => order.CreatedOnUtc > createdAtMin.Value.ToUniversalTime());
-            }
+            if (createdAtMin != null) query = query.Where(order => order.CreatedOnUtc > createdAtMin.Value.ToUniversalTime());
 
-            if (createdAtMax != null)
-            {
-                query = query.Where(order => order.CreatedOnUtc < createdAtMax.Value.ToUniversalTime());
-            }
+            if (createdAtMax != null) query = query.Where(order => order.CreatedOnUtc < createdAtMax.Value.ToUniversalTime());
 
-            if (storeId != null)
-            {
-                query = query.Where(order => order.StoreId == storeId);
-            }
+            if (storeId != null) query = query.Where(order => order.StoreId == storeId);
 
             query = query.OrderByDescending(order => order.CreatedOnUtc);
 
