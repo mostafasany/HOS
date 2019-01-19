@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Nop.Plugin.Api.Constants;
 using Nop.Plugin.Api.ModelBinders;
 
 namespace Nop.Plugin.Api.Models.OrderItemsParameters
 {
-    using Microsoft.AspNetCore.Mvc;
-
     [ModelBinder(typeof(ParametersModelBinder<OrderItemsParametersModel>))]
     public class OrderItemsParametersModel
     {
@@ -16,7 +15,7 @@ namespace Nop.Plugin.Api.Models.OrderItemsParameters
             SinceId = 0;
             Fields = string.Empty;
         }
-        
+
         [JsonProperty("limit")]
         public int Limit { get; set; }
 

@@ -8,6 +8,7 @@ using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Api.Attributes;
 using Nop.Plugin.Api.Constants;
+using Nop.Plugin.Api.Controllers;
 using Nop.Plugin.Api.Delta;
 using Nop.Plugin.Api.DTOs.Errors;
 using Nop.Plugin.Api.DTOs.OrderItems;
@@ -29,7 +30,7 @@ using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Services.Tax;
 
-namespace Nop.Plugin.Api.Controllers
+namespace Nop.Plugin.Api.Modules.Orders
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme,
         AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
