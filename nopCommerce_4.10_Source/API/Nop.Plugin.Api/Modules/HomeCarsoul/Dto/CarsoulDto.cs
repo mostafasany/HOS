@@ -11,5 +11,4 @@ namespace Nop.Plugin.Api.DTOs.Carsoul
         [JsonProperty("topicId")]
         public int Topic { get; set; }
     }
-   
 }
