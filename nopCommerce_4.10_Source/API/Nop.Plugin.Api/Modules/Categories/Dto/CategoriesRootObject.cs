@@ -6,22 +6,13 @@ namespace Nop.Plugin.Api.DTOs.Categories
 {
     public class CategoriesRootObject : ISerializableObject
     {
-        public CategoriesRootObject()
-        {
-            Categories = new List<CategoryDto>();
-        }
+        public CategoriesRootObject() => Categories = new List<CategoryDto>();
 
         [JsonProperty("categories")]
         public IList<CategoryDto> Categories { get; set; }
 
-        public string GetPrimaryPropertyName()
-        {
-            return "categories";
-        }
+        public string GetPrimaryPropertyName() => "categories";
 
-        public Type GetPrimaryPropertyType()
-        {
-            return typeof (CategoryDto);
-        }
+        public Type GetPrimaryPropertyType() => typeof(CategoryDto);
     }
 }

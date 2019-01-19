@@ -11,9 +11,9 @@ namespace Nop.Plugin.Api.Services
 {
     public class CategoryApiService : ICategoryApiService
     {
-        private readonly IStoreMappingService _storeMappingService;
         private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<ProductCategory> _productCategoryMappingRepository;
+        private readonly IStoreMappingService _storeMappingService;
 
         public CategoryApiService(IRepository<Category> categoryRepository,
             IRepository<ProductCategory> productCategoryMappingRepository,
@@ -26,17 +26,14 @@ namespace Nop.Plugin.Api.Services
 
         public IList<Category> GetCategories(IList<int> ids = null,
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
-            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId, 
+            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
             int? productId = null, int? parenttId = null,
             bool? publishedStatus = null)
         {
-            var query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, publishedStatus, productId, parenttId, ids);
+            IQueryable<Category> query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, publishedStatus, productId, parenttId, ids);
 
 
-            if (sinceId > 0)
-            {
-                query = query.Where(c => c.Id > sinceId);
-            }
+            if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
 
             return new ApiList<Category>(query, page - 1, limit);
         }
@@ -46,7 +43,7 @@ namespace Nop.Plugin.Api.Services
             if (id <= 0)
                 return null;
 
-            var category = _categoryRepository.Table.FirstOrDefault(cat => cat.Id == id && !cat.Deleted);
+            Category category = _categoryRepository.Table.FirstOrDefault(cat => cat.Id == id && !cat.Deleted);
 
             return category;
         }
@@ -55,66 +52,44 @@ namespace Nop.Plugin.Api.Services
             DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             bool? publishedStatus = null, int? productId = null)
         {
-            var query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
-                                           publishedStatus, productId);
+            IQueryable<Category> query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
+                publishedStatus, productId);
 
             return query.Count(c => _storeMappingService.Authorize(c));
         }
 
         private IQueryable<Category> GetCategoriesQuery(
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
-            bool? publishedStatus = null, int? productId = null, int? parenttId=null, IList<int> ids = null)
+            bool? publishedStatus = null, int? productId = null, int? parenttId = null, IList<int> ids = null)
         {
-            var query = _categoryRepository.Table;
+            IQueryable<Category> query = _categoryRepository.Table;
 
-            if (ids != null && ids.Count > 0)
-            {
-                query = query.Where(c => ids.Contains(c.Id));
-            }
+            if (ids != null && ids.Count > 0) query = query.Where(c => ids.Contains(c.Id));
 
-            if (publishedStatus != null)
-            {
-                query = query.Where(c => c.Published == publishedStatus.Value);
-            }
+            if (publishedStatus != null) query = query.Where(c => c.Published == publishedStatus.Value);
 
             query = query.Where(c => !c.Deleted);
 
-            if (createdAtMin != null)
-            {
-                query = query.Where(c => c.CreatedOnUtc > createdAtMin.Value);
-            }
+            if (createdAtMin != null) query = query.Where(c => c.CreatedOnUtc > createdAtMin.Value);
 
-            if (createdAtMax != null)
-            {
+            if (createdAtMax != null) query = query.Where(c => c.CreatedOnUtc < createdAtMax.Value);
 
-                query = query.Where(c => c.CreatedOnUtc < createdAtMax.Value);
-            }
+            if (updatedAtMin != null) query = query.Where(c => c.UpdatedOnUtc > updatedAtMin.Value);
 
-            if (updatedAtMin != null)
-            {
-                query = query.Where(c => c.UpdatedOnUtc > updatedAtMin.Value);
-            }
+            if (updatedAtMax != null) query = query.Where(c => c.UpdatedOnUtc < updatedAtMax.Value);
 
-            if (updatedAtMax != null)
-            {
-                query = query.Where(c => c.UpdatedOnUtc < updatedAtMax.Value);
-            }
-
-            if (parenttId != null)
-            {
-                query = query.Where(c => c.ParentCategoryId == parenttId);
-            }
+            if (parenttId != null) query = query.Where(c => c.ParentCategoryId == parenttId);
 
 
             if (productId != null)
             {
-                var categoryMappingsForProduct = from productCategoryMapping in _productCategoryMappingRepository.Table
-                                                 where productCategoryMapping.ProductId == productId
-                                                 select productCategoryMapping;
+                IQueryable<ProductCategory> categoryMappingsForProduct = from productCategoryMapping in _productCategoryMappingRepository.Table
+                    where productCategoryMapping.ProductId == productId
+                    select productCategoryMapping;
 
                 query = from category in query
-                        join productCategoryMapping in categoryMappingsForProduct on category.Id equals productCategoryMapping.CategoryId
-                        select category;
+                    join productCategoryMapping in categoryMappingsForProduct on category.Id equals productCategoryMapping.CategoryId
+                    select category;
             }
 
             query = query.OrderByDescending(category => category.DisplayOrder);
