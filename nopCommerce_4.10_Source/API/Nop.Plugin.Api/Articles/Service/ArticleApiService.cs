@@ -10,10 +10,10 @@ namespace Nop.Plugin.Api.Services
 {
     public class ArticleApiService : IArticleApiService
     {
-        private readonly IRepository<Article> _articleRepository;
-        private readonly IRepository<FNS_ArticleGroup> _articleGroupRepository;
-        private readonly IRepository<FNS_ArticleGroup_Mapping> _articleGroupMappingRepository;
         private readonly IRepository<FNS_ArticleCategory> _articleCategoryRepository;
+        private readonly IRepository<FNS_ArticleGroup_Mapping> _articleGroupMappingRepository;
+        private readonly IRepository<FNS_ArticleGroup> _articleGroupRepository;
+        private readonly IRepository<Article> _articleRepository;
 
         public ArticleApiService(IRepository<Article> articleRepository, IRepository<FNS_ArticleGroup> articleGroupRepository,
             IRepository<FNS_ArticleGroup_Mapping> articleGroupMappingRepository, IRepository<FNS_ArticleCategory> articleCategoryRepository)
@@ -30,7 +30,7 @@ namespace Nop.Plugin.Api.Services
             int? categoryId = null, int? groupId = null, string keyword = null, string tag = null, bool? publishedStatus = null)
         {
             IQueryable<Article> query = GetArticlesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
-                publishedStatus, categoryId: categoryId, groupId: groupId,tag:tag,keyword:keyword);
+                publishedStatus, categoryId: categoryId, groupId: groupId, tag: tag, keyword: keyword);
 
             if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
 
@@ -53,28 +53,18 @@ namespace Nop.Plugin.Api.Services
                 return null;
 
             Article art = _articleRepository.Table.FirstOrDefault(article => article.Id == articleId);
-            var tags = art?.Tags.Split(new[] { ',' });
+            string[] tags = art?.Tags.Split(new[] {','});
             IQueryable<Article> query = _articleRepository.Table;
             //query= query.Where(a => a.Tags!=null &&  a.Tags.Split(new[] { ',' })
             //    .Intersect(tags)
             //    .Any());
-            query = query.Where(a =>a.Id!=art.Id && tags.Any(v => a.Tags.Contains(v)));
+            query = query.Where(a => a.Id != art.Id && tags.Any(v => a.Tags.Contains(v)));
             // always return products that are not deleted!!!
             query = query.Where(c => !c.Deleted);
             query = query.OrderByDescending(article => article.UpdatedOnUtc);
             if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
 
             return new ApiList<Article>(query, page - 1, limit);
-        }
-
-        public bool ContainsAll(string str, params string[] values)
-        {
-            return
-                !string.IsNullOrEmpty(str) &&
-                values != null &&
-                values
-                    .Where(x => !string.IsNullOrEmpty(x))
-                    .All(v => str.Contains(v));
         }
 
         public int GetArticlesCount(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
@@ -91,7 +81,16 @@ namespace Nop.Plugin.Api.Services
         {
             IQueryable<FNS_ArticleGroup> query = _articleGroupRepository.Table;
             return query.ToArray();
+        }
 
+        public bool ContainsAll(string str, params string[] values)
+        {
+            return
+                !string.IsNullOrEmpty(str) &&
+                values != null &&
+                values
+                    .Where(x => !string.IsNullOrEmpty(x))
+                    .All(v => str.Contains(v));
         }
 
         private IQueryable<Article> GetArticlesQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
@@ -118,37 +117,33 @@ namespace Nop.Plugin.Api.Services
 
             if (groupId != null)
             {
-                var categoryMappingsForProduct = from productCategoryMapping in _articleGroupMappingRepository.Table
-                                                 where productCategoryMapping.GroupId == groupId
-                                                 select productCategoryMapping;
+                IQueryable<FNS_ArticleGroup_Mapping> categoryMappingsForProduct = from productCategoryMapping in _articleGroupMappingRepository.Table
+                    where productCategoryMapping.GroupId == groupId
+                    select productCategoryMapping;
 
                 query = from product in query
-                        join productCategoryMapping in categoryMappingsForProduct on product.Id equals productCategoryMapping.ArticleId
-                        select product;
+                    join productCategoryMapping in categoryMappingsForProduct on product.Id equals productCategoryMapping.ArticleId
+                    select product;
             }
 
-            if (categoryId != null && categoryId>0)
+            if (categoryId != null && categoryId > 0)
             {
-                var categoryMappingsForArticles = from productCategoryMapping in _articleCategoryRepository.Table
+                IQueryable<FNS_ArticleCategory> categoryMappingsForArticles = from productCategoryMapping in _articleCategoryRepository.Table
                     where productCategoryMapping.CategoryId == categoryId
-                                                 select productCategoryMapping;
+                    select productCategoryMapping;
 
                 query = from article in query
                     join productCategoryMapping in categoryMappingsForArticles on article.Id equals productCategoryMapping.ArticleId
                     select article;
             }
 
-            if (tag != null)
-            {
-                query = query.Where(c => c.Tags.Contains(tag));
-            }
+            if (tag != null) query = query.Where(c => c.Tags.Contains(tag));
 
             if (keyword != null)
             {
                 keyword = keyword.ToLower();
                 query = query.Where(c => c.Title.Contains(keyword));
             }
-
 
 
             query = query.OrderByDescending(article => article.UpdatedOnUtc);

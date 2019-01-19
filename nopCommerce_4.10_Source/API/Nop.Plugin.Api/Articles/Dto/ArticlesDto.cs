@@ -43,8 +43,5 @@ namespace Nop.Plugin.Api.DTOs.Articles
 
         [JsonProperty("image")]
         public ImageDto Image { get; set; }
-
-
-
     }
 }
