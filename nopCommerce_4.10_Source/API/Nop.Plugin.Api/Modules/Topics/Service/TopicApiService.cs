@@ -10,8 +10,8 @@ namespace Nop.Plugin.Api.Services
 {
     public class TopicApiService : ITopicApiService
     {
-        private readonly IRepository<Topic> _topicRepository;
         private readonly IStoreMappingService _storeMappingService;
+        private readonly IRepository<Topic> _topicRepository;
 
         public TopicApiService(IRepository<Topic> topicRepository,
             IStoreMappingService storeMappingService)
