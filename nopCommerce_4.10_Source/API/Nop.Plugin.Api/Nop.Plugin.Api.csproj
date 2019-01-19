@@ -75,6 +75,7 @@
     <Folder Include="Modules\Articles\Translator\" />
     <Folder Include="Custom\" />
     <Folder Include="Modules\Categories\Translator\" />
+    <Folder Include="Modules\Orders\Translator\" />
     <Folder Include="Modules\Topics\Model\" />
     <Folder Include="Modules\Topics\Translator\" />
     <Folder Include="Modules\Template\Translator\" />
