@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Topics;
 using Nop.Plugin.Api.Attributes;
 using Nop.Plugin.Api.Constants;
+using Nop.Plugin.Api.Controllers;
 using Nop.Plugin.Api.DTOs.Categories;
 using Nop.Plugin.Api.DTOs.Errors;
 using Nop.Plugin.Api.DTOs.Topics;
@@ -22,7 +23,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Controllers
+namespace Nop.Plugin.Api.Modules.Topics
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TopicsController : BaseApiController

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Api.Attributes;
+using Nop.Plugin.Api.Controllers;
 using Nop.Plugin.Api.DTOs.Carsoul;
 using Nop.Plugin.Api.DTOs.Errors;
 using Nop.Plugin.Api.Helpers;
@@ -15,7 +16,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Controllers
+namespace Nop.Plugin.Api.Modules.HomeCarsoul
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CarsoulController : BaseApiController
