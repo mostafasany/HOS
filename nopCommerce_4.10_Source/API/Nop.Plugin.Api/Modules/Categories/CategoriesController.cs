@@ -2,37 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Discounts;
 using Nop.Core.Domain.Media;
 using Nop.Plugin.Api.Attributes;
 using Nop.Plugin.Api.Constants;
+using Nop.Plugin.Api.Controllers;
+using Nop.Plugin.Api.Delta;
 using Nop.Plugin.Api.DTOs.Categories;
+using Nop.Plugin.Api.DTOs.Errors;
+using Nop.Plugin.Api.DTOs.Images;
+using Nop.Plugin.Api.Factories;
+using Nop.Plugin.Api.Helpers;
+using Nop.Plugin.Api.JSON.ActionResults;
+using Nop.Plugin.Api.JSON.Serializers;
+using Nop.Plugin.Api.ModelBinders;
 using Nop.Plugin.Api.Models.CategoriesParameters;
 using Nop.Plugin.Api.Services;
 using Nop.Services.Catalog;
-using Nop.Services.Localization;
-using Nop.Services.Logging;
-using Nop.Services.Seo;
-using Nop.Plugin.Api.Delta;
-using Nop.Plugin.Api.DTOs.Images;
-using Nop.Plugin.Api.Factories;
-using Nop.Plugin.Api.JSON.ActionResults;
-using Nop.Plugin.Api.ModelBinders;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
+using Nop.Services.Localization;
+using Nop.Services.Logging;
 using Nop.Services.Media;
 using Nop.Services.Security;
+using Nop.Services.Seo;
 using Nop.Services.Stores;
-using Nop.Plugin.Api.Helpers;
-using Microsoft.AspNetCore.Mvc;
 
-namespace Nop.Plugin.Api.Controllers
+namespace Nop.Plugin.Api.Modules.Categories
 {
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using DTOs.Errors;
-    using JSON.Serializers;
-
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CategoriesController : BaseApiController
     {
