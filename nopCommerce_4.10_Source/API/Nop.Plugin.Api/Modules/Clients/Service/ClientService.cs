@@ -1,28 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IdentityModel;
+using IdentityServer4;
+using IdentityServer4.EntityFramework.Entities;
+using IdentityServer4.EntityFramework.Interfaces;
+using IdentityServer4.Models;
+using Microsoft.EntityFrameworkCore;
+using Nop.Plugin.Api.MappingExtensions;
+using Nop.Plugin.Api.Models;
+using Client = IdentityServer4.EntityFramework.Entities.Client;
 
 namespace Nop.Plugin.Api.Services
 {
-    using IdentityModel;
-    using IdentityServer4;
-    using IdentityServer4.EntityFramework.Entities;
-    using IdentityServer4.EntityFramework.Interfaces;
-    using IdentityServer4.Models;
-    using Microsoft.EntityFrameworkCore;
-    using MappingExtensions;
-    using Models;
-    using Client = IdentityServer4.EntityFramework.Entities.Client;
-
     public class ClientService : IClientService
     {
         private readonly IConfigurationDbContext _configurationDbContext;
 
-        public ClientService(IConfigurationDbContext configurationDbContext)
-        {
-            _configurationDbContext = configurationDbContext;
-        }
-        
+        public ClientService(IConfigurationDbContext configurationDbContext) => _configurationDbContext = configurationDbContext;
+
         public IList<ClientApiModel> GetAllClients()
         {
             IQueryable<Client> clientsQuery = _configurationDbContext.Clients
@@ -35,13 +31,10 @@ namespace Nop.Plugin.Api.Services
 
             return clientApiModels;
         }
-        
+
         public int InsertClient(ClientApiModel model)
         {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
+            if (model == null) throw new ArgumentNullException(nameof(model));
 
             var client = new Client
             {
@@ -56,7 +49,7 @@ namespace Nop.Plugin.Api.Services
 
             AddOrUpdateClientSecret(client, model.ClientSecret);
             AddOrUpdateClientRedirectUrl(client, model.RedirectUrl);
-            
+
             client.AllowedGrantTypes = new List<ClientGrantType>
             {
                 new ClientGrantType
@@ -99,7 +92,6 @@ namespace Nop.Plugin.Api.Services
                     Type = JwtClaimTypes.Name,
                     Value = client.ClientName
                 }
-
             };
 
             _configurationDbContext.Clients.Add(client);
@@ -110,20 +102,14 @@ namespace Nop.Plugin.Api.Services
 
         public void UpdateClient(ClientApiModel model)
         {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
-            
-            var currentClient = _configurationDbContext.Clients
+            if (model == null) throw new ArgumentNullException(nameof(model));
+
+            Client currentClient = _configurationDbContext.Clients
                 .Include(client => client.ClientSecrets)
                 .Include(client => client.RedirectUris)
                 .FirstOrDefault(client => client.ClientId == model.ClientId);
 
-            if (currentClient == null)
-            {
-                throw new ArgumentNullException(nameof(currentClient));
-            }
+            if (currentClient == null) throw new ArgumentNullException(nameof(currentClient));
 
             AddOrUpdateClientSecret(currentClient, model.ClientSecret);
             AddOrUpdateClientRedirectUrl(currentClient, model.RedirectUrl);
@@ -140,7 +126,7 @@ namespace Nop.Plugin.Api.Services
 
         public ClientApiModel FindClientByIdAsync(int id)
         {
-            var currentClient = _configurationDbContext.Clients
+            Client currentClient = _configurationDbContext.Clients
                 .Include(client => client.ClientSecrets)
                 .Include(client => client.RedirectUris)
                 .FirstOrDefault(client => client.Id == id);
@@ -150,7 +136,7 @@ namespace Nop.Plugin.Api.Services
 
         public ClientApiModel FindClientByClientId(string clientId)
         {
-            var currentClient = _configurationDbContext.Clients
+            Client currentClient = _configurationDbContext.Clients
                 .Include(client => client.ClientSecrets)
                 .Include(client => client.RedirectUris)
                 .FirstOrDefault(client => client.ClientId == clientId);
@@ -160,7 +146,7 @@ namespace Nop.Plugin.Api.Services
 
         public void DeleteClient(int id)
         {
-            var client = _configurationDbContext.Clients
+            Client client = _configurationDbContext.Clients
                 .Include(entity => entity.ClientSecrets)
                 .Include(entity => entity.RedirectUris)
                 .FirstOrDefault(x => x.Id == id);
@@ -171,20 +157,17 @@ namespace Nop.Plugin.Api.Services
                 _configurationDbContext.SaveChanges();
             }
         }
-        
+
         private void AddOrUpdateClientRedirectUrl(Client currentClient, string modelRedirectUrl)
         {
             // Ensure the client redirect url collection is not null
-            if (currentClient.RedirectUris == null)
-            {
-                currentClient.RedirectUris = new List<ClientRedirectUri>();
-            }
+            if (currentClient.RedirectUris == null) currentClient.RedirectUris = new List<ClientRedirectUri>();
 
             // Currently, the api works with only one client redirect uri.
-            var currentClientRedirectUri = currentClient.RedirectUris.FirstOrDefault();
+            ClientRedirectUri currentClientRedirectUri = currentClient.RedirectUris.FirstOrDefault();
 
             // Add new redirectUri
-            if ((currentClientRedirectUri != null && currentClientRedirectUri.RedirectUri != modelRedirectUrl) ||
+            if (currentClientRedirectUri != null && currentClientRedirectUri.RedirectUri != modelRedirectUrl ||
                 currentClientRedirectUri == null)
             {
                 // Remove all redirect uris as we may have only one.
@@ -201,16 +184,13 @@ namespace Nop.Plugin.Api.Services
         private void AddOrUpdateClientSecret(Client currentClient, string modelClientSecretDescription)
         {
             // Ensure the client secrets collection is not null
-            if (currentClient.ClientSecrets == null)
-            {
-                currentClient.ClientSecrets = new List<ClientSecret>();
-            }
+            if (currentClient.ClientSecrets == null) currentClient.ClientSecrets = new List<ClientSecret>();
 
             // Currently, the api works with only one client secret.
-            var currentClientSecret = currentClient.ClientSecrets.FirstOrDefault();
+            ClientSecret currentClientSecret = currentClient.ClientSecrets.FirstOrDefault();
 
             // Add new secret
-            if ((currentClientSecret != null && currentClientSecret.Description != modelClientSecretDescription) ||
+            if (currentClientSecret != null && currentClientSecret.Description != modelClientSecretDescription ||
                 currentClientSecret == null)
             {
                 // Remove all secrets as we may have only one valid.

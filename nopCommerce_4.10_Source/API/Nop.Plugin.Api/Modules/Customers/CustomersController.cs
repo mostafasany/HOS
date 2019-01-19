@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
+using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Infrastructure;
+using Nop.Core.Domain.Directory;
+using Nop.Core.Domain.Messages;
+using Nop.Core.Domain.Stores;
 using Nop.Plugin.Api.Attributes;
 using Nop.Plugin.Api.Constants;
 using Nop.Plugin.Api.Delta;
 using Nop.Plugin.Api.DTOs;
 using Nop.Plugin.Api.DTOs.Customers;
+using Nop.Plugin.Api.DTOs.Errors;
 using Nop.Plugin.Api.Factories;
 using Nop.Plugin.Api.Helpers;
 using Nop.Plugin.Api.JSON.ActionResults;
+using Nop.Plugin.Api.JSON.Serializers;
 using Nop.Plugin.Api.MappingExtensions;
 using Nop.Plugin.Api.ModelBinders;
 using Nop.Plugin.Api.Models.CustomersParameters;
@@ -33,36 +40,31 @@ using Nop.Services.Stores;
 
 namespace Nop.Plugin.Api.Controllers
 {
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.AspNetCore.Mvc;
-    using DTOs.Errors;
-    using JSON.Serializers;
-
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CustomersController : BaseApiController
     {
-        private readonly ICustomerApiService _customerApiService;
-        private readonly ICustomerRolesHelper _customerRolesHelper;
-        private readonly IGenericAttributeService _genericAttributeService;
-        private readonly IEncryptionService _encryptionService;
+        private readonly IAuthenticationService _authenticationService;
         private readonly ICountryService _countryService;
+        private readonly ICustomerActivityService _customerActivityService;
+        private readonly ICustomerApiService _customerApiService;
+        private readonly ICustomerRegistrationService _customerRegistrationService;
+        private readonly ICustomerRolesHelper _customerRolesHelper;
+        private readonly ICustomerService _customerService;
+        private readonly CustomerSettings _customerSettings;
+        private readonly IEncryptionService _encryptionService;
+        private readonly IEventPublisher _eventPublisher;
+        private readonly IFactory<Customer> _factory;
+        private readonly IGenericAttributeService _genericAttributeService;
+        private readonly ILanguageService _languageService;
+        private readonly ILocalizationService _localizationService;
         private readonly IMappingHelper _mappingHelper;
         private readonly INewsLetterSubscriptionService _newsLetterSubscriptionService;
-        private readonly ILanguageService _languageService;
-        private readonly IFactory<Customer> _factory;
-        private readonly ICustomerRegistrationService _customerRegistrationService;
         private readonly IShoppingCartService _shoppingCartService;
-        private readonly IAuthenticationService _authenticationService;
-        private readonly ICustomerActivityService _customerActivityService;
         private readonly IWorkContext _workContext;
-        private readonly ICustomerService _customerService;
-        private readonly IEventPublisher _eventPublisher;
-        private readonly ILocalizationService _localizationService;
-        private readonly CustomerSettings _customerSettings;
         private readonly IWorkflowMessageService _workflowMessageService;
 
         public CustomersController(
-            ICustomerApiService customerApiService, 
+            ICustomerApiService customerApiService,
             IJsonFieldsSerializer jsonFieldsSerializer,
             IAclService aclService,
             ICustomerService customerService,
@@ -75,9 +77,9 @@ namespace Nop.Plugin.Api.Controllers
             ICustomerRolesHelper customerRolesHelper,
             IGenericAttributeService genericAttributeService,
             IEncryptionService encryptionService,
-            IFactory<Customer> factory, 
-            ICountryService countryService, 
-            IMappingHelper mappingHelper, 
+            IFactory<Customer> factory,
+            ICountryService countryService,
+            IMappingHelper mappingHelper,
             INewsLetterSubscriptionService newsLetterSubscriptionService,
             IPictureService pictureService, ILanguageService languageService,
             ICustomerRegistrationService customerRegistrationService,
@@ -86,8 +88,8 @@ namespace Nop.Plugin.Api.Controllers
             IWorkContext workContext,
             IEventPublisher eventPublisher,
             IWorkflowMessageService workflowMessageService
-            ) : 
-            base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService,pictureService)
+        ) :
+            base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
         {
             _customerApiService = customerApiService;
             _factory = factory;
@@ -110,44 +112,179 @@ namespace Nop.Plugin.Api.Controllers
             _workflowMessageService = workflowMessageService;
         }
 
+
         /// <summary>
-        /// Retrieve all customers of a shop
+        ///     Get a count of all customers
         /// </summary>
         /// <response code="200">OK</response>
-        /// <response code="400">Bad request</response>
         /// <response code="401">Unauthorized</response>
-        [HttpGet]
-        [Route("/api/customers")]
-        [ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
-        [GetRequestsErrorInterceptorActionFilter]
-        public IActionResult GetCustomers(CustomersParametersModel parameters)
+        [HttpPost]
+        [Route("/api/customers/changepassword")]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        public IActionResult ChangePassword([ModelBinder(typeof(JsonModelBinder<ChangePasswordDto>))]
+            Delta<ChangePasswordDto> changeDelta)
         {
-            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+            //if (!_workContext.CurrentCustomer.IsRegistered())
+            //    return Challenge();
+
+            //var customer = _workContext.CurrentCustomer;
+            ChangePasswordResult result = null;
+            if (ModelState.IsValid)
             {
-                return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
+                var changePasswordRequest = new ChangePasswordRequest(changeDelta.Dto.Email,
+                    true, _customerSettings.DefaultPasswordFormat, changeDelta.Dto.NewPassword, changeDelta.Dto.OldPassword);
+                result = _customerRegistrationService.ChangePassword(changePasswordRequest);
+                if (result.Success) return Ok(_localizationService.GetResource("Account.ChangePassword.Success"));
+
+                //errors
+                foreach (string error in result.Errors)
+                    ModelState.AddModelError("", error);
             }
 
-            if (parameters.Page < Configurations.DefaultPageValue)
+            return BadRequest(result.Errors);
+        }
+
+        [HttpPost]
+        [Route("/api/customers")]
+        [ProducesResponseType(typeof(CustomersRootObject), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), 422)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        public IActionResult CreateCustomer([ModelBinder(typeof(JsonModelBinder<CustomerDto>))]
+            Delta<CustomerDto> customerDelta)
+        {
+            // Here we display the errors if the validation has failed at some point.
+            if (!ModelState.IsValid) return Error();
+
+            //If the validation has passed the customerDelta object won't be null for sure so we don't need to check for this.
+
+            // Inserting the new customer
+            Customer newCustomer = _factory.Initialize();
+            customerDelta.Merge(newCustomer);
+
+            foreach (AddressDto address in customerDelta.Dto.Addresses)
             {
-                return Error(HttpStatusCode.BadRequest, "page", "Invalid request parameters");
+                // we need to explicitly set the date as if it is not specified
+                // it will default to 01/01/0001 which is not supported by SQL Server and throws and exception
+                if (address.CreatedOnUtc == null) address.CreatedOnUtc = DateTime.UtcNow;
+                newCustomer.Addresses.Add(address.ToEntity());
             }
 
-            var allCustomers = _customerApiService.GetCustomersDtos(parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId);
+            CustomerService.InsertCustomer(newCustomer);
 
-            var customersRootObject = new CustomersRootObject()
+            InsertFirstAndLastNameGenericAttributes(customerDelta.Dto.FirstName, customerDelta.Dto.LastName, newCustomer);
+
+            if (!string.IsNullOrEmpty(customerDelta.Dto.LanguageId) && int.TryParse(customerDelta.Dto.LanguageId, out int languageId)
+                                                                    && _languageService.GetLanguageById(languageId) != null)
+                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.LanguageIdAttribute, languageId);
+
+            //password
+            if (!string.IsNullOrWhiteSpace(customerDelta.Dto.Password)) AddPassword(customerDelta.Dto.Password, newCustomer);
+
+            // We need to insert the entity first so we can have its id in order to map it to anything.
+            // TODO: Localization
+            // TODO: move this before inserting the customer.
+            if (customerDelta.Dto.RoleIds.Count > 0)
             {
-                Customers = allCustomers
-            };
+                AddValidRoles(customerDelta, newCustomer);
 
-            var json = JsonFieldsSerializer.Serialize(customersRootObject, parameters.Fields);
+                CustomerService.UpdateCustomer(newCustomer);
+            }
+
+            // Preparing the result dto of the new customer
+            // We do not prepare the shopping cart items because we have a separate endpoint for them.
+            CustomerDto newCustomerDto = newCustomer.ToDto();
+
+            // This is needed because the entity framework won't populate the navigation properties automatically
+            // and the country will be left null. So we do it by hand here.
+            PopulateAddressCountryNames(newCustomerDto);
+
+            // Set the fist and last name separately because they are not part of the customer entity, but are saved in the generic attributes.
+            newCustomerDto.FirstName = customerDelta.Dto.FirstName;
+            newCustomerDto.LastName = customerDelta.Dto.LastName;
+
+            newCustomerDto.LanguageId = customerDelta.Dto.LanguageId;
+
+            //activity log
+            CustomerActivityService.InsertActivity("AddNewCustomer", LocalizationService.GetResource("ActivityLog.AddNewCustomer"), newCustomer);
+
+            var customersRootObject = new CustomersRootObject();
+
+            customersRootObject.Customers.Add(newCustomerDto);
+
+            string json = JsonFieldsSerializer.Serialize(customersRootObject, string.Empty);
 
             return new RawJsonActionResult(json);
         }
 
+        [HttpDelete]
+        [Route("/api/customers/{id}")]
+        [GetRequestsErrorInterceptorActionFilter]
+        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        public IActionResult DeleteCustomer(int id)
+        {
+            if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
+
+            Customer customer = _customerApiService.GetCustomerEntityById(id);
+
+            if (customer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
+
+            CustomerService.DeleteCustomer(customer);
+
+            //remove newsletter subscription (if exists)
+            foreach (Store store in StoreService.GetAllStores())
+            {
+                NewsLetterSubscription subscription = _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreId(customer.Email, store.Id);
+                if (subscription != null)
+                    _newsLetterSubscriptionService.DeleteNewsLetterSubscription(subscription);
+            }
+
+            //activity log
+            CustomerActivityService.InsertActivity("DeleteCustomer", LocalizationService.GetResource("ActivityLog.DeleteCustomer"), customer);
+
+            return new RawJsonActionResult("{}");
+        }
+
+
         /// <summary>
-        /// Retrieve customer by spcified id
+        ///     Get a count of all customers
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpPost]
+        [Route("/api/customers/forget")]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        public IActionResult Forget([ModelBinder(typeof(JsonModelBinder<ForgetDto>))]
+            Delta<ForgetDto> forgetDelta)
+        {
+            Customer customer = _customerService.GetCustomerByEmail(forgetDelta.Dto.Email);
+            if (customer != null && customer.Active && !customer.Deleted)
+            {
+                //save token and current date
+                Guid passwordRecoveryToken = Guid.NewGuid();
+                _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.PasswordRecoveryTokenAttribute,
+                    passwordRecoveryToken.ToString());
+                DateTime? generatedDateTime = DateTime.UtcNow;
+                _genericAttributeService.SaveAttribute(customer,
+                    NopCustomerDefaults.PasswordRecoveryTokenDateGeneratedAttribute, generatedDateTime);
+
+                //send email
+                _workflowMessageService.SendCustomerPasswordRecoveryMessage(customer,
+                    _workContext.WorkingLanguage.Id);
+
+                //return new RawJsonActionResult(_localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent"));
+                return Ok(_localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent"));
+            }
+
+            return BadRequest(_localizationService.GetResource("Account.PasswordRecovery.EmailNotFound"));
+        }
+
+        /// <summary>
+        ///     Retrieve customer by spcified id
         /// </summary>
         /// <param name="id">Id of the customer</param>
         /// <param name="fields">Fields from the customer you want your json to contain</param>
@@ -156,49 +293,73 @@ namespace Nop.Plugin.Api.Controllers
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/customers/{id}")]
-        [ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(CustomersRootObject), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetCustomerById(int id, string fields = "")
         {
-            if (id <= 0)
-            {
-                return Error(HttpStatusCode.BadRequest, "id", "invalid id");
-            }
+            if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            var customer = _customerApiService.GetCustomerById(id);
+            CustomerDto customer = _customerApiService.GetCustomerById(id);
 
-            if (customer == null)
-            {
-                return Error(HttpStatusCode.NotFound, "customer", "not found");
-            }
-            
+            if (customer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
+
             var customersRootObject = new CustomersRootObject();
             customersRootObject.Customers.Add(customer);
 
-            var json = JsonFieldsSerializer.Serialize(customersRootObject, fields);
+            string json = JsonFieldsSerializer.Serialize(customersRootObject, fields);
+
+            return new RawJsonActionResult(json);
+        }
+
+        /// <summary>
+        ///     Retrieve all customers of a shop
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/customers")]
+        [ProducesResponseType(typeof(CustomersRootObject), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetCustomers(CustomersParametersModel parameters)
+        {
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
+
+            if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "Invalid request parameters");
+
+            IList<CustomerDto> allCustomers = _customerApiService.GetCustomersDtos(parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId);
+
+            var customersRootObject = new CustomersRootObject
+            {
+                Customers = allCustomers
+            };
+
+            string json = JsonFieldsSerializer.Serialize(customersRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }
 
 
         /// <summary>
-        /// Get a count of all customers
+        ///     Get a count of all customers
         /// </summary>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/customers/count")]
-        [ProducesResponseType(typeof(CustomersCountRootObject), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(CustomersCountRootObject), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
         public IActionResult GetCustomersCount()
         {
-            var allCustomersCount = _customerApiService.GetCustomersCount();
+            int allCustomersCount = _customerApiService.GetCustomersCount();
 
-            var customersCountRootObject = new CustomersCountRootObject()
+            var customersCountRootObject = new CustomersCountRootObject
             {
                 Count = allCustomersCount
             };
@@ -208,52 +369,53 @@ namespace Nop.Plugin.Api.Controllers
 
 
         /// <summary>
-        /// Get a count of all customers
+        ///     Get a count of all customers
         /// </summary>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
         [HttpPost]
         [Route("/api/customers/login")]
-        [ProducesResponseType(typeof(CustomersCountRootObject), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
-        public IActionResult Login([ModelBinder(typeof(JsonModelBinder<LoginDto>))] Delta<LoginDto> loginDelta)
+        [ProducesResponseType(typeof(CustomersCountRootObject), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        public IActionResult Login([ModelBinder(typeof(JsonModelBinder<LoginDto>))]
+            Delta<LoginDto> loginDelta)
         {
-            var loginResult = _customerRegistrationService.ValidateCustomer(loginDelta.Dto.UserNameOrEmail, loginDelta.Dto.Password);
+            CustomerLoginResults loginResult = _customerRegistrationService.ValidateCustomer(loginDelta.Dto.UserNameOrEmail, loginDelta.Dto.Password);
             switch (loginResult)
             {
                 case CustomerLoginResults.Successful:
-                    {
-                        var customer = _customerSettings.UsernamesEnabled
-                            ? _customerService.GetCustomerByUsername(loginDelta.Dto.UserNameOrEmail)
-                            : _customerService.GetCustomerByEmail(loginDelta.Dto.UserNameOrEmail);
+                {
+                    Customer customer = _customerSettings.UsernamesEnabled
+                        ? _customerService.GetCustomerByUsername(loginDelta.Dto.UserNameOrEmail)
+                        : _customerService.GetCustomerByEmail(loginDelta.Dto.UserNameOrEmail);
 
-                        var customerDto = _customerApiService.GetCustomerById(customer.Id);
+                    CustomerDto customerDto = _customerApiService.GetCustomerById(customer.Id);
 
-                        //migrate shopping cart
-                        _shoppingCartService.MigrateShoppingCart(_workContext.CurrentCustomer, customer, true);
+                    //migrate shopping cart
+                    _shoppingCartService.MigrateShoppingCart(_workContext.CurrentCustomer, customer, true);
 
-                        //sign in new customer
-                        _authenticationService.SignIn(customer, true);
+                    //sign in new customer
+                    _authenticationService.SignIn(customer, true);
 
-                        //raise event       
-                        _eventPublisher.Publish(new CustomerLoggedinEvent(customer));
+                    //raise event       
+                    _eventPublisher.Publish(new CustomerLoggedinEvent(customer));
 
-                        //activity log
-                        _customerActivityService.InsertActivity(customer, "PublicStore.Login",
-                            _localizationService.GetResource("ActivityLog.PublicStore.Login"), customer);
+                    //activity log
+                    _customerActivityService.InsertActivity(customer, "PublicStore.Login",
+                        _localizationService.GetResource("ActivityLog.PublicStore.Login"), customer);
 
-                        var customersRootObject = new CustomersRootObject();
-                        customersRootObject.Customers.Add(customerDto);
+                    var customersRootObject = new CustomersRootObject();
+                    customersRootObject.Customers.Add(customerDto);
 
-                        var json = JsonFieldsSerializer.Serialize(customersRootObject, "");
+                    string json = JsonFieldsSerializer.Serialize(customersRootObject, "");
 
-                        return new RawJsonActionResult(json);
-                        //if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
-                        //    return RedirectToRoute("HomePage");
-                       // return Ok(customer);
-                        //return Redirect(returnUrl);
-                    }
+                    return new RawJsonActionResult(json);
+                    //if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
+                    //    return RedirectToRoute("HomePage");
+                    // return Ok(customer);
+                    //return Redirect(returnUrl);
+                }
                 case CustomerLoginResults.CustomerNotExist:
                     ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials.CustomerNotExist"));
                     break;
@@ -278,86 +440,15 @@ namespace Nop.Plugin.Api.Controllers
             return null;
         }
 
-
         /// <summary>
-        /// Get a count of all customers
-        /// </summary>
-        /// <response code="200">OK</response>
-        /// <response code="401">Unauthorized</response>
-        [HttpPost]
-        [Route("/api/customers/forget")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
-        public IActionResult Forget([ModelBinder(typeof(JsonModelBinder<ForgetDto>))] Delta<ForgetDto> forgetDelta)
-        {
-            var customer = _customerService.GetCustomerByEmail(forgetDelta.Dto.Email);
-            if (customer != null && customer.Active && !customer.Deleted)
-            {
-                //save token and current date
-                var passwordRecoveryToken = Guid.NewGuid();
-                _genericAttributeService.SaveAttribute(customer, NopCustomerDefaults.PasswordRecoveryTokenAttribute,
-                    passwordRecoveryToken.ToString());
-                DateTime? generatedDateTime = DateTime.UtcNow;
-                _genericAttributeService.SaveAttribute(customer,
-                    NopCustomerDefaults.PasswordRecoveryTokenDateGeneratedAttribute, generatedDateTime);
-
-                //send email
-                _workflowMessageService.SendCustomerPasswordRecoveryMessage(customer,
-                    _workContext.WorkingLanguage.Id);
-
-                //return new RawJsonActionResult(_localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent"));
-                return Ok(_localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent"));
-            }
-            else
-            {
-                return  BadRequest(_localizationService.GetResource("Account.PasswordRecovery.EmailNotFound"));
-            }
-        }
-
-
-        /// <summary>
-        /// Get a count of all customers
-        /// </summary>
-        /// <response code="200">OK</response>
-        /// <response code="401">Unauthorized</response>
-        [HttpPost]
-        [Route("/api/customers/changepassword")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
-        public IActionResult ChangePassword([ModelBinder(typeof(JsonModelBinder<ChangePasswordDto>))] Delta<ChangePasswordDto> changeDelta)
-        {
-            //if (!_workContext.CurrentCustomer.IsRegistered())
-            //    return Challenge();
-
-            //var customer = _workContext.CurrentCustomer;
-            ChangePasswordResult result = null;
-            if (ModelState.IsValid)
-            {
-                var changePasswordRequest = new ChangePasswordRequest(changeDelta.Dto.Email,
-                    true, _customerSettings.DefaultPasswordFormat, changeDelta.Dto.NewPassword, changeDelta.Dto.OldPassword);
-                result = _customerRegistrationService.ChangePassword(changePasswordRequest);
-                if (result.Success)
-                {
-                    return Ok(_localizationService.GetResource("Account.ChangePassword.Success"));
-                }
-
-                //errors
-                foreach (var error in result.Errors)
-                    ModelState.AddModelError("", error);
-            }
-
-            return BadRequest(result.Errors);
-        }
-
-        /// <summary>
-        /// Get a count of all customers
+        ///     Get a count of all customers
         /// </summary>
         /// <response code="200">OK</response>
         /// <response code="401">Unauthorized</response>
         [HttpPost]
         [Route("/api/customers/logout")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
         public IActionResult Logout()
         {
             if (_workContext.OriginalCustomerIfImpersonated != null)
@@ -376,7 +467,6 @@ namespace Nop.Plugin.Api.Controllers
                 //logout impersonated customer
                 _genericAttributeService
                     .SaveAttribute<int?>(_workContext.OriginalCustomerIfImpersonated, NopCustomerDefaults.ImpersonatedCustomerIdAttribute, null);
-
             }
 
             //activity log
@@ -393,174 +483,74 @@ namespace Nop.Plugin.Api.Controllers
         }
 
         /// <summary>
-        /// Search for customers matching supplied query
+        ///     Search for customers matching supplied query
         /// </summary>
         /// <response code="200">OK</response>
         /// <response code="400">Bad Request</response>
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/customers/search")]
-        [ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(CustomersRootObject), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
         public IActionResult Search(CustomersSearchParametersModel parameters)
         {
-            if (parameters.Limit <= Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
-            {
-                return Error(HttpStatusCode.BadRequest, "limit" ,"Invalid limit parameter");
-            }
+            if (parameters.Limit <= Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
 
-            if (parameters.Page <= 0)
-            {
-                return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
-            }
-            
-            var customersDto = _customerApiService.Search(parameters.Query, parameters.Order, parameters.Page, parameters.Limit);
+            if (parameters.Page <= 0) return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
 
-            var customersRootObject = new CustomersRootObject()
+            IList<CustomerDto> customersDto = _customerApiService.Search(parameters.Query, parameters.Order, parameters.Page, parameters.Limit);
+
+            var customersRootObject = new CustomersRootObject
             {
                 Customers = customersDto
             };
 
-            var json = JsonFieldsSerializer.Serialize(customersRootObject, parameters.Fields);
+            string json = JsonFieldsSerializer.Serialize(customersRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }
 
-        [HttpPost]
-        [Route("/api/customers")]
-        [ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), 422)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
-        public IActionResult CreateCustomer([ModelBinder(typeof(JsonModelBinder<CustomerDto>))] Delta<CustomerDto> customerDelta)
-        {
-            // Here we display the errors if the validation has failed at some point.
-            if (!ModelState.IsValid)
-            {
-                return Error();
-            }
-
-            //If the validation has passed the customerDelta object won't be null for sure so we don't need to check for this.
-
-            // Inserting the new customer
-            var newCustomer = _factory.Initialize();
-            customerDelta.Merge(newCustomer);
-
-            foreach (var address in customerDelta.Dto.Addresses)
-            {
-                // we need to explicitly set the date as if it is not specified
-                // it will default to 01/01/0001 which is not supported by SQL Server and throws and exception
-                if (address.CreatedOnUtc == null)
-                {
-                    address.CreatedOnUtc = DateTime.UtcNow;
-                }
-                newCustomer.Addresses.Add(address.ToEntity());
-            }
-            
-            CustomerService.InsertCustomer(newCustomer);
-
-            InsertFirstAndLastNameGenericAttributes(customerDelta.Dto.FirstName, customerDelta.Dto.LastName, newCustomer);
-
-            if (!string.IsNullOrEmpty(customerDelta.Dto.LanguageId) && int.TryParse(customerDelta.Dto.LanguageId, out var languageId)
-                && _languageService.GetLanguageById(languageId) != null)
-            {
-                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.LanguageIdAttribute, languageId);
-            }
-
-            //password
-            if (!string.IsNullOrWhiteSpace(customerDelta.Dto.Password))
-            {
-                AddPassword(customerDelta.Dto.Password, newCustomer);
-            }
-            
-            // We need to insert the entity first so we can have its id in order to map it to anything.
-            // TODO: Localization
-            // TODO: move this before inserting the customer.
-            if (customerDelta.Dto.RoleIds.Count > 0)
-            {
-                AddValidRoles(customerDelta, newCustomer);
-
-                CustomerService.UpdateCustomer(newCustomer);
-            }
-
-            // Preparing the result dto of the new customer
-            // We do not prepare the shopping cart items because we have a separate endpoint for them.
-            var newCustomerDto = newCustomer.ToDto();
-
-            // This is needed because the entity framework won't populate the navigation properties automatically
-            // and the country will be left null. So we do it by hand here.
-            PopulateAddressCountryNames(newCustomerDto);
-
-            // Set the fist and last name separately because they are not part of the customer entity, but are saved in the generic attributes.
-            newCustomerDto.FirstName = customerDelta.Dto.FirstName;
-            newCustomerDto.LastName = customerDelta.Dto.LastName;
-
-            newCustomerDto.LanguageId = customerDelta.Dto.LanguageId;
-
-            //activity log
-            CustomerActivityService.InsertActivity("AddNewCustomer", LocalizationService.GetResource("ActivityLog.AddNewCustomer"), newCustomer);
-
-            var customersRootObject = new CustomersRootObject();
-
-            customersRootObject.Customers.Add(newCustomerDto);
-
-            var json = JsonFieldsSerializer.Serialize(customersRootObject, string.Empty);
-
-            return new RawJsonActionResult(json);
-        }
-        
         [HttpPut]
         [Route("/api/customers/{id}")]
-        [ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CustomersRootObject), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
-        public IActionResult UpdateCustomer([ModelBinder(typeof(JsonModelBinder<CustomerDto>))] Delta<CustomerDto> customerDelta)
+        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        public IActionResult UpdateCustomer([ModelBinder(typeof(JsonModelBinder<CustomerDto>))]
+            Delta<CustomerDto> customerDelta)
         {
             // Here we display the errors if the validation has failed at some point.
-            if (!ModelState.IsValid)
-            {
-                return Error();
-            }
+            if (!ModelState.IsValid) return Error();
 
             // Updateting the customer
-            var currentCustomer = _customerApiService.GetCustomerEntityById(customerDelta.Dto.Id);
+            Customer currentCustomer = _customerApiService.GetCustomerEntityById(customerDelta.Dto.Id);
 
-            if (currentCustomer == null)
-            {
-                return Error(HttpStatusCode.NotFound, "customer", "not found");
-            }
+            if (currentCustomer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
 
             customerDelta.Merge(currentCustomer);
 
             if (customerDelta.Dto.RoleIds.Count > 0)
             {
                 // Remove all roles
-                while (currentCustomer.CustomerRoles.Count > 0)
-                {
-                    currentCustomer.CustomerRoles.Remove(currentCustomer.CustomerRoles.First());
-                }
+                while (currentCustomer.CustomerRoles.Count > 0) currentCustomer.CustomerRoles.Remove(currentCustomer.CustomerRoles.First());
 
                 AddValidRoles(customerDelta, currentCustomer);
             }
 
             if (customerDelta.Dto.Addresses.Count > 0)
             {
-                var currentCustomerAddresses = currentCustomer.Addresses.ToDictionary(address => address.Id, address => address);
+                Dictionary<int, Address> currentCustomerAddresses = currentCustomer.Addresses.ToDictionary(address => address.Id, address => address);
 
-                foreach (var passedAddress in customerDelta.Dto.Addresses)
+                foreach (AddressDto passedAddress in customerDelta.Dto.Addresses)
                 {
-                    var addressEntity = passedAddress.ToEntity();
+                    Address addressEntity = passedAddress.ToEntity();
 
                     if (currentCustomerAddresses.ContainsKey(passedAddress.Id))
-                    {
                         _mappingHelper.Merge(passedAddress, currentCustomerAddresses[passedAddress.Id]);
-                    }
                     else
-                    {
                         currentCustomer.Addresses.Add(addressEntity);
-                    }
                 }
             }
 
@@ -569,23 +559,18 @@ namespace Nop.Plugin.Api.Controllers
             InsertFirstAndLastNameGenericAttributes(customerDelta.Dto.FirstName, customerDelta.Dto.LastName, currentCustomer);
 
 
-            if (!string.IsNullOrEmpty(customerDelta.Dto.LanguageId) && int.TryParse(customerDelta.Dto.LanguageId, out var languageId)
-                && _languageService.GetLanguageById(languageId) != null)
-            {
+            if (!string.IsNullOrEmpty(customerDelta.Dto.LanguageId) && int.TryParse(customerDelta.Dto.LanguageId, out int languageId)
+                                                                    && _languageService.GetLanguageById(languageId) != null)
                 _genericAttributeService.SaveAttribute(currentCustomer, NopCustomerDefaults.LanguageIdAttribute, languageId);
-            }
 
             //password
-            if (!string.IsNullOrWhiteSpace(customerDelta.Dto.Password))
-            {
-                AddPassword(customerDelta.Dto.Password, currentCustomer);
-            }
-            
+            if (!string.IsNullOrWhiteSpace(customerDelta.Dto.Password)) AddPassword(customerDelta.Dto.Password, currentCustomer);
+
             // TODO: Localization
-           
+
             // Preparing the result dto of the new customer
             // We do not prepare the shopping cart items because we have a separate endpoint for them.
-            var updatedCustomer = currentCustomer.ToDto();
+            CustomerDto updatedCustomer = currentCustomer.ToDto();
 
             // This is needed because the entity framework won't populate the navigation properties automatically
             // and the country name will be left empty because the mapping depends on the navigation property
@@ -593,29 +578,20 @@ namespace Nop.Plugin.Api.Controllers
             PopulateAddressCountryNames(updatedCustomer);
 
             // Set the fist and last name separately because they are not part of the customer entity, but are saved in the generic attributes.
-            var firstNameGenericAttribute = _genericAttributeService.GetAttributesForEntity(currentCustomer.Id, typeof(Customer).Name)
+            GenericAttribute firstNameGenericAttribute = _genericAttributeService.GetAttributesForEntity(currentCustomer.Id, typeof(Customer).Name)
                 .FirstOrDefault(x => x.Key == "FirstName");
 
-            if (firstNameGenericAttribute != null)
-            {
-                updatedCustomer.FirstName = firstNameGenericAttribute.Value;
-            }
+            if (firstNameGenericAttribute != null) updatedCustomer.FirstName = firstNameGenericAttribute.Value;
 
-            var lastNameGenericAttribute = _genericAttributeService.GetAttributesForEntity(currentCustomer.Id, typeof(Customer).Name)
+            GenericAttribute lastNameGenericAttribute = _genericAttributeService.GetAttributesForEntity(currentCustomer.Id, typeof(Customer).Name)
                 .FirstOrDefault(x => x.Key == "LastName");
 
-            if (lastNameGenericAttribute != null)
-            {
-                updatedCustomer.LastName = lastNameGenericAttribute.Value;
-            }
+            if (lastNameGenericAttribute != null) updatedCustomer.LastName = lastNameGenericAttribute.Value;
 
-            var languageIdGenericAttribute = _genericAttributeService.GetAttributesForEntity(currentCustomer.Id, typeof(Customer).Name)
+            GenericAttribute languageIdGenericAttribute = _genericAttributeService.GetAttributesForEntity(currentCustomer.Id, typeof(Customer).Name)
                 .FirstOrDefault(x => x.Key == "LanguageId");
 
-            if (languageIdGenericAttribute != null)
-            {
-                updatedCustomer.LanguageId = languageIdGenericAttribute.Value;
-            }
+            if (languageIdGenericAttribute != null) updatedCustomer.LanguageId = languageIdGenericAttribute.Value;
 
             //activity log
             CustomerActivityService.InsertActivity("UpdateCustomer", LocalizationService.GetResource("ActivityLog.UpdateCustomer"), currentCustomer);
@@ -624,99 +600,9 @@ namespace Nop.Plugin.Api.Controllers
 
             customersRootObject.Customers.Add(updatedCustomer);
 
-            var json = JsonFieldsSerializer.Serialize(customersRootObject, string.Empty);
+            string json = JsonFieldsSerializer.Serialize(customersRootObject, string.Empty);
 
             return new RawJsonActionResult(json);
-        }
-
-        [HttpDelete]
-        [Route("/api/customers/{id}")]
-        [GetRequestsErrorInterceptorActionFilter]
-        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
-        public IActionResult DeleteCustomer(int id)
-        {
-            if (id <= 0)
-            {
-                return Error(HttpStatusCode.BadRequest, "id", "invalid id");
-            }
-
-            var customer = _customerApiService.GetCustomerEntityById(id);
-
-            if (customer == null)
-            {
-                return Error(HttpStatusCode.NotFound, "customer", "not found");
-            }
-
-            CustomerService.DeleteCustomer(customer);
-
-            //remove newsletter subscription (if exists)
-            foreach (var store in StoreService.GetAllStores())
-            {
-                var subscription = _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreId(customer.Email, store.Id);
-                if (subscription != null)
-                    _newsLetterSubscriptionService.DeleteNewsLetterSubscription(subscription);
-            }
-
-            //activity log
-            CustomerActivityService.InsertActivity("DeleteCustomer", LocalizationService.GetResource("ActivityLog.DeleteCustomer"), customer);
-            
-            return new RawJsonActionResult("{}");
-        }
-
-        private void InsertFirstAndLastNameGenericAttributes(string firstName, string lastName, Customer newCustomer)
-        {
-            // we assume that if the first name is not sent then it will be null and in this case we don't want to update it
-            if (firstName != null)
-            {
-                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.FirstNameAttribute, firstName);
-            }
-
-            if (lastName != null)
-            {
-                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.LastNameAttribute, lastName);
-            }
-        }
-
-        private void AddValidRoles(Delta<CustomerDto> customerDelta, Customer currentCustomer)
-        {
-            IList<CustomerRole> validCustomerRoles =
-                _customerRolesHelper.GetValidCustomerRoles(customerDelta.Dto.RoleIds).ToList();
-
-            // Add all newly passed roles
-            foreach (var role in validCustomerRoles)
-            {
-                currentCustomer.CustomerRoles.Add(role);
-            }
-        }
-
-        private void PopulateAddressCountryNames(CustomerDto newCustomerDto)
-        {
-            foreach (var address in newCustomerDto.Addresses)
-            {
-                SetCountryName(address);
-            }
-
-            if (newCustomerDto.BillingAddress != null)
-            {
-                SetCountryName(newCustomerDto.BillingAddress);
-            }
-
-            if (newCustomerDto.ShippingAddress != null)
-            {
-                SetCountryName(newCustomerDto.ShippingAddress);
-            }
-        }
-
-        private void SetCountryName(AddressDto address)
-        {
-            if (string.IsNullOrEmpty(address.CountryName) && address.CountryId.HasValue)
-            {
-                var country = _countryService.GetCountryById(address.CountryId.Value);
-                address.CountryName = country.Name;
-            }
         }
 
         private void AddPassword(string newPassword, Customer customer)
@@ -732,21 +618,21 @@ namespace Nop.Plugin.Api.Controllers
             switch (_customerSettings.DefaultPasswordFormat)
             {
                 case PasswordFormat.Clear:
-                    {
-                        customerPassword.Password = newPassword;
-                    }
+                {
+                    customerPassword.Password = newPassword;
+                }
                     break;
                 case PasswordFormat.Encrypted:
-                    {
-                        customerPassword.Password = _encryptionService.EncryptText(newPassword);
-                    }
+                {
+                    customerPassword.Password = _encryptionService.EncryptText(newPassword);
+                }
                     break;
                 case PasswordFormat.Hashed:
-                    {
-                        var saltKey = _encryptionService.CreateSaltKey(5);
-                        customerPassword.PasswordSalt = saltKey;
-                        customerPassword.Password = _encryptionService.CreatePasswordHash(newPassword, saltKey, _customerSettings.HashedPasswordFormat);
-                    }
+                {
+                    string saltKey = _encryptionService.CreateSaltKey(5);
+                    customerPassword.PasswordSalt = saltKey;
+                    customerPassword.Password = _encryptionService.CreatePasswordHash(newPassword, saltKey, _customerSettings.HashedPasswordFormat);
+                }
                     break;
             }
 
@@ -754,6 +640,41 @@ namespace Nop.Plugin.Api.Controllers
 
             // TODO: remove this.
             CustomerService.UpdateCustomer(customer);
+        }
+
+        private void AddValidRoles(Delta<CustomerDto> customerDelta, Customer currentCustomer)
+        {
+            IList<CustomerRole> validCustomerRoles =
+                _customerRolesHelper.GetValidCustomerRoles(customerDelta.Dto.RoleIds).ToList();
+
+            // Add all newly passed roles
+            foreach (CustomerRole role in validCustomerRoles) currentCustomer.CustomerRoles.Add(role);
+        }
+
+        private void InsertFirstAndLastNameGenericAttributes(string firstName, string lastName, Customer newCustomer)
+        {
+            // we assume that if the first name is not sent then it will be null and in this case we don't want to update it
+            if (firstName != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.FirstNameAttribute, firstName);
+
+            if (lastName != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.LastNameAttribute, lastName);
+        }
+
+        private void PopulateAddressCountryNames(CustomerDto newCustomerDto)
+        {
+            foreach (AddressDto address in newCustomerDto.Addresses) SetCountryName(address);
+
+            if (newCustomerDto.BillingAddress != null) SetCountryName(newCustomerDto.BillingAddress);
+
+            if (newCustomerDto.ShippingAddress != null) SetCountryName(newCustomerDto.ShippingAddress);
+        }
+
+        private void SetCountryName(AddressDto address)
+        {
+            if (string.IsNullOrEmpty(address.CountryName) && address.CountryId.HasValue)
+            {
+                Country country = _countryService.GetCountryById(address.CountryId.Value);
+                address.CountryName = country.Name;
+            }
         }
     }
 }

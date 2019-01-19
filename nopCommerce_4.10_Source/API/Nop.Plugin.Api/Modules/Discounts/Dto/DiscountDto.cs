@@ -38,6 +38,5 @@ namespace Nop.Plugin.Api.DTOs.Discounts
 
         [JsonProperty("dfiscountLimitationId")]
         public int DiscountLimitationId { get; set; }
-
     }
 }

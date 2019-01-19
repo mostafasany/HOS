@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
+using Nop.Plugin.Api.Models;
 
 namespace Nop.Plugin.Api.Services
 {
-    using Models;
-
     public interface IClientService
     {
-        IList<ClientApiModel> GetAllClients();
         void DeleteClient(int id);
+        ClientApiModel FindClientByClientId(string clientId);
+        ClientApiModel FindClientByIdAsync(int id);
+        IList<ClientApiModel> GetAllClients();
         int InsertClient(ClientApiModel model);
         void UpdateClient(ClientApiModel model);
-        ClientApiModel FindClientByIdAsync(int id);
-        ClientApiModel FindClientByClientId(string clientId);
     }
 }

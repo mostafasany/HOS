@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.DTOs.Articles;
 using Nop.Plugin.Api.DTOs.Categories;
@@ -17,17 +18,18 @@ namespace Nop.Plugin.Api.Services
     {
         private readonly IArticleApiService _articleApiService;
         private readonly ICategoryApiService _categoryApiService;
+        private readonly int _currentLangaugeId;
+        private readonly ILocalizationService _localizationService;
         private readonly IManufacturerApiService _manufacturerApiService;
         private readonly IPictureService _pictureService;
         private readonly IProductApiService _productApiService;
         private readonly IUrlRecordService _urlRecordService;
-        private readonly ILocalizationService _localizationService;
         private const int ProductCategoryId = 34;
         private const int ExercisesArticlesCategoryId = 37;
         private const int NutrationArticlesCategoryId = 38;
         private const int ArticlesAndVideosArticlesCategoryId = 39;
         private const int CategoiresCategoryId = 55;
-        private readonly int _currentLangaugeId;
+
         public MenuApiService(IProductApiService productApiService, ICategoryApiService categoryApiService, IUrlRecordService urlRecordService, ILocalizationService localizationService,
             IPictureService pictureService, IManufacturerApiService manufacturerApiService, IArticleApiService articleApiService, IHttpContextAccessor httpContextAccessor)
         {
@@ -38,18 +40,14 @@ namespace Nop.Plugin.Api.Services
             _manufacturerApiService = manufacturerApiService;
             _articleApiService = articleApiService;
             _localizationService = localizationService;
-            var headers = httpContextAccessor.HttpContext.Request.Headers;
+            IHeaderDictionary headers = httpContextAccessor.HttpContext.Request.Headers;
             if (headers.ContainsKey("Accept-Language"))
             {
-                var lan = headers["Accept-Language"];
+                StringValues lan = headers["Accept-Language"];
                 if (lan.ToString() == "en")
-                {
                     _currentLangaugeId = 1;
-                }
                 else
-                {
                     _currentLangaugeId = 2;
-                }
             }
         }
 

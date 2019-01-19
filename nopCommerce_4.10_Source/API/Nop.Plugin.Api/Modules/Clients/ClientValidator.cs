@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
+using IdentityServer4.Models;
 using Nop.Services.Localization;
 
 namespace Nop.Plugin.Api.Validators
 {
-    using IdentityServer4.Models;
-
     public class ClientValidator : AbstractValidator<Client>
     {
         public ClientValidator(ILocalizationService localizationService)

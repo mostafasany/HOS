@@ -7,13 +7,13 @@ namespace Nop.Plugin.Api.DTOs.Manufacturers
     public class ManufacturerDto : BaseDto
     {
         /// <summary>
-        /// Gets or sets the first name
+        ///     Gets or sets the first name
         /// </summary>
         [JsonProperty("description")]
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets the last name
+        ///     Gets or sets the last name
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }

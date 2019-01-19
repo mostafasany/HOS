@@ -6,7 +6,7 @@ namespace Nop.Plugin.Api.Services
     public interface IStateProvinceApiService
     {
         /// <summary>
-        /// Gets a state/province collection by country identifier
+        ///     Gets a state/province collection by country identifier
         /// </summary>
         /// <param name="countryId">Country identifier</param>
         /// <returns>States</returns>

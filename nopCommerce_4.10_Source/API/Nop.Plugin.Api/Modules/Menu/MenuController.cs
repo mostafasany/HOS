@@ -52,7 +52,7 @@ namespace Nop.Plugin.Api.Controllers
         public IActionResult GetMenu()
         {
             MenuDto menu = _manufacturerApiService.GetMenu();
-            string json = JsonFieldsSerializer.Serialize(menu,string.Empty);
+            string json = JsonFieldsSerializer.Serialize(menu, string.Empty);
             return new RawJsonActionResult(json);
         }
     }

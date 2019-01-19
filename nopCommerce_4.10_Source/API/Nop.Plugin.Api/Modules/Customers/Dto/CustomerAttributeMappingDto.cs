@@ -6,6 +6,6 @@ namespace Nop.Plugin.Api.DTOs.Customers
     public class CustomerAttributeMappingDto
     {
         public Customer Customer { get; set; }
-        public GenericAttribute Attribute { get; set; } 
+        public GenericAttribute Attribute { get; set; }
     }
 }

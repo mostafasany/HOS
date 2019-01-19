@@ -22,7 +22,7 @@ namespace Nop.Plugin.Api.Models.DiscountsParameters
         public List<int> Ids { get; set; }
 
         /// <summary>
-        /// comma-separated list of fields to include in the response
+        ///     comma-separated list of fields to include in the response
         /// </summary>
         [JsonProperty("fields")]
         public string Fields { get; set; }

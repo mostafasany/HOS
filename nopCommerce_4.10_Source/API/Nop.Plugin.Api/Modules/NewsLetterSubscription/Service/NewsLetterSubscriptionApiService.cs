@@ -24,35 +24,22 @@ namespace Nop.Plugin.Api.Services
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
             bool? onlyActive = true)
         {
-            var query = GetNewsLetterSubscriptionsQuery(createdAtMin, createdAtMax, onlyActive);
+            IQueryable<NewsLetterSubscription> query = GetNewsLetterSubscriptionsQuery(createdAtMin, createdAtMax, onlyActive);
 
-            if (sinceId > 0)
-            {
-                query = query.Where(c => c.Id > sinceId);
-            }
+            if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
 
             return new ApiList<NewsLetterSubscription>(query, page - 1, limit);
         }
 
         private IQueryable<NewsLetterSubscription> GetNewsLetterSubscriptionsQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null, bool? onlyActive = true)
         {
-            var query = _newsLetterSubscriptionRepository.Table.Where(nls => nls.StoreId == _storeContext.CurrentStore.Id);
+            IQueryable<NewsLetterSubscription> query = _newsLetterSubscriptionRepository.Table.Where(nls => nls.StoreId == _storeContext.CurrentStore.Id);
 
-            if (onlyActive != null && onlyActive == true)
-            {
-                query = query.Where(nls => nls.Active == onlyActive);
-            }
-            
-            if (createdAtMin != null)
-            {
-                query = query.Where(c => c.CreatedOnUtc > createdAtMin.Value);
-            }
+            if (onlyActive != null && onlyActive == true) query = query.Where(nls => nls.Active == onlyActive);
 
-            if (createdAtMax != null)
-            {
+            if (createdAtMin != null) query = query.Where(c => c.CreatedOnUtc > createdAtMin.Value);
 
-                query = query.Where(c => c.CreatedOnUtc < createdAtMax.Value);
-            }
+            if (createdAtMax != null) query = query.Where(c => c.CreatedOnUtc < createdAtMax.Value);
 
             query = query.OrderBy(nls => nls.Id);
 

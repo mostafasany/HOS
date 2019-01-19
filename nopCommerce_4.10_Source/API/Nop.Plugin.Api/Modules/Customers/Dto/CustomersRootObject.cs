@@ -6,22 +6,13 @@ namespace Nop.Plugin.Api.DTOs.Customers
 {
     public class CustomersRootObject : ISerializableObject
     {
-        public CustomersRootObject()
-        {
-            Customers = new List<CustomerDto>();    
-        }
-        
+        public CustomersRootObject() => Customers = new List<CustomerDto>();
+
         [JsonProperty("customers")]
         public IList<CustomerDto> Customers { get; set; }
 
-        public string GetPrimaryPropertyName()
-        {
-            return "customers";
-        }
+        public string GetPrimaryPropertyName() => "customers";
 
-        public Type GetPrimaryPropertyType()
-        {
-            return typeof (CustomerDto);
-        }
+        public Type GetPrimaryPropertyType() => typeof(CustomerDto);
     }
 }

@@ -11,8 +11,9 @@ namespace Nop.Plugin.Api.DTOs.Customers
 
         [JsonProperty("username")]
         public string Username { get; set; }
+
         /// <summary>
-        /// Gets or sets the email
+        ///     Gets or sets the email
         /// </summary>
         [JsonProperty("email")]
         public string Email { get; set; }
@@ -33,84 +34,86 @@ namespace Nop.Plugin.Api.DTOs.Customers
         public string Gender { get; set; }
 
         /// <summary>
-        /// Gets or sets the admin comment
+        ///     Gets or sets the admin comment
         /// </summary>
         [JsonProperty("admin_comment")]
         public string AdminComment { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the customer is tax exempt
+        ///     Gets or sets a value indicating whether the customer is tax exempt
         /// </summary>
         [JsonProperty("is_tax_exempt")]
         public bool? IsTaxExempt { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this customer has some products in the shopping cart
-        /// <remarks>The same as if we run this.ShoppingCartItems.Count > 0
-        /// We use this property for performance optimization:
-        /// if this property is set to false, then we do not need to load "ShoppingCartItems" navigation property for each page load
-        /// It's used only in a couple of places in the presenation layer
-        /// </remarks>
+        ///     Gets or sets a value indicating whether this customer has some products in the shopping cart
+        ///     <remarks>
+        ///         The same as if we run this.ShoppingCartItems.Count > 0
+        ///         We use this property for performance optimization:
+        ///         if this property is set to false, then we do not need to load "ShoppingCartItems" navigation property for each
+        ///         page load
+        ///         It's used only in a couple of places in the presenation layer
+        ///     </remarks>
         /// </summary>
         [JsonProperty("has_shopping_cart_items")]
         public bool? HasShoppingCartItems { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the customer is active
+        ///     Gets or sets a value indicating whether the customer is active
         /// </summary>
         [JsonProperty("active")]
         public bool? Active { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the customer has been deleted
+        ///     Gets or sets a value indicating whether the customer has been deleted
         /// </summary>
         [JsonProperty("deleted")]
         public bool? Deleted { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the customer account is system
+        ///     Gets or sets a value indicating whether the customer account is system
         /// </summary>
         [JsonProperty("is_system_account")]
         public bool? IsSystemAccount { get; set; }
 
         /// <summary>
-        /// Gets or sets the customer system name
+        ///     Gets or sets the customer system name
         /// </summary>
         [JsonProperty("system_name")]
         public string SystemName { get; set; }
 
         /// <summary>
-        /// Gets or sets the last IP address
+        ///     Gets or sets the last IP address
         /// </summary>
         [JsonProperty("last_ip_address")]
         public string LastIpAddress { get; set; }
 
         /// <summary>
-        /// Gets or sets the date and time of entity creation
+        ///     Gets or sets the date and time of entity creation
         /// </summary>
         [JsonProperty("created_on_utc")]
         public DateTime? CreatedOnUtc { get; set; }
 
         /// <summary>
-        /// Gets or sets the date and time of last login
+        ///     Gets or sets the date and time of last login
         /// </summary>
         [JsonProperty("last_login_date_utc")]
         public DateTime? LastLoginDateUtc { get; set; }
 
         /// <summary>
-        /// Gets or sets the date and time of last activity
+        ///     Gets or sets the date and time of last activity
         /// </summary>
         [JsonProperty("last_activity_date_utc")]
         public DateTime? LastActivityDateUtc { get; set; }
 
         /// <summary>
-        ///  Gets or sets the store identifier in which customer registered
+        ///     Gets or sets the store identifier in which customer registered
         /// </summary>
         [JsonProperty("registered_in_store_id")]
         public int? RegisteredInStoreId { get; set; }
 
         /// <summary>
-        ///  Gets or sets the subscribed to newsletter property
+        ///     Gets or sets the subscribed to newsletter property
         /// </summary>
         [JsonProperty("subscribed_to_newsletter")]
         public bool SubscribedToNewsletter { get; set; }
@@ -120,14 +123,11 @@ namespace Nop.Plugin.Api.DTOs.Customers
         {
             get
             {
-                if (_roleIds == null)
-                {
-                    _roleIds = new List<int>();
-                }
+                if (_roleIds == null) _roleIds = new List<int>();
 
                 return _roleIds;
             }
-            set { _roleIds = value; } 
-        } 
+            set => _roleIds = value;
+        }
     }
 }
