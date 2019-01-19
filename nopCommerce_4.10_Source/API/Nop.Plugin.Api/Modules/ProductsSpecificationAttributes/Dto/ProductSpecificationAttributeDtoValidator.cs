@@ -1,9 +1,9 @@
-﻿using FluentValidation;
-using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.DTOs.SpecificationAttributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentValidation;
+using Nop.Core.Domain.Catalog;
+using Nop.Plugin.Api.DTOs.SpecificationAttributes;
 
 namespace Nop.Plugin.Api.Validators
 {
@@ -19,42 +19,30 @@ namespace Nop.Plugin.Api.Validators
                 ApplyProductIdRule();
                 ApplyAttributeTypeIdRule();
 
-                if (passedPropertyValuePaires.ContainsKey("specification_attribute_option_id"))
-                {
-                    ApplySpecificationAttributeOptoinIdRule();
-                }
+                if (passedPropertyValuePaires.ContainsKey("specification_attribute_option_id")) ApplySpecificationAttributeOptoinIdRule();
             }
             else if (httpMethod.Equals("put", StringComparison.InvariantCultureIgnoreCase))
             {
                 //apply "update" rules
                 RuleFor(x => x.Id).GreaterThan(0).WithMessage("invalid id");
 
-                if (passedPropertyValuePaires.ContainsKey("product_id"))
-                {
-                    ApplyProductIdRule();
-                }
+                if (passedPropertyValuePaires.ContainsKey("product_id")) ApplyProductIdRule();
 
-                if (passedPropertyValuePaires.ContainsKey("attribute_type_id"))
-                {
-                    ApplyAttributeTypeIdRule();
-                }
+                if (passedPropertyValuePaires.ContainsKey("attribute_type_id")) ApplyAttributeTypeIdRule();
 
-                if (passedPropertyValuePaires.ContainsKey("specification_attribute_option_id"))
-                {
-                    ApplySpecificationAttributeOptoinIdRule();
-                }
+                if (passedPropertyValuePaires.ContainsKey("specification_attribute_option_id")) ApplySpecificationAttributeOptoinIdRule();
             }
+        }
+
+        private void ApplyAttributeTypeIdRule()
+        {
+            var specificationAttributeTypes = (SpecificationAttributeType[]) Enum.GetValues(typeof(SpecificationAttributeType));
+            RuleFor(x => x.AttributeTypeId).InclusiveBetween((int) specificationAttributeTypes.First(), (int) specificationAttributeTypes.Last()).WithMessage("invalid attribute type id");
         }
 
         private void ApplyProductIdRule()
         {
             RuleFor(x => x.ProductId).GreaterThan(0).WithMessage("invalid product id");
-        }
-
-        private void ApplyAttributeTypeIdRule()
-        {
-            var specificationAttributeTypes = (SpecificationAttributeType[])Enum.GetValues(typeof(SpecificationAttributeType));
-            RuleFor(x => x.AttributeTypeId).InclusiveBetween((int)specificationAttributeTypes.First(), (int)specificationAttributeTypes.Last()).WithMessage("invalid attribute type id");
         }
 
         private void ApplySpecificationAttributeOptoinIdRule()

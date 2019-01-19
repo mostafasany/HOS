@@ -6,11 +6,11 @@ namespace Nop.Plugin.Api.Services
 {
     public interface IProductAttributesApiService
     {
-        IList<ProductAttribute> GetProductAttributes(int limit = Configurations.DefaultLimit, 
+        ProductAttribute GetById(int id);
+
+        IList<ProductAttribute> GetProductAttributes(int limit = Configurations.DefaultLimit,
             int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId);
 
         int GetProductAttributesCount();
-
-        ProductAttribute GetById(int id);
     }
 }

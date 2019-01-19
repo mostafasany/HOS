@@ -4,7 +4,7 @@ using Nop.Plugin.Api.DTOs.Base;
 namespace Nop.Plugin.Api.DTOs.ShoppingCarts
 {
     [JsonObject(Title = "shopping_cart_item")]
-    public class ExtendedShoppingCartItemDto  : BaseDto
+    public class ExtendedShoppingCartItemDto : BaseDto
     {
         /// <summary>
         ///     Gets or sets the total

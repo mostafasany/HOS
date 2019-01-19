@@ -71,7 +71,7 @@ namespace Nop.Plugin.Api.Controllers
 
             foreach (Store store in allStores)
             {
-                var storeDto = _dtoHelper.PrepareStoreDTO(store);
+                StoreDto storeDto = _dtoHelper.PrepareStoreDTO(store);
 
                 storesAsDto.Add(storeDto);
             }
@@ -106,7 +106,7 @@ namespace Nop.Plugin.Api.Controllers
 
             if (store == null) return Error(HttpStatusCode.NotFound, "store", "store not found");
 
-            var storeDto = _dtoHelper.PrepareStoreDTO(store);
+            StoreDto storeDto = _dtoHelper.PrepareStoreDTO(store);
 
             var storesRootObject = new StoresRootObject();
 

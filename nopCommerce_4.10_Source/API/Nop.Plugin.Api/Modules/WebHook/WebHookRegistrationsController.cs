@@ -303,7 +303,7 @@
 //                webHook.Filters.Add(WildcardWebHookFilterProvider.Name);
 //                return;
 //            }
-            
+
 //            IDictionary<string, WebHookFilter> filters = await _filterManager.GetAllWebHookFiltersAsync();
 //            HashSet<string> normalizedFilters = new HashSet<string>();
 //            List<string> invalidFilters = new List<string>();
@@ -326,7 +326,7 @@
 //                string link = Url.Link(WebHookNames.FiltersGetAction, null);
 //                string msg = string.Format(CultureInfo.CurrentCulture, _localizationService.GetResource("Api.WebHooks.InvalidFilters"), invalidFiltersMsg, link);
 //                //Configuration.DependencyResolver.GetLogger().Info(msg);
-                
+
 //                throw new VerificationException(msg);
 //            }
 //            else
@@ -432,3 +432,4 @@
 //        }
 //    }
 //}
+

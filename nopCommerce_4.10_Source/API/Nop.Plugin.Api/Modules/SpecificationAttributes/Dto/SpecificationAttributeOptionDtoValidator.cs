@@ -1,7 +1,7 @@
-﻿using FluentValidation;
-using Nop.Plugin.Api.DTOs.SpecificationAttributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using FluentValidation;
+using Nop.Plugin.Api.DTOs.SpecificationAttributes;
 
 namespace Nop.Plugin.Api.Validators
 {
@@ -22,15 +22,9 @@ namespace Nop.Plugin.Api.Validators
                 //apply "update" rules
                 RuleFor(x => x.Id).GreaterThan(0).WithMessage("invalid id");
 
-                if (passedPropertyValuePaires.ContainsKey("name"))
-                {
-                    ApplyNameRule();
-                }
+                if (passedPropertyValuePaires.ContainsKey("name")) ApplyNameRule();
 
-                if (passedPropertyValuePaires.ContainsKey("specification_attribute_id"))
-                {
-                    ApplySpecificationAttributeIdRule();
-                }
+                if (passedPropertyValuePaires.ContainsKey("specification_attribute_id")) ApplySpecificationAttributeIdRule();
             }
         }
 

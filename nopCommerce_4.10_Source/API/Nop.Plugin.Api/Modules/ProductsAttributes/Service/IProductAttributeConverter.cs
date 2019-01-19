@@ -1,11 +1,11 @@
-﻿using Nop.Plugin.Api.DTOs;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Nop.Plugin.Api.DTOs;
 
 namespace Nop.Plugin.Api.Services
 {
     public interface IProductAttributeConverter
     {
-        List<ProductItemAttributeDto> Parse(string attributesXml);
         string ConvertToXml(List<ProductItemAttributeDto> attributeDtos, int productId);
+        List<ProductItemAttributeDto> Parse(string attributesXml);
     }
 }

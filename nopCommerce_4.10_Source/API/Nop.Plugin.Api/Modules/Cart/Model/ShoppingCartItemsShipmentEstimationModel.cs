@@ -5,7 +5,7 @@ using Nop.Plugin.Api.ModelBinders;
 namespace Nop.Plugin.Api.Models.ShoppingCartsParameters
 {
     [ModelBinder(typeof(ParametersModelBinder<ShoppingCartItemsShipmentEstimationModel>))]
-    public class ShoppingCartItemsShipmentEstimationModel 
+    public class ShoppingCartItemsShipmentEstimationModel
     {
         [JsonProperty("country_id")]
         public int CountryId { get; set; }

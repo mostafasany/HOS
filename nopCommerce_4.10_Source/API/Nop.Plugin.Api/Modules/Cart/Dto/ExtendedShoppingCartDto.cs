@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using Nop.Plugin.Api.DTOs.Base;
-using System.Collections.Generic;
 
 namespace Nop.Plugin.Api.DTOs.ShoppingCarts
 {

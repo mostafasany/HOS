@@ -6,22 +6,13 @@ namespace Nop.Plugin.Api.DTOs.ShoppingCarts
 {
     public class ShippingOptionRootObject : ISerializableObject
     {
-        public ShippingOptionRootObject()
-        {
-            ShippingOptions = new List<ShippingOptionDto>();
-        }
+        public ShippingOptionRootObject() => ShippingOptions = new List<ShippingOptionDto>();
 
         [JsonProperty("shipping_options")]
         public IList<ShippingOptionDto> ShippingOptions { get; set; }
 
-        public string GetPrimaryPropertyName()
-        {
-            return "shipping_options";
-        }
+        public string GetPrimaryPropertyName() => "shipping_options";
 
-        public Type GetPrimaryPropertyType()
-        {
-            return typeof (ShippingOptionDto);
-        }
+        public Type GetPrimaryPropertyType() => typeof(ShippingOptionDto);
     }
 }

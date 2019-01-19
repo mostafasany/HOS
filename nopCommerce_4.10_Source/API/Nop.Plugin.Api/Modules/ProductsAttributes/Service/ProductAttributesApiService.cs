@@ -11,23 +11,17 @@ namespace Nop.Plugin.Api.Services
     {
         private readonly IRepository<ProductAttribute> _productAttributesRepository;
 
-        public ProductAttributesApiService(IRepository<ProductAttribute> productAttributesRepository)
-        {
-            _productAttributesRepository = productAttributesRepository;
-        }
+        public ProductAttributesApiService(IRepository<ProductAttribute> productAttributesRepository) => _productAttributesRepository = productAttributesRepository;
 
         public IList<ProductAttribute> GetProductAttributes(int limit = Configurations.DefaultLimit,
-             int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId)
+            int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId)
         {
-            var query = GetProductAttributesQuery(sinceId);
+            IQueryable<ProductAttribute> query = GetProductAttributesQuery(sinceId);
 
             return new ApiList<ProductAttribute>(query, page - 1, limit);
         }
 
-        public int GetProductAttributesCount()
-        {
-            return GetProductAttributesQuery().Count();
-        }
+        public int GetProductAttributesCount() => GetProductAttributesQuery().Count();
 
         ProductAttribute IProductAttributesApiService.GetById(int id)
         {
@@ -39,12 +33,9 @@ namespace Nop.Plugin.Api.Services
 
         private IQueryable<ProductAttribute> GetProductAttributesQuery(int sinceId = Configurations.DefaultSinceId)
         {
-            var query = _productAttributesRepository.Table;
+            IQueryable<ProductAttribute> query = _productAttributesRepository.Table;
 
-            if (sinceId > 0)
-            {
-                query = query.Where(productAttribute => productAttribute.Id > sinceId);
-            }
+            if (sinceId > 0) query = query.Where(productAttribute => productAttribute.Id > sinceId);
 
             query = query.OrderByDescending(productAttribute => productAttribute.Id);
 

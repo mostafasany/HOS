@@ -126,7 +126,7 @@ namespace Nop.Plugin.Api.DTOs.ShoppingCarts
 
             public decimal OriginalPrice { get; set; }
 
-            public bool HasDiscount =>UnitPriceNumber< OriginalPrice;
+            public bool HasDiscount => UnitPriceNumber < OriginalPrice;
 
             public PictureModel Picture { get; set; }
 

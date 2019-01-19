@@ -1,7 +1,7 @@
-﻿using FluentValidation;
-using Nop.Plugin.Api.DTOs.SpecificationAttributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using FluentValidation;
+using Nop.Plugin.Api.DTOs.SpecificationAttributes;
 
 namespace Nop.Plugin.Api.Validators
 {
