@@ -73,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modules\Articles\Translator\" />
-    <Folder Include="Custom\" />
     <Folder Include="Modules\Categories\Translator\" />
     <Folder Include="Modules\Orders\Translator\" />
     <Folder Include="Modules\Countries\Model\" />
@@ -97,9 +96,19 @@
     <Folder Include="Modules\Clients\Dto\" />
     <Folder Include="Modules\Clients\Model\" />
     <Folder Include="Modules\Clients\Translator\" />
+    <Folder Include="Modules\ProductsSpecificationAttributes\Service\" />
+    <Folder Include="Modules\SpecificationAttributes\Translator\" />
+    <Folder Include="Modules\ProductsSpecificationAttributes\Translator\" />
+    <Folder Include="Modules\ProductsCategoryMappings\Translator\" />
     <Folder Include="Modules\Stores\Model\" />
     <Folder Include="Modules\Stores\Service\" />
     <Folder Include="Modules\Stores\Translator\" />
+    <Folder Include="Modules\Cart\Translator\" />
+    <Folder Include="Modules\Products\Translator\" />
+    <Folder Include="Modules\ProductsAttributes\Translator\" />
+    <Folder Include="Modules\WebHook\Dto\" />
+    <Folder Include="Modules\WebHook\Model\" />
+    <Folder Include="Modules\WebHook\Translator\" />
     <Folder Include="Modules\Topics\Model\" />
     <Folder Include="Modules\Topics\Translator\" />
     <Folder Include="Modules\Template\Translator\" />
