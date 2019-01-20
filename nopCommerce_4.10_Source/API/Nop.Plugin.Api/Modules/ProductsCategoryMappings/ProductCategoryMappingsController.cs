@@ -4,17 +4,20 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.Attributes;
-using Nop.Plugin.Api.Constants;
-using Nop.Plugin.Api.Delta;
-using Nop.Plugin.Api.DTOs.Errors;
-using Nop.Plugin.Api.DTOs.ProductCategoryMappings;
-using Nop.Plugin.Api.JSON.ActionResults;
-using Nop.Plugin.Api.JSON.Serializers;
-using Nop.Plugin.Api.MappingExtensions;
-using Nop.Plugin.Api.ModelBinders;
-using Nop.Plugin.Api.Models.ProductCategoryMappingsParameters;
-using Nop.Plugin.Api.Services;
+using Nop.Plugin.Api.Common.Attributes;
+using Nop.Plugin.Api.Common.Constants;
+using Nop.Plugin.Api.Common.Controllers;
+using Nop.Plugin.Api.Common.Delta;
+using Nop.Plugin.Api.Common.DTOs.Errors;
+using Nop.Plugin.Api.Common.JSON.ActionResults;
+using Nop.Plugin.Api.Common.JSON.Serializers;
+using Nop.Plugin.Api.Common.MappingExtensions;
+using Nop.Plugin.Api.Common.ModelBinders;
+using Nop.Plugin.Api.Modules.Categories.Service;
+using Nop.Plugin.Api.Modules.Products.Service;
+using Nop.Plugin.Api.Modules.ProductsCategoryMappings.Dto;
+using Nop.Plugin.Api.Modules.ProductsCategoryMappings.Model;
+using Nop.Plugin.Api.Modules.ProductsCategoryMappings.Service;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
@@ -24,7 +27,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Controllers
+namespace Nop.Plugin.Api.Modules.ProductsCategoryMappings
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductCategoryMappingsController : BaseApiController

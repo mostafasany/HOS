@@ -2,7 +2,7 @@
 using System.Reflection;
 using AutoMapper;
 
-namespace Nop.Plugin.Api.MappingExtensions
+namespace Nop.Plugin.Api.Common.MappingExtensions
 {
     public static class BaseMapping
     {

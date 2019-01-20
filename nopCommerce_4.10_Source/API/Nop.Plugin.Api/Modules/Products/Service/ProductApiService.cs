@@ -5,13 +5,13 @@ using Nop.Core.Data;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Seo;
 using Nop.Core.Domain.Vendors;
-using Nop.Plugin.Api.Constants;
-using Nop.Plugin.Api.DataStructures;
-using Nop.Plugin.Api.DTOs.Products;
+using Nop.Plugin.Api.Common.Constants;
+using Nop.Plugin.Api.Common.DataStructures;
+using Nop.Plugin.Api.Modules.Products.Dto;
 using Nop.Services.Seo;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.Products.Service
 {
     public class ProductApiService : IProductApiService
     {

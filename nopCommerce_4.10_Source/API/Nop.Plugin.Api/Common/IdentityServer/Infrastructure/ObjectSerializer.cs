@@ -1,9 +1,9 @@
-﻿namespace Nop.Plugin.Api.IdentityServer.Infrastructure
-{
-    using IdentityServer4.Infrastructure;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
+﻿using IdentityServer4.Infrastructure;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
+namespace Nop.Plugin.Api.Common.IdentityServer.Infrastructure
+{
     public class ObjectSerializer
     {
         private static readonly JsonSerializerSettings Settings = new JsonSerializerSettings

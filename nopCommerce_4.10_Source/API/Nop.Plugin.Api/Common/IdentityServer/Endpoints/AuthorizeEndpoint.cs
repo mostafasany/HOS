@@ -1,15 +1,15 @@
-﻿namespace Nop.Plugin.Api.IdentityServer.Endpoints
-{
-    using System.Collections.Specialized;
-    using System.Net;
-    using System.Threading.Tasks;
-    using IdentityServer4.Endpoints.Results;
-    using IdentityServer4.Hosting;
-    using IdentityServer4.ResponseHandling;
-    using IdentityServer4.Services;
-    using IdentityServer4.Validation;
-    using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Specialized;
+using System.Net;
+using System.Threading.Tasks;
+using IdentityServer4.Endpoints.Results;
+using IdentityServer4.Hosting;
+using IdentityServer4.ResponseHandling;
+using IdentityServer4.Services;
+using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Http;
 
+namespace Nop.Plugin.Api.Common.IdentityServer.Endpoints
+{
     public class AuthorizeEndpoint : AuthorizeEndpointBase
     {
         public AuthorizeEndpoint(

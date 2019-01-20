@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Nop.Core.Data;
 using Nop.Core.Domain.Articles;
-using Nop.Plugin.Api.Constants;
-using Nop.Plugin.Api.DataStructures;
+using Nop.Plugin.Api.Common.Constants;
+using Nop.Plugin.Api.Common.DataStructures;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.Articles.Service
 {
     public class ArticleApiService : IArticleApiService
     {

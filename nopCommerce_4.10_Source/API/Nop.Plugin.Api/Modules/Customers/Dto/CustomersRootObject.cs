@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.DTOs.Customers
+namespace Nop.Plugin.Api.Modules.Customers.Dto
 {
     public class CustomersRootObject : ISerializableObject
     {

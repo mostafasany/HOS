@@ -1,13 +1,13 @@
 ﻿using System;
-//using System.Data.Entity.Infrastructure;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Nop.Core;
 using Nop.Data;
 using Nop.Data.Extensions;
-using Nop.Plugin.Api.DataMappings;
+using Nop.Plugin.Api.Common.DataMappings;
+//using System.Data.Entity.Infrastructure;
 
-namespace Nop.Plugin.Api.Data
+namespace Nop.Plugin.Api.Common.Data
 {
     public class ApiObjectContext : DbContext, IDbContext
     {

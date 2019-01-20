@@ -1,6 +1,6 @@
 ﻿using Nop.Core.Data;
 
-namespace Nop.Plugin.Api.Helpers
+namespace Nop.Plugin.Api.Common.Helpers
 {
     public interface IConfigManagerHelper
     {

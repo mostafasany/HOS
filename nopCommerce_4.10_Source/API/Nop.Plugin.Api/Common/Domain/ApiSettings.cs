@@ -1,6 +1,6 @@
 ﻿using Nop.Core.Configuration;
 
-namespace Nop.Plugin.Api.Domain
+namespace Nop.Plugin.Api.Common.Domain
 {
     public class ApiSettings : ISettings
     {

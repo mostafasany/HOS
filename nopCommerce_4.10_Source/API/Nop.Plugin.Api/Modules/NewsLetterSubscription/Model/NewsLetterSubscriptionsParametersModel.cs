@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.Constants;
-using Nop.Plugin.Api.ModelBinders;
+using Nop.Plugin.Api.Common.Constants;
+using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Models.CustomersParameters
+namespace Nop.Plugin.Api.Modules.NewsLetterSubscription.Model
 {
     // JsonProperty is used only for swagger
     [ModelBinder(typeof(ParametersModelBinder<NewsLetterSubscriptionsParametersModel>))]

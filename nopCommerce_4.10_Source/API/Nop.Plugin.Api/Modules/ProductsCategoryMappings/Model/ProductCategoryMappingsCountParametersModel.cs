@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Nop.Plugin.Api.ModelBinders;
+using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Models.ProductCategoryMappingsParameters
+namespace Nop.Plugin.Api.Modules.ProductsCategoryMappings.Model
 {
     [ModelBinder(typeof(ParametersModelBinder<ProductCategoryMappingsCountParametersModel>))]
     public class ProductCategoryMappingsCountParametersModel : BaseCategoryMappingsParametersModel

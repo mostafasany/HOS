@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Nop.Plugin.Api.Converters
+namespace Nop.Plugin.Api.Common.Converters
 {
     public class ObjectConverter : IObjectConverter
     {

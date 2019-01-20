@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Nop.Plugin.Api.DTOs.Images;
+using Nop.Plugin.Api.Modules.Pictures.Dto;
 
-namespace Nop.Plugin.Api.Attributes
+namespace Nop.Plugin.Api.Common.Attributes
 {
     public class ImageCollectionValidationAttribute : BaseValidationAttribute
     {

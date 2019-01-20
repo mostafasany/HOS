@@ -5,10 +5,10 @@ using Nop.Core.Data;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Payments;
 using Nop.Core.Domain.Shipping;
-using Nop.Plugin.Api.Constants;
-using Nop.Plugin.Api.DataStructures;
+using Nop.Plugin.Api.Common.Constants;
+using Nop.Plugin.Api.Common.DataStructures;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.Orders.Service
 {
     public class OrderApiService : IOrderApiService
     {

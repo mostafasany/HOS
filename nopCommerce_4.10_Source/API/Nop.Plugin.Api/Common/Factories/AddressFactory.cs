@@ -1,7 +1,7 @@
 ﻿using System;
 using Nop.Core.Domain.Common;
 
-namespace Nop.Plugin.Api.Factories
+namespace Nop.Plugin.Api.Common.Factories
 {
     public class AddressFactory : IFactory<Address>
     {

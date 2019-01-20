@@ -1,12 +1,12 @@
-﻿namespace Nop.Plugin.Api.Migrations.IdentityServer.ConfigurationDb
-{
-    using System;
-    using IdentityServer4.EntityFramework.DbContexts;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Infrastructure;
-    using Microsoft.EntityFrameworkCore.Metadata;
-    using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using IdentityServer4.EntityFramework.DbContexts;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
+namespace Nop.Plugin.Api.Common.Migrations.IdentityServer.ConfigurationDb
+{
     [DbContext(typeof(ConfigurationDbContext))]
     [Migration("20170319181717_Config")]
     partial class Config

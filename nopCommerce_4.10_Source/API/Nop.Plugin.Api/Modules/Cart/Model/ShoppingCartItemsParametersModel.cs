@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Nop.Plugin.Api.ModelBinders;
+using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Models.ShoppingCartsParameters
+namespace Nop.Plugin.Api.Modules.Cart.Model
 {
     [ModelBinder(typeof(ParametersModelBinder<ShoppingCartItemsParametersModel>))]
     public class ShoppingCartItemsParametersModel : BaseShoppingCartItemsParametersModel

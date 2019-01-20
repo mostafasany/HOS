@@ -1,12 +1,11 @@
-﻿using Nop.Plugin.Api.Converters;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Nop.Plugin.Api.Common.Converters;
 
-namespace Nop.Plugin.Api.ModelBinders
+namespace Nop.Plugin.Api.Common.ModelBinders
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
-    
     public class ParametersModelBinder<T> : IModelBinder where T : class, new()
     {
         private readonly IObjectConverter _objectConverter;

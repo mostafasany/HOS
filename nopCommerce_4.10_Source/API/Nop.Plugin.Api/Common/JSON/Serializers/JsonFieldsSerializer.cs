@@ -1,12 +1,12 @@
-﻿namespace Nop.Plugin.Api.JSON.Serializers
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Newtonsoft.Json.Linq;
-    using Nop.Plugin.Api.DTOs;
-    using Nop.Plugin.Api.Helpers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json.Linq;
+using Nop.Plugin.Api.Common.DTOs;
+using Nop.Plugin.Api.Common.Helpers;
 
+namespace Nop.Plugin.Api.Common.JSON.Serializers
+{
     public class JsonFieldsSerializer : IJsonFieldsSerializer
     {
         public string Serialize(ISerializableObject objectToSerialize, string jsonFields)

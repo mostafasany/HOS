@@ -1,4 +1,6 @@
-﻿namespace Nop.Plugin.Api
+﻿using Nop.Plugin.Api.Common.Helpers;
+
+namespace Nop.Plugin.Api
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -8,7 +10,6 @@
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
-    using Nop.Plugin.Api.Helpers;
     using Nop.Services.Authentication.External;
     using Org.BouncyCastle.Asn1.X509.Qualified;
 

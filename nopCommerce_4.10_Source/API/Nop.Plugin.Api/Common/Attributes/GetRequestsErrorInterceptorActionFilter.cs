@@ -4,12 +4,12 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using Nop.Core.Infrastructure;
-using Nop.Plugin.Api.DTOs.Errors;
-using Nop.Plugin.Api.JSON.ActionResults;
-using Nop.Plugin.Api.JSON.Serializers;
-using Nop.Plugin.Api.Models;
+using Nop.Plugin.Api.Common.DTOs.Errors;
+using Nop.Plugin.Api.Common.JSON.ActionResults;
+using Nop.Plugin.Api.Common.JSON.Serializers;
+using Nop.Plugin.Api.Common.Models;
 
-namespace Nop.Plugin.Api.Attributes
+namespace Nop.Plugin.Api.Common.Attributes
 {
     public class GetRequestsErrorInterceptorActionFilter : ActionFilterAttribute
     {

@@ -3,16 +3,20 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.DTOs.Articles;
-using Nop.Plugin.Api.DTOs.Categories;
-using Nop.Plugin.Api.DTOs.Images;
-using Nop.Plugin.Api.DTOs.Menu;
-using Nop.Plugin.Api.DTOs.Products;
+using Nop.Plugin.Api.Modules.Articles.Dto;
+using Nop.Plugin.Api.Modules.Articles.Service;
+using Nop.Plugin.Api.Modules.Categories.Dto;
+using Nop.Plugin.Api.Modules.Categories.Service;
+using Nop.Plugin.Api.Modules.Manufacturers.Service;
+using Nop.Plugin.Api.Modules.Menu.Dto;
+using Nop.Plugin.Api.Modules.Pictures.Dto;
+using Nop.Plugin.Api.Modules.Products.Dto;
+using Nop.Plugin.Api.Modules.Products.Service;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Seo;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.Menu.Service
 {
     public class MenuApiService : IMenuApiService
     {

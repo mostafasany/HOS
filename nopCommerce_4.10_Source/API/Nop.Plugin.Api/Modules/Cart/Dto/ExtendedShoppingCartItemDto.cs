@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Nop.Plugin.Api.DTOs.Base;
+using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.DTOs.ShoppingCarts
+namespace Nop.Plugin.Api.Modules.Cart.Dto
 {
     [JsonObject(Title = "shopping_cart_item")]
     public class ExtendedShoppingCartItemDto : BaseDto

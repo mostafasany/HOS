@@ -1,12 +1,12 @@
-﻿namespace Nop.Plugin.Api.IdentityServer.Extensions
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.Linq;
-    using System.Text;
-    using System.Text.Encodings.Web;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
 
+namespace Nop.Plugin.Api.Common.IdentityServer.Extensions
+{
     public static class NameValueCollectionExtensions
     {
         public static string ToQueryString(this NameValueCollection collection)

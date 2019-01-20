@@ -6,7 +6,8 @@ using System.Web;
 using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Nop.Plugin.Api.JSON.Serializers;
+using Nop.Plugin.Api.Common.Controllers;
+using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -15,7 +16,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Controllers
+namespace Nop.Plugin.Api.Modules
 {
     public class AuthorizeController : BaseApiController
     {

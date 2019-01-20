@@ -1,14 +1,14 @@
-﻿namespace Nop.Plugin.Api.IdentityServer.Endpoints
-{
-    using System;
-    using System.Threading.Tasks;
-    using IdentityModel;
-    using IdentityServer4.Extensions;
-    using IdentityServer4.Hosting;
-    using IdentityServer4.ResponseHandling;
-    using Microsoft.AspNetCore.Http;
-    using Nop.Plugin.Api.IdentityServer.Infrastructure;
+﻿using System;
+using System.Threading.Tasks;
+using IdentityModel;
+using IdentityServer4.Extensions;
+using IdentityServer4.Hosting;
+using IdentityServer4.ResponseHandling;
+using Microsoft.AspNetCore.Http;
+using Nop.Plugin.Api.Common.IdentityServer.Infrastructure;
 
+namespace Nop.Plugin.Api.Common.IdentityServer.Endpoints
+{
     public class TokenResult : IEndpointResult
     {
         public TokenResponse Response { get; set; }

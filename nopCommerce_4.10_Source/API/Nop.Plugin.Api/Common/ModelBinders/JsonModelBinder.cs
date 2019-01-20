@@ -1,19 +1,18 @@
-﻿using Nop.Plugin.Api.Attributes;
-using Nop.Plugin.Api.Delta;
-using Nop.Plugin.Api.Helpers;
-using Nop.Plugin.Api.Validators;
-using Nop.Services.Localization;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Nop.Plugin.Api.Common.Attributes;
+using Nop.Plugin.Api.Common.Delta;
+using Nop.Plugin.Api.Common.Helpers;
+using Nop.Plugin.Api.Common.Validators;
+using Nop.Services.Localization;
 
-namespace Nop.Plugin.Api.ModelBinders
+namespace Nop.Plugin.Api.Common.ModelBinders
 {
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
-    using System;
-
     public class JsonModelBinder<T> : IModelBinder where T : class, new()
     {
         private readonly IJsonHelper _jsonHelper;

@@ -1,9 +1,9 @@
-﻿namespace Nop.Plugin.Api.Authorization.Requirements
-{
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
+namespace Nop.Plugin.Api.Common.Authorization.Requirements
+{
     public class AuthorizationSchemeRequirement : IAuthorizationRequirement
     {
         public bool IsValid(IHeaderDictionary requestHeaders)

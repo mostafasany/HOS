@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace Nop.Plugin.Api.Converters
+namespace Nop.Plugin.Api.Common.Converters
 {
     public class ApiTypeConverter : IApiTypeConverter
     {

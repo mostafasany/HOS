@@ -1,17 +1,17 @@
-﻿namespace Nop.Plugin.Api.Controllers.Admin
-{
-    using System.Linq;
-    using Microsoft.AspNetCore.Mvc;
-    using Constants;
-    using Nop.Services.Localization;
-    using Web.Framework;
-    using Nop.Web.Framework.Controllers;
-    using Web.Framework.Kendoui;
-    using Web.Framework.Mvc.Filters;
-    using Models;
-    using Services;
-    using System;
+﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Nop.Plugin.Api.Common.Constants;
+using Nop.Plugin.Api.Common.Models;
+using Nop.Plugin.Api.Modules.Clients.Service;
+using Nop.Services.Localization;
+using Nop.Web.Framework;
+using Nop.Web.Framework.Controllers;
+using Nop.Web.Framework.Kendoui;
+using Nop.Web.Framework.Mvc.Filters;
 
+namespace Nop.Plugin.Api.Common.Controllers.Admin
+{
     [AuthorizeAdmin]
     [Area(AreaNames.Admin)]
     [Route("admin/manageClientsAdmin/")]

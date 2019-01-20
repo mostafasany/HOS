@@ -1,15 +1,11 @@
-﻿using Nop.Core.Infrastructure;
+﻿using System.IO;
+using System.Security.Cryptography;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Nop.Core;
 
-namespace Nop.Plugin.Api.Helpers
+namespace Nop.Plugin.Api.Common.Helpers
 {
-    using Microsoft.IdentityModel.Tokens;
-    using Newtonsoft.Json;
-    using System.IO;
-    using System.Security.Cryptography;
-    using Nop.Core;
-    using Microsoft.Extensions.DependencyInjection;
-
-
     public static class CryptoHelper
     {
         // Need to ensure that the key would be the same through the application lifetime.

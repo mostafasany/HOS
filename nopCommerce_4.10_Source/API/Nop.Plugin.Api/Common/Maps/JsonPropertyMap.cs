@@ -4,10 +4,10 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Nop.Core.Caching;
 using Nop.Core.Infrastructure;
-using Nop.Plugin.Api.Attributes;
-using Nop.Plugin.Api.Constants;
+using Nop.Plugin.Api.Common.Attributes;
+using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Maps
+namespace Nop.Plugin.Api.Common.Maps
 {
     public class JsonPropertyMapper : IJsonPropertyMapper
     {

@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using FluentValidation.Attributes;
 using Newtonsoft.Json;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.Attributes;
-using Nop.Plugin.Api.DTOs.Base;
-using Nop.Plugin.Api.DTOs.Images;
-using Nop.Plugin.Api.DTOs.Languages;
-using Nop.Plugin.Api.DTOs.SpecificationAttributes;
-using Nop.Plugin.Api.Validators;
+using Nop.Plugin.Api.Common.Attributes;
+using Nop.Plugin.Api.Common.DTOs.Base;
+using Nop.Plugin.Api.Modules.Languages.Dto;
+using Nop.Plugin.Api.Modules.Pictures.Dto;
+using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;
 
-namespace Nop.Plugin.Api.DTOs.Products
+namespace Nop.Plugin.Api.Modules.Products.Dto
 {
     [JsonObject(Title = "product")]
     [Validator(typeof(ProductDtoValidator))]

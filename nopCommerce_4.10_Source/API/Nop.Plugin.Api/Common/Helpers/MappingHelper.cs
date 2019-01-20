@@ -5,9 +5,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Nop.Core.Infrastructure;
-using Nop.Plugin.Api.Factories;
+using Nop.Plugin.Api.Common.Factories;
 
-namespace Nop.Plugin.Api.Helpers
+namespace Nop.Plugin.Api.Common.Helpers
 {
     // TODO: Think of moving the mapping helper in the delta folder
     public class MappingHelper : IMappingHelper

@@ -1,8 +1,8 @@
-﻿using Nop.Plugin.Api.AutoMapper;
-using Nop.Plugin.Api.Domain;
-using Nop.Plugin.Api.Models;
+﻿using Nop.Plugin.Api.Common.AutoMapper;
+using Nop.Plugin.Api.Common.Domain;
+using Nop.Plugin.Api.Common.Models;
 
-namespace Nop.Plugin.Api.MappingExtensions
+namespace Nop.Plugin.Api.Common.MappingExtensions
 {
     public static class ConfigurationMappings
     {

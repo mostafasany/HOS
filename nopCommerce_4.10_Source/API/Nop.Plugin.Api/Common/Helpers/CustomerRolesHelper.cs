@@ -4,7 +4,7 @@ using Nop.Core.Caching;
 using Nop.Core.Domain.Customers;
 using Nop.Services.Customers;
 
-namespace Nop.Plugin.Api.Helpers
+namespace Nop.Plugin.Api.Common.Helpers
 {
     public class CustomerRolesHelper : ICustomerRolesHelper
     {

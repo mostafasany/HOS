@@ -4,10 +4,10 @@ using System.Net.Http;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Nop.Core.Domain.Orders;
-using Nop.Plugin.Api.DTOs.ShoppingCarts;
-using Nop.Plugin.Api.Helpers;
+using Nop.Plugin.Api.Common.Helpers;
+using Nop.Plugin.Api.Common.Validators;
 
-namespace Nop.Plugin.Api.Validators
+namespace Nop.Plugin.Api.Modules.Cart.Dto
 {
     public class ShoppingCartItemDtoValidator : BaseDtoValidator<ShoppingCartItemDto>
     {

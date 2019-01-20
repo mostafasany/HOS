@@ -1,10 +1,9 @@
-﻿using Nop.Plugin.Api.AutoMapper;
+﻿using IdentityServer4.EntityFramework.Entities;
+using Nop.Plugin.Api.Common.AutoMapper;
+using Nop.Plugin.Api.Common.Models;
 
-namespace Nop.Plugin.Api.MappingExtensions
+namespace Nop.Plugin.Api.Common.MappingExtensions
 {
-    using IdentityServer4.EntityFramework.Entities;
-    using Nop.Plugin.Api.Models;
-
     public static class ClientMappings
     {
         public static ClientApiModel ToApiModel(this Client client)

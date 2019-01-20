@@ -1,4 +1,11 @@
-﻿using Nop.Plugin.Api.Data;
+﻿using Nop.Plugin.Api.Common.Authorization.Policies;
+using Nop.Plugin.Api.Common.Authorization.Requirements;
+using Nop.Plugin.Api.Common.Constants;
+using Nop.Plugin.Api.Common.Data;
+using Nop.Plugin.Api.Common.Helpers;
+using Nop.Plugin.Api.Common.IdentityServer.Endpoints;
+using Nop.Plugin.Api.Common.IdentityServer.Generators;
+using Nop.Plugin.Api.Common.IdentityServer.Middlewares;
 using Nop.Web.Framework.Infrastructure.Extensions;
 
 namespace Nop.Plugin.Api
@@ -18,13 +25,6 @@ namespace Nop.Plugin.Api
     using Microsoft.IdentityModel.Tokens;
     using Nop.Core.Data;
     using Nop.Core.Infrastructure;
-    using Nop.Plugin.Api.Authorization.Policies;
-    using Nop.Plugin.Api.Authorization.Requirements;
-    using Nop.Plugin.Api.Constants;
-    using Nop.Plugin.Api.Helpers;
-    using Nop.Plugin.Api.IdentityServer.Endpoints;
-    using Nop.Plugin.Api.IdentityServer.Generators;
-    using Nop.Plugin.Api.IdentityServer.Middlewares;
     using Nop.Web.Framework.Infrastructure;
     using System;
     using System.Collections.Generic;

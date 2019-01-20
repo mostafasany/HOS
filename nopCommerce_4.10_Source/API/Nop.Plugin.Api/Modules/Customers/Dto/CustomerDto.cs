@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using FluentValidation.Attributes;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.Attributes;
-using Nop.Plugin.Api.DTOs.ShoppingCarts;
-using Nop.Plugin.Api.Validators;
+using Nop.Plugin.Api.Common.Attributes;
+using Nop.Plugin.Api.Common.DTOs;
+using Nop.Plugin.Api.Modules.Cart.Dto;
 
-namespace Nop.Plugin.Api.DTOs.Customers
+namespace Nop.Plugin.Api.Modules.Customers.Dto
 {
     [JsonObject(Title = "customer")]
     [Validator(typeof(CustomerDtoValidator))]

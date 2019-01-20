@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.ModelBinders;
+using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Models.ShoppingCartsParameters
+namespace Nop.Plugin.Api.Modules.Cart.Model
 {
     [ModelBinder(typeof(ParametersModelBinder<ShoppingCartItemsForCrossSellsParametersModel>))]
     public class ShoppingCartItemsForCrossSellsParametersModel : BaseShoppingCartItemsParametersModel

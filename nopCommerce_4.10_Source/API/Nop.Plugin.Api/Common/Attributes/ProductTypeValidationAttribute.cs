@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Nop.Core.Domain.Catalog;
 
-namespace Nop.Plugin.Api.Attributes
+namespace Nop.Plugin.Api.Common.Attributes
 {
     public class ProductTypeValidationAttribute : BaseValidationAttribute
     {

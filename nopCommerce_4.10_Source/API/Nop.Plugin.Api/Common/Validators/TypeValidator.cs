@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.Helpers;
+using Nop.Plugin.Api.Common.Helpers;
 
-namespace Nop.Plugin.Api.Validators
+namespace Nop.Plugin.Api.Common.Validators
 {
     public class TypeValidator<T>
     {

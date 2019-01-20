@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Nop.Plugin.Api.Attributes;
+using Nop.Plugin.Api.Common.Attributes;
 
-namespace Nop.Plugin.Api.DTOs.Images
+namespace Nop.Plugin.Api.Modules.Pictures.Dto
 {
     [ImageValidation]
     public class ImageDto

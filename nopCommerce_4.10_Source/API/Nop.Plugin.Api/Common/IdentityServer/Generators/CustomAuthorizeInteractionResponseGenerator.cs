@@ -2,20 +2,21 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
-namespace Nop.Plugin.Api.IdentityServer.Generators
+using System;
+using System.Threading.Tasks;
+using IdentityModel;
+using IdentityServer4;
+using IdentityServer4.Extensions;
+using IdentityServer4.Models;
+using IdentityServer4.ResponseHandling;
+using IdentityServer4.Services;
+using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+
+namespace Nop.Plugin.Api.Common.IdentityServer.Generators
 {
-    using System;
-    using System.Threading.Tasks;
-    using IdentityModel;
-    using IdentityServer4;
-    using IdentityServer4.Extensions;
-    using IdentityServer4.Models;
-    using IdentityServer4.ResponseHandling;
-    using IdentityServer4.Services;
-    using IdentityServer4.Validation;
-    using Microsoft.AspNetCore.Authentication;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.Extensions.Logging;
     using IAuthenticationService = Microsoft.AspNetCore.Authentication.IAuthenticationService;
 
     public class NopApiAuthorizeInteractionResponseGenerator : IAuthorizeInteractionResponseGenerator

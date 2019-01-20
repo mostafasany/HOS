@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Nop.Core.Infrastructure;
-using Nop.Plugin.Api.Helpers;
-using Nop.Plugin.Api.Maps;
+using Nop.Plugin.Api.Common.Helpers;
+using Nop.Plugin.Api.Common.Maps;
 
-namespace Nop.Plugin.Api.Delta
+namespace Nop.Plugin.Api.Common.Delta
 {
     public class Delta<TDto> where TDto : class, new()
     {

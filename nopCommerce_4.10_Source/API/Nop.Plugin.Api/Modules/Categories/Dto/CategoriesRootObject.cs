@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.DTOs.Categories
+namespace Nop.Plugin.Api.Modules.Categories.Dto
 {
     public class CategoriesRootObject : ISerializableObject
     {

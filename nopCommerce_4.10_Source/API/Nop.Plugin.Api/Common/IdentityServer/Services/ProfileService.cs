@@ -1,11 +1,11 @@
-﻿namespace Nop.Plugin.Api.IdentityServer.Services
-{
-    using System.Linq;
-    using System.Threading.Tasks;
-    using IdentityServer4.Models;
-    using IdentityServer4.Services;
-    using Nop.Plugin.Api.Services;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using IdentityServer4.Models;
+using IdentityServer4.Services;
+using Nop.Plugin.Api.Modules.Clients.Service;
 
+namespace Nop.Plugin.Api.Common.IdentityServer.Services
+{
     public class ProfileService : IProfileService
     {
         private readonly IClientService _clientService;
