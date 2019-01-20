@@ -175,7 +175,7 @@ namespace Nop.Plugin.Api.Modules.Orders
 
             var ordersRootObject = new OrdersRootObject();
 
-            var placedOrderDto = _dtoHelper.PrepareOrderDTO(placeOrderResult.PlacedOrder);
+            OrderDto placedOrderDto = _dtoHelper.PrepareOrderDTO(placeOrderResult.PlacedOrder);
 
             ordersRootObject.Orders.Add(placedOrderDto);
 
@@ -234,7 +234,7 @@ namespace Nop.Plugin.Api.Modules.Orders
 
             var ordersRootObject = new OrdersRootObject();
 
-            var orderDto = _dtoHelper.PrepareOrderDTO(order);
+            OrderDto orderDto = _dtoHelper.PrepareOrderDTO(order);
             ordersRootObject.Orders.Add(orderDto);
 
             string json = JsonFieldsSerializer.Serialize(ordersRootObject, fields);
@@ -389,7 +389,7 @@ namespace Nop.Plugin.Api.Modules.Orders
 
             var ordersRootObject = new OrdersRootObject();
 
-            var placedOrderDto = _dtoHelper.PrepareOrderDTO(currentOrder);
+            OrderDto placedOrderDto = _dtoHelper.PrepareOrderDTO(currentOrder);
             placedOrderDto.ShippingMethod = orderDelta.Dto.ShippingMethod;
 
             ordersRootObject.Orders.Add(placedOrderDto);

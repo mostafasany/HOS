@@ -109,7 +109,7 @@ namespace Nop.Plugin.Api.Modules.Categories
                 LocalizationService.GetResource("ActivityLog.AddNewCategory"), category);
 
             // Preparing the result dto of the new category
-            var newCategoryDto = _dtoHelper.PrepareCategoryDTO(category);
+            CategoryDto newCategoryDto = _dtoHelper.PrepareCategoryDTO(category);
 
             var categoriesRootObject = new CategoriesRootObject();
 
@@ -228,7 +228,7 @@ namespace Nop.Plugin.Api.Modules.Categories
 
             if (category == null) return Error(HttpStatusCode.NotFound, "category", "category not found");
 
-            var categoryDto = _dtoHelper.PrepareCategoryDTO(category);
+            CategoryDto categoryDto = _dtoHelper.PrepareCategoryDTO(category);
 
             var categoriesRootObject = new CategoriesRootObject();
 
@@ -283,7 +283,7 @@ namespace Nop.Plugin.Api.Modules.Categories
             CustomerActivityService.InsertActivity("UpdateCategory",
                 LocalizationService.GetResource("ActivityLog.UpdateCategory"), category);
 
-            var categoryDto = _dtoHelper.PrepareCategoryDTO(category);
+            CategoryDto categoryDto = _dtoHelper.PrepareCategoryDTO(category);
 
             var categoriesRootObject = new CategoriesRootObject();
 
