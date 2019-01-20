@@ -9,13 +9,9 @@ namespace Nop.Plugin.Api.Common.Authorization.Policies
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ActiveApiPluginRequirement requirement)
         {
             if (requirement.IsActive())
-            {
                 context.Succeed(requirement);
-            }
             else
-            {
                 context.Fail();
-            }
 
             return Task.CompletedTask;
         }

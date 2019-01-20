@@ -4,8 +4,8 @@ namespace Nop.Plugin.Api.Common.Helpers
 {
     public interface IConfigManagerHelper
     {
+        DataSettings DataSettings { get; }
         void AddBindingRedirects();
         void AddConnectionString();
-        DataSettings DataSettings { get; }
     }
 }

@@ -9,7 +9,7 @@ namespace Nop.Plugin.Api.Modules.ProductsAttributes.Dto
     public class ProductAttributeDto : BaseDto
     {
         /// <summary>
-        /// Gets or sets the name
+        ///     Gets or sets the name
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -31,7 +31,7 @@ namespace Nop.Plugin.Api.Modules.ProductsAttributes.Dto
         //}
 
         /// <summary>
-        /// Gets or sets the description
+        ///     Gets or sets the description
         /// </summary>
         [JsonProperty("description")]
         public string Description { get; set; }

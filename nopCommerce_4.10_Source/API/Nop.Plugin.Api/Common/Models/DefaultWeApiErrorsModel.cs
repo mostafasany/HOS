@@ -3,6 +3,6 @@
     public class DefaultWeApiErrorsModel
     {
         public string Message { get; set; }
-        public string MessageDetail { get; set; } 
+        public string MessageDetail { get; set; }
     }
 }

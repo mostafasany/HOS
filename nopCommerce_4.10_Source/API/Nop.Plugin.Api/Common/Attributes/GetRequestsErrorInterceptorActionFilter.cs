@@ -15,10 +15,7 @@ namespace Nop.Plugin.Api.Common.Attributes
     {
         private readonly IJsonFieldsSerializer _jsonFieldsSerializer;
 
-        public GetRequestsErrorInterceptorActionFilter()
-        {
-            _jsonFieldsSerializer = EngineContext.Current.Resolve<IJsonFieldsSerializer>();
-        }
+        public GetRequestsErrorInterceptorActionFilter() => _jsonFieldsSerializer = EngineContext.Current.Resolve<IJsonFieldsSerializer>();
 
         public override void OnActionExecuted(ActionExecutedContext actionExecutedContext)
         {
@@ -69,7 +66,7 @@ namespace Nop.Plugin.Api.Common.Attributes
                 Errors = bindingError
             };
 
-            var errorJson = _jsonFieldsSerializer.Serialize(errorsRootObject, null);
+            string errorJson = _jsonFieldsSerializer.Serialize(errorsRootObject, null);
 
             actionExecutedContext.Result = new ErrorActionResult(errorJson, HttpStatusCode.BadRequest);
         }

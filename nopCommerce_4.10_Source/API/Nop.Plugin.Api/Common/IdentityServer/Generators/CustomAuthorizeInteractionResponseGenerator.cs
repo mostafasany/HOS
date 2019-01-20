@@ -17,36 +17,34 @@ using Microsoft.Extensions.Logging;
 
 namespace Nop.Plugin.Api.Common.IdentityServer.Generators
 {
-    using IAuthenticationService = Microsoft.AspNetCore.Authentication.IAuthenticationService;
-
     public class NopApiAuthorizeInteractionResponseGenerator : IAuthorizeInteractionResponseGenerator
     {
         /// <summary>
-        /// The logger.
+        ///     The clock
         /// </summary>
-        protected readonly ILogger Logger;
+        protected readonly ISystemClock Clock;
 
         /// <summary>
-        /// The consent service.
+        ///     The consent service.
         /// </summary>
         protected readonly IConsentService Consent;
 
         /// <summary>
-        /// The profile service.
+        ///     The logger.
+        /// </summary>
+        protected readonly ILogger Logger;
+
+        /// <summary>
+        ///     The profile service.
         /// </summary>
         protected readonly IProfileService Profile;
 
-        /// <summary>
-        /// The clock
-        /// </summary>
-        protected readonly ISystemClock Clock;
+        private readonly IAuthenticationService _authenticationService;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        private readonly IAuthenticationService _authenticationService;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="AuthorizeInteractionResponseGenerator"/> class.
+        ///     Initializes a new instance of the <see cref="AuthorizeInteractionResponseGenerator" /> class.
         /// </summary>
         /// <param name="clock">The clock.</param>
         /// <param name="logger">The logger.</param>
@@ -67,7 +65,7 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Generators
         }
 
         /// <summary>
-        /// Processes the interaction logic.
+        ///     Processes the interaction logic.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="consent">The consent.</param>
@@ -75,7 +73,7 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Generators
         public virtual async Task<InteractionResponse> ProcessInteractionAsync(ValidatedAuthorizeRequest request, ConsentResponse consent = null)
         {
             Logger.LogTrace("ProcessInteractionAsync");
-            
+
             if (consent != null && consent.Granted == false && request.Subject.IsAuthenticated() == false)
             {
                 // special case when anonymous user has issued a deny prior to authenticating
@@ -90,7 +88,7 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Generators
             {
                 DisplayName = request.Client.ClientName,
                 AdditionalClaims = request.ClientClaims,
-                AuthenticationTime = new DateTime?(DateTime.UtcNow)
+                AuthenticationTime = DateTime.UtcNow
             };
 
             request.Subject = identityServerUser.CreatePrincipal();
@@ -100,11 +98,11 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Generators
                 IsPersistent = true,
                 IssuedUtc = DateTime.UtcNow
             };
-            
+
             await _httpContextAccessor.HttpContext.SignInAsync(IdentityServerConstants.DefaultCookieAuthenticationScheme, request.Subject, authenticationProperties);
-            
+
             var result = new InteractionResponse();
-            
+
             return result;
         }
     }

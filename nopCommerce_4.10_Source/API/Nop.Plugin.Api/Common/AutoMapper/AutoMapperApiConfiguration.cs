@@ -17,7 +17,6 @@ namespace Nop.Plugin.Api.Common.AutoMapper
             get
             {
                 if (s_mapper == null)
-                {
                     lock (s_mapperLockObject)
                     {
                         if (s_mapper == null)
@@ -27,20 +26,13 @@ namespace Nop.Plugin.Api.Common.AutoMapper
                             s_mapper = mapperConfiguration.CreateMapper();
                         }
                     }
-                }
 
                 return s_mapper;
             }
         }
 
-        public static TDestination MapTo<TSource, TDestination>(this TSource source)
-        {
-            return Mapper.Map<TSource, TDestination>(source);
-        }
+        public static TDestination MapTo<TSource, TDestination>(this TSource source) => Mapper.Map<TSource, TDestination>(source);
 
-        public static TDestination MapTo<TSource, TDestination>(this TSource source, TDestination destination)
-        {
-            return Mapper.Map(source, destination);
-        }
+        public static TDestination MapTo<TSource, TDestination>(this TSource source, TDestination destination) => Mapper.Map(source, destination);
     }
 }

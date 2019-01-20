@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -10,21 +11,15 @@ namespace Nop.Plugin.Api.Common.ModelBinders
     {
         private readonly IObjectConverter _objectConverter;
 
-        public ParametersModelBinder(IObjectConverter objectConverter)
-        {
-            _objectConverter = objectConverter;
-        }
-        
+        public ParametersModelBinder(IObjectConverter objectConverter) => _objectConverter = objectConverter;
+
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
-            if (bindingContext == null)
-            {
-                throw new ArgumentNullException(nameof(bindingContext));
-            }
-            
+            if (bindingContext == null) throw new ArgumentNullException(nameof(bindingContext));
+
             if (bindingContext.HttpContext.Request.QueryString.HasValue)
             {
-                var queryParameters = bindingContext.HttpContext.Request.Query.ToDictionary(pair => pair.Key, pair => pair.Value.ToString());
+                Dictionary<string, string> queryParameters = bindingContext.HttpContext.Request.Query.ToDictionary(pair => pair.Key, pair => pair.Value.ToString());
 
                 bindingContext.Model = _objectConverter.ToObject<T>(queryParameters);
             }

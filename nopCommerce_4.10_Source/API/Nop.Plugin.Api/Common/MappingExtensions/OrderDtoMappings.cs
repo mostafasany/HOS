@@ -6,9 +6,6 @@ namespace Nop.Plugin.Api.Common.MappingExtensions
 {
     public static class OrderDtoMappings
     {
-        public static OrderDto ToDto(this Order order)
-        {
-            return order.MapTo<Order, OrderDto>();
-        }
+        public static OrderDto ToDto(this Order order) => order.MapTo<Order, OrderDto>();
     }
 }

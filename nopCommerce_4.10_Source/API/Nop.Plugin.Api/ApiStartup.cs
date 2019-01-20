@@ -1,4 +1,27 @@
-﻿using Nop.Plugin.Api.Common.Authorization.Policies;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Reflection;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Entities;
+using IdentityServer4.Hosting;
+using IdentityServer4.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Rewrite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Nop.Core.Data;
+using Nop.Core.Infrastructure;
+using Nop.Plugin.Api.Common.Authorization.Policies;
 using Nop.Plugin.Api.Common.Authorization.Requirements;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Data;
@@ -6,36 +29,13 @@ using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.IdentityServer.Endpoints;
 using Nop.Plugin.Api.Common.IdentityServer.Generators;
 using Nop.Plugin.Api.Common.IdentityServer.Middlewares;
+using Nop.Web.Framework.Infrastructure;
 using Nop.Web.Framework.Infrastructure.Extensions;
+using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
+using Client = IdentityServer4.EntityFramework.Entities.Client;
 
 namespace Nop.Plugin.Api
 {
-    using IdentityServer4.EntityFramework.DbContexts;
-    using IdentityServer4.EntityFramework.Entities;
-    using IdentityServer4.Hosting;
-    using IdentityServer4.Models;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Rewrite;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.IdentityModel.Tokens;
-    using Nop.Core.Data;
-    using Nop.Core.Infrastructure;
-    using Nop.Web.Framework.Infrastructure;
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.IO;
-    using System.Linq;
-    using System.Linq.Dynamic.Core;
-    using System.Reflection;
-    using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
-
     public class ApiStartup : INopStartup
     {
         private const string ObjectContextName = "nop_object_context_web_api";
@@ -72,7 +72,7 @@ namespace Nop.Plugin.Api
 
             // During a clean install we should not register any middlewares i.e IdentityServer as it won't be able to create its  
             // tables without a connection string and will throw an exception
-            var dataSettings = DataSettingsManager.LoadSettings();
+            DataSettings dataSettings = DataSettingsManager.LoadSettings();
             if (!dataSettings?.IsValid ?? true)
                 return;
             //https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-2.1&tabs=visual-studio%2Cvisual-studio-xml
@@ -98,7 +98,7 @@ namespace Nop.Plugin.Api
             SeedData(app);
 
 
-            var rewriteOptions = new RewriteOptions()
+            RewriteOptions rewriteOptions = new RewriteOptions()
                 .AddRewrite("oauth/(.*)", "connect/$1", true)
                 .AddRewrite("api/token", "connect/token", true);
 
@@ -118,40 +118,38 @@ namespace Nop.Plugin.Api
             });
         }
 
-        private void UseIdentityServer(IApplicationBuilder app)
-        {
-            // The code below is a copy of app.UseIdentityServer();
-            // but the nopCommerce AuthenticationMiddleware is added by nopCommmerce and
-            // it has a try catch for the non-configured properly external authentication providers i.e Facebook
-            // So there is no need to call UseAuthentication again and thus not being able to catch exceptions thrown by Facebook
+        public int Order => new AuthenticationStartup().Order + 1;
 
-            //app.Validate();
-            UseMiddlewareExtensions.UseMiddleware<BaseUrlMiddleware>(app);
-            app.ConfigureCors();
-            //app.UseAuthentication();
-            UseMiddlewareExtensions.UseMiddleware<IdentityServerMiddleware>(app);
+        public void AddBindingRedirectsFallbacks()
+        {
+            // If no binding redirects are present in the config file then this will perform the binding redirect
+            RedirectAssembly("Microsoft.AspNetCore.DataProtection.Abstractions", new Version(2, 0, 0, 0), "adb9793829ddae60");
         }
 
-        private void AddRequiredConfiguration()
+        /// <summary>
+        ///     Adds an AssemblyResolve handler to redirect all attempts to load a specific assembly name to the specified
+        ///     version.
+        /// </summary>
+        public static void RedirectAssembly(string shortName, Version targetVersion, string publicKeyToken)
         {
-            var configManagerHelper = new NopConfigManagerHelper();
+            ResolveEventHandler handler = null;
 
-            // some of third party libaries that we use for WebHooks and Swagger use older versions
-            // of certain assemblies so we need to redirect them to the once that nopCommerce uses
-            //TODO: Upgrade 4.10 check this!
-            //configManagerHelper.AddBindingRedirects();
+            handler = (sender, args) =>
+            {
+                // Use latest strong name & version when trying to load SDK assemblies
+                var requestedAssembly = new AssemblyName(args.Name);
+                if (requestedAssembly.Name != shortName)
+                    return null;
 
-            // required by the WebHooks support
-            //TODO: Upgrade 4.10 check this!
-            //configManagerHelper.AddConnectionString();           
+                requestedAssembly.Version = targetVersion;
+                requestedAssembly.SetPublicKeyToken(new AssemblyName("x, PublicKeyToken=" + publicKeyToken).GetPublicKeyToken());
+                requestedAssembly.CultureInfo = CultureInfo.InvariantCulture;
 
-            // This is required only in development.
-            // It it is required only when you want to send a web hook to an https address with an invalid SSL certificate. (self-signed)
-            // The code marks all certificates as valid.
-            // We may want to extract this as a setting in the future.
+                AppDomain.CurrentDomain.AssemblyResolve -= handler;
 
-            // NOTE: If this code is commented the certificates will be validated.
-            System.Net.ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+                return Assembly.Load(requestedAssembly);
+            };
+            AppDomain.CurrentDomain.AssemblyResolve += handler;
         }
 
         private void AddAuthorizationPipeline(IServiceCollection services)
@@ -175,6 +173,28 @@ namespace Nop.Plugin.Api
             services.AddSingleton<IAuthorizationHandler, RequestsFromSwaggerAuthorizationPolicy>();
         }
 
+        private void AddRequiredConfiguration()
+        {
+            var configManagerHelper = new NopConfigManagerHelper();
+
+            // some of third party libaries that we use for WebHooks and Swagger use older versions
+            // of certain assemblies so we need to redirect them to the once that nopCommerce uses
+            //TODO: Upgrade 4.10 check this!
+            //configManagerHelper.AddBindingRedirects();
+
+            // required by the WebHooks support
+            //TODO: Upgrade 4.10 check this!
+            //configManagerHelper.AddConnectionString();           
+
+            // This is required only in development.
+            // It it is required only when you want to send a web hook to an https address with an invalid SSL certificate. (self-signed)
+            // The code marks all certificates as valid.
+            // We may want to extract this as a setting in the future.
+
+            // NOTE: If this code is commented the certificates will be validated.
+            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+        }
+
         private void AddTokenGenerationPipeline(IServiceCollection services)
         {
             RsaSecurityKey signingKey = CryptoHelper.CreateRsaSecurityKey();
@@ -185,7 +205,7 @@ namespace Nop.Plugin.Api
 
             string connectionStringFromNop = dataSettings.DataConnectionString;
 
-            var migrationsAssembly = typeof(ApiStartup).GetTypeInfo().Assembly.GetName().Name;
+            string migrationsAssembly = typeof(ApiStartup).GetTypeInfo().Assembly.GetName().Name;
 
             services.AddIdentityServer()
                 .AddSigningCredential(signingKey)
@@ -209,7 +229,7 @@ namespace Nop.Plugin.Api
 
         private void ApplyIdentityServerMigrations(IApplicationBuilder app)
         {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            using (IServiceScope serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 // the database.Migrate command will apply all pending migrations and will create the database if it is not created already.
                 var persistedGrantContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
@@ -220,21 +240,30 @@ namespace Nop.Plugin.Api
             }
         }
 
+        private string LoadUpgradeScript()
+        {
+            var fileProvider = EngineContext.Current.Resolve<INopFileProvider>();
+            string path = fileProvider.MapPath("~/Plugins/Nop.Plugin.Api/upgrade_script.sql");
+            string script = File.ReadAllText(path);
+
+            return script;
+        }
+
         private void SeedData(IApplicationBuilder app)
         {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            using (IServiceScope serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var configurationContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
 
                 if (!configurationContext.ApiResources.Any())
                 {
                     // In the simple case an API has exactly one scope. But there are cases where you might want to sub-divide the functionality of an API, and give different clients access to different parts. 
-                    configurationContext.ApiResources.Add(new ApiResource()
+                    configurationContext.ApiResources.Add(new ApiResource
                     {
                         Enabled = true,
-                        Scopes = new List<ApiScope>()
+                        Scopes = new List<ApiScope>
                         {
-                            new ApiScope()
+                            new ApiScope
                             {
                                 Name = "nop_api",
                                 DisplayName = "nop_api"
@@ -250,15 +279,6 @@ namespace Nop.Plugin.Api
             }
         }
 
-        private string LoadUpgradeScript()
-        {
-            var fileProvider = EngineContext.Current.Resolve<INopFileProvider>();
-            string path = fileProvider.MapPath("~/Plugins/Nop.Plugin.Api/upgrade_script.sql");
-            string script = File.ReadAllText(path);
-
-            return script;
-        }
-
         private void TryRunUpgradeScript(ConfigurationDbContext configurationContext)
         {
             try
@@ -268,14 +288,11 @@ namespace Nop.Plugin.Api
                 configurationContext.Database.ExecuteSqlCommand(upgradeScript);
 
                 // All client secrets must be hashed otherwise the identity server validation will fail.
-                var allClients =
-                    Enumerable.ToList(configurationContext.Clients.Include(client => client.ClientSecrets));
-                foreach (var client in allClients)
+                List<Client> allClients =
+                    configurationContext.Clients.Include(client => client.ClientSecrets).ToList();
+                foreach (Client client in allClients)
                 {
-                    foreach (var clientSecret in client.ClientSecrets)
-                    {
-                        clientSecret.Value = HashExtensions.Sha256(clientSecret.Value);
-                    }
+                    foreach (ClientSecret clientSecret in client.ClientSecrets) clientSecret.Value = clientSecret.Value.Sha256();
 
                     client.AccessTokenLifetime = Configurations.DefaultAccessTokenExpiration;
                     client.AbsoluteRefreshTokenLifetime = Configurations.DefaultRefreshTokenExpiration;
@@ -289,35 +306,18 @@ namespace Nop.Plugin.Api
             }
         }
 
-        public void AddBindingRedirectsFallbacks()
+        private void UseIdentityServer(IApplicationBuilder app)
         {
-            // If no binding redirects are present in the config file then this will perform the binding redirect
-            RedirectAssembly("Microsoft.AspNetCore.DataProtection.Abstractions", new Version(2, 0, 0, 0), "adb9793829ddae60");
+            // The code below is a copy of app.UseIdentityServer();
+            // but the nopCommerce AuthenticationMiddleware is added by nopCommmerce and
+            // it has a try catch for the non-configured properly external authentication providers i.e Facebook
+            // So there is no need to call UseAuthentication again and thus not being able to catch exceptions thrown by Facebook
+
+            //app.Validate();
+            app.UseMiddleware<BaseUrlMiddleware>();
+            app.ConfigureCors();
+            //app.UseAuthentication();
+            app.UseMiddleware<IdentityServerMiddleware>();
         }
-
-        ///<summary>Adds an AssemblyResolve handler to redirect all attempts to load a specific assembly name to the specified version.</summary>
-        public static void RedirectAssembly(string shortName, Version targetVersion, string publicKeyToken)
-        {
-            ResolveEventHandler handler = null;
-
-            handler = (sender, args) =>
-            {
-                // Use latest strong name & version when trying to load SDK assemblies
-                var requestedAssembly = new AssemblyName(args.Name);
-                if (requestedAssembly.Name != shortName)
-                    return null;
-
-                requestedAssembly.Version = targetVersion;
-                requestedAssembly.SetPublicKeyToken(new AssemblyName("x, PublicKeyToken=" + publicKeyToken).GetPublicKeyToken());
-                requestedAssembly.CultureInfo = CultureInfo.InvariantCulture;
-
-                AppDomain.CurrentDomain.AssemblyResolve -= handler;
-
-                return Assembly.Load(requestedAssembly);
-            };
-            AppDomain.CurrentDomain.AssemblyResolve += handler;
-        }
-
-        public int Order => new AuthenticationStartup().Order + 1;
     }
 }

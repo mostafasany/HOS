@@ -9,20 +9,12 @@ namespace Nop.Plugin.Api.Common.Authorization.Policies
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, RequestFromSwaggerOptional requirement)
         {
             if (requirement.AllowRequestsFromSwagger())
-            {
                 if (requirement.IsRequestFromSwagger(context.Resource as string))
-                {
                     context.Succeed(requirement);
-                }
                 else
-                {
                     context.Fail();
-                }
-            }
             else
-            {
                 context.Succeed(requirement);
-            }
 
             return Task.CompletedTask;
         }

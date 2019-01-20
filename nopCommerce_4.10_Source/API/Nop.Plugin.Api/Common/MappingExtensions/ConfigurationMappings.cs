@@ -6,14 +6,8 @@ namespace Nop.Plugin.Api.Common.MappingExtensions
 {
     public static class ConfigurationMappings
     {
-        public static ConfigurationModel ToModel(this ApiSettings apiSettings)
-        {
-            return apiSettings.MapTo<ApiSettings, ConfigurationModel>();
-        }
+        public static ApiSettings ToEntity(this ConfigurationModel apiSettingsModel) => apiSettingsModel.MapTo<ConfigurationModel, ApiSettings>();
 
-        public static ApiSettings ToEntity(this ConfigurationModel apiSettingsModel)
-        {
-            return apiSettingsModel.MapTo<ConfigurationModel, ApiSettings>();
-        }
+        public static ConfigurationModel ToModel(this ApiSettings apiSettings) => apiSettings.MapTo<ApiSettings, ConfigurationModel>();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Endpoints.Results;
 using IdentityServer4.Hosting;
@@ -17,7 +18,7 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Endpoints
             IAuthorizeRequestValidator validator,
             IAuthorizeInteractionResponseGenerator interactionGenerator,
             IAuthorizeResponseGenerator authorizeResponseGenerator,
-            IUserSession userSession) 
+            IUserSession userSession)
             : base(events, userSession, validator, authorizeResponseGenerator, interactionGenerator)
         {
         }
@@ -32,10 +33,7 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Endpoints
             }
             else if (context.Request.Method == "POST")
             {
-                if (!context.Request.HasFormContentType)
-                {
-                    return new StatusCodeResult(HttpStatusCode.UnsupportedMediaType);
-                }
+                if (!context.Request.HasFormContentType) return new StatusCodeResult(HttpStatusCode.UnsupportedMediaType);
 
                 values = context.Request.Form.AsNameValueCollection();
             }
@@ -44,9 +42,9 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Endpoints
                 return new StatusCodeResult(HttpStatusCode.MethodNotAllowed);
             }
 
-            var user = await UserSession.GetUserAsync();
-            var result = await ProcessAuthorizeRequestAsync(values, user, null);
-            
+            ClaimsPrincipal user = await UserSession.GetUserAsync();
+            IEndpointResult result = await ProcessAuthorizeRequestAsync(values, user, null);
+
             return result;
         }
     }

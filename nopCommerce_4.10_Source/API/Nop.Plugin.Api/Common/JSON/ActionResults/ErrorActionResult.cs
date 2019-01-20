@@ -3,12 +3,13 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace Nop.Plugin.Api.Common.JSON.ActionResults
 {
-    public class ErrorActionResult : IActionResult 
+    public class ErrorActionResult : IActionResult
     {
         private readonly string _jsonString;
         private readonly HttpStatusCode _statusCode;
@@ -18,15 +19,15 @@ namespace Nop.Plugin.Api.Common.JSON.ActionResults
             _jsonString = jsonString;
             _statusCode = statusCode;
         }
-        
+
         public Task ExecuteResultAsync(ActionContext context)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            var response = context.HttpContext.Response;
+            HttpResponse response = context.HttpContext.Response;
 
-            response.StatusCode = (int)_statusCode;
+            response.StatusCode = (int) _statusCode;
             response.ContentType = "application/json";
 
             using (TextWriter writer = new HttpResponseStreamWriter(response.Body, Encoding.UTF8))

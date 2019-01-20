@@ -7,7 +7,6 @@ namespace Nop.Plugin.Api.Common.Validators
 {
     public class AddressDtoValidator : BaseDtoValidator<AddressDto>
     {
-
         #region Constructors
 
         public AddressDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper, Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper, requestJsonDictionary)
@@ -68,6 +67,5 @@ namespace Nop.Plugin.Api.Common.Validators
         }
 
         #endregion
-
     }
 }

@@ -1,29 +1,29 @@
-﻿using Nop.Plugin.Api.Common.Data;
+﻿using IdentityServer4.EntityFramework.DbContexts;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Nop.Core;
+using Nop.Core.Infrastructure;
+using Nop.Core.Plugins;
+using Nop.Plugin.Api.Common.Data;
 using Nop.Plugin.Api.Common.Domain;
 using Nop.Plugin.Api.Common.Helpers;
+using Nop.Services.Configuration;
+using Nop.Services.Localization;
+using Nop.Web.Framework.Menu;
 
 namespace Nop.Plugin.Api
 {
-    using IdentityServer4.EntityFramework.DbContexts;
-    using Microsoft.EntityFrameworkCore.Infrastructure;
-    using Microsoft.EntityFrameworkCore.Migrations;
-    using Nop.Core;
-    using Nop.Core.Infrastructure;
-    using Nop.Core.Plugins;
-    using Nop.Services.Configuration;
-    using Nop.Services.Localization;
-    using Nop.Web.Framework.Menu;
-
     public class ApiPlugin : BasePlugin, IAdminMenuPlugin
     {
+        private readonly ILocalizationService _localizationService;
+
         //private readonly IWebConfigMangerHelper _webConfigMangerHelper;
         private readonly ApiObjectContext _objectContext;
         private readonly ISettingService _settingService;
-        private readonly IWorkContext _workContext;
         private readonly IWebHelper _webHelper;
-        private readonly ILocalizationService _localizationService;
+        private readonly IWorkContext _workContext;
 
-        public ApiPlugin(ApiObjectContext objectContext,/*IWebConfigMangerHelper webConfigMangerHelper,*/ ISettingService settingService, IWorkContext workContext,
+        public ApiPlugin(ApiObjectContext objectContext, /*IWebConfigMangerHelper webConfigMangerHelper,*/ ISettingService settingService, IWorkContext workContext,
             ILocalizationService localizationService, IWebHelper webHelper
 /*, IConfiguration configuration*/)
         {
@@ -63,8 +63,8 @@ namespace Nop.Plugin.Api
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.AllowRequestsFromSwagger", "Allow Requests From Swagger");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.AllowRequestsFromSwagger.Hint", "Swagger is the documentation generation tool used for the API (/Swagger). It has a client that enables it to make GET requests to the API endpoints. By enabling this option you will allow all requests from the swagger client. Do Not Enable on live site, it is only for demo sites or local testing!!!");
 
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Menu.Title","API");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Menu.Settings.Title","Settings");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Menu.Title", "API");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Menu.Settings.Title", "Settings");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Menu.Clients.Title", "Clients");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Menu.Docs.Title", "Docs");
 
@@ -117,13 +117,13 @@ namespace Nop.Plugin.Api
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.EnableLogging", "Enable Logging");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.EnableLogging.Hint", "By enable logging you will see webhook messages in the Log. These messages are needed ONLY for diagnostic purposes. NOTE: A restart is required when changing this setting in order to take effect");
 
-            ApiSettings settings = new ApiSettings
+            var settings = new ApiSettings
             {
                 EnableApi = true,
                 AllowRequestsFromSwagger = false
             };
 
-            _settingService.SaveSetting(settings);           
+            _settingService.SaveSetting(settings);
 
             base.Install();
 
@@ -138,7 +138,7 @@ namespace Nop.Plugin.Api
 
             var persistedGrantMigrator = EngineContext.Current.Resolve<PersistedGrantDbContext>().GetService<IMigrator>();
             persistedGrantMigrator.Migrate("0");
-            
+
             var configurationMigrator = EngineContext.Current.Resolve<ConfigurationDbContext>().GetService<IMigrator>();
             configurationMigrator.Migrate("0");
 
@@ -192,11 +192,11 @@ namespace Nop.Plugin.Api
 
         public void ManageSiteMap(SiteMapNode rootNode)
         {
-            string pluginMenuName = _localizationService.GetResource("Plugins.Api.Admin.Menu.Title",languageId: _workContext.WorkingLanguage.Id, defaultValue: "API");
+            string pluginMenuName = _localizationService.GetResource("Plugins.Api.Admin.Menu.Title", _workContext.WorkingLanguage.Id, defaultValue: "API");
 
-            string settingsMenuName = _localizationService.GetResource("Plugins.Api.Admin.Menu.Settings.Title", languageId: _workContext.WorkingLanguage.Id, defaultValue: "API");
+            string settingsMenuName = _localizationService.GetResource("Plugins.Api.Admin.Menu.Settings.Title", _workContext.WorkingLanguage.Id, defaultValue: "API");
 
-            string manageClientsMenuName = _localizationService.GetResource("Plugins.Api.Admin.Menu.Clients.Title", languageId: _workContext.WorkingLanguage.Id, defaultValue: "API");
+            string manageClientsMenuName = _localizationService.GetResource("Plugins.Api.Admin.Menu.Clients.Title", _workContext.WorkingLanguage.Id, defaultValue: "API");
 
             const string adminUrlPart = "Admin/";
 
@@ -225,19 +225,19 @@ namespace Nop.Plugin.Api
                 SystemName = "Api-Clients-Menu",
                 IconClass = "fa-genderless"
             });
-            
 
-            string pluginDocumentationUrl = "https://github.com/SevenSpikes/api-plugin-for-nopcommerce";
-            
+
+            var pluginDocumentationUrl = "https://github.com/SevenSpikes/api-plugin-for-nopcommerce";
+
             pluginMainMenu.ChildNodes.Add(new SiteMapNode
-                {
-                    Title = _localizationService.GetResource("Plugins.Api.Admin.Menu.Docs.Title"),
-                    Url = pluginDocumentationUrl,
-                    Visible = true,
-                    SystemName = "Api-Docs-Menu",
-                    IconClass = "fa-genderless"
-                });//TODO: target="_blank"
-            
+            {
+                Title = _localizationService.GetResource("Plugins.Api.Admin.Menu.Docs.Title"),
+                Url = pluginDocumentationUrl,
+                Visible = true,
+                SystemName = "Api-Docs-Menu",
+                IconClass = "fa-genderless"
+            }); //TODO: target="_blank"
+
 
             rootNode.ChildNodes.Add(pluginMainMenu);
         }

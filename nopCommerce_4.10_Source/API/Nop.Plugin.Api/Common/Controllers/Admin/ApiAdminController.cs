@@ -18,12 +18,12 @@ namespace Nop.Plugin.Api.Common.Controllers.Admin
     [Area(AreaNames.Admin)]
     public class ApiAdminController : BasePluginController
     {
-        private readonly IStoreService _storeService;
-        private readonly IStoreContext _storeContext;
-        private readonly IWorkContext _workContext;
-        private readonly ISettingService _settingService;
         private readonly ICustomerActivityService _customerActivityService;
         private readonly ILocalizationService _localizationService;
+        private readonly ISettingService _settingService;
+        private readonly IStoreContext _storeContext;
+        private readonly IStoreService _storeService;
+        private readonly IWorkContext _workContext;
 
         public ApiAdminController(
             IStoreService storeService,
@@ -40,16 +40,15 @@ namespace Nop.Plugin.Api.Common.Controllers.Admin
             _customerActivityService = customerActivityService;
             _localizationService = localizationService;
         }
-        
+
         [HttpGet]
         public ActionResult Settings()
         {
-
-            var storeScope = _storeContext.ActiveStoreScopeConfiguration;
+            int storeScope = _storeContext.ActiveStoreScopeConfiguration;
 
             var apiSettings = _settingService.LoadSetting<ApiSettings>(storeScope);
 
-            var model = apiSettings.ToModel();
+            ConfigurationModel model = apiSettings.ToModel();
 
             // Store Settings
             model.ActiveStoreScopeConfiguration = storeScope;
@@ -69,9 +68,9 @@ namespace Nop.Plugin.Api.Common.Controllers.Admin
         public ActionResult Settings(ConfigurationModel configurationModel)
         {
             //load settings for a chosen store scope
-            var storeScope = _storeContext.ActiveStoreScopeConfiguration;
+            int storeScope = _storeContext.ActiveStoreScopeConfiguration;
 
-            var settings = configurationModel.ToEntity();
+            ApiSettings settings = configurationModel.ToEntity();
 
             /* We do not clear cache after each setting update.
             * This behavior can increase performance because cached settings will not be cleared 

@@ -12,26 +12,14 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Endpoints
 
             if (response.IsError)
             {
-                if (response.Error.IsPresent())
-                {
-                    collection.Add("error", response.Error);
-                }
-                if (response.ErrorDescription.IsPresent())
-                {
-                    collection.Add("error_description", response.ErrorDescription);
-                }
+                if (response.Error.IsPresent()) collection.Add("error", response.Error);
+                if (response.ErrorDescription.IsPresent()) collection.Add("error_description", response.ErrorDescription);
             }
             else
             {
-                if (response.Code.IsPresent())
-                {
-                    collection.Add("code", response.Code);
-                }
+                if (response.Code.IsPresent()) collection.Add("code", response.Code);
 
-                if (response.IdentityToken.IsPresent())
-                {
-                    collection.Add("id_token", response.IdentityToken);
-                }
+                if (response.IdentityToken.IsPresent()) collection.Add("id_token", response.IdentityToken);
 
                 if (response.AccessToken.IsPresent())
                 {
@@ -40,21 +28,12 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Endpoints
                     collection.Add("expires_in", response.AccessTokenLifetime.ToString());
                 }
 
-                if (response.Scope.IsPresent())
-                {
-                    collection.Add("scope", response.Scope);
-                }
+                if (response.Scope.IsPresent()) collection.Add("scope", response.Scope);
             }
 
-            if (response.State.IsPresent())
-            {
-                collection.Add("state", response.State);
-            }
+            if (response.State.IsPresent()) collection.Add("state", response.State);
 
-            if (response.SessionState.IsPresent())
-            {
-                collection.Add("session_state", response.SessionState);
-            }
+            if (response.SessionState.IsPresent()) collection.Add("session_state", response.SessionState);
 
             return collection;
         }

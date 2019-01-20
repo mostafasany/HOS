@@ -5,11 +5,17 @@ namespace Nop.Plugin.Api.Common.Migrations.IdentityServer.PersitedGrantDb
 {
     public partial class Grants : Migration
     {
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                "PersistedGrants");
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "PersistedGrants",
-                columns: table => new
+                "PersistedGrants",
+                table => new
                 {
                     Key = table.Column<string>(maxLength: 200, nullable: false),
                     ClientId = table.Column<string>(maxLength: 200, nullable: false),
@@ -25,15 +31,9 @@ namespace Nop.Plugin.Api.Common.Migrations.IdentityServer.PersitedGrantDb
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PersistedGrants_SubjectId_ClientId_Type",
-                table: "PersistedGrants",
-                columns: new[] { "SubjectId", "ClientId", "Type" });
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "PersistedGrants");
+                "IX_PersistedGrants_SubjectId_ClientId_Type",
+                "PersistedGrants",
+                new[] {"SubjectId", "ClientId", "Type"});
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
@@ -9,15 +10,9 @@ namespace Nop.Plugin.Api.Common.Helpers
 {
     public class NopConfigManagerHelper : IConfigManagerHelper
     {
-        public NopConfigManagerHelper(DataSettings dataSettings)
-        {
-            DataSettings = dataSettings;
-        }
+        public NopConfigManagerHelper(DataSettings dataSettings) => DataSettings = dataSettings;
 
-        public NopConfigManagerHelper()
-        {
-            DataSettings = DataSettingsManager.LoadSettings();
-        }
+        public NopConfigManagerHelper() => DataSettings = DataSettingsManager.LoadSettings();
 
         public void AddBindingRedirects()
         {
@@ -26,9 +21,9 @@ namespace Nop.Plugin.Api.Common.Helpers
             // load Nop.Web.exe.config
             XDocument appConfig = null;
 
-            var nopWebAssemblyConfigLocation = $"{Assembly.GetEntryAssembly().Location}.config";
+            string nopWebAssemblyConfigLocation = $"{Assembly.GetEntryAssembly().Location}.config";
 
-            using (var fs = System.IO.File.OpenRead(nopWebAssemblyConfigLocation))
+            using (FileStream fs = File.OpenRead(nopWebAssemblyConfigLocation))
             {
                 appConfig = XDocument.Load(fs);
             }
@@ -37,7 +32,7 @@ namespace Nop.Plugin.Api.Common.Helpers
             {
                 appConfig.Changed += (o, e) => { hasChanged = true; };
 
-                var runtime = appConfig.XPathSelectElement("configuration//runtime");
+                XElement runtime = appConfig.XPathSelectElement("configuration//runtime");
 
                 if (runtime == null)
                 {
@@ -54,8 +49,6 @@ namespace Nop.Plugin.Api.Common.Helpers
                 AddAssemblyBinding(runtime, "Microsoft.AspNetCore.DataProtection.Abstractions", "adb9793829ddae60", "0.0.0.0-2.0.0.0", "2.0.0.0");
 
                 if (hasChanged)
-                {
-                    // only save when changes have been made
                     try
                     {
                         appConfig.Save(nopWebAssemblyConfigLocation);
@@ -76,7 +69,6 @@ namespace Nop.Plugin.Api.Common.Helpers
                         //    Environment.NewLine +
                         //    "- give the application write access to the 'web.config' file.");
                     }
-                }
             }
         }
 
@@ -89,9 +81,9 @@ namespace Nop.Plugin.Api.Common.Helpers
             // load web.config
             XDocument appConfig = null;
 
-            var nopWebAssemblyConfigLocation = $"{Assembly.GetEntryAssembly().Location}.config";
+            string nopWebAssemblyConfigLocation = $"{Assembly.GetEntryAssembly().Location}.config";
 
-            using (var fs = System.IO.File.OpenRead(nopWebAssemblyConfigLocation))
+            using (FileStream fs = File.OpenRead(nopWebAssemblyConfigLocation))
             {
                 appConfig = XDocument.Load(fs);
             }
@@ -100,18 +92,18 @@ namespace Nop.Plugin.Api.Common.Helpers
             {
                 appConfig.Changed += (o, e) => { hasChanged = true; };
 
-                var connectionStrings = appConfig.XPathSelectElement("configuration//connectionStrings");
+                XElement connectionStrings = appConfig.XPathSelectElement("configuration//connectionStrings");
 
                 if (connectionStrings == null)
                 {
-                    var configuration = appConfig.XPathSelectElement("configuration");
+                    XElement configuration = appConfig.XPathSelectElement("configuration");
                     connectionStrings = new XElement("connectionStrings");
                     configuration.Add(connectionStrings);
                 }
 
-                var connectionStringFromNop = DataSettings.DataConnectionString;
+                string connectionStringFromNop = DataSettings.DataConnectionString;
 
-                var element = appConfig.XPathSelectElement("configuration//connectionStrings//add[@name='MS_SqlStoreConnectionString']");
+                XElement element = appConfig.XPathSelectElement("configuration//connectionStrings//add[@name='MS_SqlStoreConnectionString']");
 
                 // create the connection string if not exists
                 if (element == null)
@@ -126,17 +118,12 @@ namespace Nop.Plugin.Api.Common.Helpers
                 {
                     // Check if the connection string is changed.
                     // If so update the connection string in the config.
-                    var connectionStringInConfig = element.Attribute("connectionString").Value;
+                    string connectionStringInConfig = element.Attribute("connectionString").Value;
 
-                    if (!String.Equals(connectionStringFromNop, connectionStringInConfig, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        element.SetAttributeValue("connectionString", connectionStringFromNop);
-                    }
+                    if (!string.Equals(connectionStringFromNop, connectionStringInConfig, StringComparison.InvariantCultureIgnoreCase)) element.SetAttributeValue("connectionString", connectionStringFromNop);
                 }
 
                 if (hasChanged)
-                {
-                    // only save when changes have been made
                     try
                     {
                         appConfig.Save(nopWebAssemblyConfigLocation);
@@ -157,7 +144,6 @@ namespace Nop.Plugin.Api.Common.Helpers
                         //    Environment.NewLine +
                         //    "- give the application write access to the 'web.config' file.");
                     }
-                }
             }
         }
 
@@ -166,8 +152,8 @@ namespace Nop.Plugin.Api.Common.Helpers
             var xmlNamespaceManager = new XmlNamespaceManager(new NameTable());
             xmlNamespaceManager.AddNamespace("bind", "urn:schemas-microsoft-com:asm.v1");
 
-            var assemblyBindingElement = runtime.XPathSelectElement(
-                    $"bind:assemblyBinding//bind:dependentAssembly//bind:assemblyIdentity[@name='{name}']", xmlNamespaceManager);
+            XElement assemblyBindingElement = runtime.XPathSelectElement(
+                $"bind:assemblyBinding//bind:dependentAssembly//bind:assemblyIdentity[@name='{name}']", xmlNamespaceManager);
 
             // create the binding redirect if it does not exist
             if (assemblyBindingElement == null)

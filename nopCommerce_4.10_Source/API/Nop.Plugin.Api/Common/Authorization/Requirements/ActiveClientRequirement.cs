@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Nop.Core.Infrastructure;
+using Nop.Plugin.Api.Common.Models;
 using Nop.Plugin.Api.Modules.Clients.Service;
 
 namespace Nop.Plugin.Api.Common.Authorization.Requirements
@@ -9,11 +10,7 @@ namespace Nop.Plugin.Api.Common.Authorization.Requirements
     {
         public bool IsClientActive()
         {
-            if (!ClientExistsAndActive())
-            {
-                // don't authorize if any of the above is not true
-                return false;
-            }
+            if (!ClientExistsAndActive()) return false;
 
             return true;
         }
@@ -22,18 +19,15 @@ namespace Nop.Plugin.Api.Common.Authorization.Requirements
         {
             var httpContextAccessor = EngineContext.Current.Resolve<IHttpContextAccessor>();
 
-            var clientId =
+            string clientId =
                 httpContextAccessor.HttpContext.User.FindFirst("client_id")?.Value;
 
             if (clientId != null)
             {
                 var clientService = EngineContext.Current.Resolve<IClientService>();
-                var client = clientService.FindClientByClientId(clientId);
+                ClientApiModel client = clientService.FindClientByClientId(clientId);
 
-                if (client != null && client.Enabled)
-                {
-                    return true;
-                }
+                if (client != null && client.Enabled) return true;
             }
 
             return false;

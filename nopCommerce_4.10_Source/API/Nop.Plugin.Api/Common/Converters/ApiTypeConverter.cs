@@ -8,7 +8,7 @@ namespace Nop.Plugin.Api.Common.Converters
     public class ApiTypeConverter : IApiTypeConverter
     {
         /// <summary>
-        /// Converts the value, which should be in ISO 8601 format to UTC time or null if not valid
+        ///     Converts the value, which should be in ISO 8601 format to UTC time or null if not valid
         /// </summary>
         /// <param name="value">The time format in ISO 8601. If no timezone or offset specified we assume it is in UTC</param>
         /// <returns>The time in UTC or null if the time is not valid</returns>
@@ -16,7 +16,7 @@ namespace Nop.Plugin.Api.Common.Converters
         {
             DateTime result;
 
-            var formats = new string[]
+            var formats = new[]
             {
                 "yyyy",
                 "yyyy-MM",
@@ -30,10 +30,7 @@ namespace Nop.Plugin.Api.Common.Converters
             if (DateTime.TryParseExact(value, formats, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out result))
             {
                 // only if parsed in Local time then we need to convert it to UTC
-                if (result.Kind == DateTimeKind.Local)
-                {
-                    return result.ToUniversalTime();
-                }
+                if (result.Kind == DateTimeKind.Local) return result.ToUniversalTime();
 
                 return result;
             }
@@ -45,10 +42,7 @@ namespace Nop.Plugin.Api.Common.Converters
         {
             int result;
 
-            if (int.TryParse(value, out result))
-            {
-                return result;
-            }
+            if (int.TryParse(value, out result)) return result;
 
             return 0;
         }
@@ -57,10 +51,7 @@ namespace Nop.Plugin.Api.Common.Converters
         {
             int result;
 
-            if (int.TryParse(value, out result))
-            {
-                return result;
-            }
+            if (int.TryParse(value, out result)) return result;
 
             return null;
         }
@@ -69,16 +60,13 @@ namespace Nop.Plugin.Api.Common.Converters
         {
             if (!string.IsNullOrEmpty(value))
             {
-                var stringIds = value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                List<string> stringIds = value.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).ToList();
                 var intIds = new List<int>();
 
-                foreach (var id in stringIds)
+                foreach (string id in stringIds)
                 {
                     int intId;
-                    if (int.TryParse(id, out intId))
-                    {
-                        intIds.Add(intId);
-                    }
+                    if (int.TryParse(id, out intId)) intIds.Add(intId);
                 }
 
                 intIds = intIds.Distinct().ToList();
@@ -91,16 +79,9 @@ namespace Nop.Plugin.Api.Common.Converters
         public bool? ToStatus(string value)
         {
             if (!string.IsNullOrEmpty(value))
-            {
                 if (value.Equals("published", StringComparison.InvariantCultureIgnoreCase))
-                {
                     return true;
-                }
-                else if (value.Equals("unpublished", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return false;
-                }
-            }
+                else if (value.Equals("unpublished", StringComparison.InvariantCultureIgnoreCase)) return false;
 
             return null;
         }
@@ -109,14 +90,11 @@ namespace Nop.Plugin.Api.Common.Converters
         {
             if (!string.IsNullOrEmpty(value))
             {
-                var enumType = Nullable.GetUnderlyingType(type);
+                Type enumType = Nullable.GetUnderlyingType(type);
 
-                var enumNames = enumType.GetEnumNames();
+                string[] enumNames = enumType.GetEnumNames();
 
-                if (enumNames.Any(x => x.ToLowerInvariant().Equals(value.ToLowerInvariant())))
-                {
-                    return Enum.Parse(enumType, value, true);
-                }
+                if (enumNames.Any(x => x.ToLowerInvariant().Equals(value.ToLowerInvariant()))) return Enum.Parse(enumType, value, true);
             }
 
             return null;

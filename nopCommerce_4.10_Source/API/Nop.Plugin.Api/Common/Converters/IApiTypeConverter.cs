@@ -5,11 +5,11 @@ namespace Nop.Plugin.Api.Common.Converters
 {
     public interface IApiTypeConverter
     {
-        DateTime? ToUtcDateTimeNullable(string value);
+        object ToEnumNullable(string value, Type type);
         int ToInt(string value);
         int? ToIntNullable(string value);
         IList<int> ToListOfInts(string value);
         bool? ToStatus(string value);
-        object ToEnumNullable(string value, Type type);
+        DateTime? ToUtcDateTimeNullable(string value);
     }
 }
