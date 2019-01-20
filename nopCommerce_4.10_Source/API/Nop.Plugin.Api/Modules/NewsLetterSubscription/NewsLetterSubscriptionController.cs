@@ -10,7 +10,6 @@ using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
-using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Dto;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Model;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Service;

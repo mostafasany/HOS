@@ -14,8 +14,8 @@ namespace Nop.Plugin.Api.Common.Attributes
 {
     public class ImageValidationAttribute : BaseValidationAttribute
     {
-        private readonly IPictureService _pictureService;
         private readonly Dictionary<string, string> _errors;
+        private readonly IPictureService _pictureService;
 
         public ImageValidationAttribute()
         {
