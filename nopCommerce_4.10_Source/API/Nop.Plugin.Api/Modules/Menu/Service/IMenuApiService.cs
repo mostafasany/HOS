@@ -1,6 +1,6 @@
-﻿using Nop.Plugin.Api.DTOs.Menu;
+﻿using Nop.Plugin.Api.Modules.Menu.Dto;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.Menu.Service
 {
     public interface IMenuApiService
     {

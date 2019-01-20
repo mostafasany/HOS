@@ -1,9 +1,9 @@
-﻿namespace Nop.Plugin.Api.Migrations.IdentityServer.ConfigurationDb
-{
-    using System;
-    using Microsoft.EntityFrameworkCore.Metadata;
-    using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
+namespace Nop.Plugin.Api.Common.Migrations.IdentityServer.ConfigurationDb
+{
     public partial class Config : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

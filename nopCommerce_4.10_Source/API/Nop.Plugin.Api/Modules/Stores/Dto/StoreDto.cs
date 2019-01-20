@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.DTOs.Base;
+using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.DTOs.Stores
+namespace Nop.Plugin.Api.Modules.Stores.Dto
 {
     [JsonObject(Title = "store")]
     public class StoreDto : BaseDto

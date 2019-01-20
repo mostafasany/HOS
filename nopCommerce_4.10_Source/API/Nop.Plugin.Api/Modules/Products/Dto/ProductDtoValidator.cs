@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
-using Nop.Plugin.Api.DTOs.Products;
-using Nop.Plugin.Api.Helpers;
+using Nop.Plugin.Api.Common.Helpers;
+using Nop.Plugin.Api.Common.Validators;
 
-namespace Nop.Plugin.Api.Validators
+namespace Nop.Plugin.Api.Modules.Products.Dto
 {
     public class ProductDtoValidator : BaseDtoValidator<ProductDto>
     {

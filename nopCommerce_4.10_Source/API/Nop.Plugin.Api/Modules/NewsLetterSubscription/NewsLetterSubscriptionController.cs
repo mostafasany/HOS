@@ -4,16 +4,16 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
-using Nop.Core.Domain.Messages;
-using Nop.Plugin.Api.Attributes;
-using Nop.Plugin.Api.Constants;
-using Nop.Plugin.Api.DTOs.Categories;
-using Nop.Plugin.Api.DTOs.Errors;
-using Nop.Plugin.Api.JSON.ActionResults;
-using Nop.Plugin.Api.JSON.Serializers;
-using Nop.Plugin.Api.MappingExtensions;
-using Nop.Plugin.Api.Models.CustomersParameters;
-using Nop.Plugin.Api.Services;
+using Nop.Plugin.Api.Common.Attributes;
+using Nop.Plugin.Api.Common.Constants;
+using Nop.Plugin.Api.Common.Controllers;
+using Nop.Plugin.Api.Common.DTOs.Errors;
+using Nop.Plugin.Api.Common.JSON.ActionResults;
+using Nop.Plugin.Api.Common.JSON.Serializers;
+using Nop.Plugin.Api.Common.MappingExtensions;
+using Nop.Plugin.Api.Modules.NewsLetterSubscription.Dto;
+using Nop.Plugin.Api.Modules.NewsLetterSubscription.Model;
+using Nop.Plugin.Api.Modules.NewsLetterSubscription.Service;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -23,7 +23,7 @@ using Nop.Services.Messages;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Controllers
+namespace Nop.Plugin.Api.Modules.NewsLetterSubscription
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class NewsLetterSubscriptionController : BaseApiController
@@ -65,7 +65,7 @@ namespace Nop.Plugin.Api.Controllers
         {
             if (string.IsNullOrEmpty(email)) return Error(HttpStatusCode.BadRequest, "The email parameter could not be empty.");
 
-            NewsLetterSubscription existingSubscription = _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreId(email, _storeContext.CurrentStore.Id);
+            Core.Domain.Messages.NewsLetterSubscription existingSubscription = _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreId(email, _storeContext.CurrentStore.Id);
 
             if (existingSubscription == null) return Error(HttpStatusCode.BadRequest, "There is no news letter subscription with the specified email.");
 
@@ -93,7 +93,7 @@ namespace Nop.Plugin.Api.Controllers
 
             if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
 
-            List<NewsLetterSubscription> newsLetterSubscriptions = _newsLetterSubscriptionApiService.GetNewsLetterSubscriptions(parameters.CreatedAtMin, parameters.CreatedAtMax,
+            List<Core.Domain.Messages.NewsLetterSubscription> newsLetterSubscriptions = _newsLetterSubscriptionApiService.GetNewsLetterSubscriptions(parameters.CreatedAtMin, parameters.CreatedAtMax,
                 parameters.Limit, parameters.Page, parameters.SinceId,
                 parameters.OnlyActive);
 

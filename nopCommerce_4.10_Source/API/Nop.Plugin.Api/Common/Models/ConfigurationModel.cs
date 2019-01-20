@@ -1,7 +1,7 @@
-﻿namespace Nop.Plugin.Api.Models
-{
-    using Nop.Web.Framework.Mvc.ModelBinding;
+﻿using Nop.Web.Framework.Mvc.ModelBinding;
 
+namespace Nop.Plugin.Api.Common.Models
+{
     public class ConfigurationModel
     {
         [NopResourceDisplayName("Plugins.Api.Admin.EnableApi")]

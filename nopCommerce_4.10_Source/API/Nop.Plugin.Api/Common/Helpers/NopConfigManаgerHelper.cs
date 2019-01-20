@@ -1,13 +1,12 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Reflection;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using Nop.Core.Data;
 
-namespace Nop.Plugin.Api.Helpers
+namespace Nop.Plugin.Api.Common.Helpers
 {
-    using System;
-    using System.Reflection;
-    using System.Xml;
-    using System.Xml.XPath;
-
     public class NopConfigManagerHelper : IConfigManagerHelper
     {
         public NopConfigManagerHelper(DataSettings dataSettings)

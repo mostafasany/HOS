@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nop.Data.Mapping;
 
-namespace Nop.Plugin.Api.DataMappings
+namespace Nop.Plugin.Api.Common.DataMappings
 {
     public class WebHooksMap : NopEntityTypeConfiguration<Domain.WebHooks>
     {

@@ -8,22 +8,22 @@ using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Shipping;
 using Nop.Core.Domain.Stores;
 using Nop.Core.Domain.Topics;
-using Nop.Plugin.Api.DTOs.Articles;
-using Nop.Plugin.Api.DTOs.Categories;
-using Nop.Plugin.Api.DTOs.Countries;
-using Nop.Plugin.Api.DTOs.Discounts;
-using Nop.Plugin.Api.DTOs.Languages;
-using Nop.Plugin.Api.DTOs.Manufacturers;
-using Nop.Plugin.Api.DTOs.OrderItems;
-using Nop.Plugin.Api.DTOs.Orders;
-using Nop.Plugin.Api.DTOs.ProductAttributes;
-using Nop.Plugin.Api.DTOs.Products;
-using Nop.Plugin.Api.DTOs.ShoppingCarts;
-using Nop.Plugin.Api.DTOs.SpecificationAttributes;
-using Nop.Plugin.Api.DTOs.Stores;
-using Nop.Plugin.Api.DTOs.Topics;
+using Nop.Plugin.Api.Modules.Articles.Dto;
+using Nop.Plugin.Api.Modules.Cart.Dto;
+using Nop.Plugin.Api.Modules.Categories.Dto;
+using Nop.Plugin.Api.Modules.Countries.Dto;
+using Nop.Plugin.Api.Modules.Discounts.Dto;
+using Nop.Plugin.Api.Modules.Languages.Dto;
+using Nop.Plugin.Api.Modules.Manufacturers.Dto;
+using Nop.Plugin.Api.Modules.Orders.Dto.OrderItems;
+using Nop.Plugin.Api.Modules.Orders.Dto.Orders;
+using Nop.Plugin.Api.Modules.Products.Dto;
+using Nop.Plugin.Api.Modules.ProductsAttributes.Dto;
+using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;
+using Nop.Plugin.Api.Modules.Stores.Dto;
+using Nop.Plugin.Api.Modules.Topics.Dto;
 
-namespace Nop.Plugin.Api.Helpers
+namespace Nop.Plugin.Api.Common.Helpers
 {
     public interface IDTOHelper
     {

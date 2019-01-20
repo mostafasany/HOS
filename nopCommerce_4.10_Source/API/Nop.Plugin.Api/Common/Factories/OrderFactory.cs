@@ -3,7 +3,7 @@ using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Payments;
 using Nop.Core.Domain.Shipping;
 
-namespace Nop.Plugin.Api.Factories
+namespace Nop.Plugin.Api.Common.Factories
 {
     public class OrderFactory : IFactory<Order>
     {

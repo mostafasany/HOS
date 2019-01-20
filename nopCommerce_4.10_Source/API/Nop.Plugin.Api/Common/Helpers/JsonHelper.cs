@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
 using Nop.Services.Localization;
 
-namespace Nop.Plugin.Api.Helpers
+namespace Nop.Plugin.Api.Common.Helpers
 {
     public class JsonHelper : IJsonHelper
     {

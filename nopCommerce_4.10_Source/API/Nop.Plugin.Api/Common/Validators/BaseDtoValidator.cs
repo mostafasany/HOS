@@ -1,17 +1,16 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
-using FluentValidation.Validators;
-using Microsoft.AspNetCore.Http;
-using Nop.Core.Infrastructure;
-using Nop.Plugin.Api.DTOs.Base;
-using Nop.Plugin.Api.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
+using FluentValidation;
+using FluentValidation.Results;
+using FluentValidation.Validators;
+using Microsoft.AspNetCore.Http;
+using Nop.Plugin.Api.Common.DTOs.Base;
+using Nop.Plugin.Api.Common.Helpers;
 
-namespace Nop.Plugin.Api.Validators
+namespace Nop.Plugin.Api.Common.Validators
 {
     public abstract class BaseDtoValidator<T> : AbstractValidator<T> where T : BaseDto, new()
     {

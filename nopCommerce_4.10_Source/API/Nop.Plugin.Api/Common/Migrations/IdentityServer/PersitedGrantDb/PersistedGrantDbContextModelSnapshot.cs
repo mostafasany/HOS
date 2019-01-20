@@ -1,11 +1,11 @@
-﻿namespace Nop.Plugin.Api.Migrations.IdentityServer.PersitedGrantDb
-{
-    using System;
-    using IdentityServer4.EntityFramework.DbContexts;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Infrastructure;
-    using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using IdentityServer4.EntityFramework.DbContexts;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 
+namespace Nop.Plugin.Api.Common.Migrations.IdentityServer.PersitedGrantDb
+{
     [DbContext(typeof(PersistedGrantDbContext))]
     partial class PersistedGrantDbContextModelSnapshot : ModelSnapshot
     {

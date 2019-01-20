@@ -10,16 +10,15 @@ using Nop.Core.Data;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Localization;
-using Nop.Core.Domain.Messages;
-using Nop.Plugin.Api.Constants;
-using Nop.Plugin.Api.DataStructures;
-using Nop.Plugin.Api.DTOs.Customers;
-using Nop.Plugin.Api.Helpers;
-using Nop.Plugin.Api.MappingExtensions;
+using Nop.Plugin.Api.Common.Constants;
+using Nop.Plugin.Api.Common.DataStructures;
+using Nop.Plugin.Api.Common.Helpers;
+using Nop.Plugin.Api.Common.MappingExtensions;
+using Nop.Plugin.Api.Modules.Customers.Dto;
 using Nop.Services.Localization;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.Customers.Service
 {
     public class CustomerApiService : ICustomerApiService
     {
@@ -30,7 +29,7 @@ namespace Nop.Plugin.Api.Services
 
         private readonly IStoreContext _storeContext;
         private readonly IStoreMappingService _storeMappingService;
-        private readonly IRepository<NewsLetterSubscription> _subscriptionRepository;
+        private readonly IRepository<Core.Domain.Messages.NewsLetterSubscription> _subscriptionRepository;
         private const string FirstName = "firstname";
         private const string LastName = "lastname";
         private const string LanguageId = "languageid";
@@ -40,7 +39,7 @@ namespace Nop.Plugin.Api.Services
 
         public CustomerApiService(IRepository<Customer> customerRepository,
             IRepository<GenericAttribute> genericAttributeRepository,
-            IRepository<NewsLetterSubscription> subscriptionRepository,
+            IRepository<Core.Domain.Messages.NewsLetterSubscription> subscriptionRepository,
             IStoreContext storeContext,
             ILanguageService languageService,
             IStoreMappingService storeMappingService,

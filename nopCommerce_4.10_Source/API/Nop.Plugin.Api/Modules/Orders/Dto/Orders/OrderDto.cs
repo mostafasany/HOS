@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using FluentValidation.Attributes;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.DTOs.Base;
-using Nop.Plugin.Api.DTOs.Customers;
-using Nop.Plugin.Api.DTOs.OrderItems;
-using Nop.Plugin.Api.Validators;
+using Nop.Plugin.Api.Common.DTOs;
+using Nop.Plugin.Api.Common.DTOs.Base;
+using Nop.Plugin.Api.Modules.Customers.Dto;
+using Nop.Plugin.Api.Modules.Orders.Dto.OrderItems;
 
-namespace Nop.Plugin.Api.DTOs.Orders
+namespace Nop.Plugin.Api.Modules.Orders.Dto.Orders
 {
     [JsonObject(Title = "order")]
     [Validator(typeof(OrderDtoValidator))]

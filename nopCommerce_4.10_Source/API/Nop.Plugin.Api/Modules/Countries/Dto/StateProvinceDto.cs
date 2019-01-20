@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Nop.Plugin.Api.DTOs.Base;
+using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.DTOs.Countries
+namespace Nop.Plugin.Api.Modules.Countries.Dto
 {
     public class StateProvinceDto : BaseDto
     {

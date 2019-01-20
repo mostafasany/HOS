@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.DTOs.Products;
+using Nop.Plugin.Api.Modules.Products.Dto;
 
-namespace Nop.Plugin.Api.DTOs.ShoppingCarts
+namespace Nop.Plugin.Api.Modules.Cart.Dto
 {
     public class ShoppingCartModel : BaseNopModel
     {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.DTOs.Base;
-using Nop.Plugin.Api.DTOs.Products;
+using Nop.Plugin.Api.Common.DTOs.Base;
+using Nop.Plugin.Api.Modules.Products.Dto;
 
-namespace Nop.Plugin.Api.DTOs.Menu
+namespace Nop.Plugin.Api.Modules.Menu.Dto
 {
     [JsonObject(Title = "menuProducts")]
     public class MenuProductsDto : BaseDto

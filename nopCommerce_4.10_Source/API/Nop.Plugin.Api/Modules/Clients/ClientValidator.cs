@@ -2,7 +2,7 @@
 using IdentityServer4.Models;
 using Nop.Services.Localization;
 
-namespace Nop.Plugin.Api.Validators
+namespace Nop.Plugin.Api.Modules.Clients
 {
     public class ClientValidator : AbstractValidator<Client>
     {

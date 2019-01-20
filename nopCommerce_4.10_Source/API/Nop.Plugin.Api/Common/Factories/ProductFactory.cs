@@ -3,7 +3,7 @@ using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Directory;
 using Nop.Services.Directory;
 
-namespace Nop.Plugin.Api.Factories
+namespace Nop.Plugin.Api.Common.Factories
 {
     public class ProductFactory : IFactory<Product>
     {

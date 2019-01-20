@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Core.Domain.Security;
 using Nop.Core.Domain.Stores;
-using Nop.Plugin.Api.DTOs.Errors;
-using Nop.Plugin.Api.JSON.ActionResults;
+using Nop.Plugin.Api.Common.DTOs.Errors;
+using Nop.Plugin.Api.Common.JSON.ActionResults;
+using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -13,12 +15,9 @@ using Nop.Services.Logging;
 using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
-using Microsoft.AspNetCore.Mvc;
 
-namespace Nop.Plugin.Api.Controllers
+namespace Nop.Plugin.Api.Common.Controllers
 {
-    using JSON.Serializers;
-
     public class BaseApiController : Controller
     {
         protected readonly IJsonFieldsSerializer JsonFieldsSerializer;

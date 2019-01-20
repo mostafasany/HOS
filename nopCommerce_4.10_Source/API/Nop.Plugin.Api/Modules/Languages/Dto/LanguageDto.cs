@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.DTOs.Base;
+using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.DTOs.Languages
+namespace Nop.Plugin.Api.Modules.Languages.Dto
 {
     [JsonObject(Title = "language")]
     public class LanguageDto : BaseDto

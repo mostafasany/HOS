@@ -1,8 +1,8 @@
-﻿namespace Nop.Plugin.Api.Migrations.IdentityServer.PersitedGrantDb
-{
-    using System;
-    using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
+namespace Nop.Plugin.Api.Common.Migrations.IdentityServer.PersitedGrantDb
+{
     public partial class Grants : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

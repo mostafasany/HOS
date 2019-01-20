@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Nop.Plugin.Api.Attributes
+namespace Nop.Plugin.Api.Common.Attributes
 {
     public abstract class BaseValidationAttribute : Attribute
     {

@@ -1,15 +1,15 @@
-﻿namespace Nop.Plugin.Api.IdentityServer.Endpoints
-{
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using IdentityModel;
-    using IdentityServer4.Events;
-    using IdentityServer4.Hosting;
-    using IdentityServer4.ResponseHandling;
-    using IdentityServer4.Services;
-    using IdentityServer4.Validation;
-    using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using IdentityModel;
+using IdentityServer4.Events;
+using IdentityServer4.Hosting;
+using IdentityServer4.ResponseHandling;
+using IdentityServer4.Services;
+using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Http;
 
+namespace Nop.Plugin.Api.Common.IdentityServer.Endpoints
+{
     public class TokenEndpoint : IEndpointHandler
     {
         private readonly IClientSecretValidator _clientValidator;

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.Constants;
-using Nop.Plugin.Api.DTOs.Products;
+using Nop.Plugin.Api.Common.Constants;
+using Nop.Plugin.Api.Modules.Products.Dto;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.Products.Service
 {
     public interface IProductApiService
     {

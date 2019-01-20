@@ -1,9 +1,9 @@
-﻿namespace Nop.Plugin.Api.IdentityServer.Endpoints
-{
-    using IdentityServer4.ResponseHandling;
-    using System.Collections.Specialized;
-    using Nop.Plugin.Api.IdentityServer.Extensions;
+﻿using System.Collections.Specialized;
+using IdentityServer4.ResponseHandling;
+using Nop.Plugin.Api.Common.IdentityServer.Extensions;
 
+namespace Nop.Plugin.Api.Common.IdentityServer.Endpoints
+{
     public static class AuthorizeResponseExtensions
     {
         public static NameValueCollection ToNameValueCollection(this AuthorizeResponse response)

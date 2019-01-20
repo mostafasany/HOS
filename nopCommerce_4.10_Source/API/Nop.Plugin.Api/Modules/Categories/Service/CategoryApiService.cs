@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Nop.Core.Data;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.Constants;
-using Nop.Plugin.Api.DataStructures;
+using Nop.Plugin.Api.Common.Constants;
+using Nop.Plugin.Api.Common.DataStructures;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.Categories.Service
 {
     public class CategoryApiService : ICategoryApiService
     {

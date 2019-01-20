@@ -1,13 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 
-namespace Nop.Plugin.Api.JSON.ActionResults
+namespace Nop.Plugin.Api.Common.JSON.ActionResults
 {
-    using System;
-    using System.IO;
-    using System.Text;
-    using Microsoft.AspNetCore.WebUtilities;
-
     // TODO: Move to BaseApiController as method.
     public class RawJsonActionResult : IActionResult
     {

@@ -5,12 +5,12 @@ using System.Linq;
 using System.Xml;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Media;
-using Nop.Plugin.Api.Converters;
-using Nop.Plugin.Api.DTOs;
+using Nop.Plugin.Api.Common.Converters;
+using Nop.Plugin.Api.Common.DTOs;
 using Nop.Services.Catalog;
 using Nop.Services.Media;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.ProductsAttributes.Service
 {
     public class ProductAttributeConverter : IProductAttributeConverter
     {

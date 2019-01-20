@@ -1,8 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.DTOs.Base;
+using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.DTOs.Categories
+namespace Nop.Plugin.Api.Modules.NewsLetterSubscription.Dto
 {
     [JsonObject(Title = "news_letter_subscription")]
     public class NewsLetterSubscriptionDto : BaseDto

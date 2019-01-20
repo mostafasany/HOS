@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Nop.Plugin.Api.DTOs;
+using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.ProductsAttributes.Service
 {
     public interface IProductAttributeConverter
     {

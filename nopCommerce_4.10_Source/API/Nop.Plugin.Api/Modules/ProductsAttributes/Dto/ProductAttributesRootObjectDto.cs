@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.DTOs.ProductAttributes
+namespace Nop.Plugin.Api.Modules.ProductsAttributes.Dto
 {
     public class ProductAttributesRootObjectDto : ISerializableObject
     {

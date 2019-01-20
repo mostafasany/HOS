@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Nop.Plugin.Api.DTOs;
-using Nop.Plugin.Api.Helpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using Nop.Plugin.Api.Common.DTOs;
+using Nop.Plugin.Api.Common.Helpers;
 
-namespace Nop.Plugin.Api.Validators
+namespace Nop.Plugin.Api.Common.Validators
 {
     public class AddressDtoValidator : BaseDtoValidator<AddressDto>
     {

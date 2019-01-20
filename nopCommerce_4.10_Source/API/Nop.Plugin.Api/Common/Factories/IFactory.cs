@@ -1,4 +1,4 @@
-﻿namespace Nop.Plugin.Api.Factories
+﻿namespace Nop.Plugin.Api.Common.Factories
 {
     public interface IFactory<T>
     {

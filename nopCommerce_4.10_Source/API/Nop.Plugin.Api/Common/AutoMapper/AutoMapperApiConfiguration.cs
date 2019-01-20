@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration;
 
-namespace Nop.Plugin.Api.AutoMapper
+namespace Nop.Plugin.Api.Common.AutoMapper
 {
     public static class AutoMapperApiConfiguration
     {

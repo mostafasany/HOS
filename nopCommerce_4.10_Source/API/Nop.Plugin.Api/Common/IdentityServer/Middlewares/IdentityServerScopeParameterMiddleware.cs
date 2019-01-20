@@ -1,12 +1,12 @@
-﻿namespace Nop.Plugin.Api.IdentityServer.Middlewares
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Http.Internal;
-    using Microsoft.Extensions.Primitives;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.Extensions.Primitives;
 
+namespace Nop.Plugin.Api.Common.IdentityServer.Middlewares
+{
     public class IdentityServerScopeParameterMiddleware
     {
         private readonly RequestDelegate _next;

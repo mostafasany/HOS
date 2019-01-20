@@ -1,8 +1,8 @@
 ﻿using Nop.Core.Domain.Common;
-using Nop.Plugin.Api.AutoMapper;
-using Nop.Plugin.Api.DTOs;
+using Nop.Plugin.Api.Common.AutoMapper;
+using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.MappingExtensions
+namespace Nop.Plugin.Api.Common.MappingExtensions
 {
     public static class AddressDtoMappings
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Nop.Plugin.Api.DataStructures
+namespace Nop.Plugin.Api.Common.DataStructures
 {
     public class ApiList<T> : List<T>
     {

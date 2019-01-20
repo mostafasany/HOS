@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using FluentValidation;
-using Nop.Plugin.Api.DTOs.SpecificationAttributes;
 
-namespace Nop.Plugin.Api.Validators
+namespace Nop.Plugin.Api.Modules.SpecificationAttributes.Dto
 {
     public class SpecificationAttributeOptionDtoValidator : AbstractValidator<SpecificationAttributeOptionDto>
     {

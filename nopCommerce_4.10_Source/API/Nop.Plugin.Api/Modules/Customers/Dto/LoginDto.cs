@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nop.Plugin.Api.DTOs.Customers
+namespace Nop.Plugin.Api.Modules.Customers.Dto
 {
     [JsonObject(Title = "login")]
     public class LoginDto

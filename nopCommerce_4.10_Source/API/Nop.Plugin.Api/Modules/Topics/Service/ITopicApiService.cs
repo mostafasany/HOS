@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Nop.Core.Domain.Topics;
-using Nop.Plugin.Api.Constants;
+using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.Topics.Service
 {
     public interface ITopicApiService
     {

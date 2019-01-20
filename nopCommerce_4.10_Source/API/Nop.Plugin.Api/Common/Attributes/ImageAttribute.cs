@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using Nop.Plugin.Api.DTOs.Images;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using Nop.Core.Infrastructure;
+using Nop.Plugin.Api.Modules.Pictures.Dto;
 using Nop.Services.Media;
 
-namespace Nop.Plugin.Api.Attributes
+namespace Nop.Plugin.Api.Common.Attributes
 {
     public class ImageValidationAttribute : BaseValidationAttribute
     {

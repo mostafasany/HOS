@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.DTOs.Articles
+namespace Nop.Plugin.Api.Modules.Articles.Dto
 {
     public class ArticlesRootObject : ISerializableObject
     {

@@ -7,19 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Discounts;
 using Nop.Core.Domain.Media;
-using Nop.Plugin.Api.Attributes;
-using Nop.Plugin.Api.Constants;
-using Nop.Plugin.Api.Delta;
-using Nop.Plugin.Api.DTOs.Errors;
-using Nop.Plugin.Api.DTOs.Images;
-using Nop.Plugin.Api.DTOs.Products;
-using Nop.Plugin.Api.Factories;
-using Nop.Plugin.Api.Helpers;
-using Nop.Plugin.Api.JSON.ActionResults;
-using Nop.Plugin.Api.JSON.Serializers;
-using Nop.Plugin.Api.ModelBinders;
-using Nop.Plugin.Api.Models.ProductsParameters;
-using Nop.Plugin.Api.Services;
+using Nop.Plugin.Api.Common.Attributes;
+using Nop.Plugin.Api.Common.Constants;
+using Nop.Plugin.Api.Common.Controllers;
+using Nop.Plugin.Api.Common.Delta;
+using Nop.Plugin.Api.Common.DTOs.Errors;
+using Nop.Plugin.Api.Common.Factories;
+using Nop.Plugin.Api.Common.Helpers;
+using Nop.Plugin.Api.Common.JSON.ActionResults;
+using Nop.Plugin.Api.Common.JSON.Serializers;
+using Nop.Plugin.Api.Common.ModelBinders;
+using Nop.Plugin.Api.Modules.Pictures.Dto;
+using Nop.Plugin.Api.Modules.Products.Dto;
+using Nop.Plugin.Api.Modules.Products.Model;
+using Nop.Plugin.Api.Modules.Products.Service;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
@@ -30,7 +31,7 @@ using Nop.Services.Security;
 using Nop.Services.Seo;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Controllers
+namespace Nop.Plugin.Api.Modules.Products
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductsController : BaseApiController

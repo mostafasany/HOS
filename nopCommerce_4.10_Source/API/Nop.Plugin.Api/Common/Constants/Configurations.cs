@@ -1,4 +1,4 @@
-﻿namespace Nop.Plugin.Api.Constants
+﻿namespace Nop.Plugin.Api.Common.Constants
 {
     public class Configurations
     {

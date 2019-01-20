@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Nop.Plugin.Api.Validators
+namespace Nop.Plugin.Api.Common.Validators
 {
     public class FieldsValidator : IFieldsValidator
     {

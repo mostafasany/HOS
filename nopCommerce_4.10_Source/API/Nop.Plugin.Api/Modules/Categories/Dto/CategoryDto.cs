@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using FluentValidation.Attributes;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.DTOs.Base;
-using Nop.Plugin.Api.DTOs.Images;
-using Nop.Plugin.Api.DTOs.Languages;
-using Nop.Plugin.Api.Validators;
+using Nop.Plugin.Api.Common.DTOs.Base;
+using Nop.Plugin.Api.Modules.Languages.Dto;
+using Nop.Plugin.Api.Modules.Pictures.Dto;
 
-namespace Nop.Plugin.Api.DTOs.Categories
+namespace Nop.Plugin.Api.Modules.Categories.Dto
 {
     [Validator(typeof(CategoryDtoValidator))]
     [JsonObject(Title = "category")]

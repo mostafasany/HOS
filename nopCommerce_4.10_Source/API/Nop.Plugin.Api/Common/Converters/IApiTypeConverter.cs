@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Nop.Plugin.Api.Converters
+namespace Nop.Plugin.Api.Common.Converters
 {
     public interface IApiTypeConverter
     {

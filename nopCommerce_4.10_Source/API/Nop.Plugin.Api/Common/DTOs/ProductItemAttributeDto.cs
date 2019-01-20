@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Nop.Plugin.Api.DTOs.Base;
+using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.DTOs
+namespace Nop.Plugin.Api.Common.DTOs
 {
     [JsonObject(Title = "attribute")]
     public class ProductItemAttributeDto : BaseDto

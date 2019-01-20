@@ -7,11 +7,11 @@ using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.Interfaces;
 using IdentityServer4.Models;
 using Microsoft.EntityFrameworkCore;
-using Nop.Plugin.Api.MappingExtensions;
-using Nop.Plugin.Api.Models;
+using Nop.Plugin.Api.Common.MappingExtensions;
+using Nop.Plugin.Api.Common.Models;
 using Client = IdentityServer4.EntityFramework.Entities.Client;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.Clients.Service
 {
     public class ClientService : IClientService
     {

@@ -1,19 +1,19 @@
-﻿namespace Nop.Plugin.Api.IdentityServer.Endpoints
-{
-    using System;
-    using System.Threading.Tasks;
-    using IdentityModel;
-    using IdentityServer4.Configuration;
-    using IdentityServer4.Hosting;
-    using IdentityServer4.Models;
-    using IdentityServer4.ResponseHandling;
-    using IdentityServer4.Services;
-    using IdentityServer4.Stores;
-    using Microsoft.AspNetCore.Authentication;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.Extensions.DependencyInjection;
-    using Nop.Plugin.Api.IdentityServer.Extensions;
+﻿using System;
+using System.Threading.Tasks;
+using IdentityModel;
+using IdentityServer4.Configuration;
+using IdentityServer4.Hosting;
+using IdentityServer4.Models;
+using IdentityServer4.ResponseHandling;
+using IdentityServer4.Services;
+using IdentityServer4.Stores;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Nop.Plugin.Api.Common.IdentityServer.Extensions;
 
+namespace Nop.Plugin.Api.Common.IdentityServer.Endpoints
+{
     public class AuthorizeResult : IEndpointResult
     {
         public AuthorizeResponse Response { get; }

@@ -1,8 +1,7 @@
 ﻿using FluentValidation.Attributes;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.Validators;
 
-namespace Nop.Plugin.Api.DTOs.SpecificationAttributes
+namespace Nop.Plugin.Api.Modules.SpecificationAttributes.Dto
 {
     [JsonObject(Title = "specification_attribute_option")]
     [Validator(typeof(SpecificationAttributeOptionDtoValidator))]

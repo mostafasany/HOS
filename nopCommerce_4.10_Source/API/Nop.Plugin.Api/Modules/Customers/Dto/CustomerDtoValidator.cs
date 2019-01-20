@@ -4,10 +4,11 @@ using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Nop.Core.Domain.Customers;
-using Nop.Plugin.Api.DTOs.Customers;
-using Nop.Plugin.Api.Helpers;
+using Nop.Plugin.Api.Common.Helpers;
+using Nop.Plugin.Api.Common.Validators;
+using Nop.Plugin.Api.Modules.Cart.Dto;
 
-namespace Nop.Plugin.Api.Validators
+namespace Nop.Plugin.Api.Modules.Customers.Dto
 {
     public class CustomerDtoValidator : BaseDtoValidator<CustomerDto>
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Nop.Core.Domain.Articles;
-using Nop.Plugin.Api.Constants;
+using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.Articles.Service
 {
     public interface IArticleApiService
     {

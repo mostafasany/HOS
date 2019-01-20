@@ -3,7 +3,7 @@ using System.Linq;
 using Nop.Core.Domain.Catalog;
 using Nop.Services.Catalog;
 
-namespace Nop.Plugin.Api.Factories
+namespace Nop.Plugin.Api.Common.Factories
 {
     public class CategoryFactory : IFactory<Category>
     {

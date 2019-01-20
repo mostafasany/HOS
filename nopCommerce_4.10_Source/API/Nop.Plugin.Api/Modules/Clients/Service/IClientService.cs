@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Nop.Plugin.Api.Models;
+using Nop.Plugin.Api.Common.Models;
 
-namespace Nop.Plugin.Api.Services
+namespace Nop.Plugin.Api.Modules.Clients.Service
 {
     public interface IClientService
     {

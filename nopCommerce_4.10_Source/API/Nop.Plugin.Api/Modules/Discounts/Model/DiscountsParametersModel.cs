@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.ModelBinders;
+using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Models.DiscountsParameters
+namespace Nop.Plugin.Api.Modules.Discounts.Model
 {
     // JsonProperty is used only for swagger
     [ModelBinder(typeof(ParametersModelBinder<DiscountsParametersModel>))]

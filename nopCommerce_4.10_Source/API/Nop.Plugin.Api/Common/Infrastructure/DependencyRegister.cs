@@ -1,28 +1,40 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using Autofac;
+using Microsoft.AspNetCore.Http;
 using Nop.Core.Configuration;
+using Nop.Core.Domain.Catalog;
+using Nop.Core.Domain.Common;
+using Nop.Core.Domain.Customers;
+using Nop.Core.Domain.Orders;
 using Nop.Core.Infrastructure;
 using Nop.Core.Infrastructure.DependencyManagement;
-using Nop.Plugin.Api.Services;
-using Nop.Web.Framework.Infrastructure.Extensions;
+using Nop.Plugin.Api.Common.Converters;
+using Nop.Plugin.Api.Common.Factories;
+using Nop.Plugin.Api.Common.Helpers;
+using Nop.Plugin.Api.Common.JSON.Serializers;
+using Nop.Plugin.Api.Common.ModelBinders;
+using Nop.Plugin.Api.Common.Validators;
+using Nop.Plugin.Api.Modules.Articles.Service;
+using Nop.Plugin.Api.Modules.Cart.Service;
+using Nop.Plugin.Api.Modules.Categories.Service;
+using Nop.Plugin.Api.Modules.Clients.Service;
+using Nop.Plugin.Api.Modules.Countries.Service;
+using Nop.Plugin.Api.Modules.Customers.Service;
+using Nop.Plugin.Api.Modules.Discounts.Service;
+using Nop.Plugin.Api.Modules.Manufacturers.Service;
+using Nop.Plugin.Api.Modules.Menu.Service;
+using Nop.Plugin.Api.Modules.NewsLetterSubscription.Service;
+using Nop.Plugin.Api.Modules.Orders.Service;
+using Nop.Plugin.Api.Modules.Products.Service;
+using Nop.Plugin.Api.Modules.ProductsAttributes.Service;
+using Nop.Plugin.Api.Modules.ProductsCategoryMappings.Service;
+using Nop.Plugin.Api.Modules.SpecificationAttributes.Service;
+using Nop.Plugin.Api.Modules.Topics.Service;
 
-namespace Nop.Plugin.Api.Infrastructure
+namespace Nop.Plugin.Api.Common.Infrastructure
 {
-    using Autofac.Core;
-    using Microsoft.AspNetCore.Http;
-    using Nop.Core.Domain.Catalog;
-    using Nop.Core.Domain.Common;
-    using Nop.Core.Domain.Customers;
-    using Nop.Core.Domain.Orders;
-    using Nop.Plugin.Api.Converters;
-    using Nop.Plugin.Api.Data;
-    using Nop.Plugin.Api.Factories;
-    using Nop.Plugin.Api.Helpers;
-    using Nop.Plugin.Api.JSON.Serializers;
-    using Nop.Plugin.Api.ModelBinders;
-    using Nop.Plugin.Api.Validators;
     //using Nop.Plugin.Api.WebHooks;
-    using System;
-    using System.Collections.Generic;
 
     public class DependencyRegister : IDependencyRegistrar
     {

@@ -1,8 +1,8 @@
-﻿namespace Nop.Plugin.Api.Attributes
-{
-    using Microsoft.AspNetCore.Authorization;
-    using Core.Plugins;
+﻿using Microsoft.AspNetCore.Authorization;
+using Nop.Core.Plugins;
 
+namespace Nop.Plugin.Api.Common.Attributes
+{
     // We need the ApiAuthorize attribute because when the api plugin assembly is loaded in memory by PluginManager 
     // all of its attributes are being initialized by the .NetFramework.
     // The authorize attribute of the api plugin is marked with the Bearer authentication scheme, but the scheme is registered in the ApiStartup class,

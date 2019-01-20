@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.DTOs.Carsoul
+namespace Nop.Plugin.Api.Modules.HomeCarsoul.Dto
 {
     public class CarsoulRootObject : ISerializableObject
     {

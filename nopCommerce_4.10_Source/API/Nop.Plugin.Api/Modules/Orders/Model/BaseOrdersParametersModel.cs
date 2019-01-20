@@ -4,7 +4,7 @@ using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Payments;
 using Nop.Core.Domain.Shipping;
 
-namespace Nop.Plugin.Api.Models.OrdersParameters
+namespace Nop.Plugin.Api.Modules.Orders.Model
 {
     // JsonProperty is used only for swagger
     public class BaseOrdersParametersModel
