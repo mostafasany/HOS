@@ -1,0 +1,18 @@
+﻿@model IList<ProductOverviewModel>
+
+@using Nop.Web.Models.Catalog;
+@using FoxNetSoft.Plugin.Misc.Articles.Helpers
+@if (Model.Any())
+{
+    <div class="related-products-grid product-grid">
+        <div class="title">
+            <strong>@T("FoxNetSoft.Plugin.Misc.Articles.RelatedProducts")</strong>
+        </div>
+        <div class="item-grid">
+            @foreach (var item in Model)
+            {
+                <div class="item-box">@Html.Partial(ResolveViewPathHelper.GetThemesPath("Shared/_ProductBox.cshtml"), item)</div>
+            }
+        </div>
+    </div>
+}

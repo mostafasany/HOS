@@ -1,0 +1,46 @@
+﻿@model FoxNetSoft.Plugin.Misc.Articles.Models.ArticleBreadCrumbModel
+@inject CommonSettings commonSettings
+@inject ArticlesSettings articleSettings
+@using Nop.Core.Domain.Common;
+@using FoxNetSoft.Plugin.Misc.Articles;
+@{
+    var breadcrumbDelimiter = commonSettings.BreadcrumbDelimiter;
+}
+@if (Model.Enabled)
+{
+    <div class="breadcrumb">
+        <ul itemscope itemtype="http://schema.org/BreadcrumbList">
+            @if (!articleSettings.EachRootCategoryHasPersonalTree)
+            {
+                <li>
+                    <span>
+                        <a href="@Url.RouteUrl("ArticlesHome")">
+                            <span>@T("FoxNetSoft.Plugin.Misc.Articles.Article.Breadcrumb.Top")</span>
+                        </a>
+                    </span>
+                    <span class="delimiter">@breadcrumbDelimiter</span>
+                </li>
+            }
+            @for (int i = 0; i < Model.Items.Count; i++)
+            {
+                var item = Model.Items[i];
+                <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    @if (!string.IsNullOrWhiteSpace(item.SeName))
+                    {
+                        <a href="@Url.RouteUrl("ArticleGroupPost", new { SeName = item.SeName })" itemprop="item">
+                           <span itemprop="name">@item.Name</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <strong class="current-item">@item.Name</strong>
+                    }
+                    @if (i + 1 < Model.Items.Count)
+                    {
+                        <span class="delimiter">@breadcrumbDelimiter</span>
+                    }
+                </li>
+            }
+        </ul>
+    </div>
+}

@@ -1,0 +1,36 @@
+@model FoxNetSoft.Plugin.Misc.Articles.Models.Admin.ArticleModel
+@using Nop.Services.Events
+@using Nop.Web.Framework.Events
+@inject IEventPublisher eventPublisher
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-12 clearfix">
+                <div class="pull-left">
+                </div>
+            </div>
+        </div>
+        <nop-tabs id="article-edit">
+            <nop-tab asp-name="tab-info" asp-title="@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Tab.Info")" asp-default="true">@await Html.PartialAsync(Model.PathView + "_CreateOrUpdate.Info.cshtml", Model)</nop-tab>
+            <nop-tab asp-name="tab-seo" asp-title="@T("Admin.Common.SEO")">@await Html.PartialAsync(Model.PathView + "_CreateOrUpdate.SEO.cshtml", Model)</nop-tab>
+            <nop-tab asp-name="tab-products" asp-title="@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Tab.Products")">@await Html.PartialAsync(Model.PathView + "_CreateOrUpdate.Products.cshtml", Model)</nop-tab>
+            <nop-tab asp-name="tab-categories" asp-title="@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Tab.Categories")">@await Html.PartialAsync(Model.PathView + "_CreateOrUpdate.Categories.cshtml", Model)</nop-tab>
+            <nop-tab asp-name="tab-manufacturers" asp-title="@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Tab.Manufacturers")">@await Html.PartialAsync(Model.PathView + "_CreateOrUpdate.Manufacturers.cshtml", Model)</nop-tab>
+            <nop-tab asp-name="tab-groups" asp-title="@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Tab.Groups")">@await Html.PartialAsync(Model.PathView + "_CreateOrUpdate.Groups.cshtml", Model)</nop-tab>
+            <nop-tab asp-name="tab-comments" asp-title="@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Tab.Comments")">@await Html.PartialAsync(Model.PathView + "_CreateOrUpdate.Comments.cshtml", Model)</nop-tab>
+        </nop-tabs>
+    </div>
+</div>
+@{
+    //custom tabs
+    var eventMessage = new AdminTabStripCreated(this.Html, "article-edit");
+    eventPublisher.Publish(eventMessage);
+    foreach (var eventBlock in eventMessage.BlocksToRender)
+    {
+        @eventBlock
+    }
+}

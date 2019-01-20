@@ -1,0 +1,147 @@
+@model FoxNetSoft.Plugin.Misc.Articles.Models.Admin.ArticleGroupModel
+@inject AdminAreaSettings adminAreaSettings
+@using Nop.Core.Domain.Common
+@using Microsoft.AspNetCore.Routing
+<div class="panel-group">
+    @if (Model.Id > 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @{
+                    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+                    var gridPageSizes = adminAreaSettings.GridPageSizes;
+                }
+
+                <div id="articles-grid"></div>
+                <script>
+                        $(document).ready(function () {
+                            $("#articles-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("ArticleList", "ArticleGroup", new RouteValueDictionary { {"articlegroupId" , Model.Id} }))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        },
+                                        update: {
+                                            url:"@Html.Raw(Url.Action("ArticleUpdate", "ArticleGroup"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        },
+                                        destroy: {
+                                            url: "@Html.Raw(Url.Action("ArticleDelete", "ArticleGroup"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors",
+                                        model: {
+                                            id: "Id",
+                                            fields: {
+                                                ArticleId: {editable: false, type: "number" },
+                                                ArticleTitle: {editable: false, type: "string" },
+                                                Published: {editable: false, type: "boolean" },
+                                                DisplayOrder1: {editable: true, type: "number" }
+                                            }
+                                        }
+                                    },
+                                    requestEnd: function(e) {
+                                        if(e.type=="update") {
+                                            this.read();
+                                        }
+                                    },
+                                    error: function(e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(defaultGridPageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(gridPageSizes)]
+                                },
+                                editable: {
+                                    confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                columns: [{
+                                    field: "ArticleId",
+                                    title: "@T("Admin.FoxNetSoft.Plugin.Misc.Articles.ArticleGroup.Fields.ArticleTitle")",
+                                    width: 500,
+                                    template: '<a href="@Url.Content("~/Admin/ArticleAdmin/Edit/")#=ArticleId#">#=ArticleTitle#</a>'
+                                },
+                                   {
+                                       field: "Published",
+                                       title: "@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Published")",
+                                       width: 100,
+                                       headerAttributes: { style: "text-align:center" },
+                                       attributes: { style: "text-align:center" },
+                                       template: '# if(Published) {# <i class="fa fa-check true-icon"></i> #} else {# <i class="fa fa-close false-icon"></i> #} #'
+                                   },
+
+                                {
+                                    field: "DisplayOrder1",
+                                    title: "@T("Admin.Catalog.Categories.Products.Fields.DisplayOrder")",
+                                    //integer format
+                                    format: "{0:0}",
+                                    width: 150
+                                }, {
+                                    command: [{
+                                        name: "edit",
+                                        text: "@T("Admin.Common.Edit")"
+                                    }, {
+                                        name: "destroy",
+                                        text: "@T("Admin.Common.Delete")"
+                                    }],
+                                    width: 200
+                                }]
+                            });
+                        });
+                </script>
+
+            </div>
+
+            <div class="panel-footer">
+                <button type="submit" id="btnAddNewProduct"
+                        onclick="javascript:OpenWindow('@(Url.Action("ArticleAddPopup", "ArticleGroup", new {groupId = Model.Id, btnId = "btnRefreshArticles", formId = "articlegroup-form", area = "Admin"}))', 800, 800, true); return false;"
+                        class="btn btn-primary">
+                    @T("Admin.FoxNetSoft.Plugin.Misc.Articles.ArticleGroup.AddArticle")
+                </button>
+                <input type="submit" id="btnRefreshArticles" style="display: none" />
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#btnRefreshArticles').click(function () {
+                            //refresh grid
+                            var grid = $("#articles-grid").data('kendoGrid');
+                            grid.dataSource.read();
+
+                            //return false to don't reload a page
+                            return false;
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+                    }
+                    else
+                    {
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                @T("Admin.FoxNetSoft.Plugin.Misc.Articles.ArticleGroup.SaveBeforeEdit")
+                            </div>
+                        </div>
+                    }
+</div>
+

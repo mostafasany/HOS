@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Articles",
+  "SystemName": "FoxNetSoft.Plugin.Misc.Articles",
+  "Version": "3.01",
+  "SupportedVersions": [ "4.10" ],
+  "Author": "FoxNetSoft",
+  "DisplayOrder": 1,
+  "FileName": "FoxNetSoft.Plugin.Misc.Articles.dll",
+  "Description": "Add articles, reviews, news."
+}
