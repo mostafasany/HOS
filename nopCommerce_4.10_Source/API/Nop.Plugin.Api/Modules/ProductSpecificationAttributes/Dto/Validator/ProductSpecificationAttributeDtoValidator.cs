@@ -5,7 +5,7 @@ using FluentValidation;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;
 
-namespace Nop.Plugin.Api.Modules.ProductsSpecificationAttributes.Dto
+namespace Nop.Plugin.Api.Modules.ProductSpecificationAttributes.Dto.Validator
 {
     public class ProductSpecificationAttributeDtoValidator : AbstractValidator<ProductSpecificationAttributeDto>
     {

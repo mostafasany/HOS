@@ -5,18 +5,18 @@ using Nop.Core.Domain.Payments;
 using Nop.Core.Domain.Shipping;
 using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Modules.Orders.Service
+namespace Nop.Plugin.Api.Modules.Order.Service
 {
     public interface IOrderApiService
     {
-        Order GetOrderById(int orderId);
+        Core.Domain.Orders.Order GetOrderById(int orderId);
 
-        IList<Order> GetOrders(IList<int> ids = null, DateTime? createdAtMin = null, DateTime? createdAtMax = null,
+        IList<Core.Domain.Orders.Order> GetOrders(IList<int> ids = null, DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue,
             int sinceId = Configurations.DefaultSinceId, OrderStatus? status = null, PaymentStatus? paymentStatus = null,
             ShippingStatus? shippingStatus = null, int? customerId = null, int? storeId = null);
 
-        IList<Order> GetOrdersByCustomerId(IList<int> ids = null, DateTime? createdAtMin = null, DateTime? createdAtMax = null,
+        IList<Core.Domain.Orders.Order> GetOrdersByCustomerId(IList<int> ids = null, DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
             OrderStatus? status = null, PaymentStatus? paymentStatus = null, ShippingStatus? shippingStatus = null, int? customerId = null,
             int? storeId = null);

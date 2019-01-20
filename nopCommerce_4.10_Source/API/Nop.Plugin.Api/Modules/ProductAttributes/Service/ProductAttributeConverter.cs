@@ -10,7 +10,7 @@ using Nop.Plugin.Api.Common.DTOs;
 using Nop.Services.Catalog;
 using Nop.Services.Media;
 
-namespace Nop.Plugin.Api.Modules.ProductsAttributes.Service
+namespace Nop.Plugin.Api.Modules.ProductAttributes.Service
 {
     public class ProductAttributeConverter : IProductAttributeConverter
     {

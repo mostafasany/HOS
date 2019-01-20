@@ -1,8 +1,8 @@
 ﻿using Nop.Core.Domain.Orders;
 using Nop.Plugin.Api.Common.AutoMapper;
-using Nop.Plugin.Api.Modules.Orders.Dto.OrderItems;
+using Nop.Plugin.Api.Modules.Order.Dto.OrderItems;
 
-namespace Nop.Plugin.Api.Common.MappingExtensions
+namespace Nop.Plugin.Api.Modules.Order.Translator
 {
     public static class OrderItemDtoMappings
     {

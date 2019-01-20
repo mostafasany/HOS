@@ -19,8 +19,8 @@ using Nop.Plugin.Api.Common.DataStructures;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Modules.Cart.Dto;
-using Nop.Plugin.Api.Modules.Products.Dto;
-using Nop.Plugin.Api.Modules.ProductsAttributes.Service;
+using Nop.Plugin.Api.Modules.Product.Dto;
+using Nop.Plugin.Api.Modules.ProductAttributes.Service;
 using Nop.Services.Catalog;
 using Nop.Services.Common;
 using Nop.Services.Customers;
@@ -326,7 +326,7 @@ namespace Nop.Plugin.Api.Modules.Cart.Service
                 }
                 else
                 {
-                    Country country = _countryService.GetCountryByTwoLetterIsoCode(pickupPoint.CountryCode);
+                    Core.Domain.Directory.Country country = _countryService.GetCountryByTwoLetterIsoCode(pickupPoint.CountryCode);
                     StateProvince state = _stateProvinceService.GetStateProvinceByAbbreviation(pickupPoint.StateAbbreviation, country?.Id);
 
                     model.PickupAddress = new AddressModel();

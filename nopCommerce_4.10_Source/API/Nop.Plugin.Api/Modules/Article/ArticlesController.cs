@@ -11,10 +11,10 @@ using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
-using Nop.Plugin.Api.Modules.Articles.Dto;
-using Nop.Plugin.Api.Modules.Articles.Model;
-using Nop.Plugin.Api.Modules.Articles.Service;
-using Nop.Plugin.Api.Modules.Categories.Dto;
+using Nop.Plugin.Api.Modules.Article.Dto;
+using Nop.Plugin.Api.Modules.Article.Model;
+using Nop.Plugin.Api.Modules.Article.Service;
+using Nop.Plugin.Api.Modules.Category.Dto;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -23,7 +23,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Articles
+namespace Nop.Plugin.Api.Modules.Article
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ArticlesController : BaseApiController
@@ -67,7 +67,7 @@ namespace Nop.Plugin.Api.Modules.Articles
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            Article article = _articleApiService.GetArticleById(id);
+            Core.Domain.Articles.Article article = _articleApiService.GetArticleById(id);
 
             if (article == null) return Error(HttpStatusCode.NotFound, "article", "article not found");
 
@@ -100,7 +100,7 @@ namespace Nop.Plugin.Api.Modules.Articles
 
             if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
 
-            IEnumerable<Article> allArticles = _articleApiService.GetArticles(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
+            IEnumerable<Core.Domain.Articles.Article> allArticles = _articleApiService.GetArticles(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
                 parameters.UpdatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId, parameters.CategoryId, parameters.GroupId, parameters.Keyword, parameters.Tag,
                 parameters.PublishedStatus);
 
@@ -189,7 +189,7 @@ namespace Nop.Plugin.Api.Modules.Articles
 
             if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
 
-            IEnumerable<Article> allArticles = _articleApiService.GetArticlesSimilarByTag(id, parameters.Limit, parameters.Page, parameters.SinceId);
+            IEnumerable<Core.Domain.Articles.Article> allArticles = _articleApiService.GetArticlesSimilarByTag(id, parameters.Limit, parameters.Page, parameters.SinceId);
 
             IList<ArticlesDto> articlesAsDtos = allArticles.Select(article =>
                 _dtoHelper.PrepateArticleDto(article)).ToList();

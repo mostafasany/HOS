@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Nop.Core.Domain.Customers;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.Validators;
-using Nop.Plugin.Api.Modules.Cart.Dto;
+using Nop.Plugin.Api.Modules.Cart.Dto.Validator;
 
-namespace Nop.Plugin.Api.Modules.Customers.Dto
+namespace Nop.Plugin.Api.Modules.Customer.Dto.Validator
 {
     public class CustomerDtoValidator : BaseDtoValidator<CustomerDto>
     {

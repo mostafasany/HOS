@@ -10,8 +10,8 @@ using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
-using Nop.Plugin.Api.Modules.Countries.Dto;
-using Nop.Plugin.Api.Modules.Countries.Service;
+using Nop.Plugin.Api.Modules.Country.Dto;
+using Nop.Plugin.Api.Modules.Country.Service;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -20,7 +20,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Countries
+namespace Nop.Plugin.Api.Modules.Country
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CountriesController : BaseApiController

@@ -5,9 +5,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
-using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
-using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
@@ -22,8 +20,8 @@ using Nop.Plugin.Api.Common.ModelBinders;
 using Nop.Plugin.Api.Modules.Cart.Dto;
 using Nop.Plugin.Api.Modules.Cart.Model;
 using Nop.Plugin.Api.Modules.Cart.Service;
-using Nop.Plugin.Api.Modules.Products.Dto;
-using Nop.Plugin.Api.Modules.ProductsAttributes.Service;
+using Nop.Plugin.Api.Modules.Product.Dto;
+using Nop.Plugin.Api.Modules.ProductAttributes.Service;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
@@ -103,11 +101,11 @@ namespace Nop.Plugin.Api.Modules.Cart
 
             // We know that the product id and customer id will be provided because they are required by the validator.
             // TODO: validate
-            Product product = _productService.GetProductById(newShoppingCartItem.ProductId);
+            Core.Domain.Catalog.Product product = _productService.GetProductById(newShoppingCartItem.ProductId);
 
             if (product == null) return Error(HttpStatusCode.NotFound, "product", "not found");
 
-            Customer customer = CustomerService.GetCustomerById(newShoppingCartItem.CustomerId);
+            Core.Domain.Customers.Customer customer = CustomerService.GetCustomerById(newShoppingCartItem.CustomerId);
 
             if (customer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
 
@@ -187,7 +185,7 @@ namespace Nop.Plugin.Api.Modules.Cart
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetCorssSellsProducts(ShoppingCartItemsForCrossSellsParametersModel parameters)
         {
-            IEnumerable<Product> allProducts = _productService.GetCrosssellProductsByShoppingCart(parameters.ProductIds?.Select(a => new ShoppingCartItem {ProductId = a}).ToList(), parameters.Limit)
+            IEnumerable<Core.Domain.Catalog.Product> allProducts = _productService.GetCrosssellProductsByShoppingCart(parameters.ProductIds?.Select(a => new ShoppingCartItem {ProductId = a}).ToList(), parameters.Limit)
                 .Where(p => StoreMappingService.Authorize(p));
 
             IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();

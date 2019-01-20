@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nop.Plugin.Api.Modules.ProductsCategoryMappings.Dto
+namespace Nop.Plugin.Api.Modules.ProductCategoryMappings.Dto
 {
     public class ProductCategoryMappingsCountRootObject
     {

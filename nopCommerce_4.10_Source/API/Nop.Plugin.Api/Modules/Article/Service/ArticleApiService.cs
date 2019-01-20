@@ -6,16 +6,16 @@ using Nop.Core.Domain.Articles;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 
-namespace Nop.Plugin.Api.Modules.Articles.Service
+namespace Nop.Plugin.Api.Modules.Article.Service
 {
     public class ArticleApiService : IArticleApiService
     {
         private readonly IRepository<FNS_ArticleCategory> _articleCategoryRepository;
         private readonly IRepository<FNS_ArticleGroup_Mapping> _articleGroupMappingRepository;
         private readonly IRepository<FNS_ArticleGroup> _articleGroupRepository;
-        private readonly IRepository<Article> _articleRepository;
+        private readonly IRepository<Core.Domain.Articles.Article> _articleRepository;
 
-        public ArticleApiService(IRepository<Article> articleRepository, IRepository<FNS_ArticleGroup> articleGroupRepository,
+        public ArticleApiService(IRepository<Core.Domain.Articles.Article> articleRepository, IRepository<FNS_ArticleGroup> articleGroupRepository,
             IRepository<FNS_ArticleGroup_Mapping> articleGroupMappingRepository, IRepository<FNS_ArticleCategory> articleCategoryRepository)
         {
             _articleRepository = articleRepository;
@@ -24,37 +24,37 @@ namespace Nop.Plugin.Api.Modules.Articles.Service
             _articleCategoryRepository = articleCategoryRepository;
         }
 
-        public IList<Article> GetArticles(IList<int> ids = null,
+        public IList<Core.Domain.Articles.Article> GetArticles(IList<int> ids = null,
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
             int? categoryId = null, int? groupId = null, string keyword = null, string tag = null, bool? publishedStatus = null)
         {
-            IQueryable<Article> query = GetArticlesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
+            IQueryable<Core.Domain.Articles.Article> query = GetArticlesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
                 publishedStatus, categoryId: categoryId, groupId: groupId, tag: tag, keyword: keyword);
 
             if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
 
-            return new ApiList<Article>(query, page - 1, limit);
+            return new ApiList<Core.Domain.Articles.Article>(query, page - 1, limit);
         }
 
-        public Article GetArticleById(int id)
+        public Core.Domain.Articles.Article GetArticleById(int id)
         {
             if (id <= 0)
                 return null;
 
-            Article category = _articleRepository.Table.FirstOrDefault(cat => cat.Id == id);
+            Core.Domain.Articles.Article category = _articleRepository.Table.FirstOrDefault(cat => cat.Id == id);
 
             return category;
         }
 
-        public IList<Article> GetArticlesSimilarByTag(int articleId, int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId)
+        public IList<Core.Domain.Articles.Article> GetArticlesSimilarByTag(int articleId, int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId)
         {
             if (articleId <= 0)
                 return null;
 
-            Article art = _articleRepository.Table.FirstOrDefault(article => article.Id == articleId);
+            Core.Domain.Articles.Article art = _articleRepository.Table.FirstOrDefault(article => article.Id == articleId);
             string[] tags = art?.Tags.Split(new[] {','});
-            IQueryable<Article> query = _articleRepository.Table;
+            IQueryable<Core.Domain.Articles.Article> query = _articleRepository.Table;
             //query= query.Where(a => a.Tags!=null &&  a.Tags.Split(new[] { ',' })
             //    .Intersect(tags)
             //    .Any());
@@ -64,14 +64,14 @@ namespace Nop.Plugin.Api.Modules.Articles.Service
             query = query.OrderByDescending(article => article.UpdatedOnUtc);
             if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
 
-            return new ApiList<Article>(query, page - 1, limit);
+            return new ApiList<Core.Domain.Articles.Article>(query, page - 1, limit);
         }
 
         public int GetArticlesCount(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, bool? publishedStatus = null,
             int? categoryId = null, int? groupId = null)
         {
-            IQueryable<Article> query = GetArticlesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
+            IQueryable<Core.Domain.Articles.Article> query = GetArticlesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
                 publishedStatus, categoryId: categoryId, groupId: groupId);
 
             return query.Count();
@@ -93,12 +93,12 @@ namespace Nop.Plugin.Api.Modules.Articles.Service
                     .All(v => str.Contains(v));
         }
 
-        private IQueryable<Article> GetArticlesQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
+        private IQueryable<Core.Domain.Articles.Article> GetArticlesQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             bool? publishedStatus = null, IList<int> ids = null, int? groupId = null, int? categoryId = null, string keyword = null, string tag = null)
 
         {
-            IQueryable<Article> query = _articleRepository.Table;
+            IQueryable<Core.Domain.Articles.Article> query = _articleRepository.Table;
 
             if (ids != null && ids.Count > 0) query = query.Where(c => ids.Contains(c.Id));
 

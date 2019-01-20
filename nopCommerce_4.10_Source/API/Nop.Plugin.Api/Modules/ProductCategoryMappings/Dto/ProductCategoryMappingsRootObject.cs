@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.Modules.ProductsCategoryMappings.Dto
+namespace Nop.Plugin.Api.Modules.ProductCategoryMappings.Dto
 {
     public class ProductCategoryMappingsRootObject : ISerializableObject
     {

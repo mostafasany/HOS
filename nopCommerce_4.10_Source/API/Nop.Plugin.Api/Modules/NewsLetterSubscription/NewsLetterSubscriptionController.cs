@@ -14,6 +14,7 @@ using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Dto;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Model;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Service;
+using Nop.Plugin.Api.Modules.NewsLetterSubscription.Translator;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;

@@ -8,39 +8,39 @@ using Nop.Core.Domain.Shipping;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 
-namespace Nop.Plugin.Api.Modules.Orders.Service
+namespace Nop.Plugin.Api.Modules.Order.Service
 {
     public class OrderApiService : IOrderApiService
     {
-        private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<Core.Domain.Orders.Order> _orderRepository;
 
-        public OrderApiService(IRepository<Order> orderRepository) => _orderRepository = orderRepository;
+        public OrderApiService(IRepository<Core.Domain.Orders.Order> orderRepository) => _orderRepository = orderRepository;
 
-        public IList<Order> GetOrdersByCustomerId(IList<int> ids = null, DateTime? createdAtMin = null, DateTime? createdAtMax = null,
+        public IList<Core.Domain.Orders.Order> GetOrdersByCustomerId(IList<int> ids = null, DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
             OrderStatus? status = null, PaymentStatus? paymentStatus = null, ShippingStatus? shippingStatus = null, int? customerId = null,
             int? storeId = null)
         {
-            IQueryable<Order> query = GetOrdersQuery(createdAtMin, createdAtMax, status, paymentStatus, shippingStatus, ids, customerId, storeId);
+            IQueryable<Core.Domain.Orders.Order> query = GetOrdersQuery(createdAtMin, createdAtMax, status, paymentStatus, shippingStatus, ids, customerId, storeId);
 
             if (sinceId > 0) query = query.Where(order => order.Id > sinceId);
 
-            return new ApiList<Order>(query, page - 1, limit);
+            return new ApiList<Core.Domain.Orders.Order>(query, page - 1, limit);
         }
 
-        public IList<Order> GetOrders(IList<int> ids = null, DateTime? createdAtMin = null, DateTime? createdAtMax = null,
+        public IList<Core.Domain.Orders.Order> GetOrders(IList<int> ids = null, DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
             OrderStatus? status = null, PaymentStatus? paymentStatus = null, ShippingStatus? shippingStatus = null, int? customerId = null,
             int? storeId = null)
         {
-            IQueryable<Order> query = GetOrdersQuery(createdAtMin, createdAtMax, status, paymentStatus, shippingStatus, ids, customerId, storeId);
+            IQueryable<Core.Domain.Orders.Order> query = GetOrdersQuery(createdAtMin, createdAtMax, status, paymentStatus, shippingStatus, ids, customerId, storeId);
 
             if (sinceId > 0) query = query.Where(order => order.Id > sinceId);
 
-            return new ApiList<Order>(query, page - 1, limit);
+            return new ApiList<Core.Domain.Orders.Order>(query, page - 1, limit);
         }
 
-        public Order GetOrderById(int orderId)
+        public Core.Domain.Orders.Order GetOrderById(int orderId)
         {
             if (orderId <= 0)
                 return null;
@@ -52,16 +52,16 @@ namespace Nop.Plugin.Api.Modules.Orders.Service
             PaymentStatus? paymentStatus = null, ShippingStatus? shippingStatus = null,
             int? customerId = null, int? storeId = null)
         {
-            IQueryable<Order> query = GetOrdersQuery(createdAtMin, createdAtMax, status, paymentStatus, shippingStatus, customerId: customerId, storeId: storeId);
+            IQueryable<Core.Domain.Orders.Order> query = GetOrdersQuery(createdAtMin, createdAtMax, status, paymentStatus, shippingStatus, customerId: customerId, storeId: storeId);
 
             return query.Count();
         }
 
-        private IQueryable<Order> GetOrdersQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null, OrderStatus? status = null,
+        private IQueryable<Core.Domain.Orders.Order> GetOrdersQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null, OrderStatus? status = null,
             PaymentStatus? paymentStatus = null, ShippingStatus? shippingStatus = null, IList<int> ids = null,
             int? customerId = null, int? storeId = null)
         {
-            IQueryable<Order> query = _orderRepository.Table;
+            IQueryable<Core.Domain.Orders.Order> query = _orderRepository.Table;
 
             if (customerId != null) query = query.Where(order => order.CustomerId == customerId);
 

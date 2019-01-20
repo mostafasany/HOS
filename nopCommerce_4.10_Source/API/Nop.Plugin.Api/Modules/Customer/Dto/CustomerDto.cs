@@ -4,8 +4,9 @@ using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Modules.Cart.Dto;
+using Nop.Plugin.Api.Modules.Customer.Dto.Validator;
 
-namespace Nop.Plugin.Api.Modules.Customers.Dto
+namespace Nop.Plugin.Api.Modules.Customer.Dto
 {
     [JsonObject(Title = "customer")]
     [Validator(typeof(CustomerDtoValidator))]

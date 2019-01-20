@@ -2,14 +2,15 @@
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Payments;
 using Nop.Core.Domain.Shipping;
+using Nop.Plugin.Api.Common.Factories;
 
-namespace Nop.Plugin.Api.Common.Factories
+namespace Nop.Plugin.Api.Modules.Order.Factory
 {
-    public class OrderFactory : IFactory<Order>
+    public class OrderFactory : IFactory<Core.Domain.Orders.Order>
     {
-        public Order Initialize()
+        public Core.Domain.Orders.Order Initialize()
         {
-            var order = new Order();
+            var order = new Core.Domain.Orders.Order();
 
             order.CreatedOnUtc = DateTime.UtcNow;
             order.OrderGuid = new Guid();

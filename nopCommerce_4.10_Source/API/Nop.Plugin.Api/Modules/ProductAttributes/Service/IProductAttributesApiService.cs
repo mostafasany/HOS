@@ -2,7 +2,7 @@
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Modules.ProductsAttributes.Service
+namespace Nop.Plugin.Api.Modules.ProductAttributes.Service
 {
     public interface IProductAttributesApiService
     {

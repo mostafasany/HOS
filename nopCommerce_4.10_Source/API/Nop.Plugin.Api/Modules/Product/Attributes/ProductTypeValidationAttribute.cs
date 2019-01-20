@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Nop.Core.Domain.Catalog;
+using Nop.Plugin.Api.Common.Attributes;
 
-namespace Nop.Plugin.Api.Common.Attributes
+namespace Nop.Plugin.Api.Modules.Product.Attributes
 {
     public class ProductTypeValidationAttribute : BaseValidationAttribute
     {

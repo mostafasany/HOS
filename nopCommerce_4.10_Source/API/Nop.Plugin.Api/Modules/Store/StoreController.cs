@@ -3,14 +3,13 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
-using Nop.Core.Domain.Stores;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
-using Nop.Plugin.Api.Modules.Stores.Dto;
+using Nop.Plugin.Api.Modules.Store.Dto;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -19,7 +18,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Stores
+namespace Nop.Plugin.Api.Modules.Store
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class StoreController : BaseApiController
@@ -66,11 +65,11 @@ namespace Nop.Plugin.Api.Modules.Stores
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetAllStores(string fields = "")
         {
-            IList<Store> allStores = StoreService.GetAllStores();
+            IList<Core.Domain.Stores.Store> allStores = StoreService.GetAllStores();
 
             IList<StoreDto> storesAsDto = new List<StoreDto>();
 
-            foreach (Store store in allStores)
+            foreach (Core.Domain.Stores.Store store in allStores)
             {
                 StoreDto storeDto = _dtoHelper.PrepareStoreDTO(store);
 
@@ -103,7 +102,7 @@ namespace Nop.Plugin.Api.Modules.Stores
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetCurrentStore(string fields = "")
         {
-            Store store = _storeContext.CurrentStore;
+            Core.Domain.Stores.Store store = _storeContext.CurrentStore;
 
             if (store == null) return Error(HttpStatusCode.NotFound, "store", "store not found");
 

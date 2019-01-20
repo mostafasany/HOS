@@ -4,7 +4,7 @@ using Nop.Core.Data;
 using Nop.Core.Domain.Directory;
 using Nop.Plugin.Api.Common.DataStructures;
 
-namespace Nop.Plugin.Api.Modules.Countries.Service
+namespace Nop.Plugin.Api.Modules.Country.Service
 {
     public class StateProvinceApiService : IStateProvinceApiService
     {

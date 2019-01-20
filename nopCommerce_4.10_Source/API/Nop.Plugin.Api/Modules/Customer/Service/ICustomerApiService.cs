@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using Nop.Core.Domain.Customers;
 using Nop.Plugin.Api.Common.Constants;
-using Nop.Plugin.Api.Modules.Customers.Dto;
+using Nop.Plugin.Api.Modules.Customer.Dto;
 
-namespace Nop.Plugin.Api.Modules.Customers.Service
+namespace Nop.Plugin.Api.Modules.Customer.Service
 {
     public interface ICustomerApiService
     {
         CustomerDto GetCustomerById(int id, bool showDeleted = false);
 
-        Customer GetCustomerEntityById(int id);
+        Core.Domain.Customers.Customer GetCustomerEntityById(int id);
         int GetCustomersCount();
 
         IList<CustomerDto> GetCustomersDtos(DateTime? createdAtMin = null, DateTime? createdAtMax = null,

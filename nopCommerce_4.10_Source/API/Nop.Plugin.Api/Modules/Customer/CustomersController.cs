@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Directory;
-using Nop.Core.Domain.Stores;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
@@ -21,9 +19,10 @@ using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Common.ModelBinders;
-using Nop.Plugin.Api.Modules.Customers.Dto;
-using Nop.Plugin.Api.Modules.Customers.Model;
-using Nop.Plugin.Api.Modules.Customers.Service;
+using Nop.Plugin.Api.Modules.Customer.Dto;
+using Nop.Plugin.Api.Modules.Customer.Model;
+using Nop.Plugin.Api.Modules.Customer.Service;
+using Nop.Plugin.Api.Modules.Customer.Translator;
 using Nop.Services.Authentication;
 using Nop.Services.Common;
 using Nop.Services.Customers;
@@ -38,7 +37,7 @@ using Nop.Services.Orders;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Customers
+namespace Nop.Plugin.Api.Modules.Customer
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CustomersController : BaseApiController
@@ -53,7 +52,7 @@ namespace Nop.Plugin.Api.Modules.Customers
         private readonly CustomerSettings _customerSettings;
         private readonly IEncryptionService _encryptionService;
         private readonly IEventPublisher _eventPublisher;
-        private readonly IFactory<Customer> _factory;
+        private readonly IFactory<Core.Domain.Customers.Customer> _factory;
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly ILanguageService _languageService;
         private readonly ILocalizationService _localizationService;
@@ -77,7 +76,7 @@ namespace Nop.Plugin.Api.Modules.Customers
             ICustomerRolesHelper customerRolesHelper,
             IGenericAttributeService genericAttributeService,
             IEncryptionService encryptionService,
-            IFactory<Customer> factory,
+            IFactory<Core.Domain.Customers.Customer> factory,
             ICountryService countryService,
             IMappingHelper mappingHelper,
             INewsLetterSubscriptionService newsLetterSubscriptionService,
@@ -159,7 +158,7 @@ namespace Nop.Plugin.Api.Modules.Customers
             //If the validation has passed the customerDelta object won't be null for sure so we don't need to check for this.
 
             // Inserting the new customer
-            Customer newCustomer = _factory.Initialize();
+            Core.Domain.Customers.Customer newCustomer = _factory.Initialize();
             customerDelta.Merge(newCustomer);
 
             foreach (AddressDto address in customerDelta.Dto.Addresses)
@@ -228,14 +227,14 @@ namespace Nop.Plugin.Api.Modules.Customers
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            Customer customer = _customerApiService.GetCustomerEntityById(id);
+            Core.Domain.Customers.Customer customer = _customerApiService.GetCustomerEntityById(id);
 
             if (customer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
 
             CustomerService.DeleteCustomer(customer);
 
             //remove newsletter subscription (if exists)
-            foreach (Store store in StoreService.GetAllStores())
+            foreach (Core.Domain.Stores.Store store in StoreService.GetAllStores())
             {
                 Core.Domain.Messages.NewsLetterSubscription subscription = _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreId(customer.Email, store.Id);
                 if (subscription != null)
@@ -261,7 +260,7 @@ namespace Nop.Plugin.Api.Modules.Customers
         public IActionResult Forget([ModelBinder(typeof(JsonModelBinder<ForgetDto>))]
             Delta<ForgetDto> forgetDelta)
         {
-            Customer customer = _customerService.GetCustomerByEmail(forgetDelta.Dto.Email);
+            Core.Domain.Customers.Customer customer = _customerService.GetCustomerByEmail(forgetDelta.Dto.Email);
             if (customer != null && customer.Active && !customer.Deleted)
             {
                 //save token and current date
@@ -386,7 +385,7 @@ namespace Nop.Plugin.Api.Modules.Customers
             {
                 case CustomerLoginResults.Successful:
                 {
-                    Customer customer = _customerSettings.UsernamesEnabled
+                    Core.Domain.Customers.Customer customer = _customerSettings.UsernamesEnabled
                         ? _customerService.GetCustomerByUsername(loginDelta.Dto.UserNameOrEmail)
                         : _customerService.GetCustomerByEmail(loginDelta.Dto.UserNameOrEmail);
 
@@ -525,7 +524,7 @@ namespace Nop.Plugin.Api.Modules.Customers
             if (!ModelState.IsValid) return Error();
 
             // Updateting the customer
-            Customer currentCustomer = _customerApiService.GetCustomerEntityById(customerDelta.Dto.Id);
+            Core.Domain.Customers.Customer currentCustomer = _customerApiService.GetCustomerEntityById(customerDelta.Dto.Id);
 
             if (currentCustomer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
 
@@ -578,17 +577,17 @@ namespace Nop.Plugin.Api.Modules.Customers
             PopulateAddressCountryNames(updatedCustomer);
 
             // Set the fist and last name separately because they are not part of the customer entity, but are saved in the generic attributes.
-            GenericAttribute firstNameGenericAttribute = _genericAttributeService.GetAttributesForEntity(currentCustomer.Id, typeof(Customer).Name)
+            GenericAttribute firstNameGenericAttribute = _genericAttributeService.GetAttributesForEntity(currentCustomer.Id, typeof(Core.Domain.Customers.Customer).Name)
                 .FirstOrDefault(x => x.Key == "FirstName");
 
             if (firstNameGenericAttribute != null) updatedCustomer.FirstName = firstNameGenericAttribute.Value;
 
-            GenericAttribute lastNameGenericAttribute = _genericAttributeService.GetAttributesForEntity(currentCustomer.Id, typeof(Customer).Name)
+            GenericAttribute lastNameGenericAttribute = _genericAttributeService.GetAttributesForEntity(currentCustomer.Id, typeof(Core.Domain.Customers.Customer).Name)
                 .FirstOrDefault(x => x.Key == "LastName");
 
             if (lastNameGenericAttribute != null) updatedCustomer.LastName = lastNameGenericAttribute.Value;
 
-            GenericAttribute languageIdGenericAttribute = _genericAttributeService.GetAttributesForEntity(currentCustomer.Id, typeof(Customer).Name)
+            GenericAttribute languageIdGenericAttribute = _genericAttributeService.GetAttributesForEntity(currentCustomer.Id, typeof(Core.Domain.Customers.Customer).Name)
                 .FirstOrDefault(x => x.Key == "LanguageId");
 
             if (languageIdGenericAttribute != null) updatedCustomer.LanguageId = languageIdGenericAttribute.Value;
@@ -605,7 +604,7 @@ namespace Nop.Plugin.Api.Modules.Customers
             return new RawJsonActionResult(json);
         }
 
-        private void AddPassword(string newPassword, Customer customer)
+        private void AddPassword(string newPassword, Core.Domain.Customers.Customer customer)
         {
             // TODO: call this method before inserting the customer.
             var customerPassword = new CustomerPassword
@@ -642,7 +641,7 @@ namespace Nop.Plugin.Api.Modules.Customers
             CustomerService.UpdateCustomer(customer);
         }
 
-        private void AddValidRoles(Delta<CustomerDto> customerDelta, Customer currentCustomer)
+        private void AddValidRoles(Delta<CustomerDto> customerDelta, Core.Domain.Customers.Customer currentCustomer)
         {
             IList<CustomerRole> validCustomerRoles =
                 _customerRolesHelper.GetValidCustomerRoles(customerDelta.Dto.RoleIds).ToList();
@@ -651,7 +650,7 @@ namespace Nop.Plugin.Api.Modules.Customers
             foreach (CustomerRole role in validCustomerRoles) currentCustomer.CustomerRoles.Add(role);
         }
 
-        private void InsertFirstAndLastNameGenericAttributes(string firstName, string lastName, Customer newCustomer)
+        private void InsertFirstAndLastNameGenericAttributes(string firstName, string lastName, Core.Domain.Customers.Customer newCustomer)
         {
             // we assume that if the first name is not sent then it will be null and in this case we don't want to update it
             if (firstName != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.FirstNameAttribute, firstName);
@@ -672,7 +671,7 @@ namespace Nop.Plugin.Api.Modules.Customers
         {
             if (string.IsNullOrEmpty(address.CountryName) && address.CountryId.HasValue)
             {
-                Country country = _countryService.GetCountryById(address.CountryId.Value);
+                Core.Domain.Directory.Country country = _countryService.GetCountryById(address.CountryId.Value);
                 address.CountryName = country.Name;
             }
         }

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using Nop.Core.Domain.Vendors;
 using Nop.Core.Infrastructure;
+using Nop.Plugin.Api.Common.Attributes;
 using Nop.Services.Vendors;
 
-namespace Nop.Plugin.Api.Common.Attributes
+namespace Nop.Plugin.Api.Modules.Product.Attributes
 {
     public class ValidateVendor : BaseValidationAttribute
     {

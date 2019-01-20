@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nop.Plugin.Api.Modules.Products.Dto
+namespace Nop.Plugin.Api.Modules.Product.Dto
 {
     public class ProductsCountRootObject
     {

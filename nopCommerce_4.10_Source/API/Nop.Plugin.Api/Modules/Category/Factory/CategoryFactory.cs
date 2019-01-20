@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Linq;
 using Nop.Core.Domain.Catalog;
+using Nop.Plugin.Api.Common.Factories;
 using Nop.Services.Catalog;
 
-namespace Nop.Plugin.Api.Common.Factories
+namespace Nop.Plugin.Api.Modules.Category.Factory
 {
-    public class CategoryFactory : IFactory<Category>
+    public class CategoryFactory : IFactory<Core.Domain.Catalog.Category>
     {
         private readonly CatalogSettings _catalogSettings;
         private readonly ICategoryTemplateService _categoryTemplateService;
@@ -16,10 +17,10 @@ namespace Nop.Plugin.Api.Common.Factories
             _catalogSettings = catalogSettings;
         }
 
-        public Category Initialize()
+        public Core.Domain.Catalog.Category Initialize()
         {
             // TODO: cache the default entity.
-            var defaultCategory = new Category();
+            var defaultCategory = new Core.Domain.Catalog.Category();
 
             // Set the first template as the default one.
             CategoryTemplate firstTemplate = _categoryTemplateService.GetAllCategoryTemplates().FirstOrDefault();

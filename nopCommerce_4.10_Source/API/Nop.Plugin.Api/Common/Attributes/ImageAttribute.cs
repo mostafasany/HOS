@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using Nop.Core.Infrastructure;
-using Nop.Plugin.Api.Modules.Pictures.Dto;
+using Nop.Plugin.Api.Modules.Picture.Dto;
 using Nop.Services.Media;
 
 namespace Nop.Plugin.Api.Common.Attributes

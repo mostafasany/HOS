@@ -1,13 +1,12 @@
-﻿using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.Common.AutoMapper;
-using Nop.Plugin.Api.Modules.Categories.Dto;
+﻿using Nop.Plugin.Api.Common.AutoMapper;
+using Nop.Plugin.Api.Modules.Category.Dto;
 
-namespace Nop.Plugin.Api.Common.MappingExtensions
+namespace Nop.Plugin.Api.Modules.Category.Translator
 {
     public static class CategoryDtoMappings
     {
-        public static CategoryDto ToDto(this Category category) => category.MapTo<Category, CategoryDto>();
+        public static CategoryDto ToDto(this Core.Domain.Catalog.Category category) => category.MapTo<Core.Domain.Catalog.Category, CategoryDto>();
 
-        public static Category ToEntity(this CategoryDto categoryDto) => categoryDto.MapTo<CategoryDto, Category>();
+        public static Core.Domain.Catalog.Category ToEntity(this CategoryDto categoryDto) => categoryDto.MapTo<CategoryDto, Core.Domain.Catalog.Category>();
     }
 }

@@ -1,13 +1,12 @@
-﻿using Nop.Core.Domain.Messages;
-using Nop.Plugin.Api.Common.AutoMapper;
+﻿using Nop.Plugin.Api.Common.AutoMapper;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Dto;
 
-namespace Nop.Plugin.Api.Common.MappingExtensions
+namespace Nop.Plugin.Api.Modules.NewsLetterSubscription.Translator
 {
     public static class NewsLetterSubscriptoonDtoMappings
     {
-        public static NewsLetterSubscriptionDto ToDto(this NewsLetterSubscription newsLetterSubscription) => newsLetterSubscription.MapTo<NewsLetterSubscription, NewsLetterSubscriptionDto>();
+        public static NewsLetterSubscriptionDto ToDto(this Core.Domain.Messages.NewsLetterSubscription newsLetterSubscription) => newsLetterSubscription.MapTo<Core.Domain.Messages.NewsLetterSubscription, NewsLetterSubscriptionDto>();
 
-        public static NewsLetterSubscription ToEntity(this NewsLetterSubscriptionDto newsLetterSubscriptionDto) => newsLetterSubscriptionDto.MapTo<NewsLetterSubscriptionDto, NewsLetterSubscription>();
+        public static Core.Domain.Messages.NewsLetterSubscription ToEntity(this NewsLetterSubscriptionDto newsLetterSubscriptionDto) => newsLetterSubscriptionDto.MapTo<NewsLetterSubscriptionDto, Core.Domain.Messages.NewsLetterSubscription>();
     }
 }

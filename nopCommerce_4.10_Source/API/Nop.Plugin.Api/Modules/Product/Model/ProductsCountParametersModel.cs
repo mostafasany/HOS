@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Modules.Products.Model
+namespace Nop.Plugin.Api.Modules.Product.Model
 {
     [ModelBinder(typeof(ParametersModelBinder<ProductsCountParametersModel>))]
     public class ProductsCountParametersModel : BaseProductsParametersModel

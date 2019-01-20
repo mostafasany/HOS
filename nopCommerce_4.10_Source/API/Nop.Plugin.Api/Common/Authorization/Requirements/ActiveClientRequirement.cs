@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Nop.Core.Infrastructure;
 using Nop.Plugin.Api.Common.Models;
-using Nop.Plugin.Api.Modules.Clients.Service;
+using Nop.Plugin.Api.Modules.Client.Service;
 
 namespace Nop.Plugin.Api.Common.Authorization.Requirements
 {

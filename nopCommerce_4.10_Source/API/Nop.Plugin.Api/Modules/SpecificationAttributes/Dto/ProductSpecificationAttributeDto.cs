@@ -2,7 +2,7 @@
 using FluentValidation.Attributes;
 using Newtonsoft.Json;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.Modules.ProductsSpecificationAttributes.Dto;
+using Nop.Plugin.Api.Modules.ProductSpecificationAttributes.Dto.Validator;
 
 namespace Nop.Plugin.Api.Modules.SpecificationAttributes.Dto
 {

@@ -8,20 +8,20 @@ using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Shipping;
 using Nop.Core.Domain.Stores;
 using Nop.Core.Domain.Topics;
-using Nop.Plugin.Api.Modules.Articles.Dto;
+using Nop.Plugin.Api.Modules.Article.Dto;
 using Nop.Plugin.Api.Modules.Cart.Dto;
-using Nop.Plugin.Api.Modules.Categories.Dto;
-using Nop.Plugin.Api.Modules.Countries.Dto;
-using Nop.Plugin.Api.Modules.Discounts.Dto;
-using Nop.Plugin.Api.Modules.Languages.Dto;
-using Nop.Plugin.Api.Modules.Manufacturers.Dto;
-using Nop.Plugin.Api.Modules.Orders.Dto.OrderItems;
-using Nop.Plugin.Api.Modules.Orders.Dto.Orders;
-using Nop.Plugin.Api.Modules.Products.Dto;
-using Nop.Plugin.Api.Modules.ProductsAttributes.Dto;
+using Nop.Plugin.Api.Modules.Category.Dto;
+using Nop.Plugin.Api.Modules.Country.Dto;
+using Nop.Plugin.Api.Modules.Discount.Dto;
+using Nop.Plugin.Api.Modules.Language.Dto;
+using Nop.Plugin.Api.Modules.Manufacturer.Dto;
+using Nop.Plugin.Api.Modules.Order.Dto.OrderItems;
+using Nop.Plugin.Api.Modules.Order.Dto.Orders;
+using Nop.Plugin.Api.Modules.Product.Dto;
+using Nop.Plugin.Api.Modules.ProductAttributes.Dto;
 using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;
-using Nop.Plugin.Api.Modules.Stores.Dto;
-using Nop.Plugin.Api.Modules.Topics.Dto;
+using Nop.Plugin.Api.Modules.Store.Dto;
+using Nop.Plugin.Api.Modules.Topic.Dto;
 
 namespace Nop.Plugin.Api.Common.Helpers
 {

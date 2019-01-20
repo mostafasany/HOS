@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.Modules.Products.Dto
+namespace Nop.Plugin.Api.Modules.Product.Dto
 {
     [JsonObject(Title = "attribute")]
     //[Validator(typeof(ProductDtoValidator))]

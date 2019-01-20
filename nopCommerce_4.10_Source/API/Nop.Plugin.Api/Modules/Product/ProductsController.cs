@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Discounts;
-using Nop.Core.Domain.Media;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
@@ -17,10 +16,10 @@ using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
-using Nop.Plugin.Api.Modules.Pictures.Dto;
-using Nop.Plugin.Api.Modules.Products.Dto;
-using Nop.Plugin.Api.Modules.Products.Model;
-using Nop.Plugin.Api.Modules.Products.Service;
+using Nop.Plugin.Api.Modules.Picture.Dto;
+using Nop.Plugin.Api.Modules.Product.Dto;
+using Nop.Plugin.Api.Modules.Product.Model;
+using Nop.Plugin.Api.Modules.Product.Service;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
@@ -31,13 +30,13 @@ using Nop.Services.Security;
 using Nop.Services.Seo;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Products
+namespace Nop.Plugin.Api.Modules.Product
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductsController : BaseApiController
     {
         private readonly IDTOHelper _dtoHelper;
-        private readonly IFactory<Product> _factory;
+        private readonly IFactory<Core.Domain.Catalog.Product> _factory;
         private readonly IManufacturerService _manufacturerService;
         private readonly IProductApiService _productApiService;
         private readonly IProductAttributeService _productAttributeService;
@@ -51,7 +50,7 @@ namespace Nop.Plugin.Api.Modules.Products
             IUrlRecordService urlRecordService,
             ICustomerActivityService customerActivityService,
             ILocalizationService localizationService,
-            IFactory<Product> factory,
+            IFactory<Core.Domain.Catalog.Product> factory,
             IAclService aclService,
             IStoreMappingService storeMappingService,
             IStoreService storeService,
@@ -85,7 +84,7 @@ namespace Nop.Plugin.Api.Modules.Products
             if (!ModelState.IsValid) return Error();
 
             // Inserting the new product
-            Product product = _factory.Initialize();
+            Core.Domain.Catalog.Product product = _factory.Initialize();
             productDelta.Merge(product);
 
             _productService.InsertProduct(product);
@@ -136,7 +135,7 @@ namespace Nop.Plugin.Api.Modules.Products
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            Product product = _productApiService.GetProductById(id);
+            Core.Domain.Catalog.Product product = _productApiService.GetProductById(id);
 
             if (product == null) return Error(HttpStatusCode.NotFound, "product", "not found");
 
@@ -168,7 +167,7 @@ namespace Nop.Plugin.Api.Modules.Products
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            Product product = _productApiService.GetProductById(id);
+            Core.Domain.Catalog.Product product = _productApiService.GetProductById(id);
 
             if (product == null) return Error(HttpStatusCode.NotFound, "product", "not found");
 
@@ -201,10 +200,10 @@ namespace Nop.Plugin.Api.Modules.Products
 
             if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
 
-            Tuple<IList<Product>, List<ProductsFiltersDto>> tuple = _productApiService.GetProducts(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
+            Tuple<IList<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>> tuple = _productApiService.GetProducts(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
                 parameters.UpdatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId, parameters.CategoryId, parameters.CategorySlug,
                 parameters.VendorName, parameters.ManufacturerName, parameters.Keyword, parameters.PublishedStatus);
-            IEnumerable<Product> allProducts = tuple.Item1.Where(p => StoreMappingService.Authorize(p));
+            IEnumerable<Core.Domain.Catalog.Product> allProducts = tuple.Item1.Where(p => StoreMappingService.Authorize(p));
 
             IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
 
@@ -258,7 +257,7 @@ namespace Nop.Plugin.Api.Modules.Products
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetRelatedProducts(int id, string fields = "")
         {
-            IEnumerable<Product> allProducts = _productApiService.GetRelatedProducts(id)
+            IEnumerable<Core.Domain.Catalog.Product> allProducts = _productApiService.GetRelatedProducts(id)
                 .Where(p => StoreMappingService.Authorize(p));
 
             IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
@@ -286,7 +285,7 @@ namespace Nop.Plugin.Api.Modules.Products
             // Here we display the errors if the validation has failed at some point.
             if (!ModelState.IsValid) return Error();
 
-            Product product = _productApiService.GetProductById(productDelta.Dto.Id);
+            Core.Domain.Catalog.Product product = _productApiService.GetProductById(productDelta.Dto.Id);
 
             if (product == null) return Error(HttpStatusCode.NotFound, "product", "not found");
 
@@ -335,39 +334,39 @@ namespace Nop.Plugin.Api.Modules.Products
             return new RawJsonActionResult(json);
         }
 
-        private void UpdateAssociatedProducts(Product product, List<int> passedAssociatedProductIds)
+        private void UpdateAssociatedProducts(Core.Domain.Catalog.Product product, List<int> passedAssociatedProductIds)
         {
             // If no associated products specified then there is nothing to map 
             if (passedAssociatedProductIds == null)
                 return;
 
-            IEnumerable<Product> noLongerAssociatedProducts =
+            IEnumerable<Core.Domain.Catalog.Product> noLongerAssociatedProducts =
                 _productService.GetAssociatedProducts(product.Id, showHidden: true)
                     .Where(p => !passedAssociatedProductIds.Contains(p.Id));
 
             // update all products that are no longer associated with our product
-            foreach (Product noLongerAssocuatedProduct in noLongerAssociatedProducts)
+            foreach (Core.Domain.Catalog.Product noLongerAssocuatedProduct in noLongerAssociatedProducts)
             {
                 noLongerAssocuatedProduct.ParentGroupedProductId = 0;
                 _productService.UpdateProduct(noLongerAssocuatedProduct);
             }
 
-            IList<Product> newAssociatedProducts = _productService.GetProductsByIds(passedAssociatedProductIds.ToArray());
-            foreach (Product newAssociatedProduct in newAssociatedProducts)
+            IList<Core.Domain.Catalog.Product> newAssociatedProducts = _productService.GetProductsByIds(passedAssociatedProductIds.ToArray());
+            foreach (Core.Domain.Catalog.Product newAssociatedProduct in newAssociatedProducts)
             {
                 newAssociatedProduct.ParentGroupedProductId = product.Id;
                 _productService.UpdateProduct(newAssociatedProduct);
             }
         }
 
-        private void UpdateDiscountMappings(Product product, List<int> passedDiscountIds)
+        private void UpdateDiscountMappings(Core.Domain.Catalog.Product product, List<int> passedDiscountIds)
         {
             if (passedDiscountIds == null)
                 return;
 
-            IList<Discount> allDiscounts = DiscountService.GetAllDiscounts(DiscountType.AssignedToSkus, showHidden: true);
+            IList<Core.Domain.Discounts.Discount> allDiscounts = DiscountService.GetAllDiscounts(DiscountType.AssignedToSkus, showHidden: true);
 
-            foreach (Discount discount in allDiscounts)
+            foreach (Core.Domain.Discounts.Discount discount in allDiscounts)
                 if (passedDiscountIds.Contains(discount.Id))
                 {
                     //new discount
@@ -385,7 +384,7 @@ namespace Nop.Plugin.Api.Modules.Products
             _productService.UpdateHasDiscountsApplied(product);
         }
 
-        private void UpdateProductAttributes(Product entityToUpdate, Delta<ProductDto> productDtoDelta)
+        private void UpdateProductAttributes(Core.Domain.Catalog.Product entityToUpdate, Delta<ProductDto> productDtoDelta)
         {
             // If no product attribute mappings are specified means we don't have to update anything
             if (productDtoDelta.Dto.ProductAttributeMappings == null)
@@ -461,7 +460,7 @@ namespace Nop.Plugin.Api.Modules.Products
                 }
         }
 
-        private void UpdateProductManufacturers(Product product, List<int> passedManufacturerIds)
+        private void UpdateProductManufacturers(Core.Domain.Catalog.Product product, List<int> passedManufacturerIds)
         {
             // If no manufacturers specified then there is nothing to map 
             if (passedManufacturerIds == null)
@@ -477,13 +476,13 @@ namespace Nop.Plugin.Api.Modules.Products
                 if (product.ProductManufacturers.All(x => x.ManufacturerId != passedManufacturerId))
                 {
                     // if manufacturer does not exist we simply ignore it, otherwise add it to the product
-                    Manufacturer manufacturer = _manufacturerService.GetManufacturerById(passedManufacturerId);
+                    Core.Domain.Catalog.Manufacturer manufacturer = _manufacturerService.GetManufacturerById(passedManufacturerId);
                     if (manufacturer != null)
                         _manufacturerService.InsertProductManufacturer(new ProductManufacturer {ProductId = product.Id, ManufacturerId = manufacturer.Id});
                 }
         }
 
-        private void UpdateProductPictures(Product entityToUpdate, List<ImageMappingDto> setPictures)
+        private void UpdateProductPictures(Core.Domain.Catalog.Product entityToUpdate, List<ImageMappingDto> setPictures)
         {
             // If no pictures are specified means we don't have to update anything
             if (setPictures == null)
@@ -493,7 +492,7 @@ namespace Nop.Plugin.Api.Modules.Products
             List<ProductPicture> unusedProductPictures = entityToUpdate.ProductPictures.Where(x => setPictures.All(y => y.Id != x.Id)).ToList();
             foreach (ProductPicture unusedProductPicture in unusedProductPictures)
             {
-                Picture picture = PictureService.GetPictureById(unusedProductPicture.PictureId);
+                Core.Domain.Media.Picture picture = PictureService.GetPictureById(unusedProductPicture.PictureId);
                 if (picture == null)
                     throw new ArgumentException("No picture found with the specified id");
                 PictureService.DeletePicture(picture);
@@ -513,7 +512,7 @@ namespace Nop.Plugin.Api.Modules.Products
                 else
                 {
                     // add new product picture
-                    Picture newPicture = PictureService.InsertPicture(imageDto.Binary, imageDto.MimeType, string.Empty);
+                    Core.Domain.Media.Picture newPicture = PictureService.InsertPicture(imageDto.Binary, imageDto.MimeType, string.Empty);
                     _productService.InsertProductPicture(new ProductPicture
                     {
                         PictureId = newPicture.Id,
@@ -523,7 +522,7 @@ namespace Nop.Plugin.Api.Modules.Products
                 }
         }
 
-        private void UpdateProductTags(Product product, IReadOnlyCollection<string> productTags)
+        private void UpdateProductTags(Core.Domain.Catalog.Product product, IReadOnlyCollection<string> productTags)
         {
             if (productTags == null)
                 return;

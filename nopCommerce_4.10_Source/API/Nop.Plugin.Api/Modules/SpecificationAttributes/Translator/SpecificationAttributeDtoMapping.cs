@@ -2,7 +2,7 @@
 using Nop.Plugin.Api.Common.AutoMapper;
 using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;
 
-namespace Nop.Plugin.Api.Common.MappingExtensions
+namespace Nop.Plugin.Api.Modules.SpecificationAttributes.Translator
 {
     public static class SpecificationAttributeDtoMappings
     {

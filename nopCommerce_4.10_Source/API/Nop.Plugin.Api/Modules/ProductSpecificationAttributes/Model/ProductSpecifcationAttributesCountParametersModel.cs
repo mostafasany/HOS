@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Modules.ProductsSpecificationAttributes.Model
+namespace Nop.Plugin.Api.Modules.ProductSpecificationAttributes.Model
 {
     // JsonProperty is used only for swagger
     [ModelBinder(typeof(ParametersModelBinder<ProductSpecifcationAttributesCountParametersModel>))]

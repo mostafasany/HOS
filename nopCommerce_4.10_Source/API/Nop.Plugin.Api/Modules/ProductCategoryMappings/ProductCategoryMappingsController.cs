@@ -11,13 +11,13 @@ using Nop.Plugin.Api.Common.Delta;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
-using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Common.ModelBinders;
-using Nop.Plugin.Api.Modules.Categories.Service;
-using Nop.Plugin.Api.Modules.Products.Service;
-using Nop.Plugin.Api.Modules.ProductsCategoryMappings.Dto;
-using Nop.Plugin.Api.Modules.ProductsCategoryMappings.Model;
-using Nop.Plugin.Api.Modules.ProductsCategoryMappings.Service;
+using Nop.Plugin.Api.Modules.Category.Service;
+using Nop.Plugin.Api.Modules.Product.Service;
+using Nop.Plugin.Api.Modules.ProductCategoryMappings.Dto;
+using Nop.Plugin.Api.Modules.ProductCategoryMappings.Model;
+using Nop.Plugin.Api.Modules.ProductCategoryMappings.Service;
+using Nop.Plugin.Api.Modules.ProductCategoryMappings.Translator;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
@@ -27,7 +27,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.ProductsCategoryMappings
+namespace Nop.Plugin.Api.Modules.ProductCategoryMappings
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductCategoryMappingsController : BaseApiController
@@ -71,10 +71,10 @@ namespace Nop.Plugin.Api.Modules.ProductsCategoryMappings
             // Here we display the errors if the validation has failed at some point.
             if (!ModelState.IsValid) return Error();
 
-            Category category = _categoryApiService.GetCategoryById(productCategoryDelta.Dto.CategoryId.Value);
+            Core.Domain.Catalog.Category category = _categoryApiService.GetCategoryById(productCategoryDelta.Dto.CategoryId.Value);
             if (category == null) return Error(HttpStatusCode.NotFound, "category_id", "not found");
 
-            Product product = _productApiService.GetProductById(productCategoryDelta.Dto.ProductId.Value);
+            Core.Domain.Catalog.Product product = _productApiService.GetProductById(productCategoryDelta.Dto.ProductId.Value);
             if (product == null) return Error(HttpStatusCode.NotFound, "product_id", "not found");
 
             int mappingsCount = _productCategoryMappingsService.GetMappingsCount(product.Id, category.Id);
@@ -235,13 +235,13 @@ namespace Nop.Plugin.Api.Modules.ProductsCategoryMappings
 
             if (productCategoryDelta.Dto.CategoryId.HasValue)
             {
-                Category category = _categoryApiService.GetCategoryById(productCategoryDelta.Dto.CategoryId.Value);
+                Core.Domain.Catalog.Category category = _categoryApiService.GetCategoryById(productCategoryDelta.Dto.CategoryId.Value);
                 if (category == null) return Error(HttpStatusCode.NotFound, "category_id", "not found");
             }
 
             if (productCategoryDelta.Dto.ProductId.HasValue)
             {
-                Product product = _productApiService.GetProductById(productCategoryDelta.Dto.ProductId.Value);
+                Core.Domain.Catalog.Product product = _productApiService.GetProductById(productCategoryDelta.Dto.ProductId.Value);
                 if (product == null) return Error(HttpStatusCode.NotFound, "product_id", "not found");
             }
 

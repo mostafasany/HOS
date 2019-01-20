@@ -9,21 +9,20 @@ using Nop.Core.Caching;
 using Nop.Core.Data;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Localization;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 using Nop.Plugin.Api.Common.Helpers;
-using Nop.Plugin.Api.Common.MappingExtensions;
-using Nop.Plugin.Api.Modules.Customers.Dto;
+using Nop.Plugin.Api.Modules.Customer.Dto;
+using Nop.Plugin.Api.Modules.Customer.Translator;
 using Nop.Services.Localization;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Customers.Service
+namespace Nop.Plugin.Api.Modules.Customer.Service
 {
     public class CustomerApiService : ICustomerApiService
     {
         private readonly IStaticCacheManager _cacheManager;
-        private readonly IRepository<Customer> _customerRepository;
+        private readonly IRepository<Core.Domain.Customers.Customer> _customerRepository;
         private readonly IRepository<GenericAttribute> _genericAttributeRepository;
         private readonly ILanguageService _languageService;
 
@@ -37,7 +36,7 @@ namespace Nop.Plugin.Api.Modules.Customers.Service
         private const string Gender = "gender";
         private const string KeyGroup = "customer";
 
-        public CustomerApiService(IRepository<Customer> customerRepository,
+        public CustomerApiService(IRepository<Core.Domain.Customers.Customer> customerRepository,
             IRepository<GenericAttribute> genericAttributeRepository,
             IRepository<Core.Domain.Messages.NewsLetterSubscription> subscriptionRepository,
             IStoreContext storeContext,
@@ -57,7 +56,7 @@ namespace Nop.Plugin.Api.Modules.Customers.Service
         public IList<CustomerDto> GetCustomersDtos(DateTime? createdAtMin = null, DateTime? createdAtMax = null, int limit = Configurations.DefaultLimit,
             int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId)
         {
-            IQueryable<Customer> query = GetCustomersQuery(createdAtMin, createdAtMax, sinceId);
+            IQueryable<Core.Domain.Customers.Customer> query = GetCustomersQuery(createdAtMin, createdAtMax, sinceId);
 
             IList<CustomerDto> result = HandleCustomerGenericAttributes(null, query, limit, page);
 
@@ -82,11 +81,11 @@ namespace Nop.Plugin.Api.Modules.Customers.Service
 
             if (searchParams != null)
             {
-                IQueryable<Customer> query = _customerRepository.Table.Where(customer => !customer.Deleted);
+                IQueryable<Core.Domain.Customers.Customer> query = _customerRepository.Table.Where(customer => !customer.Deleted);
 
                 foreach (KeyValuePair<string, string> searchParam in searchParams)
                     // Skip non existing properties.
-                    if (ReflectionHelper.HasProperty(searchParam.Key, typeof(Customer)))
+                    if (ReflectionHelper.HasProperty(searchParam.Key, typeof(Core.Domain.Customers.Customer)))
                         query = query.Where(string.Format("{0} = @0 || {0}.Contains(@0)", searchParam.Key), searchParam.Value);
                 // The code bellow will search in customer addresses as well.
                 //else if (HasProperty(searchParam.Key, typeof(Address)))
@@ -108,9 +107,9 @@ namespace Nop.Plugin.Api.Modules.Customers.Service
                     (x.Key == FirstName || x.Key == LastName)).ToDictionary(x => x.Key.ToLowerInvariant(), y => y.Value);
         }
 
-        public Customer GetCustomerEntityById(int id)
+        public Core.Domain.Customers.Customer GetCustomerEntityById(int id)
         {
-            Customer customer = _customerRepository.Table.FirstOrDefault(c => c.Id == id && !c.Deleted);
+            Core.Domain.Customers.Customer customer = _customerRepository.Table.FirstOrDefault(c => c.Id == id && !c.Deleted);
 
             return customer;
         }
@@ -142,7 +141,7 @@ namespace Nop.Plugin.Api.Modules.Customers.Service
             // This is in case we have first and last names set for the customer.
             if (customerAttributeMappings.Count > 0)
             {
-                Customer customer = customerAttributeMappings.First().Customer;
+                Core.Domain.Customers.Customer customer = customerAttributeMappings.First().Customer;
                 // The customer object is the same in all mappings.
                 customerDto = customer.ToDto();
 
@@ -185,7 +184,7 @@ namespace Nop.Plugin.Api.Modules.Customers.Service
             else
             {
                 // This is when we do not have first and last name set.
-                Customer currentCustomer = _customerRepository.Table.FirstOrDefault(customer => customer.Id == id);
+                Core.Domain.Customers.Customer currentCustomer = _customerRepository.Table.FirstOrDefault(customer => customer.Id == id);
 
                 if (currentCustomer != null)
                     if (showDeleted || !currentCustomer.Deleted)
@@ -233,9 +232,9 @@ namespace Nop.Plugin.Api.Modules.Customers.Service
             return customerAttributesMappingByKey;
         }
 
-        private IQueryable<Customer> GetCustomersQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null, int sinceId = 0)
+        private IQueryable<Core.Domain.Customers.Customer> GetCustomersQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null, int sinceId = 0)
         {
-            IQueryable<Customer> query = _customerRepository.Table //NoTracking
+            IQueryable<Core.Domain.Customers.Customer> query = _customerRepository.Table //NoTracking
                 .Where(customer => !customer.Deleted && !customer.IsSystemAccount && customer.Active);
 
             query = query.Where(customer => !customer.CustomerCustomerRoleMappings.Any(ccrm => ccrm.CustomerRole.Active && ccrm.CustomerRole.SystemName == NopCustomerDefaults.GuestsRoleName)
@@ -259,16 +258,16 @@ namespace Nop.Plugin.Api.Modules.Customers.Service
 
             if (defaultLanguageId == 0)
             {
-                IList<Language> allLanguages = _languageService.GetAllLanguages();
+                IList<Core.Domain.Localization.Language> allLanguages = _languageService.GetAllLanguages();
 
-                List<Language> storeLanguages = allLanguages.Where(l =>
+                List<Core.Domain.Localization.Language> storeLanguages = allLanguages.Where(l =>
                     _storeMappingService.Authorize(l, _storeContext.CurrentStore.Id)).ToList();
 
                 // If there is no language mapped to the current store, get all of the languages,
                 // and use the one with the first display order. This is a default nopCommerce workflow.
                 if (storeLanguages.Count == 0) storeLanguages = allLanguages.ToList();
 
-                Language defaultLanguage = storeLanguages.OrderBy(l => l.DisplayOrder).First();
+                Core.Domain.Localization.Language defaultLanguage = storeLanguages.OrderBy(l => l.DisplayOrder).First();
 
                 defaultLanguageId = defaultLanguage.Id;
             }
@@ -321,7 +320,7 @@ namespace Nop.Plugin.Api.Modules.Customers.Service
         /// <param name="page"></param>
         /// <param name="order"></param>
         /// <returns></returns>
-        private IList<CustomerDto> HandleCustomerGenericAttributes(IReadOnlyDictionary<string, string> searchParams, IQueryable<Customer> query,
+        private IList<CustomerDto> HandleCustomerGenericAttributes(IReadOnlyDictionary<string, string> searchParams, IQueryable<Core.Domain.Customers.Customer> query,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, string order = Configurations.DefaultOrder)
         {
             // Here we join the GenericAttribute records with the customers and making sure that we are working only with the attributes

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.Validators;
 
-namespace Nop.Plugin.Api.Modules.Products.Dto
+namespace Nop.Plugin.Api.Modules.Product.Dto.Validator
 {
     public class ProductDtoValidator : BaseDtoValidator<ProductDto>
     {

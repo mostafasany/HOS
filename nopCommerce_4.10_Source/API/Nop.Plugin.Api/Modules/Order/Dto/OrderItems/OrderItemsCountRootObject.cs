@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nop.Plugin.Api.Modules.Orders.Dto.OrderItems
+namespace Nop.Plugin.Api.Modules.Order.Dto.OrderItems
 {
     public class OrderItemsCountRootObject
     {

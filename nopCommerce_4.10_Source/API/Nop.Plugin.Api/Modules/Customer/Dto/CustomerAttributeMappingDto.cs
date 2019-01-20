@@ -1,11 +1,10 @@
 ﻿using Nop.Core.Domain.Common;
-using Nop.Core.Domain.Customers;
 
-namespace Nop.Plugin.Api.Modules.Customers.Dto
+namespace Nop.Plugin.Api.Modules.Customer.Dto
 {
     public class CustomerAttributeMappingDto
     {
-        public Customer Customer { get; set; }
+        public Core.Domain.Customers.Customer Customer { get; set; }
         public GenericAttribute Attribute { get; set; }
     }
 }

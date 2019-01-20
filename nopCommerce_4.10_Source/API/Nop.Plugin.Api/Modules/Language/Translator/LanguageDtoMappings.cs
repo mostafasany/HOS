@@ -1,11 +1,10 @@
-﻿using Nop.Core.Domain.Localization;
-using Nop.Plugin.Api.Common.AutoMapper;
-using Nop.Plugin.Api.Modules.Languages.Dto;
+﻿using Nop.Plugin.Api.Common.AutoMapper;
+using Nop.Plugin.Api.Modules.Language.Dto;
 
-namespace Nop.Plugin.Api.Common.MappingExtensions
+namespace Nop.Plugin.Api.Modules.Language.Translator
 {
     public static class LanguageDtoMappings
     {
-        public static LanguageDto ToDto(this Language language) => language.MapTo<Language, LanguageDto>();
+        public static LanguageDto ToDto(this Core.Domain.Localization.Language language) => language.MapTo<Core.Domain.Localization.Language, LanguageDto>();
     }
 }

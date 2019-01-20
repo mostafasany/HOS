@@ -5,7 +5,6 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
-using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Shipping;
@@ -21,11 +20,11 @@ using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
 using Nop.Plugin.Api.Modules.Cart.Service;
-using Nop.Plugin.Api.Modules.Orders.Dto.OrderItems;
-using Nop.Plugin.Api.Modules.Orders.Dto.Orders;
-using Nop.Plugin.Api.Modules.Orders.Model;
-using Nop.Plugin.Api.Modules.Orders.Service;
-using Nop.Plugin.Api.Modules.ProductsAttributes.Service;
+using Nop.Plugin.Api.Modules.Order.Dto.OrderItems;
+using Nop.Plugin.Api.Modules.Order.Dto.Orders;
+using Nop.Plugin.Api.Modules.Order.Model;
+using Nop.Plugin.Api.Modules.Order.Service;
+using Nop.Plugin.Api.Modules.ProductAttributes.Service;
 using Nop.Services.Catalog;
 using Nop.Services.Common;
 using Nop.Services.Customers;
@@ -39,13 +38,13 @@ using Nop.Services.Security;
 using Nop.Services.Shipping;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Orders
+namespace Nop.Plugin.Api.Modules.Order
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrdersController : BaseApiController
     {
         private readonly IDTOHelper _dtoHelper;
-        private readonly IFactory<Order> _factory;
+        private readonly IFactory<Core.Domain.Orders.Order> _factory;
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly IOrderApiService _orderApiService;
         private readonly IOrderProcessingService _orderProcessingService;
@@ -73,7 +72,7 @@ namespace Nop.Plugin.Api.Modules.Orders
             ICustomerActivityService customerActivityService,
             ILocalizationService localizationService,
             IProductService productService,
-            IFactory<Order> factory,
+            IFactory<Core.Domain.Orders.Order> factory,
             IOrderProcessingService orderProcessingService,
             IOrderService orderService,
             IShoppingCartService shoppingCartService,
@@ -119,7 +118,7 @@ namespace Nop.Plugin.Api.Modules.Orders
             if (orderDelta.Dto.CustomerId == null) return Error();
 
             // We doesn't have to check for value because this is done by the order validator.
-            Customer customer = CustomerService.GetCustomerById(orderDelta.Dto.CustomerId.Value);
+            Core.Domain.Customers.Customer customer = CustomerService.GetCustomerById(orderDelta.Dto.CustomerId.Value);
 
             if (customer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
 
@@ -149,7 +148,7 @@ namespace Nop.Plugin.Api.Modules.Orders
                 if (!isValid) return Error(HttpStatusCode.BadRequest);
             }
 
-            Order newOrder = _factory.Initialize();
+            Core.Domain.Orders.Order newOrder = _factory.Initialize();
             orderDelta.Merge(newOrder);
 
             customer.BillingAddress = newOrder.BillingAddress;
@@ -198,7 +197,7 @@ namespace Nop.Plugin.Api.Modules.Orders
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            Order orderToDelete = _orderApiService.GetOrderById(id);
+            Core.Domain.Orders.Order orderToDelete = _orderApiService.GetOrderById(id);
 
             if (orderToDelete == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
@@ -230,7 +229,7 @@ namespace Nop.Plugin.Api.Modules.Orders
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            Order order = _orderApiService.GetOrderById(id);
+            Core.Domain.Orders.Order order = _orderApiService.GetOrderById(id);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
@@ -264,7 +263,7 @@ namespace Nop.Plugin.Api.Modules.Orders
 
             int storeId = _storeContext.CurrentStore.Id;
 
-            IList<Order> orders = _orderApiService.GetOrders(parameters.Ids, parameters.CreatedAtMin,
+            IList<Core.Domain.Orders.Order> orders = _orderApiService.GetOrders(parameters.Ids, parameters.CreatedAtMin,
                 parameters.CreatedAtMax,
                 parameters.Limit, parameters.Page, parameters.SinceId,
                 parameters.Status, parameters.PaymentStatus, parameters.ShippingStatus,
@@ -296,7 +295,7 @@ namespace Nop.Plugin.Api.Modules.Orders
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetOrdersByCustomerId(int customerId, OrdersParametersModel parameters)
         {
-            IList<Order> ordersForCustomer = _orderApiService.GetOrdersByCustomerId(parameters.Ids, parameters.CreatedAtMin,
+            IList<Core.Domain.Orders.Order> ordersForCustomer = _orderApiService.GetOrdersByCustomerId(parameters.Ids, parameters.CreatedAtMin,
                 parameters.CreatedAtMax,
                 parameters.Limit, parameters.Page, parameters.SinceId,
                 parameters.Status, parameters.PaymentStatus, parameters.ShippingStatus,
@@ -350,11 +349,11 @@ namespace Nop.Plugin.Api.Modules.Orders
             // Here we display the errors if the validation has failed at some point.
             if (!ModelState.IsValid) return Error();
 
-            Order currentOrder = _orderApiService.GetOrderById(orderDelta.Dto.Id);
+            Core.Domain.Orders.Order currentOrder = _orderApiService.GetOrderById(orderDelta.Dto.Id);
 
             if (currentOrder == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
-            Customer customer = currentOrder.Customer;
+            Core.Domain.Customers.Customer customer = currentOrder.Customer;
 
             bool shippingRequired = currentOrder.OrderItems.Any(item => !item.Product.IsFreeShipping);
 
@@ -401,14 +400,14 @@ namespace Nop.Plugin.Api.Modules.Orders
             return new RawJsonActionResult(json);
         }
 
-        private bool AddOrderItemsToCart(ICollection<OrderItemDto> orderItems, Customer customer, int storeId)
+        private bool AddOrderItemsToCart(ICollection<OrderItemDto> orderItems, Core.Domain.Customers.Customer customer, int storeId)
         {
             var shouldReturnError = false;
 
             foreach (OrderItemDto orderItem in orderItems)
                 if (orderItem.ProductId != null)
                 {
-                    Product product = _productService.GetProductById(orderItem.ProductId.Value);
+                    Core.Domain.Catalog.Product product = _productService.GetProductById(orderItem.ProductId.Value);
 
                     if (!product.IsRental)
                     {
@@ -482,7 +481,7 @@ namespace Nop.Plugin.Api.Modules.Orders
             foreach (OrderItemDto orderItem in orderItems)
                 if (orderItem.ProductId != null)
                 {
-                    Product product = _productService.GetProductById(orderItem.ProductId.Value);
+                    Core.Domain.Catalog.Product product = _productService.GetProductById(orderItem.ProductId.Value);
 
                     shippingAddressRequired |= product.IsShipEnabled;
                 }
@@ -490,7 +489,7 @@ namespace Nop.Plugin.Api.Modules.Orders
             return shippingAddressRequired;
         }
 
-        private PlaceOrderResult PlaceOrder(Order newOrder, Customer customer)
+        private PlaceOrderResult PlaceOrder(Core.Domain.Orders.Order newOrder, Core.Domain.Customers.Customer customer)
         {
             var processPaymentRequest = new ProcessPaymentRequest
             {
@@ -505,7 +504,7 @@ namespace Nop.Plugin.Api.Modules.Orders
             return placeOrderResult;
         }
 
-        private bool SetShippingOption(string shippingRateComputationMethodSystemName, string shippingOptionName, int storeId, Customer customer, List<ShoppingCartItem> shoppingCartItems)
+        private bool SetShippingOption(string shippingRateComputationMethodSystemName, string shippingOptionName, int storeId, Core.Domain.Customers.Customer customer, List<ShoppingCartItem> shoppingCartItems)
         {
             var isValid = true;
 

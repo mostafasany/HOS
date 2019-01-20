@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nop.Plugin.Api.Modules.Categories.Dto
+namespace Nop.Plugin.Api.Modules.Category.Dto
 {
     public class CategoriesCountRootObject
     {

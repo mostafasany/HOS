@@ -1,11 +1,12 @@
 ﻿using System;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Directory;
+using Nop.Plugin.Api.Common.Factories;
 using Nop.Services.Directory;
 
-namespace Nop.Plugin.Api.Common.Factories
+namespace Nop.Plugin.Api.Modules.Product.Factory
 {
-    public class ProductFactory : IFactory<Product>
+    public class ProductFactory : IFactory<Core.Domain.Catalog.Product>
     {
         private readonly IMeasureService _measureService;
         private readonly MeasureSettings _measureSettings;
@@ -16,9 +17,9 @@ namespace Nop.Plugin.Api.Common.Factories
             _measureSettings = measureSettings;
         }
 
-        public Product Initialize()
+        public Core.Domain.Catalog.Product Initialize()
         {
-            var defaultProduct = new Product();
+            var defaultProduct = new Core.Domain.Catalog.Product();
 
             defaultProduct.Weight = _measureService.GetMeasureWeightById(_measureSettings.BaseWeightId).Ratio;
 

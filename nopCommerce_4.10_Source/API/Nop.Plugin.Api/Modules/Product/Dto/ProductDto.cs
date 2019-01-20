@@ -5,11 +5,13 @@ using Newtonsoft.Json;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.DTOs.Base;
-using Nop.Plugin.Api.Modules.Languages.Dto;
-using Nop.Plugin.Api.Modules.Pictures.Dto;
+using Nop.Plugin.Api.Modules.Language.Dto;
+using Nop.Plugin.Api.Modules.Picture.Dto;
+using Nop.Plugin.Api.Modules.Product.Attributes;
+using Nop.Plugin.Api.Modules.Product.Dto.Validator;
 using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;
 
-namespace Nop.Plugin.Api.Modules.Products.Dto
+namespace Nop.Plugin.Api.Modules.Product.Dto
 {
     [JsonObject(Title = "product")]
     [Validator(typeof(ProductDtoValidator))]

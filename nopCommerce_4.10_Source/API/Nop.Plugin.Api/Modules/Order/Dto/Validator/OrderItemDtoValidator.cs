@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.Validators;
+using Nop.Plugin.Api.Modules.Order.Dto.OrderItems;
 
-namespace Nop.Plugin.Api.Modules.Orders.Dto.OrderItems
+namespace Nop.Plugin.Api.Modules.Order.Dto.Validator
 {
     public class OrderItemDtoValidator : BaseDtoValidator<OrderItemDto>
     {

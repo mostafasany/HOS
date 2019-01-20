@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.Modules.Discounts.Dto
+namespace Nop.Plugin.Api.Modules.Discount.Dto
 {
     [JsonObject(Title = "discounts")]
     public class DiscountDto : BaseDto

@@ -1,13 +1,13 @@
 ﻿using System;
-using Nop.Core.Domain.Customers;
+using Nop.Plugin.Api.Common.Factories;
 
-namespace Nop.Plugin.Api.Common.Factories
+namespace Nop.Plugin.Api.Modules.Customer.Factory
 {
-    public class CustomerFactory : IFactory<Customer>
+    public class CustomerFactory : IFactory<Core.Domain.Customers.Customer>
     {
-        public Customer Initialize()
+        public Core.Domain.Customers.Customer Initialize()
         {
-            var defaultCustomer = new Customer
+            var defaultCustomer = new Core.Domain.Customers.Customer
             {
                 CustomerGuid = Guid.NewGuid(),
                 CreatedOnUtc = DateTime.UtcNow,

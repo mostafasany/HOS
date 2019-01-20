@@ -4,14 +4,14 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Models;
-using Nop.Plugin.Api.Modules.Clients.Service;
+using Nop.Plugin.Api.Modules.Client.Service;
 using Nop.Services.Localization;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Kendoui;
 using Nop.Web.Framework.Mvc.Filters;
 
-namespace Nop.Plugin.Api.Common.Controllers.Admin
+namespace Nop.Plugin.Api.Modules.Admin
 {
     [AuthorizeAdmin]
     [Area(AreaNames.Admin)]

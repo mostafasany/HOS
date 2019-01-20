@@ -7,28 +7,28 @@ using Nop.Core.Domain.Seo;
 using Nop.Core.Domain.Vendors;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
-using Nop.Plugin.Api.Modules.Products.Dto;
+using Nop.Plugin.Api.Modules.Product.Dto;
 using Nop.Services.Seo;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Products.Service
+namespace Nop.Plugin.Api.Modules.Product.Service
 {
     public class ProductApiService : IProductApiService
     {
-        private readonly IRepository<Category> _categoryRepository;
-        private readonly IRepository<Manufacturer> _manufacturerRepository;
+        private readonly IRepository<Core.Domain.Catalog.Category> _categoryRepository;
+        private readonly IRepository<Core.Domain.Catalog.Manufacturer> _manufacturerRepository;
         private readonly IRepository<ProductCategory> _productCategoryMappingRepository;
-        private readonly IRepository<Product> _productRepository;
+        private readonly IRepository<Core.Domain.Catalog.Product> _productRepository;
         private readonly IRepository<RelatedProduct> _relatedProductRepository;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IUrlRecordService _urlRecordService;
         private readonly IRepository<Vendor> _vendorRepository;
 
-        public ProductApiService(IRepository<Product> productRepository,
+        public ProductApiService(IRepository<Core.Domain.Catalog.Product> productRepository,
             IRepository<ProductCategory> productCategoryMappingRepository,
             IRepository<Vendor> vendorRepository,
             IStoreMappingService storeMappingService, IRepository<RelatedProduct> relatedProductRepository
-            , IUrlRecordService urlRecordService, IRepository<Manufacturer> manufacturerRepository, IRepository<Category> categoryRepository)
+            , IUrlRecordService urlRecordService, IRepository<Core.Domain.Catalog.Manufacturer> manufacturerRepository, IRepository<Core.Domain.Catalog.Category> categoryRepository)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
@@ -40,7 +40,7 @@ namespace Nop.Plugin.Api.Modules.Products.Service
             _manufacturerRepository = manufacturerRepository;
         }
 
-        public Product GetProductById(int productId)
+        public Core.Domain.Catalog.Product GetProductById(int productId)
         {
             if (productId == 0)
                 return null;
@@ -48,7 +48,7 @@ namespace Nop.Plugin.Api.Modules.Products.Service
             return _productRepository.Table.FirstOrDefault(product => product.Id == productId && !product.Deleted);
         }
 
-        public Product GetProductByIdNoTracking(int productId)
+        public Core.Domain.Catalog.Product GetProductByIdNoTracking(int productId)
         {
             if (productId == 0)
                 return null;
@@ -56,31 +56,31 @@ namespace Nop.Plugin.Api.Modules.Products.Service
             return _productRepository.Table.FirstOrDefault(product => product.Id == productId && !product.Deleted);
         }
 
-        public Tuple<IList<Product>, List<ProductsFiltersDto>> GetProducts(IList<int> ids = null,
+        public Tuple<IList<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>> GetProducts(IList<int> ids = null,
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
             int? categoryId = null, string categorySlug = null, string vendorName = null, string manufacturerName = null, string keyword = null, bool? publishedStatus = null)
         {
-            Tuple<IQueryable<Product>, List<ProductsFiltersDto>> tuple = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName, manufacturerName, keyword, publishedStatus, ids, categoryId, categorySlug);
+            Tuple<IQueryable<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>> tuple = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName, manufacturerName, keyword, publishedStatus, ids, categoryId, categorySlug);
 
-            IQueryable<Product> query = tuple.Item1;
+            IQueryable<Core.Domain.Catalog.Product> query = tuple.Item1;
             if (sinceId > 0) query = tuple.Item1.Where(c => c.Id > sinceId);
 
-            return new Tuple<IList<Product>, List<ProductsFiltersDto>>(new ApiList<Product>(query, page - 1, limit), tuple.Item2);
+            return new Tuple<IList<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>>(new ApiList<Core.Domain.Catalog.Product>(query, page - 1, limit), tuple.Item2);
         }
 
         public int GetProductsCount(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, bool? publishedStatus = null, string vendorName = null, string keyword = null,
             int? categoryId = null)
         {
-            Tuple<IQueryable<Product>, List<ProductsFiltersDto>> tuple = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName, keyword,
+            Tuple<IQueryable<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>> tuple = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName, keyword,
                 publishedStatus: publishedStatus, categoryId: categoryId);
 
             return tuple.Item1.Count(p => _storeMappingService.Authorize(p));
         }
 
 
-        public List<Product> GetRelatedProducts(int productId1, bool showHidden = false)
+        public List<Core.Domain.Catalog.Product> GetRelatedProducts(int productId1, bool showHidden = false)
         {
             IQueryable<RelatedProduct> query = from rp in _relatedProductRepository.Table
                 join p in _productRepository.Table on rp.ProductId2 equals p.Id
@@ -91,23 +91,23 @@ namespace Nop.Plugin.Api.Modules.Products.Service
                 select rp;
             List<RelatedProduct> relatedProducts = query.ToList();
 
-            var products = new List<Product>();
+            var products = new List<Core.Domain.Catalog.Product>();
             foreach (RelatedProduct relatedProduct in relatedProducts)
             {
-                Product product = GetProductById(relatedProduct.ProductId2);
+                Core.Domain.Catalog.Product product = GetProductById(relatedProduct.ProductId2);
                 products.Add(product);
             }
 
             return products;
         }
 
-        private Tuple<IQueryable<Product>, List<ProductsFiltersDto>> GetProductsQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
+        private Tuple<IQueryable<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>> GetProductsQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, string vendorName = null, string manufacturerName = null, string keyword = null,
             bool? publishedStatus = null, IList<int> ids = null, int? categoryId = null, string categorySlug = null)
 
         {
             var filters = new List<ProductsFiltersDto>();
-            IQueryable<Product> query = _productRepository.Table;
+            IQueryable<Core.Domain.Catalog.Product> query = _productRepository.Table;
 
             if (ids != null && ids.Count > 0) query = query.Where(c => ids.Contains(c.Id));
 
@@ -141,7 +141,7 @@ namespace Nop.Plugin.Api.Modules.Products.Service
 
             if (!string.IsNullOrEmpty(manufacturerName))
             {
-                Manufacturer manufacturerTable = _manufacturerRepository.Table.FirstOrDefault(a => a.Name.ToLower() == manufacturerName.ToLower());
+                Core.Domain.Catalog.Manufacturer manufacturerTable = _manufacturerRepository.Table.FirstOrDefault(a => a.Name.ToLower() == manufacturerName.ToLower());
                 if (manufacturerTable != null && !manufacturerTable.Deleted)
                 {
                     query = from product in _productRepository.Table
@@ -169,7 +169,7 @@ namespace Nop.Plugin.Api.Modules.Products.Service
                     orderby productCategoryMapping.DisplayOrder descending
                     select product;
 
-                Category category = _categoryRepository.Table.FirstOrDefault(a => a.Id == categoryId);
+                Core.Domain.Catalog.Category category = _categoryRepository.Table.FirstOrDefault(a => a.Id == categoryId);
                 filters.Add(new ProductsFiltersDto("Category", category.Name));
             }
             else
@@ -178,7 +178,7 @@ namespace Nop.Plugin.Api.Modules.Products.Service
             }
 
 
-            return new Tuple<IQueryable<Product>, List<ProductsFiltersDto>>(query, filters);
+            return new Tuple<IQueryable<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>>(query, filters);
         }
     }
 }

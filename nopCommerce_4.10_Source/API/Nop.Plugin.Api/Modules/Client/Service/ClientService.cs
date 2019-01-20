@@ -9,9 +9,8 @@ using IdentityServer4.Models;
 using Microsoft.EntityFrameworkCore;
 using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Common.Models;
-using Client = IdentityServer4.EntityFramework.Entities.Client;
 
-namespace Nop.Plugin.Api.Modules.Clients.Service
+namespace Nop.Plugin.Api.Modules.Client.Service
 {
     public class ClientService : IClientService
     {
@@ -21,11 +20,11 @@ namespace Nop.Plugin.Api.Modules.Clients.Service
 
         public IList<ClientApiModel> GetAllClients()
         {
-            IQueryable<Client> clientsQuery = _configurationDbContext.Clients
+            IQueryable<IdentityServer4.EntityFramework.Entities.Client> clientsQuery = _configurationDbContext.Clients
                 .Include(x => x.ClientSecrets)
                 .Include(x => x.RedirectUris);
 
-            IList<Client> clients = clientsQuery.ToList();
+            IList<IdentityServer4.EntityFramework.Entities.Client> clients = clientsQuery.ToList();
 
             IList<ClientApiModel> clientApiModels = clients.Select(client => client.ToApiModel()).ToList();
 
@@ -36,7 +35,7 @@ namespace Nop.Plugin.Api.Modules.Clients.Service
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
-            var client = new Client
+            var client = new IdentityServer4.EntityFramework.Entities.Client
             {
                 ClientId = model.ClientId,
                 Enabled = model.Enabled,
@@ -104,7 +103,7 @@ namespace Nop.Plugin.Api.Modules.Clients.Service
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
 
-            Client currentClient = _configurationDbContext.Clients
+            IdentityServer4.EntityFramework.Entities.Client currentClient = _configurationDbContext.Clients
                 .Include(client => client.ClientSecrets)
                 .Include(client => client.RedirectUris)
                 .FirstOrDefault(client => client.ClientId == model.ClientId);
@@ -126,7 +125,7 @@ namespace Nop.Plugin.Api.Modules.Clients.Service
 
         public ClientApiModel FindClientByIdAsync(int id)
         {
-            Client currentClient = _configurationDbContext.Clients
+            IdentityServer4.EntityFramework.Entities.Client currentClient = _configurationDbContext.Clients
                 .Include(client => client.ClientSecrets)
                 .Include(client => client.RedirectUris)
                 .FirstOrDefault(client => client.Id == id);
@@ -136,7 +135,7 @@ namespace Nop.Plugin.Api.Modules.Clients.Service
 
         public ClientApiModel FindClientByClientId(string clientId)
         {
-            Client currentClient = _configurationDbContext.Clients
+            IdentityServer4.EntityFramework.Entities.Client currentClient = _configurationDbContext.Clients
                 .Include(client => client.ClientSecrets)
                 .Include(client => client.RedirectUris)
                 .FirstOrDefault(client => client.ClientId == clientId);
@@ -146,7 +145,7 @@ namespace Nop.Plugin.Api.Modules.Clients.Service
 
         public void DeleteClient(int id)
         {
-            Client client = _configurationDbContext.Clients
+            IdentityServer4.EntityFramework.Entities.Client client = _configurationDbContext.Clients
                 .Include(entity => entity.ClientSecrets)
                 .Include(entity => entity.RedirectUris)
                 .FirstOrDefault(x => x.Id == id);
@@ -158,7 +157,7 @@ namespace Nop.Plugin.Api.Modules.Clients.Service
             }
         }
 
-        private void AddOrUpdateClientRedirectUrl(Client currentClient, string modelRedirectUrl)
+        private void AddOrUpdateClientRedirectUrl(IdentityServer4.EntityFramework.Entities.Client currentClient, string modelRedirectUrl)
         {
             // Ensure the client redirect url collection is not null
             if (currentClient.RedirectUris == null) currentClient.RedirectUris = new List<ClientRedirectUri>();
@@ -181,7 +180,7 @@ namespace Nop.Plugin.Api.Modules.Clients.Service
             }
         }
 
-        private void AddOrUpdateClientSecret(Client currentClient, string modelClientSecretDescription)
+        private void AddOrUpdateClientSecret(IdentityServer4.EntityFramework.Entities.Client currentClient, string modelClientSecretDescription)
         {
             // Ensure the client secrets collection is not null
             if (currentClient.ClientSecrets == null) currentClient.ClientSecrets = new List<ClientSecret>();

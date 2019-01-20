@@ -12,7 +12,7 @@ using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
 
-namespace Nop.Plugin.Api.Common.Controllers.Admin
+namespace Nop.Plugin.Api.Modules.Admin
 {
     [AuthorizeAdmin]
     [Area(AreaNames.Admin)]

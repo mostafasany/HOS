@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Attributes;
 using Newtonsoft.Json;
+using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto.Validator;
 
 namespace Nop.Plugin.Api.Modules.SpecificationAttributes.Dto
 {

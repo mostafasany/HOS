@@ -18,18 +18,21 @@ using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Common.Models;
 using Nop.Plugin.Api.Modules.Cart.Dto;
-using Nop.Plugin.Api.Modules.Categories.Dto;
+using Nop.Plugin.Api.Modules.Category.Dto;
+using Nop.Plugin.Api.Modules.Customer.Dto;
+using Nop.Plugin.Api.Modules.Customer.Translator;
 using Nop.Plugin.Api.Modules.CustomerRoles.Dto;
-using Nop.Plugin.Api.Modules.Customers.Dto;
-using Nop.Plugin.Api.Modules.Languages.Dto;
+using Nop.Plugin.Api.Modules.Language.Dto;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Dto;
-using Nop.Plugin.Api.Modules.Orders.Dto.OrderItems;
-using Nop.Plugin.Api.Modules.Orders.Dto.Orders;
-using Nop.Plugin.Api.Modules.Products.Dto;
-using Nop.Plugin.Api.Modules.ProductsAttributes.Dto;
-using Nop.Plugin.Api.Modules.ProductsCategoryMappings.Dto;
+using Nop.Plugin.Api.Modules.Order.Dto.OrderItems;
+using Nop.Plugin.Api.Modules.Order.Dto.Orders;
+using Nop.Plugin.Api.Modules.Order.Translator;
+using Nop.Plugin.Api.Modules.Product.Dto;
+using Nop.Plugin.Api.Modules.Product.Translator;
+using Nop.Plugin.Api.Modules.ProductAttributes.Dto;
+using Nop.Plugin.Api.Modules.ProductCategoryMappings.Dto;
 using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;
-using Nop.Plugin.Api.Modules.Stores.Dto;
+using Nop.Plugin.Api.Modules.Store.Dto;
 
 namespace Nop.Plugin.Api
 {

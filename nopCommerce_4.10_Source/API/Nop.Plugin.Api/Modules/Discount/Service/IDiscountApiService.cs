@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Nop.Core.Domain.Discounts;
 
-namespace Nop.Plugin.Api.Modules.Discounts.Service
+namespace Nop.Plugin.Api.Modules.Discount.Service
 {
     public interface IDiscountApiService
     {
-        IList<Discount> GetDiscounts(IList<int> ids = null, int? productId = null);
+        IList<Core.Domain.Discounts.Discount> GetDiscounts(IList<int> ids = null, int? productId = null);
     }
 }

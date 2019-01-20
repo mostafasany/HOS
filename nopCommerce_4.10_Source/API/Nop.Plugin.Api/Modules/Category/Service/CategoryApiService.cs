@@ -7,15 +7,15 @@ using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Categories.Service
+namespace Nop.Plugin.Api.Modules.Category.Service
 {
     public class CategoryApiService : ICategoryApiService
     {
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<Core.Domain.Catalog.Category> _categoryRepository;
         private readonly IRepository<ProductCategory> _productCategoryMappingRepository;
         private readonly IStoreMappingService _storeMappingService;
 
-        public CategoryApiService(IRepository<Category> categoryRepository,
+        public CategoryApiService(IRepository<Core.Domain.Catalog.Category> categoryRepository,
             IRepository<ProductCategory> productCategoryMappingRepository,
             IStoreMappingService storeMappingService)
         {
@@ -24,26 +24,26 @@ namespace Nop.Plugin.Api.Modules.Categories.Service
             _storeMappingService = storeMappingService;
         }
 
-        public IList<Category> GetCategories(IList<int> ids = null,
+        public IList<Core.Domain.Catalog.Category> GetCategories(IList<int> ids = null,
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
             int? productId = null, int? parenttId = null,
             bool? publishedStatus = null)
         {
-            IQueryable<Category> query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, publishedStatus, productId, parenttId, ids);
+            IQueryable<Core.Domain.Catalog.Category> query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, publishedStatus, productId, parenttId, ids);
 
 
             if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
 
-            return new ApiList<Category>(query, page - 1, limit);
+            return new ApiList<Core.Domain.Catalog.Category>(query, page - 1, limit);
         }
 
-        public Category GetCategoryById(int id)
+        public Core.Domain.Catalog.Category GetCategoryById(int id)
         {
             if (id <= 0)
                 return null;
 
-            Category category = _categoryRepository.Table.FirstOrDefault(cat => cat.Id == id && !cat.Deleted);
+            Core.Domain.Catalog.Category category = _categoryRepository.Table.FirstOrDefault(cat => cat.Id == id && !cat.Deleted);
 
             return category;
         }
@@ -52,17 +52,17 @@ namespace Nop.Plugin.Api.Modules.Categories.Service
             DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             bool? publishedStatus = null, int? productId = null)
         {
-            IQueryable<Category> query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
+            IQueryable<Core.Domain.Catalog.Category> query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
                 publishedStatus, productId);
 
             return query.Count(c => _storeMappingService.Authorize(c));
         }
 
-        private IQueryable<Category> GetCategoriesQuery(
+        private IQueryable<Core.Domain.Catalog.Category> GetCategoriesQuery(
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             bool? publishedStatus = null, int? productId = null, int? parenttId = null, IList<int> ids = null)
         {
-            IQueryable<Category> query = _categoryRepository.Table;
+            IQueryable<Core.Domain.Catalog.Category> query = _categoryRepository.Table;
 
             if (ids != null && ids.Count > 0) query = query.Where(c => ids.Contains(c.Id));
 

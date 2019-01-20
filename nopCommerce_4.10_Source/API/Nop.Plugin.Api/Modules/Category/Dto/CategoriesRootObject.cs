@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.Modules.Categories.Dto
+namespace Nop.Plugin.Api.Modules.Category.Dto
 {
     public class CategoriesRootObject : ISerializableObject
     {

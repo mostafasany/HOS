@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Nop.Core.Domain.Articles;
 using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Modules.Articles.Service
+namespace Nop.Plugin.Api.Modules.Article.Service
 {
     public interface IArticleApiService
     {
-        Article GetArticleById(int articleId);
+        Core.Domain.Articles.Article GetArticleById(int articleId);
 
-        IList<Article> GetArticles(IList<int> ids = null,
+        IList<Core.Domain.Articles.Article> GetArticles(IList<int> ids = null,
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
             int? categoryId = null, int? groupId = null, string keyword = null, string tag = null, bool? publishedStatus = null);
@@ -20,6 +20,6 @@ namespace Nop.Plugin.Api.Modules.Articles.Service
 
         IList<FNS_ArticleGroup> GetArticlesGroups();
 
-        IList<Article> GetArticlesSimilarByTag(int articleId, int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId);
+        IList<Core.Domain.Articles.Article> GetArticlesSimilarByTag(int articleId, int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId);
     }
 }
