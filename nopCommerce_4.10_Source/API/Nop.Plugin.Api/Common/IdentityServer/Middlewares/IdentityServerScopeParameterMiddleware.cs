@@ -11,10 +11,7 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Middlewares
     {
         private readonly RequestDelegate _next;
 
-        public IdentityServerScopeParameterMiddleware(RequestDelegate next)
-        {
-            _next = next;
-        }
+        public IdentityServerScopeParameterMiddleware(RequestDelegate next) => _next = next;
 
         public async Task Invoke(HttpContext context)
         {
@@ -25,7 +22,7 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Middlewares
 
                 var queryValues = new Dictionary<string, StringValues>();
 
-                foreach (var item in context.Request.Query)
+                foreach (KeyValuePair<string, StringValues> item in context.Request.Query)
                 {
                     if (item.Key == "scope")
                     {
@@ -42,16 +39,11 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Middlewares
                     queryValues.Add(item.Key, item.Value);
                 }
 
-                if (!queryValues.ContainsKey("scope"))
-                {
-                    // if no scope is specified we add it
-                    queryValues.Add("scope", "nop_api offline_access");
-                }
+                if (!queryValues.ContainsKey("scope")) queryValues.Add("scope", "nop_api offline_access");
 
                 var newQueryCollection = new QueryCollection(queryValues);
 
                 context.Request.Query = newQueryCollection;
-
             }
 
             await _next(context);

@@ -11,28 +11,22 @@ namespace Nop.Plugin.Api.Common.Helpers
             {
                 var copy = new JObject();
 
-                foreach (var prop in token.Children<JProperty>())
+                foreach (JProperty prop in token.Children<JProperty>())
                 {
-                    var child = prop.Value;
+                    JToken child = prop.Value;
 
-                    if (child.HasValues)
-                    {
-                        child = child.RemoveEmptyChildrenAndFilterByFields(jsonFields, level + 1);
-                    }
+                    if (child.HasValues) child = child.RemoveEmptyChildrenAndFilterByFields(jsonFields, level + 1);
 
                     // In the current json structure, the first level of properties is level 3. 
                     // If the level is > 3 ( meaning we are not on the first level of properties ), we should not check if the current field is containing into the list with fields, 
                     // so we need to serialize it always.
-                    var allowedFields = jsonFields.Contains(prop.Name.ToLowerInvariant()) || level > 3;
+                    bool allowedFields = jsonFields.Contains(prop.Name.ToLowerInvariant()) || level > 3;
 
                     // If the level == 3 ( meaning we are on the first level of properties ), we should not take into account if the current field is values,
                     // so we need to serialize it always.
-                    var notEmpty = !child.IsEmptyOrDefault() || level == 1 || level == 3;
+                    bool notEmpty = !child.IsEmptyOrDefault() || level == 1 || level == 3;
 
-                    if (notEmpty && allowedFields)
-                    {
-                        copy.Add(prop.Name, child);
-                    }
+                    if (notEmpty && allowedFields) copy.Add(prop.Name, child);
                 }
 
                 return copy;
@@ -42,19 +36,13 @@ namespace Nop.Plugin.Api.Common.Helpers
             {
                 var copy = new JArray();
 
-                foreach (var item in token.Children())
+                foreach (JToken item in token.Children())
                 {
-                    var child = item;
+                    JToken child = item;
 
-                    if (child.HasValues)
-                    {
-                        child = child.RemoveEmptyChildrenAndFilterByFields(jsonFields, level + 1);
-                    }
+                    if (child.HasValues) child = child.RemoveEmptyChildrenAndFilterByFields(jsonFields, level + 1);
 
-                    if (!child.IsEmptyOrDefault())
-                    {
-                        copy.Add(child);
-                    }
+                    if (!child.IsEmptyOrDefault()) copy.Add(child);
                 }
 
                 return copy;
@@ -63,9 +51,6 @@ namespace Nop.Plugin.Api.Common.Helpers
             return token;
         }
 
-        private static bool IsEmptyOrDefault(this JToken token)
-        {
-            return (token.Type == JTokenType.Array && !token.HasValues) || (token.Type == JTokenType.Object && !token.HasValues);
-        }
+        private static bool IsEmptyOrDefault(this JToken token) => token.Type == JTokenType.Array && !token.HasValues || token.Type == JTokenType.Object && !token.HasValues;
     }
 }

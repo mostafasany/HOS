@@ -6,19 +6,10 @@ namespace Nop.Plugin.Api.Common.MappingExtensions
 {
     public static class SpecificationAttributeDtoMappings
     {
-        public static ProductSpecificationAttributeDto ToDto(this ProductSpecificationAttribute productSpecificationAttribute)
-        {
-            return productSpecificationAttribute.MapTo<ProductSpecificationAttribute, ProductSpecificationAttributeDto>();
-        }
+        public static ProductSpecificationAttributeDto ToDto(this ProductSpecificationAttribute productSpecificationAttribute) => productSpecificationAttribute.MapTo<ProductSpecificationAttribute, ProductSpecificationAttributeDto>();
 
-        public static SpecificationAttributeDto ToDto(this SpecificationAttribute specificationAttribute)
-        {
-            return specificationAttribute.MapTo<SpecificationAttribute, SpecificationAttributeDto>();
-        }
+        public static SpecificationAttributeDto ToDto(this SpecificationAttribute specificationAttribute) => specificationAttribute.MapTo<SpecificationAttribute, SpecificationAttributeDto>();
 
-        public static SpecificationAttributeOptionDto ToDto(this SpecificationAttributeOption specificationAttributeOption)
-        {
-            return specificationAttributeOption.MapTo<SpecificationAttributeOption, SpecificationAttributeOptionDto>();
-        }
+        public static SpecificationAttributeOptionDto ToDto(this SpecificationAttributeOption specificationAttributeOption) => specificationAttributeOption.MapTo<SpecificationAttributeOption, SpecificationAttributeOptionDto>();
     }
 }

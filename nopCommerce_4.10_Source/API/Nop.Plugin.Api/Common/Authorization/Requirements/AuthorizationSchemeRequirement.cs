@@ -8,12 +8,10 @@ namespace Nop.Plugin.Api.Common.Authorization.Requirements
     {
         public bool IsValid(IHeaderDictionary requestHeaders)
         {
-            if (requestHeaders != null && 
-                requestHeaders.ContainsKey("Authorization") && 
+            if (requestHeaders != null &&
+                requestHeaders.ContainsKey("Authorization") &&
                 requestHeaders["Authorization"].ToString().Contains(JwtBearerDefaults.AuthenticationScheme))
-            {
                 return true;
-            }
 
             return false;
         }

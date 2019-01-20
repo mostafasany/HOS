@@ -6,24 +6,12 @@ namespace Nop.Plugin.Api.Common.MappingExtensions
 {
     public static class CustomerDtoMappings
     {
-        public static CustomerDto ToDto(this Customer customer)
-        {
-            return customer.MapTo<Customer, CustomerDto>();
-        }
+        public static CustomerForShoppingCartItemDto ToCustomerForShoppingCartItemDto(this Customer customer) => customer.MapTo<Customer, CustomerForShoppingCartItemDto>();
 
-        public static OrderCustomerDto ToOrderCustomerDto(this Customer customer)
-        {
-            return customer.MapTo<Customer, OrderCustomerDto>();
-        }
+        public static CustomerDto ToDto(this Customer customer) => customer.MapTo<Customer, CustomerDto>();
 
-        public static OrderCustomerDto ToOrderCustomerDto(this CustomerDto customerDto)
-        {
-            return customerDto.MapTo<CustomerDto, OrderCustomerDto>();
-        }
+        public static OrderCustomerDto ToOrderCustomerDto(this Customer customer) => customer.MapTo<Customer, OrderCustomerDto>();
 
-        public static CustomerForShoppingCartItemDto ToCustomerForShoppingCartItemDto(this Customer customer)
-        {
-            return customer.MapTo<Customer, CustomerForShoppingCartItemDto>();
-        }
+        public static OrderCustomerDto ToOrderCustomerDto(this CustomerDto customerDto) => customerDto.MapTo<CustomerDto, OrderCustomerDto>();
     }
 }

@@ -23,15 +23,12 @@ namespace Nop.Plugin.Api.Common.Attributes
             get => base.AuthenticationSchemes;
             set => base.AuthenticationSchemes = GetAuthenticationSchemeName(value);
         }
-        
+
         private static string GetAuthenticationSchemeName(string value)
         {
-            var pluginInstalled = PluginManager.FindPlugin(typeof(ApiStartup))?.Installed ?? false;
+            bool pluginInstalled = PluginManager.FindPlugin(typeof(ApiStartup))?.Installed ?? false;
 
-            if (pluginInstalled)
-            {
-                return value;
-            }
+            if (pluginInstalled) return value;
 
             return default(string);
         }

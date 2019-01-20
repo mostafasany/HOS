@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Nop.Core;
+using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Security;
 using Nop.Core.Domain.Stores;
 using Nop.Plugin.Api.Common.DTOs.Errors;
@@ -20,23 +22,23 @@ namespace Nop.Plugin.Api.Common.Controllers
 {
     public class BaseApiController : Controller
     {
-        protected readonly IJsonFieldsSerializer JsonFieldsSerializer;
         protected readonly IAclService AclService;
-        protected readonly ICustomerService CustomerService;
-        protected readonly IStoreMappingService StoreMappingService;
-        protected readonly IStoreService StoreService;
-        protected readonly IDiscountService DiscountService;
         protected readonly ICustomerActivityService CustomerActivityService;
+        protected readonly ICustomerService CustomerService;
+        protected readonly IDiscountService DiscountService;
+        protected readonly IJsonFieldsSerializer JsonFieldsSerializer;
         protected readonly ILocalizationService LocalizationService;
         protected readonly IPictureService PictureService;
+        protected readonly IStoreMappingService StoreMappingService;
+        protected readonly IStoreService StoreService;
 
-        public BaseApiController(IJsonFieldsSerializer jsonFieldsSerializer, 
-            IAclService aclService, 
-            ICustomerService customerService, 
-            IStoreMappingService storeMappingService, 
-            IStoreService storeService, 
-            IDiscountService discountService, 
-            ICustomerActivityService customerActivityService, 
+        public BaseApiController(IJsonFieldsSerializer jsonFieldsSerializer,
+            IAclService aclService,
+            ICustomerService customerService,
+            IStoreMappingService storeMappingService,
+            IStoreService storeService,
+            IDiscountService discountService,
+            ICustomerActivityService customerActivityService,
             ILocalizationService localizationService,
             IPictureService pictureService)
         {
@@ -51,60 +53,50 @@ namespace Nop.Plugin.Api.Common.Controllers
             PictureService = pictureService;
         }
 
-        protected IActionResult Error(HttpStatusCode statusCode = (HttpStatusCode)422, string propertyKey = "", string errorMessage = "")
+        protected IActionResult Error(HttpStatusCode statusCode = (HttpStatusCode) 422, string propertyKey = "", string errorMessage = "")
         {
             var errors = new Dictionary<string, List<string>>();
 
             if (!string.IsNullOrEmpty(errorMessage) && !string.IsNullOrEmpty(propertyKey))
             {
-                var errorsList = new List<string>() {errorMessage};
+                var errorsList = new List<string> {errorMessage};
                 errors.Add(propertyKey, errorsList);
             }
-            
-            foreach (var item in ModelState)
+
+            foreach (KeyValuePair<string, ModelStateEntry> item in ModelState)
             {
-                var errorMessages = item.Value.Errors.Select(x => x.ErrorMessage);
+                IEnumerable<string> errorMessages = item.Value.Errors.Select(x => x.ErrorMessage);
 
                 var validErrorMessages = new List<string>();
 
                 validErrorMessages.AddRange(errorMessages.Where(message => !string.IsNullOrEmpty(message)));
-                
+
                 if (validErrorMessages.Count > 0)
-                {
                     if (errors.ContainsKey(item.Key))
-                    {
                         errors[item.Key].AddRange(validErrorMessages);
-                    }
                     else
-                    {
                         errors.Add(item.Key, validErrorMessages.ToList());
-                    }
-                }
             }
 
-            var errorsRootObject = new ErrorsRootObject()
+            var errorsRootObject = new ErrorsRootObject
             {
                 Errors = errors
             };
 
-            var errorsJson = JsonFieldsSerializer.Serialize(errorsRootObject, null);
+            string errorsJson = JsonFieldsSerializer.Serialize(errorsRootObject, null);
 
             return new ErrorActionResult(errorsJson, statusCode);
         }
 
-        protected void UpdateAclRoles<TEntity>(TEntity entity, List<int> passedRoleIds) where TEntity: BaseEntity, IAclSupported
+        protected void UpdateAclRoles<TEntity>(TEntity entity, List<int> passedRoleIds) where TEntity : BaseEntity, IAclSupported
         {
-            if (passedRoleIds == null)
-            {
-                return;
-            }
+            if (passedRoleIds == null) return;
 
             entity.SubjectToAcl = passedRoleIds.Any();
 
-            var existingAclRecords = AclService.GetAclRecords(entity);
-            var allCustomerRoles = CustomerService.GetAllCustomerRoles(true);
-            foreach (var customerRole in allCustomerRoles)
-            {
+            IList<AclRecord> existingAclRecords = AclService.GetAclRecords(entity);
+            IList<CustomerRole> allCustomerRoles = CustomerService.GetAllCustomerRoles(true);
+            foreach (CustomerRole customerRole in allCustomerRoles)
                 if (passedRoleIds.Contains(customerRole.Id))
                 {
                     //new role
@@ -114,24 +106,22 @@ namespace Nop.Plugin.Api.Common.Controllers
                 else
                 {
                     //remove role
-                    var aclRecordToDelete = existingAclRecords.FirstOrDefault(acl => acl.CustomerRoleId == customerRole.Id);
+                    AclRecord aclRecordToDelete = existingAclRecords.FirstOrDefault(acl => acl.CustomerRoleId == customerRole.Id);
                     if (aclRecordToDelete != null)
                         AclService.DeleteAclRecord(aclRecordToDelete);
                 }
-            }
         }
 
         protected void UpdateStoreMappings<TEntity>(TEntity entity, List<int> passedStoreIds) where TEntity : BaseEntity, IStoreMappingSupported
         {
-            if(passedStoreIds == null)
+            if (passedStoreIds == null)
                 return;
 
             entity.LimitedToStores = passedStoreIds.Any();
 
-            var existingStoreMappings = StoreMappingService.GetStoreMappings(entity);
-            var allStores = StoreService.GetAllStores();
-            foreach (var store in allStores)
-            {
+            IList<StoreMapping> existingStoreMappings = StoreMappingService.GetStoreMappings(entity);
+            IList<Store> allStores = StoreService.GetAllStores();
+            foreach (Store store in allStores)
                 if (passedStoreIds.Contains(store.Id))
                 {
                     //new store
@@ -141,11 +131,10 @@ namespace Nop.Plugin.Api.Common.Controllers
                 else
                 {
                     //remove store
-                    var storeMappingToDelete = existingStoreMappings.FirstOrDefault(sm => sm.StoreId == store.Id);
+                    StoreMapping storeMappingToDelete = existingStoreMappings.FirstOrDefault(sm => sm.StoreId == store.Id);
                     if (storeMappingToDelete != null)
                         StoreMappingService.DeleteStoreMapping(storeMappingToDelete);
                 }
-            }
         }
     }
 }

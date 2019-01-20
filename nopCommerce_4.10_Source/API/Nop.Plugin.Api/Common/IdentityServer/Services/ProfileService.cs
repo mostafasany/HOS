@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
@@ -10,15 +11,12 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Services
     {
         private readonly IClientService _clientService;
 
-        public ProfileService(IClientService clientService)
-        {
-            _clientService = clientService;
-        }
+        public ProfileService(IClientService clientService) => _clientService = clientService;
 
         // TODO: test this
         public Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            var sub = context.Subject.Claims.FirstOrDefault(x => x.Type == "sub");
+            Claim sub = context.Subject.Claims.FirstOrDefault(x => x.Type == "sub");
 
             var userId = 0;
 
@@ -34,9 +32,6 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Services
             return Task.CompletedTask;
         }
 
-        public Task IsActiveAsync(IsActiveContext context)
-        {
-            return Task.CompletedTask;
-        }
+        public Task IsActiveAsync(IsActiveContext context) => Task.CompletedTask;
     }
 }

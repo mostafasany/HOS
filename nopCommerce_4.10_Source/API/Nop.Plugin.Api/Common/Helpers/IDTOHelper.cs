@@ -27,30 +27,30 @@ namespace Nop.Plugin.Api.Common.Helpers
 {
     public interface IDTOHelper
     {
-        ProductDto PrepareProductDTO(Product product);
         CategoryDto PrepareCategoryDTO(Category category);
-        OrderDto PrepareOrderDTO(Order order);
-        ShoppingCartItemDto PrepareShoppingCartItemDTO(ShoppingCartItem shoppingCartItem);
 
         ExtendedShoppingCartDto PrepareExtendedShoppingCartItemDto(IEnumerable<ShoppingCartItem> shoppingCartItem);
+        OrderDto PrepareOrderDTO(Order order);
 
         OrderItemDto PrepareOrderItemDTO(OrderItem orderItem);
-        StoreDto PrepareStoreDTO(Store store);
-        LanguageDto PrepateLanguageDto(Language language);
         ProductAttributeDto PrepareProductAttributeDTO(ProductAttribute productAttribute);
+        ProductDto PrepareProductDTO(Product product);
         ProductSpecificationAttributeDto PrepareProductSpecificationAttributeDto(ProductSpecificationAttribute productSpecificationAttribute);
+        ShippingOptionDto PrepareShippingOptionItemDTO(ShippingOption shoppingCartItem);
+        ShoppingCartItemDto PrepareShoppingCartItemDTO(ShoppingCartItem shoppingCartItem);
         SpecificationAttributeDto PrepareSpecificationAttributeDto(SpecificationAttribute specificationAttribute);
-
-        TopicDto PrepateTopicDto(Topic topic);
-
-        ManufacturerDto PrepateManufacturerDto(Manufacturer manufacturer);
+        StoreDto PrepareStoreDTO(Store store);
 
         ArticlesDto PrepateArticleDto(Article article);
 
         ArticleGroupDto PrepateArticleGroupDto(FNS_ArticleGroup article);
 
         DiscountDto PrepateDiscountDto(Discount article);
+        LanguageDto PrepateLanguageDto(Language language);
+
+        ManufacturerDto PrepateManufacturerDto(Manufacturer manufacturer);
         StateProvinceDto PrepateProvinceStateDto(StateProvince state);
-        ShippingOptionDto PrepareShippingOptionItemDTO(ShippingOption shoppingCartItem);
+
+        TopicDto PrepateTopicDto(Topic topic);
     }
 }

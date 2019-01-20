@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 
@@ -11,13 +12,10 @@ namespace Nop.Plugin.Api.Common.JSON.ActionResults
     public class RawJsonActionResult : IActionResult
     {
         private readonly string _jsonString;
-        
+
         public RawJsonActionResult(object value)
         {
-            if (value != null)
-            {
-                _jsonString = value.ToString();
-            }
+            if (value != null) _jsonString = value.ToString();
         }
 
         public Task ExecuteResultAsync(ActionContext context)
@@ -25,8 +23,8 @@ namespace Nop.Plugin.Api.Common.JSON.ActionResults
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            var response = context.HttpContext.Response;
-            
+            HttpResponse response = context.HttpContext.Response;
+
             response.StatusCode = 200;
             response.ContentType = "application/json";
 

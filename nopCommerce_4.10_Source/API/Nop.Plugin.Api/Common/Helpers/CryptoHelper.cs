@@ -8,10 +8,11 @@ namespace Nop.Plugin.Api.Common.Helpers
 {
     public static class CryptoHelper
     {
-        // Need to ensure that the key would be the same through the application lifetime.
-        private static RsaSecurityKey _key;        
         private const string TokenSigningKeyFileName = "api-token-signing-key.json";
-               
+
+        // Need to ensure that the key would be the same through the application lifetime.
+        private static RsaSecurityKey _key;
+
         public static RsaSecurityKey CreateRsaSecurityKey()
         {
             if (_key == null)
@@ -21,7 +22,7 @@ namespace Nop.Plugin.Api.Common.Helpers
                 if (!File.Exists(pathToKey))
                 {
                     // generate random parameters
-                    var randomParameters = GetRandomParameters();
+                    RSAParameters randomParameters = GetRandomParameters();
 
                     var rsaParams = new RSAParametersWithPrivate();
                     rsaParams.SetParameters(randomParameters);
@@ -45,7 +46,7 @@ namespace Nop.Plugin.Api.Common.Helpers
         }
 
         public static RSAParameters GetRandomParameters()
-        {       
+        {
             using (var rsa = new RSACryptoServiceProvider(2048))
             {
                 try
@@ -82,21 +83,18 @@ namespace Nop.Plugin.Api.Common.Helpers
                 P = p.P;
                 Q = p.Q;
             }
-            public RSAParameters ToRSAParameters()
-            {
-                return new RSAParameters()
-                {
-                    D = this.D,
-                    DP = this.DP,
-                    DQ = this.DQ,
-                    Exponent = this.Exponent,
-                    InverseQ = this.InverseQ,
-                    Modulus = this.Modulus,
-                    P = this.P,
-                    Q = this.Q
 
-                };
-            }
+            public RSAParameters ToRSAParameters() => new RSAParameters
+            {
+                D = D,
+                DP = DP,
+                DQ = DQ,
+                Exponent = Exponent,
+                InverseQ = InverseQ,
+                Modulus = Modulus,
+                P = P,
+                Q = Q
+            };
         }
     }
 }

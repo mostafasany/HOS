@@ -1,5 +1,4 @@
-﻿using System;
-using Nop.Core;
+﻿using Nop.Core;
 
 namespace Nop.Plugin.Api.Common.Domain
 {
@@ -11,6 +10,6 @@ namespace Nop.Plugin.Api.Common.Domain
 
         public string ProtectedData { get; set; }
 
-        public Byte[] RowVer { get; set; }
+        public byte[] RowVer { get; set; }
     }
 }

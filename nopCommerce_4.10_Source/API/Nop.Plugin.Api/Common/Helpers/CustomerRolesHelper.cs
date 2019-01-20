@@ -8,10 +8,10 @@ namespace Nop.Plugin.Api.Common.Helpers
 {
     public class CustomerRolesHelper : ICustomerRolesHelper
     {
-        private const string CUSTOMERROLES_ALL_KEY = "Nop.customerrole.all-{0}";
+        private readonly ICacheManager _cacheManager;
 
         private readonly ICustomerService _customerService;
-        private readonly ICacheManager _cacheManager;
+        private const string CUSTOMERROLES_ALL_KEY = "Nop.customerrole.all-{0}";
 
         public CustomerRolesHelper(ICustomerService customerService, ICacheManager cacheManager)
         {
@@ -25,15 +25,11 @@ namespace Nop.Plugin.Api.Common.Helpers
             // and when you try to send something TO the database it throws an exeption.
             _cacheManager.RemoveByPattern(CUSTOMERROLES_ALL_KEY);
 
-            var allCustomerRoles = _customerService.GetAllCustomerRoles(true);
+            IList<CustomerRole> allCustomerRoles = _customerService.GetAllCustomerRoles(true);
             var newCustomerRoles = new List<CustomerRole>();
-            foreach (var customerRole in allCustomerRoles)
-            {
+            foreach (CustomerRole customerRole in allCustomerRoles)
                 if (roleIds != null && roleIds.Contains(customerRole.Id))
-                {
                     newCustomerRoles.Add(customerRole);
-                }
-            }
 
             return newCustomerRoles;
         }

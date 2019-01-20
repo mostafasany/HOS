@@ -9,14 +9,8 @@ namespace Nop.Plugin.Api.Common.DTOs.Errors
         [JsonProperty("errors")]
         public Dictionary<string, List<string>> Errors { get; set; }
 
-        public string GetPrimaryPropertyName()
-        {
-            return "errors";
-        }
+        public string GetPrimaryPropertyName() => "errors";
 
-        public Type GetPrimaryPropertyType()
-        {
-            return Errors.GetType();
-        }
+        public Type GetPrimaryPropertyType() => Errors.GetType();
     }
 }

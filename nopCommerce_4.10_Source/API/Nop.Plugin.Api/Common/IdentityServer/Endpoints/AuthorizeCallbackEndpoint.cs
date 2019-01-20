@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Collections.Specialized;
+using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Endpoints.Results;
 using IdentityServer4.Extensions;
@@ -22,41 +24,29 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Endpoints
             IAuthorizeInteractionResponseGenerator interactionGenerator,
             IAuthorizeResponseGenerator authorizeResponseGenerator,
             IUserSession userSession,
-            IConsentMessageStore consentResponseStore) : base(events, userSession, validator, authorizeResponseGenerator, interactionGenerator)
-        {
-            _consentResponseStore = consentResponseStore;
-        }
+            IConsentMessageStore consentResponseStore) : base(events, userSession, validator, authorizeResponseGenerator, interactionGenerator) => _consentResponseStore = consentResponseStore;
 
         public override async Task<IEndpointResult> ProcessAsync(HttpContext context)
         {
-            if (context.Request.Method != "GET")
-            {
-                return new StatusCodeResult(HttpStatusCode.MethodNotAllowed);
-            }
-            
-            var parameters = context.Request.Query.AsNameValueCollection();
+            if (context.Request.Method != "GET") return new StatusCodeResult(HttpStatusCode.MethodNotAllowed);
 
-            var user = await UserSession.GetUserAsync();
+            NameValueCollection parameters = context.Request.Query.AsNameValueCollection();
+
+            ClaimsPrincipal user = await UserSession.GetUserAsync();
             var consentRequest = new ConsentRequest(parameters, user?.GetSubjectId());
-            var consent = await _consentResponseStore.ReadAsync(consentRequest.Id);
+            Message<ConsentResponse> consent = await _consentResponseStore.ReadAsync(consentRequest.Id);
 
-            if (consent != null && consent.Data == null)
-            {
-                return await CreateErrorResultAsync("consent message is missing data");
-            }
+            if (consent != null && consent.Data == null) return await CreateErrorResultAsync("consent message is missing data");
 
             try
             {
-                var result = await ProcessAuthorizeRequestAsync(parameters, user, consent?.Data);
-                
+                IEndpointResult result = await ProcessAuthorizeRequestAsync(parameters, user, consent?.Data);
+
                 return result;
             }
             finally
             {
-                if (consent != null)
-                {
-                    await _consentResponseStore.DeleteAsync(consentRequest.Id);
-                }
+                if (consent != null) await _consentResponseStore.DeleteAsync(consentRequest.Id);
             }
         }
     }

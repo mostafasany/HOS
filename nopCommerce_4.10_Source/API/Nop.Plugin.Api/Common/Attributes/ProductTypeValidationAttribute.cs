@@ -8,6 +8,8 @@ namespace Nop.Plugin.Api.Common.Attributes
     {
         private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
 
+        public override Dictionary<string, string> GetErrors() => _errors;
+
         public override void Validate(object instance)
         {
             // Product Type is not required so it could be null
@@ -15,17 +17,9 @@ namespace Nop.Plugin.Api.Common.Attributes
             if (instance == null)
                 return;
 
-            var isDefined = Enum.IsDefined(typeof(ProductType), instance);
+            bool isDefined = Enum.IsDefined(typeof(ProductType), instance);
 
-            if (!isDefined)
-            { 
-                _errors.Add("ProductType","Invalid product type");
-            }
-        }
-
-        public override Dictionary<string, string> GetErrors()
-        {
-            return _errors;
+            if (!isDefined) _errors.Add("ProductType", "Invalid product type");
         }
     }
 }

@@ -6,9 +6,6 @@ namespace Nop.Plugin.Api.Common.MappingExtensions
 {
     public static class StoreDtoMappings
     {
-        public static StoreDto ToDto(this Store store)
-        {
-            return store.MapTo<Store, StoreDto>();
-        }
+        public static StoreDto ToDto(this Store store) => store.MapTo<Store, StoreDto>();
     }
 }

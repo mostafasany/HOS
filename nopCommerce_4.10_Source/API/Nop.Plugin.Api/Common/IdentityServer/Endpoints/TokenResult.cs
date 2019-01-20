@@ -5,20 +5,21 @@ using IdentityServer4.Extensions;
 using IdentityServer4.Hosting;
 using IdentityServer4.ResponseHandling;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Linq;
 using Nop.Plugin.Api.Common.IdentityServer.Infrastructure;
 
 namespace Nop.Plugin.Api.Common.IdentityServer.Endpoints
 {
     public class TokenResult : IEndpointResult
     {
-        public TokenResponse Response { get; set; }
-
         public TokenResult(TokenResponse response)
         {
             if (response == null) throw new ArgumentNullException(nameof(response));
 
             Response = response;
         }
+
+        public TokenResponse Response { get; set; }
 
         public async Task ExecuteAsync(HttpContext context)
         {
@@ -39,7 +40,7 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Endpoints
             }
             else
             {
-                var jobject = ObjectSerializer.ToJObject(dto);
+                JObject jobject = ObjectSerializer.ToJObject(dto);
                 jobject.AddDictionary(Response.Custom);
 
                 await context.Response.WriteJsonAsync(jobject);

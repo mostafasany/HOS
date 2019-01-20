@@ -23,19 +23,10 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Infrastructure
             Settings.Converters.Add(new NameValueCollectionConverter());
         }
 
-        public static string ToString(object o)
-        {
-            return JsonConvert.SerializeObject(o, Settings);
-        }
+        public static T FromString<T>(string value) => JsonConvert.DeserializeObject<T>(value, Settings);
 
-        public static T FromString<T>(string value)
-        {
-            return JsonConvert.DeserializeObject<T>(value, Settings);
-        }
+        public static JObject ToJObject(object o) => JObject.FromObject(o, Serializer);
 
-        public static JObject ToJObject(object o)
-        {
-            return JObject.FromObject(o, Serializer);
-        }
+        public static string ToString(object o) => JsonConvert.SerializeObject(o, Settings);
     }
 }

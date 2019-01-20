@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Api.Common.Constants;
@@ -27,28 +28,6 @@ namespace Nop.Plugin.Api.Common.Controllers.Admin
         }
 
         [HttpGet]
-        [Route("list")]
-        public ActionResult List()
-        {
-            return View(ViewNames.AdminApiClientsList);
-        }
-
-        [HttpPost]
-        [Route("list")]
-        public ActionResult List(DataSourceRequest command)
-        {
-            var gridModel = _clientService.GetAllClients();
-
-            var grids = new DataSourceResult()
-            {
-                Data = gridModel,
-                Total = gridModel.Count()
-            };
-
-            return Json(grids);
-        }
-
-        [HttpGet]
         [Route("create")]
         public ActionResult Create()
         {
@@ -64,46 +43,24 @@ namespace Nop.Plugin.Api.Common.Controllers.Admin
             return View(ViewNames.AdminApiClientsCreate, clientModel);
         }
 
-        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
+        [HttpPost]
+        [ParameterBasedOnFormName("save-continue", "continueEditing")]
         [Route("create")]
         public ActionResult Create(ClientApiModel model, bool continueEditing)
         {
             if (ModelState.IsValid)
             {
-                var clientId = _clientService.InsertClient(model);
+                int clientId = _clientService.InsertClient(model);
 
                 SuccessNotification(_localizationService.GetResource("Plugins.Api.Admin.Client.Created"));
-                return continueEditing ? RedirectToAction("Edit", new { id = clientId }) : RedirectToAction("List");
+                return continueEditing ? RedirectToAction("Edit", new {id = clientId}) : RedirectToAction("List");
             }
 
             return RedirectToAction("List");
         }
 
-        [HttpGet]
-        [Route("edit/{id}")]
-        public IActionResult Edit(int id)
-        {
-            var clientModel = _clientService.FindClientByIdAsync(id);
-            
-            return View(ViewNames.AdminApiClientsEdit, clientModel);
-        }
-
-        [HttpPost, ParameterBasedOnFormName("save-continue", "continueEditing")]
-        [Route("edit/{id}")]
-        public IActionResult Edit(ClientApiModel model, bool continueEditing)
-        {
-            if (ModelState.IsValid)
-            {
-                _clientService.UpdateClient(model);
-              
-                SuccessNotification(_localizationService.GetResource("Plugins.Api.Admin.Client.Edit"));
-                return continueEditing ? RedirectToAction("Edit", new { id = model.Id }) : RedirectToAction("List");
-            }
-
-            return RedirectToAction("List");
-        }
-
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [Route("delete/{id}")]
         public IActionResult DeleteConfirmed(int id)
         {
@@ -111,6 +68,50 @@ namespace Nop.Plugin.Api.Common.Controllers.Admin
 
             SuccessNotification(_localizationService.GetResource("Plugins.Api.Admin.Client.Deleted"));
             return RedirectToAction("List");
+        }
+
+        [HttpGet]
+        [Route("edit/{id}")]
+        public IActionResult Edit(int id)
+        {
+            ClientApiModel clientModel = _clientService.FindClientByIdAsync(id);
+
+            return View(ViewNames.AdminApiClientsEdit, clientModel);
+        }
+
+        [HttpPost]
+        [ParameterBasedOnFormName("save-continue", "continueEditing")]
+        [Route("edit/{id}")]
+        public IActionResult Edit(ClientApiModel model, bool continueEditing)
+        {
+            if (ModelState.IsValid)
+            {
+                _clientService.UpdateClient(model);
+
+                SuccessNotification(_localizationService.GetResource("Plugins.Api.Admin.Client.Edit"));
+                return continueEditing ? RedirectToAction("Edit", new {id = model.Id}) : RedirectToAction("List");
+            }
+
+            return RedirectToAction("List");
+        }
+
+        [HttpGet]
+        [Route("list")]
+        public ActionResult List() => View(ViewNames.AdminApiClientsList);
+
+        [HttpPost]
+        [Route("list")]
+        public ActionResult List(DataSourceRequest command)
+        {
+            IList<ClientApiModel> gridModel = _clientService.GetAllClients();
+
+            var grids = new DataSourceResult
+            {
+                Data = gridModel,
+                Total = gridModel.Count()
+            };
+
+            return Json(grids);
         }
     }
 }

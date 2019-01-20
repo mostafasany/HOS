@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Autofac;
 using Microsoft.AspNetCore.Http;
 using Nop.Core.Configuration;
@@ -13,6 +12,7 @@ using Nop.Plugin.Api.Common.Converters;
 using Nop.Plugin.Api.Common.Factories;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.Serializers;
+using Nop.Plugin.Api.Common.Maps;
 using Nop.Plugin.Api.Common.ModelBinders;
 using Nop.Plugin.Api.Common.Validators;
 using Nop.Plugin.Api.Modules.Articles.Service;
@@ -44,6 +44,8 @@ namespace Nop.Plugin.Api.Common.Infrastructure
 
             RegisterModelBinders(builder);
         }
+
+        public virtual int Order => short.MaxValue;
 
         private void RegisterModelBinders(ContainerBuilder builder)
         {
@@ -97,16 +99,11 @@ namespace Nop.Plugin.Api.Common.Infrastructure
             builder.RegisterType<OrderFactory>().As<IFactory<Order>>().InstancePerLifetimeScope();
             builder.RegisterType<ShoppingCartItemFactory>().As<IFactory<ShoppingCartItem>>().InstancePerLifetimeScope();
 
-            builder.RegisterType<Maps.JsonPropertyMapper>().As<Maps.IJsonPropertyMapper>().InstancePerLifetimeScope();
+            builder.RegisterType<JsonPropertyMapper>().As<IJsonPropertyMapper>().InstancePerLifetimeScope();
 
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
 
             builder.RegisterType<Dictionary<string, object>>().SingleInstance();
-        }
-
-        public virtual int Order
-        {
-            get { return Int16.MaxValue; }
         }
     }
 }

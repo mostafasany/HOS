@@ -3,13 +3,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Nop.Core.Domain.Localization;
 using Nop.Services.Localization;
 
 namespace Nop.Plugin.Api.Common.Helpers
 {
     public class JsonHelper : IJsonHelper
     {
+        #region Constructors
+
+        public JsonHelper(ILanguageService languageService, ILocalizationService localizationService)
+        {
+            _localizationService = localizationService;
+
+            Language language = languageService.GetAllLanguages().FirstOrDefault();
+            _languageId = language != null ? language.Id : 0;
+        }
+
+        #endregion
 
         #region Private Fields
 
@@ -19,33 +32,15 @@ namespace Nop.Plugin.Api.Common.Helpers
 
         #endregion
 
-        #region Constructors
-
-        public JsonHelper(ILanguageService languageService, ILocalizationService localizationService)
-        {
-            _localizationService = localizationService;
-
-            var language = languageService.GetAllLanguages().FirstOrDefault();
-            _languageId = language != null ? language.Id : 0;
-        }
-
-        #endregion
-
         #region Public Methods
 
         public Dictionary<string, object> GetRequestJsonDictionaryFromStream(Stream stream, bool rewindStream)
         {
-            var json = GetRequestBodyString(stream, rewindStream);
-            if (string.IsNullOrEmpty(json))
-            {
-                throw new InvalidOperationException(_localizationService.GetResource("Api.NoJsonProvided", _languageId, false));
-            }
+            string json = GetRequestBodyString(stream, rewindStream);
+            if (string.IsNullOrEmpty(json)) throw new InvalidOperationException(_localizationService.GetResource("Api.NoJsonProvided", _languageId, false));
 
-            var requestBodyDictioanry = DeserializeToDictionary(json);
-            if (requestBodyDictioanry == null || requestBodyDictioanry.Count == 0)
-            {
-                throw new InvalidOperationException(_localizationService.GetResource("Api.InvalidJsonFormat", _languageId, false));
-            }
+            Dictionary<string, object> requestBodyDictioanry = DeserializeToDictionary(json);
+            if (requestBodyDictioanry == null || requestBodyDictioanry.Count == 0) throw new InvalidOperationException(_localizationService.GetResource("Api.InvalidJsonFormat", _languageId, false));
 
             return requestBodyDictioanry;
         }
@@ -54,16 +49,10 @@ namespace Nop.Plugin.Api.Common.Helpers
         {
             var rootProperty = "";
 
-            var jsonObjectAttribute = ReflectionHelper.GetJsonObjectAttribute(typeof(T));
-            if (jsonObjectAttribute != null)
-            {
-                rootProperty = jsonObjectAttribute.Title;
-            }
+            JsonObjectAttribute jsonObjectAttribute = ReflectionHelper.GetJsonObjectAttribute(typeof(T));
+            if (jsonObjectAttribute != null) rootProperty = jsonObjectAttribute.Title;
 
-            if (string.IsNullOrEmpty(rootProperty))
-            {
-                throw new InvalidOperationException($"Error getting root property for type {typeof(T).FullName}.");
-            }
+            if (string.IsNullOrEmpty(rootProperty)) throw new InvalidOperationException($"Error getting root property for type {typeof(T).FullName}.");
 
             return rootProperty;
         }
@@ -93,14 +82,14 @@ namespace Nop.Plugin.Api.Common.Helpers
             {
                 case JTokenType.Object:
                     return token.Children<JProperty>()
-                                .ToDictionary(prop => prop.Name,
-                                              prop => ToObject(prop.Value));
+                        .ToDictionary(prop => prop.Name,
+                            prop => ToObject(prop.Value));
 
                 case JTokenType.Array:
                     return token.Select(ToObject).ToList();
 
                 default:
-                    return ((JValue)token).Value;
+                    return ((JValue) token).Value;
             }
         }
 
@@ -111,16 +100,12 @@ namespace Nop.Plugin.Api.Common.Helpers
             using (var streamReader = new StreamReader(stream, Encoding.UTF8, true, 1024, rewindStream))
             {
                 result = streamReader.ReadToEnd();
-                if (rewindStream)
-                {
-                    stream.Position = 0; //reset position to allow reading again later
-                }
+                if (rewindStream) stream.Position = 0; //reset position to allow reading again later
             }
 
             return result;
         }
 
         #endregion
-
     }
 }

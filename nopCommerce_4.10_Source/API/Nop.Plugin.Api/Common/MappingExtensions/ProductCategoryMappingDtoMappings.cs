@@ -6,9 +6,6 @@ namespace Nop.Plugin.Api.Common.MappingExtensions
 {
     public static class ProductCategoryMappingDtoMappings
     {
-        public static ProductCategoryMappingDto ToDto(this ProductCategory mapping)
-        {
-            return mapping.MapTo<ProductCategory, ProductCategoryMappingDto>();
-        }
+        public static ProductCategoryMappingDto ToDto(this ProductCategory mapping) => mapping.MapTo<ProductCategory, ProductCategoryMappingDto>();
     }
 }

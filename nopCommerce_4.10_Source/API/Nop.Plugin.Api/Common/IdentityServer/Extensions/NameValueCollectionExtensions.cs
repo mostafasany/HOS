@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
@@ -9,33 +8,7 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Extensions
 {
     public static class NameValueCollectionExtensions
     {
-        public static string ToQueryString(this NameValueCollection collection)
-        {
-            if (collection.Count == 0)
-            {
-                return String.Empty;
-            }
-
-            var builder = new StringBuilder(128);
-            var first = true;
-            foreach (string name in collection)
-            {
-                var values = collection.GetValues(name);
-                if (values == null || values.Length == 0)
-                {
-                    first = AppendNameValuePair(builder, first, true, name, String.Empty);
-                }
-                else
-                {
-                    foreach (var value in values)
-                    {
-                        first = AppendNameValuePair(builder, first, true, name, value);
-                    }
-                }
-            }
-
-            return builder.ToString();
-        }
+        public static Dictionary<string, string> ToDictionary(this NameValueCollection collection) => collection.ToScrubbedDictionary();
 
         public static string ToFormPost(this NameValueCollection collection)
         {
@@ -44,8 +17,8 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Extensions
 
             foreach (string name in collection)
             {
-                var values = collection.GetValues(name);
-                var value = values.First();
+                string[] values = collection.GetValues(name);
+                string value = values.First();
                 value = HtmlEncoder.Default.Encode(value);
                 builder.AppendFormat(inputFieldFormat, name, value);
             }
@@ -57,46 +30,48 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Extensions
         {
             var result = new NameValueCollection();
 
-            if (data == null || data.Count == 0)
-            {
-                return result;
-            }
+            if (data == null || data.Count == 0) return result;
 
-            foreach (var name in data.Keys)
+            foreach (string name in data.Keys)
             {
-                var value = data[name];
-                if (value != null)
-                {
-                    result.Add(name, value);
-                }
+                string value = data[name];
+                if (value != null) result.Add(name, value);
             }
 
             return result;
         }
 
-        public static Dictionary<string, string> ToDictionary(this NameValueCollection collection)
+        public static string ToQueryString(this NameValueCollection collection)
         {
-            return collection.ToScrubbedDictionary();
+            if (collection.Count == 0) return string.Empty;
+
+            var builder = new StringBuilder(128);
+            var first = true;
+            foreach (string name in collection)
+            {
+                string[] values = collection.GetValues(name);
+                if (values == null || values.Length == 0)
+                    first = AppendNameValuePair(builder, first, true, name, string.Empty);
+                else
+                    foreach (string value in values)
+                        first = AppendNameValuePair(builder, first, true, name, value);
+            }
+
+            return builder.ToString();
         }
 
         public static Dictionary<string, string> ToScrubbedDictionary(this NameValueCollection collection, params string[] nameFilter)
         {
             var dict = new Dictionary<string, string>();
 
-            if (collection == null || collection.Count == 0)
-            {
-                return dict;
-            }
+            if (collection == null || collection.Count == 0) return dict;
 
             foreach (string name in collection)
             {
-                var value = collection.Get(name);
+                string value = collection.Get(name);
                 if (value != null)
                 {
-                    if (nameFilter.Contains(name))
-                    {
-                        value = "***REDACTED***";
-                    }
+                    if (nameFilter.Contains(name)) value = "***REDACTED***";
                     dict.Add(name, value);
                 }
             }
@@ -106,37 +81,31 @@ namespace Nop.Plugin.Api.Common.IdentityServer.Extensions
 
         internal static string ConvertFormUrlEncodedSpacesToUrlEncodedSpaces(string str)
         {
-            if ((str != null) && (str.IndexOf('+') >= 0))
-            {
-                str = str.Replace("+", "%20");
-            }
+            if (str != null && str.IndexOf('+') >= 0) str = str.Replace("+", "%20");
             return str;
         }
 
         private static bool AppendNameValuePair(StringBuilder builder, bool first, bool urlEncode, string name, string value)
         {
-            var effectiveName = name ?? String.Empty;
-            var encodedName = urlEncode ? UrlEncoder.Default.Encode(effectiveName) : effectiveName;
+            string effectiveName = name ?? string.Empty;
+            string encodedName = urlEncode ? UrlEncoder.Default.Encode(effectiveName) : effectiveName;
 
-            var effectiveValue = value ?? String.Empty;
-            var encodedValue = urlEncode ? UrlEncoder.Default.Encode(effectiveValue) : effectiveValue;
+            string effectiveValue = value ?? string.Empty;
+            string encodedValue = urlEncode ? UrlEncoder.Default.Encode(effectiveValue) : effectiveValue;
             encodedValue = ConvertFormUrlEncodedSpacesToUrlEncodedSpaces(encodedValue);
 
             if (first)
-            {
                 first = false;
-            }
             else
-            {
                 builder.Append("&");
-            }
 
             builder.Append(encodedName);
-            if (!String.IsNullOrEmpty(encodedValue))
+            if (!string.IsNullOrEmpty(encodedValue))
             {
                 builder.Append("=");
                 builder.Append(encodedValue);
             }
+
             return first;
         }
     }

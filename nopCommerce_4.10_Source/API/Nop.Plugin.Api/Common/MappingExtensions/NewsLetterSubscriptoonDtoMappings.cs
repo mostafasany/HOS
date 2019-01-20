@@ -6,14 +6,8 @@ namespace Nop.Plugin.Api.Common.MappingExtensions
 {
     public static class NewsLetterSubscriptoonDtoMappings
     {
-        public static NewsLetterSubscriptionDto ToDto(this NewsLetterSubscription newsLetterSubscription)
-        {
-            return newsLetterSubscription.MapTo<NewsLetterSubscription, NewsLetterSubscriptionDto>();
-        }
+        public static NewsLetterSubscriptionDto ToDto(this NewsLetterSubscription newsLetterSubscription) => newsLetterSubscription.MapTo<NewsLetterSubscription, NewsLetterSubscriptionDto>();
 
-        public static NewsLetterSubscription ToEntity(this NewsLetterSubscriptionDto newsLetterSubscriptionDto)
-        {
-            return newsLetterSubscriptionDto.MapTo<NewsLetterSubscriptionDto, NewsLetterSubscription>();
-        }
+        public static NewsLetterSubscription ToEntity(this NewsLetterSubscriptionDto newsLetterSubscriptionDto) => newsLetterSubscriptionDto.MapTo<NewsLetterSubscriptionDto, NewsLetterSubscription>();
     }
 }

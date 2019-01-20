@@ -10,12 +10,9 @@ namespace Nop.Plugin.Api.Common.Validators
 {
     public class TypeValidator<T>
     {
-        public List<string> InvalidProperties { get; set; }
+        public TypeValidator() => InvalidProperties = new List<string>();
 
-        public TypeValidator()
-        {
-            InvalidProperties = new List<string>();
-        }
+        public List<string> InvalidProperties { get; set; }
 
         public bool IsValid(Dictionary<string, object> propertyValuePaires)
         {
@@ -23,26 +20,20 @@ namespace Nop.Plugin.Api.Common.Validators
 
             var jsonPropertyNameTypePair = new Dictionary<string, Type>();
 
-            var objectProperties = typeof(T).GetProperties();
+            PropertyInfo[] objectProperties = typeof(T).GetProperties();
 
-            foreach (var property in objectProperties)
-            {
+            foreach (PropertyInfo property in objectProperties)
                 if (property.GetCustomAttribute(typeof(JsonPropertyAttribute)) is JsonPropertyAttribute jsonPropertyAttribute)
-                {
                     if (!jsonPropertyNameTypePair.ContainsKey(jsonPropertyAttribute.PropertyName))
-                    {
                         jsonPropertyNameTypePair.Add(jsonPropertyAttribute.PropertyName, property.PropertyType);
-                    }
-                }
-            }
 
-            foreach (var pair in propertyValuePaires)
+            foreach (KeyValuePair<string, object> pair in propertyValuePaires)
             {
                 var isCurrentPropertyValid = true;
 
                 if (jsonPropertyNameTypePair.ContainsKey(pair.Key))
                 {
-                    var propertyType = jsonPropertyNameTypePair[pair.Key];
+                    Type propertyType = jsonPropertyNameTypePair[pair.Key];
 
                     // handle nested properties
                     if (pair.Value is Dictionary<string, object> objects)
@@ -52,10 +43,10 @@ namespace Nop.Plugin.Api.Common.Validators
                     // This case hadles collections.
                     else if (pair.Value is ICollection<object> propertyValueAsCollection && propertyType.GetInterface("IEnumerable") != null)
                     {
-                        var elementsType = ReflectionHelper.GetGenericElementType(propertyType);
+                        Type elementsType = ReflectionHelper.GetGenericElementType(propertyType);
 
                         // Validate the collection items.
-                        foreach (var item in propertyValueAsCollection)
+                        foreach (object item in propertyValueAsCollection)
                         {
                             isCurrentPropertyValid = IsCurrentPropertyValid(elementsType, item);
 
@@ -78,43 +69,37 @@ namespace Nop.Plugin.Api.Common.Validators
             return isValid;
         }
 
-        private static bool ValidateNestedProperty(Type propertyType, Dictionary<string, object> value)
-        {
-            var constructedType = typeof(TypeValidator<>).MakeGenericType(propertyType);
-            var typeValidatorForNestedProperty = Activator.CreateInstance(constructedType);
-
-            var isValidMethod = constructedType.GetMethod("IsValid");
-
-            var isCurrentPropertyValid = (bool)isValidMethod.Invoke(typeValidatorForNestedProperty, new object[] { value });
-
-            return isCurrentPropertyValid;
-        }
-
         private static bool IsCurrentPropertyValid(Type type, object value)
         {
             var isCurrentPropertyValid = true;
 
             if (type.Namespace == "System")
             {
-                var converter = TypeDescriptor.GetConverter(type);
+                TypeConverter converter = TypeDescriptor.GetConverter(type);
 
-                var valueToValidate = value;
+                object valueToValidate = value;
 
                 // This is needed because the isValid method does not work well if the value it is trying to validate is object.
-                if (value != null)
-                {
-                    valueToValidate = string.Format(CultureInfo.InvariantCulture, "{0}", value);
-                }
+                if (value != null) valueToValidate = string.Format(CultureInfo.InvariantCulture, "{0}", value);
 
                 if (!converter.IsValid(valueToValidate)) isCurrentPropertyValid = false;
             }
             else
             {
-                if (value != null)
-                {
-                    isCurrentPropertyValid = ValidateNestedProperty(type, (Dictionary<string, object>)value);
-                }
+                if (value != null) isCurrentPropertyValid = ValidateNestedProperty(type, (Dictionary<string, object>) value);
             }
+
+            return isCurrentPropertyValid;
+        }
+
+        private static bool ValidateNestedProperty(Type propertyType, Dictionary<string, object> value)
+        {
+            Type constructedType = typeof(TypeValidator<>).MakeGenericType(propertyType);
+            object typeValidatorForNestedProperty = Activator.CreateInstance(constructedType);
+
+            MethodInfo isValidMethod = constructedType.GetMethod("IsValid");
+
+            var isCurrentPropertyValid = (bool) isValidMethod.Invoke(typeValidatorForNestedProperty, new object[] {value});
 
             return isCurrentPropertyValid;
         }

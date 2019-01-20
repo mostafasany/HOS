@@ -6,9 +6,6 @@ namespace Nop.Plugin.Api.Common.MappingExtensions
 {
     public static class ClientMappings
     {
-        public static ClientApiModel ToApiModel(this Client client)
-        {
-            return client.MapTo<Client, ClientApiModel>();
-        }
+        public static ClientApiModel ToApiModel(this Client client) => client.MapTo<Client, ClientApiModel>();
     }
 }

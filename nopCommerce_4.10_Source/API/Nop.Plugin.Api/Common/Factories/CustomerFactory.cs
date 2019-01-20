@@ -7,7 +7,7 @@ namespace Nop.Plugin.Api.Common.Factories
     {
         public Customer Initialize()
         {
-            var defaultCustomer = new Customer()
+            var defaultCustomer = new Customer
             {
                 CustomerGuid = Guid.NewGuid(),
                 CreatedOnUtc = DateTime.UtcNow,

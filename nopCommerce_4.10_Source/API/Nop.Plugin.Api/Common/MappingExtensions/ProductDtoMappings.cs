@@ -8,14 +8,14 @@ namespace Nop.Plugin.Api.Common.MappingExtensions
     {
         public static ProductDto ToDto(this Product product)
         {
-            var productDto= product.MapTo<Product, ProductDto>();
+            ProductDto productDto = product.MapTo<Product, ProductDto>();
             productDto.FullDescription = product.FullDescription;
             return productDto;
         }
 
         public static ProductAttributeValueDto ToDto(this ProductAttributeValue productAttributeValue)
         {
-            var productAttributeValueDto = productAttributeValue.MapTo<ProductAttributeValue, ProductAttributeValueDto>();
+            ProductAttributeValueDto productAttributeValueDto = productAttributeValue.MapTo<ProductAttributeValue, ProductAttributeValueDto>();
             productAttributeValueDto.PriceAdjustmentUsePercentage = productAttributeValue.PriceAdjustmentUsePercentage;
             return productAttributeValueDto;
         }
