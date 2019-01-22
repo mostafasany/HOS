@@ -9,13 +9,13 @@ using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.Delta;
 using Nop.Plugin.Api.Common.DTOs.Errors;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
 using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;
 using Nop.Plugin.Api.Modules.SpecificationAttributes.Model;
 using Nop.Plugin.Api.Modules.SpecificationAttributes.Service;
+using Nop.Plugin.Api.Modules.SpecificationAttributes.Translator;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
@@ -30,7 +30,7 @@ namespace Nop.Plugin.Api.Modules.SpecificationAttributes
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SpecificationAttributesController : BaseApiController
     {
-        private readonly IDTOHelper _dtoHelper;
+        private readonly ISpecificationAttributesTransaltor _dtoHelper;
         private readonly ISpecificationAttributeApiService _specificationAttributeApiService;
         private readonly ISpecificationAttributeService _specificationAttributeService;
 
@@ -45,7 +45,7 @@ namespace Nop.Plugin.Api.Modules.SpecificationAttributes
             IPictureService pictureService,
             ISpecificationAttributeService specificationAttributeService,
             ISpecificationAttributeApiService specificationAttributesApiService,
-            IDTOHelper dtoHelper) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
+            ISpecificationAttributesTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
         {
             _specificationAttributeService = specificationAttributeService;
             _specificationAttributeApiService = specificationAttributesApiService;

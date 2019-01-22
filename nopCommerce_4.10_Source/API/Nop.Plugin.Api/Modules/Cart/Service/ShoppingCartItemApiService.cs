@@ -17,10 +17,10 @@ using Nop.Core.Http.Extensions;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 using Nop.Plugin.Api.Common.DTOs;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Modules.Cart.Dto;
-using Nop.Plugin.Api.Modules.Products.Dto;
-using Nop.Plugin.Api.Modules.ProductsAttributes.Service;
+using Nop.Plugin.Api.Modules.Cart.Translator;
+using Nop.Plugin.Api.Modules.Product.Dto;
+using Nop.Plugin.Api.Modules.ProductAttributes.Service;
 using Nop.Services.Catalog;
 using Nop.Services.Common;
 using Nop.Services.Customers;
@@ -43,7 +43,7 @@ namespace Nop.Plugin.Api.Modules.Cart.Service
         private readonly ICurrencyService _currencyService;
         private readonly ICustomerService _customerService;
         private readonly IDiscountService _discountService;
-        private readonly IDTOHelper _dtoHelper;
+        private readonly ICartTransaltor _dtoHelper;
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILocalizationService _localizationService;
@@ -95,7 +95,7 @@ namespace Nop.Plugin.Api.Modules.Cart.Service
             ShippingSettings shippingSettings,
             ShoppingCartSettings shoppingCartSettings,
             VendorSettings vendorSettings,
-            IDTOHelper dtoHelper,
+            ICartTransaltor dtoHelper,
             IProductAttributeConverter productAttributeConverter)
         {
             _dtoHelper = dtoHelper;
@@ -326,7 +326,7 @@ namespace Nop.Plugin.Api.Modules.Cart.Service
                 }
                 else
                 {
-                    Country country = _countryService.GetCountryByTwoLetterIsoCode(pickupPoint.CountryCode);
+                    Core.Domain.Directory.Country country = _countryService.GetCountryByTwoLetterIsoCode(pickupPoint.CountryCode);
                     StateProvince state = _stateProvinceService.GetStateProvinceByAbbreviation(pickupPoint.StateAbbreviation, country?.Id);
 
                     model.PickupAddress = new AddressModel();
