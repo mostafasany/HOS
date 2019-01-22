@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Modules.Menu.Dto;
@@ -33,8 +32,7 @@ namespace Nop.Plugin.Api.Modules.Menu
             IStoreService storeService,
             IDiscountService discountService,
             IAclService aclService,
-            ICustomerService customerService,
-            IDTOHelper dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            ICustomerService customerService) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService) => _manufacturerApiService = manufacturerApiService;
 

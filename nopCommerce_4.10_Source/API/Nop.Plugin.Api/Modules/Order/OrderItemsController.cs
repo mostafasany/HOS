@@ -10,7 +10,6 @@ using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.Delta;
 using Nop.Plugin.Api.Common.DTOs.Errors;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
@@ -36,7 +35,7 @@ namespace Nop.Plugin.Api.Modules.Order
         AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrderItemsController : BaseApiController
     {
-        private readonly IDTOHelper _dtoHelper;
+        private readonly IOrderTransaltor _dtoHelper;
         private readonly IOrderApiService _orderApiService;
         private readonly IOrderItemApiService _orderItemApiService;
         private readonly IOrderService _orderService;
@@ -58,7 +57,7 @@ namespace Nop.Plugin.Api.Modules.Order
             IProductApiService productApiService,
             IPriceCalculationService priceCalculationService,
             ITaxService taxService,
-            IPictureService pictureService, IDTOHelper dtoHelper)
+            IPictureService pictureService, IOrderTransaltor dtoHelper)
             : base(jsonFieldsSerializer,
                 aclService,
                 customerService,

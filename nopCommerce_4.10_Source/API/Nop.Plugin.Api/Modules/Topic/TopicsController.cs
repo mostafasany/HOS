@@ -7,13 +7,13 @@ using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Modules.Category.Dto;
 using Nop.Plugin.Api.Modules.Category.Model;
 using Nop.Plugin.Api.Modules.Topic.Dto;
 using Nop.Plugin.Api.Modules.Topic.Service;
+using Nop.Plugin.Api.Modules.Topic.Translator;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -27,7 +27,7 @@ namespace Nop.Plugin.Api.Modules.Topic
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TopicsController : BaseApiController
     {
-        private readonly IDTOHelper _dtoHelper;
+        private readonly ITopicTransaltor _dtoHelper;
         private readonly ITopicApiService _topicApiService;
 
         public TopicsController(ITopicApiService topicApiService,
@@ -40,7 +40,7 @@ namespace Nop.Plugin.Api.Modules.Topic
             IDiscountService discountService,
             IAclService aclService,
             ICustomerService customerService,
-            IDTOHelper dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            ITopicTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService)
         {
@@ -70,7 +70,7 @@ namespace Nop.Plugin.Api.Modules.Topic
 
             if (topic == null) return Error(HttpStatusCode.NotFound, "topic", "topic not found");
 
-            TopicDto topicDto = _dtoHelper.PrepateTopicDto(topic);
+            TopicDto topicDto = _dtoHelper.ConvertToDto(topic);
 
             var topicsRootObject = new TopicsRootObject();
 
@@ -103,7 +103,7 @@ namespace Nop.Plugin.Api.Modules.Topic
                 .Where(c => StoreMappingService.Authorize(c));
 
             IList<TopicDto> topicsAsDtos = allTopics.Select(topic =>
-                _dtoHelper.PrepateTopicDto(topic)).ToList();
+                _dtoHelper.ConvertToDto(topic)).ToList();
 
             var topicsRootObject = new TopicsRootObject
             {

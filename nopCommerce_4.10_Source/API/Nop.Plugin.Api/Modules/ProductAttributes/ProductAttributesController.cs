@@ -9,13 +9,13 @@ using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.Delta;
 using Nop.Plugin.Api.Common.DTOs.Errors;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
 using Nop.Plugin.Api.Modules.ProductAttributes.Dto;
 using Nop.Plugin.Api.Modules.ProductAttributes.Model;
 using Nop.Plugin.Api.Modules.ProductAttributes.Service;
+using Nop.Plugin.Api.Modules.ProductAttributes.Translator;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
@@ -30,7 +30,7 @@ namespace Nop.Plugin.Api.Modules.ProductAttributes
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductAttributesController : BaseApiController
     {
-        private readonly IDTOHelper _dtoHelper;
+        private readonly IProductAttributesTransaltor _dtoHelper;
         private readonly IProductAttributesApiService _productAttributesApiService;
         private readonly IProductAttributeService _productAttributeService;
 
@@ -45,7 +45,7 @@ namespace Nop.Plugin.Api.Modules.ProductAttributes
             IPictureService pictureService,
             IProductAttributeService productAttributeService,
             IProductAttributesApiService productAttributesApiService,
-            IDTOHelper dtoHelper) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
+            IProductAttributesTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
         {
             _productAttributeService = productAttributeService;
             _productAttributesApiService = productAttributesApiService;

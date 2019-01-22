@@ -6,10 +6,10 @@ using Nop.Core;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Modules.Store.Dto;
+using Nop.Plugin.Api.Modules.Store.Translator;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -23,7 +23,7 @@ namespace Nop.Plugin.Api.Modules.Store
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class StoreController : BaseApiController
     {
-        private readonly IDTOHelper _dtoHelper;
+        private readonly IStoreTransaltor _dtoHelper;
         private readonly IStoreContext _storeContext;
 
         public StoreController(IJsonFieldsSerializer jsonFieldsSerializer,
@@ -36,7 +36,7 @@ namespace Nop.Plugin.Api.Modules.Store
             ILocalizationService localizationService,
             IPictureService pictureService,
             IStoreContext storeContext,
-            IDTOHelper dtoHelper)
+            IStoreTransaltor dtoHelper)
             : base(jsonFieldsSerializer,
                 aclService,
                 customerService,

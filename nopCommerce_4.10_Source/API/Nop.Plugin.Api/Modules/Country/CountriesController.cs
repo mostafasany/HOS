@@ -7,11 +7,11 @@ using Nop.Core.Domain.Directory;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Modules.Country.Dto;
 using Nop.Plugin.Api.Modules.Country.Service;
+using Nop.Plugin.Api.Modules.Country.Translator;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -25,7 +25,7 @@ namespace Nop.Plugin.Api.Modules.Country
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CountriesController : BaseApiController
     {
-        private readonly IDTOHelper _dtoHelper;
+        private readonly ICountryTransaltor _dtoHelper;
         private readonly IStateProvinceApiService _stateProvinceApiService;
 
         public CountriesController(IStateProvinceApiService stateProvinceApiService,
@@ -38,7 +38,7 @@ namespace Nop.Plugin.Api.Modules.Country
             IDiscountService discountService,
             IAclService aclService,
             ICustomerService customerService,
-            IDTOHelper dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            ICountryTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService)
         {
@@ -69,7 +69,7 @@ namespace Nop.Plugin.Api.Modules.Country
             if (states == null) return Error(HttpStatusCode.NotFound, "states", "states not found");
 
             IList<StateProvinceDto> statesAsDtos = states.Select(state =>
-                _dtoHelper.PrepateProvinceStateDto(state)).ToList();
+                _dtoHelper.ConvertToDto(state)).ToList();
 
             var statesRootObject = new StateProvinceRootObject {States = statesAsDtos};
 

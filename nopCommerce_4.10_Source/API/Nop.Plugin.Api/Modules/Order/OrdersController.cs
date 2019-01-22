@@ -15,7 +15,6 @@ using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.Delta;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.Factories;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
@@ -24,6 +23,7 @@ using Nop.Plugin.Api.Modules.Order.Dto.OrderItems;
 using Nop.Plugin.Api.Modules.Order.Dto.Orders;
 using Nop.Plugin.Api.Modules.Order.Model;
 using Nop.Plugin.Api.Modules.Order.Service;
+using Nop.Plugin.Api.Modules.Order.Translator;
 using Nop.Plugin.Api.Modules.ProductAttributes.Service;
 using Nop.Services.Catalog;
 using Nop.Services.Common;
@@ -43,7 +43,7 @@ namespace Nop.Plugin.Api.Modules.Order
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OrdersController : BaseApiController
     {
-        private readonly IDTOHelper _dtoHelper;
+        private readonly IOrderTransaltor _dtoHelper;
         private readonly IFactory<Core.Domain.Orders.Order> _factory;
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly IOrderApiService _orderApiService;
@@ -80,7 +80,7 @@ namespace Nop.Plugin.Api.Modules.Order
             IStoreContext storeContext,
             IShippingService shippingService,
             IPictureService pictureService,
-            IDTOHelper dtoHelper,
+            IOrderTransaltor dtoHelper,
             IProductAttributeConverter productAttributeConverter,
             IShoppingCartItemApiService shoppingCartItemApiService)
             : base(jsonFieldsSerializer, aclService, customerService, storeMappingService,

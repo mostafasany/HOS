@@ -11,13 +11,13 @@ using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.Delta;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.Factories;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
 using Nop.Plugin.Api.Modules.Category.Dto;
 using Nop.Plugin.Api.Modules.Category.Model;
 using Nop.Plugin.Api.Modules.Category.Service;
+using Nop.Plugin.Api.Modules.Category.Translator;
 using Nop.Plugin.Api.Modules.Picture.Dto;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
@@ -36,7 +36,7 @@ namespace Nop.Plugin.Api.Modules.Category
     {
         private readonly ICategoryApiService _categoryApiService;
         private readonly ICategoryService _categoryService;
-        private readonly IDTOHelper _dtoHelper;
+        private readonly ICategoryTransaltor _dtoHelper;
         private readonly IFactory<Core.Domain.Catalog.Category> _factory;
         private readonly IUrlRecordService _urlRecordService;
 
@@ -53,7 +53,7 @@ namespace Nop.Plugin.Api.Modules.Category
             IAclService aclService,
             ICustomerService customerService,
             IFactory<Core.Domain.Catalog.Category> factory,
-            IDTOHelper dtoHelper) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
+            ICategoryTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
         {
             _categoryApiService = categoryApiService;
             _categoryService = categoryService;

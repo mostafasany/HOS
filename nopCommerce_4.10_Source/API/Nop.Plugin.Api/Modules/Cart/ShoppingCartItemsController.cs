@@ -13,13 +13,13 @@ using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.Delta;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.Factories;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
 using Nop.Plugin.Api.Modules.Cart.Dto;
 using Nop.Plugin.Api.Modules.Cart.Model;
 using Nop.Plugin.Api.Modules.Cart.Service;
+using Nop.Plugin.Api.Modules.Cart.Translator;
 using Nop.Plugin.Api.Modules.Product.Dto;
 using Nop.Plugin.Api.Modules.ProductAttributes.Service;
 using Nop.Services.Catalog;
@@ -38,7 +38,7 @@ namespace Nop.Plugin.Api.Modules.Cart
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ShoppingCartItemsController : BaseApiController
     {
-        private readonly IDTOHelper _dtoHelper;
+        private readonly ICartTransaltor _dtoHelper;
         private readonly IFactory<ShoppingCartItem> _factory;
         private readonly IProductAttributeConverter _productAttributeConverter;
         private readonly IProductService _productService;
@@ -61,7 +61,7 @@ namespace Nop.Plugin.Api.Modules.Cart
             IFactory<ShoppingCartItem> factory,
             IPictureService pictureService,
             IProductAttributeConverter productAttributeConverter,
-            IDTOHelper dtoHelper,
+            ICartTransaltor dtoHelper,
             IStoreContext storeContext)
             : base(jsonFieldsSerializer,
                 aclService,

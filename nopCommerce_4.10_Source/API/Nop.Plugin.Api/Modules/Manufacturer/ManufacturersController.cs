@@ -7,13 +7,13 @@ using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Modules.Category.Dto;
 using Nop.Plugin.Api.Modules.Category.Model;
 using Nop.Plugin.Api.Modules.Manufacturer.Dto;
 using Nop.Plugin.Api.Modules.Manufacturer.Service;
+using Nop.Plugin.Api.Modules.Manufacturer.Translator;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -27,7 +27,7 @@ namespace Nop.Plugin.Api.Modules.Manufacturer
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ManufacturersController : BaseApiController
     {
-        private readonly IDTOHelper _dtoHelper;
+        private readonly IManufacturerTransaltor _dtoHelper;
         private readonly IManufacturerApiService _manufacturerApiService;
 
         public ManufacturersController(IManufacturerApiService manufacturerApiService,
@@ -40,7 +40,7 @@ namespace Nop.Plugin.Api.Modules.Manufacturer
             IDiscountService discountService,
             IAclService aclService,
             ICustomerService customerService,
-            IDTOHelper dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            IManufacturerTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService)
         {
@@ -70,7 +70,7 @@ namespace Nop.Plugin.Api.Modules.Manufacturer
 
             if (manufacturer == null) return Error(HttpStatusCode.NotFound, "manufacturer", "manufacturer not found");
 
-            ManufacturerDto manufacturerDto = _dtoHelper.PrepateManufacturerDto(manufacturer);
+            ManufacturerDto manufacturerDto = _dtoHelper.ConvertToDto(manufacturer);
 
             var manufacturersRootObject = new ManufacturersRootObject();
 
@@ -103,7 +103,7 @@ namespace Nop.Plugin.Api.Modules.Manufacturer
                 .Where(c => StoreMappingService.Authorize(c));
 
             IList<ManufacturerDto> manufacturersAsDtos = allManufacturers.Select(manufacturer =>
-                _dtoHelper.PrepateManufacturerDto(manufacturer)).ToList();
+                _dtoHelper.ConvertToDto(manufacturer)).ToList();
 
             var manufacturersRootObject = new ManufacturersRootObject
             {

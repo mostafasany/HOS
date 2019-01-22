@@ -12,7 +12,6 @@ using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.Delta;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.Factories;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
@@ -20,6 +19,7 @@ using Nop.Plugin.Api.Modules.Picture.Dto;
 using Nop.Plugin.Api.Modules.Product.Dto;
 using Nop.Plugin.Api.Modules.Product.Model;
 using Nop.Plugin.Api.Modules.Product.Service;
+using Nop.Plugin.Api.Modules.Product.Translator;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
@@ -35,7 +35,7 @@ namespace Nop.Plugin.Api.Modules.Product
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductsController : BaseApiController
     {
-        private readonly IDTOHelper _dtoHelper;
+        private readonly IProductTransaltor _dtoHelper;
         private readonly IFactory<Core.Domain.Catalog.Product> _factory;
         private readonly IManufacturerService _manufacturerService;
         private readonly IProductApiService _productApiService;
@@ -60,7 +60,7 @@ namespace Nop.Plugin.Api.Modules.Product
             IManufacturerService manufacturerService,
             IProductTagService productTagService,
             IProductAttributeService productAttributeService,
-            IDTOHelper dtoHelper) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
+            IProductTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
         {
             _productApiService = productApiService;
             _factory = factory;

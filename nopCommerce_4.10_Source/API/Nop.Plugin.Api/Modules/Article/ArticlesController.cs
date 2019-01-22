@@ -8,12 +8,12 @@ using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Modules.Article.Dto;
 using Nop.Plugin.Api.Modules.Article.Model;
 using Nop.Plugin.Api.Modules.Article.Service;
+using Nop.Plugin.Api.Modules.Article.Translator;
 using Nop.Plugin.Api.Modules.Category.Dto;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
@@ -29,7 +29,7 @@ namespace Nop.Plugin.Api.Modules.Article
     public class ArticlesController : BaseApiController
     {
         private readonly IArticleApiService _articleApiService;
-        private readonly IDTOHelper _dtoHelper;
+        private readonly IArticleTransaltor _dtoHelper;
 
         public ArticlesController(IArticleApiService articleApiService,
             IJsonFieldsSerializer jsonFieldsSerializer,
@@ -41,7 +41,7 @@ namespace Nop.Plugin.Api.Modules.Article
             IDiscountService discountService,
             IAclService aclService,
             ICustomerService customerService,
-            IDTOHelper dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            IArticleTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService)
         {

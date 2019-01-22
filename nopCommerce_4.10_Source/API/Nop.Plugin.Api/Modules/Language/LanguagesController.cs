@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Modules.Language.Dto;
+using Nop.Plugin.Api.Modules.Language.Translator;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -23,7 +23,7 @@ namespace Nop.Plugin.Api.Modules.Language
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class LanguagesController : BaseApiController
     {
-        private readonly IDTOHelper _dtoHelper;
+        private readonly ILanguageTransaltor _dtoHelper;
         private readonly ILanguageService _languageService;
 
         public LanguagesController(IJsonFieldsSerializer jsonFieldsSerializer,
@@ -36,7 +36,7 @@ namespace Nop.Plugin.Api.Modules.Language
             ILocalizationService localizationService,
             IPictureService pictureService,
             ILanguageService languageService,
-            IDTOHelper dtoHelper)
+            ILanguageTransaltor dtoHelper)
             : base(jsonFieldsSerializer,
                 aclService,
                 customerService,

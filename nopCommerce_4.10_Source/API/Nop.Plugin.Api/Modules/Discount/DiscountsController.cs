@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
-using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Modules.Discount.Dto;
 using Nop.Plugin.Api.Modules.Discount.Model;
 using Nop.Plugin.Api.Modules.Discount.Service;
+using Nop.Plugin.Api.Modules.Discount.Translator;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -26,7 +26,7 @@ namespace Nop.Plugin.Api.Modules.Discount
     public class DiscountsController : BaseApiController
     {
         private readonly IDiscountApiService _discountApiService;
-        private readonly IDTOHelper _dtoHelper;
+        private readonly IDiscountTransaltor _dtoHelper;
 
         public DiscountsController(IDiscountApiService discountApiService,
             IJsonFieldsSerializer jsonFieldsSerializer,
@@ -38,7 +38,7 @@ namespace Nop.Plugin.Api.Modules.Discount
             IDiscountService discountService,
             IAclService aclService,
             ICustomerService customerService,
-            IDTOHelper dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            IDiscountTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService)
         {
