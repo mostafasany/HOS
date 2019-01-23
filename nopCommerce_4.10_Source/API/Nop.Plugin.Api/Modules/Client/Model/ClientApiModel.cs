@@ -1,4 +1,4 @@
-﻿namespace Nop.Plugin.Api.Common.Models
+﻿namespace Nop.Plugin.Api.Modules.Client.Model
 {
     public class ClientApiModel
     {
