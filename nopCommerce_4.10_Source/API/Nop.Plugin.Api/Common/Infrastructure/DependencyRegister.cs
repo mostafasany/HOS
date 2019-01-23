@@ -130,7 +130,7 @@ namespace Nop.Plugin.Api.Common.Infrastructure
             builder.RegisterType<ManufacturerTransaltor>().As<IManufacturerTransaltor>().InstancePerLifetimeScope();
 
             builder.RegisterType<LanguageTransaltor>().As<ILanguageTransaltor>().InstancePerLifetimeScope();
-            
+
             builder.RegisterType<ArticleTransaltor>().As<IArticleTransaltor>().InstancePerLifetimeScope();
 
             builder.RegisterType<Cartransaltor>().As<ICartTransaltor>().InstancePerLifetimeScope();
@@ -150,7 +150,6 @@ namespace Nop.Plugin.Api.Common.Infrastructure
             builder.RegisterType<DiscountTransaltor>().As<IDiscountTransaltor>().InstancePerLifetimeScope();
 
             builder.RegisterType<StoreTransaltor>().As<IStoreTransaltor>().InstancePerLifetimeScope();
-
         }
     }
 }
