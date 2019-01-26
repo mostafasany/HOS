@@ -123,7 +123,7 @@ namespace Nop.Plugin.Api
         private void CreateCustomerForShoppingCartItemMapFromCustomer()
         {
             AutoMapperApiConfiguration.MapperConfigurationExpression
-                .CreateMap<Customer, CustomerForShoppingCartItemDto>()
+                .CreateMap<Core.Domain.Customers.Customer, CustomerForShoppingCartItemDto>()
                 .IgnoreAllNonExisting()
                 .ForMember(x => x.Id, y => y.MapFrom(src => src.Id))
                 .ForMember(x => x.BillingAddress,
@@ -137,7 +137,7 @@ namespace Nop.Plugin.Api
 
         private void CreateCustomerToDTOMap()
         {
-            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<Customer, CustomerDto>()
+            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<Core.Domain.Customers.Customer, CustomerDto>()
                 .IgnoreAllNonExisting()
                 .ForMember(x => x.Id, y => y.MapFrom(src => src.Id))
                 .ForMember(x => x.BillingAddress,
@@ -161,7 +161,7 @@ namespace Nop.Plugin.Api
 
         private void CreateCustomerToOrderCustomerDTOMap()
         {
-            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<Customer, OrderCustomerDto>()
+            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<Core.Domain.Customers.Customer, OrderCustomerDto>()
                 .IgnoreAllNonExisting();
         }
 
@@ -195,7 +195,7 @@ namespace Nop.Plugin.Api
                 .IgnoreAllNonExisting()
                 .ForMember(x => x.CustomerDto,
                     y => y.MapFrom(src =>
-                        src.Customer.GetWithDefault(x => x, new Customer()).ToCustomerForShoppingCartItemDto()))
+                        src.Customer.GetWithDefault(x => x, new Core.Domain.Customers.Customer()).ToCustomerForShoppingCartItemDto()))
                 .ForMember(x => x.ProductDto,
                     y => y.MapFrom(src => src.Product.GetWithDefault(x => x, new Product()).ToDto()));
         }

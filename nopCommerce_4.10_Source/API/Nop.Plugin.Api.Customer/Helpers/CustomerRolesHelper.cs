@@ -2,9 +2,10 @@
 using System.Linq;
 using Nop.Core.Caching;
 using Nop.Core.Domain.Customers;
+using Nop.Plugin.Api.Common.Helpers;
 using Nop.Services.Customers;
 
-namespace Nop.Plugin.Api.Common.Helpers
+namespace Nop.Plugin.Api.Customer.Helpers
 {
     public class CustomerRolesHelper : ICustomerRolesHelper
     {

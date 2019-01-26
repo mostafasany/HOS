@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Nop.Core.Domain.Customers;
 
-namespace Nop.Plugin.Api.Common.Helpers
+namespace Nop.Plugin.Api.Customer.Helpers
 {
     public interface ICustomerRolesHelper
     {
