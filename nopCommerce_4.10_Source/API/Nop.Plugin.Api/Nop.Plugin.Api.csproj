@@ -44,13 +44,13 @@
     <ProjectReference Include="..\Nop.Plugin.Api.Articles\Nop.Plugin.Api.Article.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Client\Nop.Plugin.Api.Admin.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.HomeCarsoul\Nop.Plugin.Api.HomeCarsoul.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modules\Country\Dto\Validator\" />
     <Folder Include="Modules\Country\Model\" />
     <Folder Include="Modules\CustomerRoles\Dto\Validator\" />
     <Folder Include="Modules\Discount\Dto\Validator\" />
-    <Folder Include="Modules\HomeCarsoul\Dto\Validator\" />
     <Folder Include="Modules\Language\Dto\Validator\" />
     <Folder Include="Modules\Manufacturer\Dto\Validator\" />
     <Folder Include="Modules\Manufacturer\Model\" />

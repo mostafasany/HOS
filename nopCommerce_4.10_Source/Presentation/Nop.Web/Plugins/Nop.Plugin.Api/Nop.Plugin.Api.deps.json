@@ -18,6 +18,7 @@
           "Nop.Plugin.Api.Admin": "1.0.0",
           "Nop.Plugin.Api.Article": "1.0.0",
           "Nop.Plugin.Api.Common": "1.0.0",
+          "Nop.Plugin.Api.HomeCarsoul": "1.0.0",
           "Nop.Web.Framework": "4.1.0"
         },
         "runtime": {
@@ -4452,6 +4453,14 @@
           "Nop.Plugin.Api.Common.dll": {}
         }
       },
+      "Nop.Plugin.Api.HomeCarsoul/1.0.0": {
+        "dependencies": {
+          "Nop.Plugin.Api.Common": "1.0.0"
+        },
+        "runtime": {
+          "Nop.Plugin.Api.HomeCarsoul.dll": {}
+        }
+      },
       "Nop.Services/4.1.0": {
         "dependencies": {
           "EPPlus": "4.5.2.1",
@@ -6777,6 +6786,11 @@
       "sha512": ""
     },
     "Nop.Plugin.Api.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Nop.Plugin.Api.HomeCarsoul/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
