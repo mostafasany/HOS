@@ -67,11 +67,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.DiscountRules.Pu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.DiscountRules.HasAllProducts", "Plugins\Nop.Plugin.DiscountRules.HasAllProducts\Nop.Plugin.DiscountRules.HasAllProducts.csproj", "{4970661A-688F-4CC3-A7DC-53FD22732454}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Api.Articles", "API\Nop.Plugin.Api.Articles\Nop.Plugin.Api.Articles.csproj", "{DA12C682-AA5A-491C-BF27-216454D8DA5A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Api.Article", "API\Nop.Plugin.Api.Articles\Nop.Plugin.Api.Article.csproj", "{DA12C682-AA5A-491C-BF27-216454D8DA5A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Api.Common", "API\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj", "{DBB4C19A-D700-47BE-8709-8C9C992FD0A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Api.Client", "API\Nop.Plugin.Api.Client\Nop.Plugin.Api.Client.csproj", "{5A123D3B-8EF4-4E64-B72E-88E91F22DE56}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Api.Admin", "API\Nop.Plugin.Api.Client\Nop.Plugin.Api.Admin.csproj", "{5A123D3B-8EF4-4E64-B72E-88E91F22DE56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

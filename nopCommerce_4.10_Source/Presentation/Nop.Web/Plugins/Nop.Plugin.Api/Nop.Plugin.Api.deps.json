@@ -15,8 +15,8 @@
           "Microsoft.AspNetCore.Rewrite": "2.1.1",
           "Newtonsoft.Json": "11.0.2",
           "Nop.Core": "4.1.0",
-          "Nop.Plugin.Api.Articles": "1.0.0",
-          "Nop.Plugin.Api.Client": "1.0.0",
+          "Nop.Plugin.Api.Admin": "1.0.0",
+          "Nop.Plugin.Api.Article": "1.0.0",
           "Nop.Plugin.Api.Common": "1.0.0",
           "Nop.Web.Framework": "4.1.0"
         },
@@ -4422,15 +4422,7 @@
           "Nop.Data.dll": {}
         }
       },
-      "Nop.Plugin.Api.Articles/1.0.0": {
-        "dependencies": {
-          "Nop.Plugin.Api.Common": "1.0.0"
-        },
-        "runtime": {
-          "Nop.Plugin.Api.Articles.dll": {}
-        }
-      },
-      "Nop.Plugin.Api.Client/1.0.0": {
+      "Nop.Plugin.Api.Admin/1.0.0": {
         "dependencies": {
           "FluentValidation.AspNetCore": "7.6.104",
           "IdentityServer4": "2.0.3",
@@ -4440,7 +4432,15 @@
           "Nop.Services": "4.1.0"
         },
         "runtime": {
-          "Nop.Plugin.Api.Client.dll": {}
+          "Nop.Plugin.Api.Admin.dll": {}
+        }
+      },
+      "Nop.Plugin.Api.Article/1.0.0": {
+        "dependencies": {
+          "Nop.Plugin.Api.Common": "1.0.0"
+        },
+        "runtime": {
+          "Nop.Plugin.Api.Article.dll": {}
         }
       },
       "Nop.Plugin.Api.Common/1.0.0": {
@@ -6766,12 +6766,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Nop.Plugin.Api.Articles/1.0.0": {
+    "Nop.Plugin.Api.Admin/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Nop.Plugin.Api.Client/1.0.0": {
+    "Nop.Plugin.Api.Article/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
