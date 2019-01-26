@@ -16,6 +16,7 @@
           "Newtonsoft.Json": "11.0.2",
           "Nop.Core": "4.1.0",
           "Nop.Plugin.Api.Articles": "1.0.0",
+          "Nop.Plugin.Api.Client": "1.0.0",
           "Nop.Plugin.Api.Common": "1.0.0",
           "Nop.Web.Framework": "4.1.0"
         },
@@ -4429,6 +4430,19 @@
           "Nop.Plugin.Api.Articles.dll": {}
         }
       },
+      "Nop.Plugin.Api.Client/1.0.0": {
+        "dependencies": {
+          "FluentValidation.AspNetCore": "7.6.104",
+          "IdentityServer4": "2.0.3",
+          "IdentityServer4.AccessTokenValidation": "2.0.2",
+          "IdentityServer4.EntityFramework": "2.1.0",
+          "Nop.Plugin.Api.Common": "1.0.0",
+          "Nop.Services": "4.1.0"
+        },
+        "runtime": {
+          "Nop.Plugin.Api.Client.dll": {}
+        }
+      },
       "Nop.Plugin.Api.Common/1.0.0": {
         "dependencies": {
           "Nop.Core": "4.1.0",
@@ -6753,6 +6767,11 @@
       "sha512": ""
     },
     "Nop.Plugin.Api.Articles/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Nop.Plugin.Api.Client/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

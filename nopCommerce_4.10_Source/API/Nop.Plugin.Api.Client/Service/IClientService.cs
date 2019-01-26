@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Nop.Plugin.Api.Common.Models;
 using Nop.Plugin.Api.Modules.Client.Model;
 
 namespace Nop.Plugin.Api.Modules.Client.Service

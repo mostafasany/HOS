@@ -7,8 +7,6 @@ using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.Interfaces;
 using IdentityServer4.Models;
 using Microsoft.EntityFrameworkCore;
-using Nop.Plugin.Api.Common.MappingExtensions;
-using Nop.Plugin.Api.Common.Models;
 using Nop.Plugin.Api.Modules.Client.Model;
 using Nop.Plugin.Api.Modules.Client.Translator;
 

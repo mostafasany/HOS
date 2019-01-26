@@ -70,11 +70,10 @@
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj" />
     <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Articles\Nop.Plugin.Api.Articles.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Client\Nop.Plugin.Api.Client.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modules\Admin\Translator\" />
-    <Folder Include="Modules\Client\Dto\Validator\" />
     <Folder Include="Modules\Country\Dto\Validator\" />
     <Folder Include="Modules\Country\Model\" />
     <Folder Include="Modules\CustomerRoles\Dto\Validator\" />
@@ -99,9 +98,6 @@
     <Folder Include="Modules\Store\Dto\Validator\" />
     <Folder Include="Modules\Store\Model\" />
     <Folder Include="Modules\Store\Service\" />
-    <Folder Include="Modules\Admin\Dto\" />
-    <Folder Include="Modules\Admin\Model\" />
-    <Folder Include="Modules\Admin\Service\" />
     <Folder Include="Modules\Template\Dto\Validator\" />
     <Folder Include="Modules\Topic\Dto\Validator\" />
     <Folder Include="Modules\WebHook\Dto\Validator\" />
