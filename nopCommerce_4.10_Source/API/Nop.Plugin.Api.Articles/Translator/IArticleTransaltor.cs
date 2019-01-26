@@ -1,7 +1,7 @@
 ﻿using Nop.Core.Domain.Articles;
-using Nop.Plugin.Api.Modules.Article.Dto;
+using Nop.Plugin.Api.Articles.Dto;
 
-namespace Nop.Plugin.Api.Modules.Article.Translator
+namespace Nop.Plugin.Api.Articles.Translator
 {
     public interface IArticleTransaltor
     {

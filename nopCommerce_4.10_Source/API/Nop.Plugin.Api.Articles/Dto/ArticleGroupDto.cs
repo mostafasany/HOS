@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.Modules.Article.Dto
+namespace Nop.Plugin.Api.Articles.Dto
 {
     [JsonObject(Title = "articleGroup")]
     public class ArticleGroupDto : BaseDto

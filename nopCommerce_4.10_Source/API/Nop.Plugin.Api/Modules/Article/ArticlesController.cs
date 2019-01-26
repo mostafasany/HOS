@@ -4,17 +4,16 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Articles;
+using Nop.Plugin.Api.Articles.Dto;
+using Nop.Plugin.Api.Articles.Model;
+using Nop.Plugin.Api.Articles.Service;
+using Nop.Plugin.Api.Articles.Translator;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
-using Nop.Plugin.Api.Modules.Article.Dto;
-using Nop.Plugin.Api.Modules.Article.Model;
-using Nop.Plugin.Api.Modules.Article.Service;
-using Nop.Plugin.Api.Modules.Article.Translator;
-using Nop.Plugin.Api.Modules.Category.Dto;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -124,7 +123,7 @@ namespace Nop.Plugin.Api.Modules.Article
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/articles/count")]
-        [ProducesResponseType(typeof(CategoriesCountRootObject), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ArticlesCountRootObject), (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
@@ -134,7 +133,7 @@ namespace Nop.Plugin.Api.Modules.Article
                 parameters.UpdatedAtMax, parameters.PublishedStatus,
                 parameters.CategoryId, parameters.GroupId);
 
-            var articlesCountRootObject = new CategoriesCountRootObject
+            var articlesCountRootObject = new ArticlesCountRootObject
             {
                 Count = allArticlesCount
             };

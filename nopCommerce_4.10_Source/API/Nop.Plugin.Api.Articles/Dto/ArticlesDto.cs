@@ -1,9 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
-using Nop.Plugin.Api.Modules.Picture.Dto;
 
-namespace Nop.Plugin.Api.Modules.Article.Dto
+namespace Nop.Plugin.Api.Articles.Dto
 {
     [JsonObject(Title = "articles")]
     public class ArticlesDto : BaseDto

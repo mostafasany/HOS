@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Nop.Plugin.Api.Modules.Picture.Dto;
+using Nop.Plugin.Api.Common.DTOs;
 
 namespace Nop.Plugin.Api.Common.Attributes
 {

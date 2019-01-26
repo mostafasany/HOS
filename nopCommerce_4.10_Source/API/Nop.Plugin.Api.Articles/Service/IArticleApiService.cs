@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Nop.Core.Domain.Articles;
 using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Modules.Article.Service
+namespace Nop.Plugin.Api.Articles.Service
 {
     public interface IArticleApiService
     {

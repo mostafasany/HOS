@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Articles;
-using Nop.Plugin.Api.Modules.Article.Dto;
-using Nop.Plugin.Api.Modules.Picture.Dto;
+using Nop.Plugin.Api.Articles.Dto;
+using Nop.Plugin.Api.Common.DTOs;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Seo;
 
-namespace Nop.Plugin.Api.Modules.Article.Translator
+namespace Nop.Plugin.Api.Articles.Translator
 {
     public class ArticleTransaltor : IArticleTransaltor
     {

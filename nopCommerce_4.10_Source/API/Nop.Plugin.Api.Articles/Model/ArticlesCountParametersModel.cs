@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Modules.Article.Model
+namespace Nop.Plugin.Api.Articles.Model
 {
     [ModelBinder(typeof(ParametersModelBinder<ArticlesCountParametersModel>))]
     public class ArticlesCountParametersModel : BaseArticlesParametersModel

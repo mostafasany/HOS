@@ -2,9 +2,9 @@
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Modules.Category.Dto;
 using Nop.Plugin.Api.Modules.Language.Dto;
-using Nop.Plugin.Api.Modules.Picture.Dto;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Security;
