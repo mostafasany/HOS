@@ -16,7 +16,7 @@ namespace Nop.Plugin.Api.Modules.Product.Service
     public class ProductApiService : IProductApiService
     {
         private readonly IRepository<Core.Domain.Catalog.Category> _categoryRepository;
-        private readonly IRepository<Core.Domain.Catalog.Manufacturer> _manufacturerRepository;
+        private readonly IRepository<Manufacturer> _manufacturerRepository;
         private readonly IRepository<ProductCategory> _productCategoryMappingRepository;
         private readonly IRepository<Core.Domain.Catalog.Product> _productRepository;
         private readonly IRepository<RelatedProduct> _relatedProductRepository;
@@ -28,7 +28,7 @@ namespace Nop.Plugin.Api.Modules.Product.Service
             IRepository<ProductCategory> productCategoryMappingRepository,
             IRepository<Vendor> vendorRepository,
             IStoreMappingService storeMappingService, IRepository<RelatedProduct> relatedProductRepository
-            , IUrlRecordService urlRecordService, IRepository<Core.Domain.Catalog.Manufacturer> manufacturerRepository, IRepository<Core.Domain.Catalog.Category> categoryRepository)
+            , IUrlRecordService urlRecordService, IRepository<Manufacturer> manufacturerRepository, IRepository<Core.Domain.Catalog.Category> categoryRepository)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
@@ -141,7 +141,7 @@ namespace Nop.Plugin.Api.Modules.Product.Service
 
             if (!string.IsNullOrEmpty(manufacturerName))
             {
-                Core.Domain.Catalog.Manufacturer manufacturerTable = _manufacturerRepository.Table.FirstOrDefault(a => a.Name.ToLower() == manufacturerName.ToLower());
+                Manufacturer manufacturerTable = _manufacturerRepository.Table.FirstOrDefault(a => a.Name.ToLower() == manufacturerName.ToLower());
                 if (manufacturerTable != null && !manufacturerTable.Deleted)
                 {
                     query = from product in _productRepository.Table

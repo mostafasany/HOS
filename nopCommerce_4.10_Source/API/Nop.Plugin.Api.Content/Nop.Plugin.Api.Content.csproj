@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Modules\Country\Dto\Validator\" />
+    <Folder Include="Modules\Country\Model\" />
+    <Folder Include="Modules\Language\Dto\Validator\" />
+    <Folder Include="Modules\Language\Model\" />
+    <Folder Include="Modules\Language\Service\" />
+    <Folder Include="Modules\Manufacturer\Dto\Validator\" />
+    <Folder Include="Modules\Manufacturer\Model\" />
+    <Folder Include="Modules\Topic\Dto\Validator\" />
+    <Folder Include="Modules\Topic\Model\" />
+  </ItemGroup>
+
+</Project>

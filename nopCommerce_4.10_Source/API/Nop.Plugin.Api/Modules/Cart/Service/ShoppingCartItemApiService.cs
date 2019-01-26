@@ -326,7 +326,7 @@ namespace Nop.Plugin.Api.Modules.Cart.Service
                 }
                 else
                 {
-                    Core.Domain.Directory.Country country = _countryService.GetCountryByTwoLetterIsoCode(pickupPoint.CountryCode);
+                    Country country = _countryService.GetCountryByTwoLetterIsoCode(pickupPoint.CountryCode);
                     StateProvince state = _stateProvinceService.GetStateProvinceByAbbreviation(pickupPoint.StateAbbreviation, country?.Id);
 
                     model.PickupAddress = new AddressModel();

@@ -21,40 +21,12 @@
   <ItemGroup>
     <None Remove="logo.jpg" />
     <None Remove="plugin.json" />
-    <None Remove="Views\Clients\ClientSettings.cshtml" />
-    <None Remove="Views\Clients\Create.cshtml" />
-    <None Remove="Views\Clients\CreateOrUpdate.cshtml" />
-    <None Remove="Views\Clients\Edit.cshtml" />
-    <None Remove="Views\Clients\List.cshtml" />
-    <None Remove="Views\Settings.cshtml" />
-    <None Remove="Views\_ViewImports.cshtml" />
   </ItemGroup> 
   <ItemGroup>
     <Content Include="logo.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="plugin.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Clients\ClientSettings.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Clients\Create.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Clients\CreateOrUpdate.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Clients\Edit.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Clients\List.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Settings.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\_ViewImports.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup> 
@@ -69,23 +41,18 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj" />
     <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Articles\Nop.Plugin.Api.Article.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Client\Nop.Plugin.Api.Admin.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Content\Nop.Plugin.Api.Content.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.HomeCarsoul\Nop.Plugin.Api.HomeCarsoul.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modules\Admin\Translator\" />
-    <Folder Include="Modules\Client\Dto\Validator\" />
-    <Folder Include="Modules\Country\Dto\Validator\" />
-    <Folder Include="Modules\Country\Model\" />
     <Folder Include="Modules\CustomerRoles\Dto\Validator\" />
     <Folder Include="Modules\Discount\Dto\Validator\" />
-    <Folder Include="Modules\HomeCarsoul\Dto\Validator\" />
-    <Folder Include="Modules\Language\Dto\Validator\" />
-    <Folder Include="Modules\Manufacturer\Dto\Validator\" />
-    <Folder Include="Modules\Manufacturer\Model\" />
     <Folder Include="Modules\Menu\Dto\Validator\" />
     <Folder Include="Modules\Menu\Model\" />
     <Folder Include="Modules\Menu\Translator\" />
-    <Folder Include="Modules\Language\Model\" />
-    <Folder Include="Modules\Language\Service\" />
     <Folder Include="Modules\NewsLetterSubscription\Dto\Validator\" />
     <Folder Include="Modules\Picture\Dto\Validator\" />
     <Folder Include="Modules\Picture\Model\" />
@@ -97,15 +64,10 @@
     <Folder Include="Modules\Store\Dto\Validator\" />
     <Folder Include="Modules\Store\Model\" />
     <Folder Include="Modules\Store\Service\" />
-    <Folder Include="Modules\Admin\Dto\" />
-    <Folder Include="Modules\Admin\Model\" />
-    <Folder Include="Modules\Admin\Service\" />
     <Folder Include="Modules\Template\Dto\Validator\" />
-    <Folder Include="Modules\Topic\Dto\Validator\" />
     <Folder Include="Modules\WebHook\Dto\Validator\" />
     <Folder Include="Modules\WebHook\Model\" />
     <Folder Include="Modules\WebHook\Translator\" />
-    <Folder Include="Modules\Topic\Model\" />
     <Folder Include="Modules\Template\Translator\" />
     <Folder Include="Modules\Template\Service\" />
     <Folder Include="Modules\Template\Model\" />

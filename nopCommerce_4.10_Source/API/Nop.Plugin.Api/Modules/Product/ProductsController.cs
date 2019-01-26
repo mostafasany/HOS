@@ -10,12 +10,12 @@ using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.Delta;
+using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.Factories;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
-using Nop.Plugin.Api.Modules.Picture.Dto;
 using Nop.Plugin.Api.Modules.Product.Dto;
 using Nop.Plugin.Api.Modules.Product.Model;
 using Nop.Plugin.Api.Modules.Product.Service;
@@ -476,7 +476,7 @@ namespace Nop.Plugin.Api.Modules.Product
                 if (product.ProductManufacturers.All(x => x.ManufacturerId != passedManufacturerId))
                 {
                     // if manufacturer does not exist we simply ignore it, otherwise add it to the product
-                    Core.Domain.Catalog.Manufacturer manufacturer = _manufacturerService.GetManufacturerById(passedManufacturerId);
+                    Manufacturer manufacturer = _manufacturerService.GetManufacturerById(passedManufacturerId);
                     if (manufacturer != null)
                         _manufacturerService.InsertProductManufacturer(new ProductManufacturer {ProductId = product.Id, ManufacturerId = manufacturer.Id});
                 }

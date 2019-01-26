@@ -9,6 +9,7 @@ using Nop.Core.Caching;
 using Nop.Core.Data;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
+using Nop.Core.Domain.Localization;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 using Nop.Plugin.Api.Common.Helpers;
@@ -258,16 +259,16 @@ namespace Nop.Plugin.Api.Modules.Customer.Service
 
             if (defaultLanguageId == 0)
             {
-                IList<Core.Domain.Localization.Language> allLanguages = _languageService.GetAllLanguages();
+                IList<Language> allLanguages = _languageService.GetAllLanguages();
 
-                List<Core.Domain.Localization.Language> storeLanguages = allLanguages.Where(l =>
+                List<Language> storeLanguages = allLanguages.Where(l =>
                     _storeMappingService.Authorize(l, _storeContext.CurrentStore.Id)).ToList();
 
                 // If there is no language mapped to the current store, get all of the languages,
                 // and use the one with the first display order. This is a default nopCommerce workflow.
                 if (storeLanguages.Count == 0) storeLanguages = allLanguages.ToList();
 
-                Core.Domain.Localization.Language defaultLanguage = storeLanguages.OrderBy(l => l.DisplayOrder).First();
+                Language defaultLanguage = storeLanguages.OrderBy(l => l.DisplayOrder).First();
 
                 defaultLanguageId = defaultLanguage.Id;
             }

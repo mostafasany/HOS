@@ -2,9 +2,10 @@
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+using Nop.Core.Domain.Localization;
+using Nop.Plugin.Api.Common.DTOs;
+using Nop.Plugin.Api.Content.Modules.Language.Dto;
 using Nop.Plugin.Api.Modules.Category.Dto;
-using Nop.Plugin.Api.Modules.Language.Dto;
-using Nop.Plugin.Api.Modules.Picture.Dto;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Security;
@@ -66,11 +67,11 @@ namespace Nop.Plugin.Api.Modules.Category.Translator
             categoryDto.StoreIds = _storeMappingService.GetStoreMappings(category).Select(mapping => mapping.StoreId)
                 .ToList();
 
-            IList<Core.Domain.Localization.Language> allLanguages = _languageService.GetAllLanguages();
+            IList<Language> allLanguages = _languageService.GetAllLanguages();
 
             categoryDto.LocalizedNames = new List<LocalizedNameDto>();
 
-            foreach (Core.Domain.Localization.Language language in allLanguages)
+            foreach (Language language in allLanguages)
             {
                 var localizedNameDto = new LocalizedNameDto
                 {

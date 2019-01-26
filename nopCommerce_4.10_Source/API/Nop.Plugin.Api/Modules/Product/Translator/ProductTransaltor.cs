@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Common.DTOs;
-using Nop.Plugin.Api.Modules.Picture.Dto;
 using Nop.Plugin.Api.Modules.Product.Dto;
 using Nop.Plugin.Api.Modules.ProductAttributes.Service;
 using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;

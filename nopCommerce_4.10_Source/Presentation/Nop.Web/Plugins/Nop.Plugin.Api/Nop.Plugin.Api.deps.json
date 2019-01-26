@@ -15,6 +15,11 @@
           "Microsoft.AspNetCore.Rewrite": "2.1.1",
           "Newtonsoft.Json": "11.0.2",
           "Nop.Core": "4.1.0",
+          "Nop.Plugin.Api.Admin": "1.0.0",
+          "Nop.Plugin.Api.Article": "1.0.0",
+          "Nop.Plugin.Api.Common": "1.0.0",
+          "Nop.Plugin.Api.Content": "1.0.0",
+          "Nop.Plugin.Api.HomeCarsoul": "1.0.0",
           "Nop.Web.Framework": "4.1.0"
         },
         "runtime": {
@@ -4419,6 +4424,52 @@
           "Nop.Data.dll": {}
         }
       },
+      "Nop.Plugin.Api.Admin/1.0.0": {
+        "dependencies": {
+          "FluentValidation.AspNetCore": "7.6.104",
+          "IdentityServer4": "2.0.3",
+          "IdentityServer4.AccessTokenValidation": "2.0.2",
+          "IdentityServer4.EntityFramework": "2.1.0",
+          "Nop.Plugin.Api.Common": "1.0.0",
+          "Nop.Services": "4.1.0"
+        },
+        "runtime": {
+          "Nop.Plugin.Api.Admin.dll": {}
+        }
+      },
+      "Nop.Plugin.Api.Article/1.0.0": {
+        "dependencies": {
+          "Nop.Plugin.Api.Common": "1.0.0"
+        },
+        "runtime": {
+          "Nop.Plugin.Api.Article.dll": {}
+        }
+      },
+      "Nop.Plugin.Api.Common/1.0.0": {
+        "dependencies": {
+          "Nop.Core": "4.1.0",
+          "Nop.Web.Framework": "4.1.0"
+        },
+        "runtime": {
+          "Nop.Plugin.Api.Common.dll": {}
+        }
+      },
+      "Nop.Plugin.Api.Content/1.0.0": {
+        "dependencies": {
+          "Nop.Plugin.Api.Common": "1.0.0"
+        },
+        "runtime": {
+          "Nop.Plugin.Api.Content.dll": {}
+        }
+      },
+      "Nop.Plugin.Api.HomeCarsoul/1.0.0": {
+        "dependencies": {
+          "Nop.Plugin.Api.Common": "1.0.0"
+        },
+        "runtime": {
+          "Nop.Plugin.Api.HomeCarsoul.dll": {}
+        }
+      },
       "Nop.Services/4.1.0": {
         "dependencies": {
           "EPPlus": "4.5.2.1",
@@ -6729,6 +6780,31 @@
       "sha512": ""
     },
     "Nop.Data/4.1.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Nop.Plugin.Api.Admin/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Nop.Plugin.Api.Article/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Nop.Plugin.Api.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Nop.Plugin.Api.Content/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Nop.Plugin.Api.HomeCarsoul/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -1,8 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Nop.Core.Domain.Catalog;
+using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
-using Nop.Plugin.Api.Modules.Picture.Dto;
 
 namespace Nop.Plugin.Api.Modules.Product.Dto
 {
