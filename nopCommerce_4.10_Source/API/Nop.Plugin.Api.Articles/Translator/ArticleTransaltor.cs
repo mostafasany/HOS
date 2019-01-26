@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Articles;
-using Nop.Plugin.Api.Articles.Dto;
+using Nop.Core.Domain.Media;
+using Nop.Plugin.Api.Article.Dto;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Seo;
 
-namespace Nop.Plugin.Api.Articles.Translator
+namespace Nop.Plugin.Api.Article.Translator
 {
     public class ArticleTransaltor : IArticleTransaltor
     {
@@ -35,7 +36,7 @@ namespace Nop.Plugin.Api.Articles.Translator
 
         public ArticlesDto PrepateArticleDto(Core.Domain.Articles.Article article)
         {
-            Core.Domain.Media.Picture picture = _pictureService.GetPictureById(article.PictureId);
+            Picture picture = _pictureService.GetPictureById(article.PictureId);
             ImageDto imageDto = PrepareImageDto(picture);
 
 
@@ -61,7 +62,7 @@ namespace Nop.Plugin.Api.Articles.Translator
 
         public ArticleGroupDto PrepateArticleGroupDto(FNS_ArticleGroup articleGroup) => new ArticleGroupDto {Id = articleGroup.Id, Name = articleGroup.Name, ParentGroupId = articleGroup.ParentGroupId};
 
-        protected ImageDto PrepareImageDto(Core.Domain.Media.Picture picture)
+        protected ImageDto PrepareImageDto(Picture picture)
         {
             ImageDto image = null;
 

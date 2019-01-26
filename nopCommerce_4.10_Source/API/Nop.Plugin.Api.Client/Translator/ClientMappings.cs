@@ -1,7 +1,7 @@
-﻿using Nop.Plugin.Api.Common.AutoMapper;
-using Nop.Plugin.Api.Modules.Client.Model;
+﻿using Nop.Plugin.Api.Admin.Model;
+using Nop.Plugin.Api.Common.AutoMapper;
 
-namespace Nop.Plugin.Api.Modules.Client.Translator
+namespace Nop.Plugin.Api.Admin.Translator
 {
     public static class ClientMappings
     {

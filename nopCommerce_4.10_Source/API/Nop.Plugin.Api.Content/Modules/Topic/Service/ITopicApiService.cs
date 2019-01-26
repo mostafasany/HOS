@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Modules.Topic.Service
+namespace Nop.Plugin.Api.Content.Modules.Topic.Service
 {
     public interface ITopicApiService
     {

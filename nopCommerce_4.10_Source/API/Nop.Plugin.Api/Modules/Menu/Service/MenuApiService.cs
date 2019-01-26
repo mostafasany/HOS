@@ -2,12 +2,12 @@
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using Nop.Plugin.Api.Articles.Dto;
-using Nop.Plugin.Api.Articles.Service;
+using Nop.Plugin.Api.Article.Dto;
+using Nop.Plugin.Api.Article.Service;
 using Nop.Plugin.Api.Common.DTOs;
+using Nop.Plugin.Api.Content.Modules.Manufacturer.Service;
 using Nop.Plugin.Api.Modules.Category.Dto;
 using Nop.Plugin.Api.Modules.Category.Service;
-using Nop.Plugin.Api.Modules.Manufacturer.Service;
 using Nop.Plugin.Api.Modules.Menu.Dto;
 using Nop.Plugin.Api.Modules.Product.Dto;
 using Nop.Plugin.Api.Modules.Product.Service;

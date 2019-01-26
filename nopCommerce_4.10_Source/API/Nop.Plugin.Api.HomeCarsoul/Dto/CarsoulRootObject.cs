@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.Modules.HomeCarsoul.Dto
+namespace Nop.Plugin.Api.HomeCarsoul.Dto
 {
     public class CarsoulRootObject : ISerializableObject
     {

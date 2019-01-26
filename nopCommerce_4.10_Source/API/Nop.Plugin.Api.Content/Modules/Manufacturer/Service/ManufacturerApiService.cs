@@ -5,7 +5,7 @@ using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Manufacturer.Service
+namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Service
 {
     public class ManufacturerApiService : IManufacturerApiService
     {

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.Modules.HomeCarsoul.Dto
+namespace Nop.Plugin.Api.HomeCarsoul.Dto
 {
     public class CarsoulDto : BaseDto
     {

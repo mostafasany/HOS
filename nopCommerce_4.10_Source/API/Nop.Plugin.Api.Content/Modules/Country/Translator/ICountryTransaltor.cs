@@ -1,7 +1,7 @@
 ﻿using Nop.Core.Domain.Directory;
-using Nop.Plugin.Api.Modules.Country.Dto;
+using Nop.Plugin.Api.Content.Modules.Country.Dto;
 
-namespace Nop.Plugin.Api.Modules.Country.Translator
+namespace Nop.Plugin.Api.Content.Modules.Country.Translator
 {
     public interface ICountryTransaltor
     {

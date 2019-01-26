@@ -4,10 +4,10 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Articles;
-using Nop.Plugin.Api.Articles.Dto;
-using Nop.Plugin.Api.Articles.Model;
-using Nop.Plugin.Api.Articles.Service;
-using Nop.Plugin.Api.Articles.Translator;
+using Nop.Plugin.Api.Article.Dto;
+using Nop.Plugin.Api.Article.Model;
+using Nop.Plugin.Api.Article.Service;
+using Nop.Plugin.Api.Article.Translator;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
@@ -22,7 +22,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Article
+namespace Nop.Plugin.Api.Modules
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ArticlesController : BaseApiController

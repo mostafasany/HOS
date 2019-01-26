@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.Modules.Country.Dto
+namespace Nop.Plugin.Api.Content.Modules.Country.Dto
 {
     public class StateProvinceRootObject : ISerializableObject
     {

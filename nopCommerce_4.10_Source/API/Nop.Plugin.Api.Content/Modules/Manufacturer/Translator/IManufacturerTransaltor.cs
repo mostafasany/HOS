@@ -1,6 +1,6 @@
-﻿using Nop.Plugin.Api.Modules.Manufacturer.Dto;
+﻿using Nop.Plugin.Api.Content.Modules.Manufacturer.Dto;
 
-namespace Nop.Plugin.Api.Modules.Manufacturer.Translator
+namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Translator
 {
     public interface IManufacturerTransaltor
     {

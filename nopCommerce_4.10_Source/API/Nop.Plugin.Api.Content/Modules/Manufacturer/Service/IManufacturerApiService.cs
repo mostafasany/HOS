@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Modules.Manufacturer.Service
+namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Service
 {
     public interface IManufacturerApiService
     {

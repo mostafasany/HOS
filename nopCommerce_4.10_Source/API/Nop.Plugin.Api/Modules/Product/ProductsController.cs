@@ -476,7 +476,7 @@ namespace Nop.Plugin.Api.Modules.Product
                 if (product.ProductManufacturers.All(x => x.ManufacturerId != passedManufacturerId))
                 {
                     // if manufacturer does not exist we simply ignore it, otherwise add it to the product
-                    Core.Domain.Catalog.Manufacturer manufacturer = _manufacturerService.GetManufacturerById(passedManufacturerId);
+                    Manufacturer manufacturer = _manufacturerService.GetManufacturerById(passedManufacturerId);
                     if (manufacturer != null)
                         _manufacturerService.InsertProductManufacturer(new ProductManufacturer {ProductId = product.Id, ManufacturerId = manufacturer.Id});
                 }

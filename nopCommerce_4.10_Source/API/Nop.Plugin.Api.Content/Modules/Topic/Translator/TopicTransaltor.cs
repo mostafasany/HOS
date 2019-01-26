@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using Nop.Plugin.Api.Modules.Topic.Dto;
+using Nop.Plugin.Api.Content.Modules.Topic.Dto;
 using Nop.Services.Localization;
 using Nop.Services.Seo;
 
-namespace Nop.Plugin.Api.Modules.Topic.Translator
+namespace Nop.Plugin.Api.Content.Modules.Topic.Translator
 {
     public class TopicTransaltor : ITopicTransaltor
     {

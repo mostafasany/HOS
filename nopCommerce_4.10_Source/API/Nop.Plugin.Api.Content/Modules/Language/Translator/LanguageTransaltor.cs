@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using Nop.Plugin.Api.Modules.Language.Dto;
+using Nop.Plugin.Api.Content.Modules.Language.Dto;
 using Nop.Services.Localization;
 using Nop.Services.Seo;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Language.Translator
+namespace Nop.Plugin.Api.Content.Modules.Language.Translator
 {
     public class LanguageTransaltor : ILanguageTransaltor
     {

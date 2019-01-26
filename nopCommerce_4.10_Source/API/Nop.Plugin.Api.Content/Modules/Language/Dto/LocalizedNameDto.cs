@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nop.Plugin.Api.Modules.Language.Dto
+namespace Nop.Plugin.Api.Content.Modules.Language.Dto
 {
     public class LocalizedNameDto
     {

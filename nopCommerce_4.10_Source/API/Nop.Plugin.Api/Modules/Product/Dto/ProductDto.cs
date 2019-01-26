@@ -6,7 +6,7 @@ using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
-using Nop.Plugin.Api.Modules.Language.Dto;
+using Nop.Plugin.Api.Content.Modules.Language.Dto;
 using Nop.Plugin.Api.Modules.Product.Attributes;
 using Nop.Plugin.Api.Modules.Product.Dto.Validator;
 using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;

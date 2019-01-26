@@ -7,10 +7,10 @@ using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.EntityFramework.Interfaces;
 using IdentityServer4.Models;
 using Microsoft.EntityFrameworkCore;
-using Nop.Plugin.Api.Modules.Client.Model;
-using Nop.Plugin.Api.Modules.Client.Translator;
+using Nop.Plugin.Api.Admin.Model;
+using Nop.Plugin.Api.Admin.Translator;
 
-namespace Nop.Plugin.Api.Modules.Client.Service
+namespace Nop.Plugin.Api.Admin.Service
 {
     public class ClientService : IClientService
     {

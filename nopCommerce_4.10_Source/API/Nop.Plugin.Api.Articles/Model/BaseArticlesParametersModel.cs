@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Nop.Plugin.Api.Articles.Model
+namespace Nop.Plugin.Api.Article.Model
 {
     // JsonProperty is used only for swagger
     public class BaseArticlesParametersModel

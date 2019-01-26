@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
+using Nop.Core.Domain.Directory;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
@@ -671,7 +672,7 @@ namespace Nop.Plugin.Api.Modules.Customer
         {
             if (string.IsNullOrEmpty(address.CountryName) && address.CountryId.HasValue)
             {
-                Core.Domain.Directory.Country country = _countryService.GetCountryById(address.CountryId.Value);
+                Country country = _countryService.GetCountryById(address.CountryId.Value);
                 address.CountryName = country.Name;
             }
         }

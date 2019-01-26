@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
-using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Domain;
 using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Common.Models;
@@ -12,7 +11,7 @@ using Nop.Web.Framework;
 using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
 
-namespace Nop.Plugin.Api.Modules.Admin
+namespace Nop.Plugin.Api.Admin
 {
     [AuthorizeAdmin]
     [Area(AreaNames.Admin)]

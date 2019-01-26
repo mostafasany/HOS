@@ -6,7 +6,7 @@ using Nop.Core.Domain.Articles;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 
-namespace Nop.Plugin.Api.Articles.Service
+namespace Nop.Plugin.Api.Article.Service
 {
     public class ArticleApiService : IArticleApiService
     {

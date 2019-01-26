@@ -1,6 +1,6 @@
-﻿using Nop.Plugin.Api.Modules.Topic.Dto;
+﻿using Nop.Plugin.Api.Content.Modules.Topic.Dto;
 
-namespace Nop.Plugin.Api.Modules.Topic.Translator
+namespace Nop.Plugin.Api.Content.Modules.Topic.Translator
 {
     public interface ITopicTransaltor
     {

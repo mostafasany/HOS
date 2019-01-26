@@ -1,7 +1,7 @@
 ﻿using Nop.Plugin.Api.Common.AutoMapper;
-using Nop.Plugin.Api.Modules.Language.Dto;
+using Nop.Plugin.Api.Content.Modules.Language.Dto;
 
-namespace Nop.Plugin.Api.Modules.Language.Translator
+namespace Nop.Plugin.Api.Content.Modules.Language.Translator
 {
     public static class LanguageDtoMappings
     {

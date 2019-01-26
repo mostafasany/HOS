@@ -1,4 +1,4 @@
-﻿namespace Nop.Plugin.Api.Common.Constants
+﻿namespace Nop.Plugin.Api.Admin
 {
     public class ViewNames
     {

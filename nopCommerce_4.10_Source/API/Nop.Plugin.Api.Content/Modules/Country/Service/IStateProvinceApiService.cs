@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Nop.Core.Domain.Directory;
 
-namespace Nop.Plugin.Api.Modules.Country.Service
+namespace Nop.Plugin.Api.Content.Modules.Country.Service
 {
     public interface IStateProvinceApiService
     {

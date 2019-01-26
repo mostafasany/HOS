@@ -6,7 +6,6 @@ using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Shipping;
 using Nop.Plugin.Api.Common.DTOs;
-using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Modules.Cart.Dto;
 using Nop.Plugin.Api.Modules.Customer.Translator;
 using Nop.Plugin.Api.Modules.Product.Dto;

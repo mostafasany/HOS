@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
-using Nop.Plugin.Api.Modules.Client.Service;
+using Nop.Plugin.Api.Admin.Service;
 
 namespace Nop.Plugin.Api.Common.IdentityServer.Services
 {

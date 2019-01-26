@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Nop.Services.Localization;
 
-namespace Nop.Plugin.Api.Modules.Client
+namespace Nop.Plugin.Api.Admin.Dto.Validator
 {
     public class ClientValidator : AbstractValidator<IdentityServer4.Models.Client>
     {

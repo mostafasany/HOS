@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Directory;
-using Nop.Plugin.Api.Modules.Country.Dto;
+using Nop.Plugin.Api.Content.Modules.Country.Dto;
 using Nop.Services.Localization;
 using Nop.Services.Seo;
 
-namespace Nop.Plugin.Api.Modules.Country.Translator
+namespace Nop.Plugin.Api.Content.Modules.Country.Translator
 {
     public class CountryTransaltor : ICountryTransaltor
     {

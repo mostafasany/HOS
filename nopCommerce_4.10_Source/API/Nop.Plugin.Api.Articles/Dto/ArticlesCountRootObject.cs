@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nop.Plugin.Api.Articles.Dto
+namespace Nop.Plugin.Api.Article.Dto
 {
     public class ArticlesCountRootObject
     {

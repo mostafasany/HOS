@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.Modules.Manufacturer.Dto
+namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Dto
 {
     [JsonObject(Title = "manufacturer")]
     public class ManufacturerDto : BaseDto

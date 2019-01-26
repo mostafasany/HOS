@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.Articles.Dto
+namespace Nop.Plugin.Api.Article.Dto
 {
     [JsonObject(Title = "articles")]
     public class ArticlesDto : BaseDto

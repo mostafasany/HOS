@@ -3,17 +3,18 @@ using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Nop.Core.Domain.Topics;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
+using Nop.Plugin.Api.Content.Modules.Topic.Dto;
+using Nop.Plugin.Api.Content.Modules.Topic.Service;
+using Nop.Plugin.Api.Content.Modules.Topic.Translator;
 using Nop.Plugin.Api.Modules.Category.Dto;
 using Nop.Plugin.Api.Modules.Category.Model;
-using Nop.Plugin.Api.Modules.Topic.Dto;
-using Nop.Plugin.Api.Modules.Topic.Service;
-using Nop.Plugin.Api.Modules.Topic.Translator;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -22,7 +23,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Topic
+namespace Nop.Plugin.Api.Modules
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TopicsController : BaseApiController
@@ -66,7 +67,7 @@ namespace Nop.Plugin.Api.Modules.Topic
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            Core.Domain.Topics.Topic topic = _topicApiService.GetTopicById(id);
+            Topic topic = _topicApiService.GetTopicById(id);
 
             if (topic == null) return Error(HttpStatusCode.NotFound, "topic", "topic not found");
 
@@ -98,7 +99,7 @@ namespace Nop.Plugin.Api.Modules.Topic
 
             if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
 
-            IEnumerable<Core.Domain.Topics.Topic> allTopics = _topicApiService.GetTopics(parameters.Ids, parameters.Limit, parameters.Page, parameters.SinceId,
+            IEnumerable<Topic> allTopics = _topicApiService.GetTopics(parameters.Ids, parameters.Limit, parameters.Page, parameters.SinceId,
                     parameters.PublishedStatus)
                 .Where(c => StoreMappingService.Authorize(c));
 
