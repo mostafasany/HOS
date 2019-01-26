@@ -45,10 +45,10 @@
     <ProjectReference Include="..\Nop.Plugin.Api.Client\Nop.Plugin.Api.Admin.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Content\Nop.Plugin.Api.Content.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Customer\Nop.Plugin.Api.Customer.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.HomeCarsoul\Nop.Plugin.Api.HomeCarsoul.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modules\CustomerRoles\Dto\Validator\" />
     <Folder Include="Modules\Discount\Dto\Validator\" />
     <Folder Include="Modules\Menu\Dto\Validator\" />
     <Folder Include="Modules\Menu\Model\" />
@@ -58,8 +58,6 @@
     <Folder Include="Modules\Picture\Model\" />
     <Folder Include="Modules\Picture\Service\" />
     <Folder Include="Modules\Picture\Translator\" />
-    <Folder Include="Modules\CustomerRoles\Model\" />
-    <Folder Include="Modules\CustomerRoles\Service\" />
     <Folder Include="Modules\ProductSpecificationAttributes\Service\" />
     <Folder Include="Modules\Store\Dto\Validator\" />
     <Folder Include="Modules\Store\Model\" />
