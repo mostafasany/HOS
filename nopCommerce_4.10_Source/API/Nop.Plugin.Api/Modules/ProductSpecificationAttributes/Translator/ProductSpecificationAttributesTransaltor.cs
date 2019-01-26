@@ -35,7 +35,5 @@ namespace Nop.Plugin.Api.Modules.ProductSpecificationAttributes.Translator
 
 
         public ProductSpecificationAttributeDto PrepareProductSpecificationAttributeDto(ProductSpecificationAttribute productSpecificationAttribute) => productSpecificationAttribute.ToDto();
-
-
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Api.Common.Constants;
-using Nop.Plugin.Api.Common.Models;
+using Nop.Plugin.Api.Modules.Client.Model;
 using Nop.Plugin.Api.Modules.Client.Service;
 using Nop.Services.Localization;
 using Nop.Web.Framework;
