@@ -9,8 +9,6 @@ using Nop.Plugin.Api.Common.Factories;
 
 namespace Nop.Plugin.Api.Category
 {
-    //using Nop.Plugin.Api.WebHooks;
-
     public class DependencyRegister : IDependencyRegistrar
     {
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)

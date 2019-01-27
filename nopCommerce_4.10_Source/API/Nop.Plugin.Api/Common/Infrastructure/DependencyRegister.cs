@@ -19,12 +19,9 @@ using Nop.Plugin.Api.Content.Modules.Topic.Service;
 using Nop.Plugin.Api.Modules.Cart.Factory;
 using Nop.Plugin.Api.Modules.Cart.Service;
 using Nop.Plugin.Api.Modules.Cart.Translator;
-using Nop.Plugin.Api.Modules.Customer.Factory;
-using Nop.Plugin.Api.Modules.Customer.Service;
 using Nop.Plugin.Api.Modules.Discount.Service;
 using Nop.Plugin.Api.Modules.Discount.Translator;
 using Nop.Plugin.Api.Modules.Menu.Service;
-using Nop.Plugin.Api.Modules.NewsLetterSubscription.Service;
 using Nop.Plugin.Api.Modules.Product.Factory;
 using Nop.Plugin.Api.Modules.Product.Service;
 using Nop.Plugin.Api.Modules.Product.Translator;
@@ -38,8 +35,6 @@ using Nop.Plugin.Api.Modules.Store.Translator;
 
 namespace Nop.Plugin.Api.Common.Infrastructure
 {
-    //using Nop.Plugin.Api.WebHooks;
-
     public class DependencyRegister : IDependencyRegistrar
     {
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
@@ -59,16 +54,15 @@ namespace Nop.Plugin.Api.Common.Infrastructure
 
         private void RegisterPluginServices(ContainerBuilder builder)
         {
-            builder.RegisterType<CustomerApiService>().As<ICustomerApiService>().InstancePerLifetimeScope();
+        
             builder.RegisterType<ProductApiService>().As<IProductApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductCategoryMappingsApiService>().As<IProductCategoryMappingsApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ShoppingCartItemApiService>().As<IShoppingCartItemApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductAttributesApiService>().As<IProductAttributesApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductAttributeConverter>().As<IProductAttributeConverter>().InstancePerLifetimeScope();
             builder.RegisterType<SpecificationAttributesApiService>().As<ISpecificationAttributeApiService>().InstancePerLifetimeScope();
-            builder.RegisterType<NewsLetterSubscriptionApiService>().As<INewsLetterSubscriptionApiService>().InstancePerLifetimeScope();
-            builder.RegisterType<TopicApiService>().As<ITopicApiService>().InstancePerLifetimeScope();
-            builder.RegisterType<ManufacturerApiService>().As<IManufacturerApiService>().InstancePerLifetimeScope();
+
+          
             builder.RegisterType<MenuApiService>().As<IMenuApiService>().InstancePerLifetimeScope();
             builder.RegisterType<DiscountApiService>().As<IDiscountApiService>().InstancePerLifetimeScope();
             builder.RegisterType<MappingHelper>().As<IMappingHelper>().InstancePerLifetimeScope();
@@ -89,7 +83,7 @@ namespace Nop.Plugin.Api.Common.Infrastructure
             builder.RegisterType<ApiTypeConverter>().As<IApiTypeConverter>().InstancePerLifetimeScope();
 
             builder.RegisterType<ProductFactory>().As<IFactory<Product>>().InstancePerLifetimeScope();
-            builder.RegisterType<CustomerFactory>().As<IFactory<Core.Domain.Customers.Customer>>().InstancePerLifetimeScope();
+          
             builder.RegisterType<AddressFactory>().As<IFactory<Address>>().InstancePerLifetimeScope();
             builder.RegisterType<ShoppingCartItemFactory>().As<IFactory<ShoppingCartItem>>().InstancePerLifetimeScope();
 
