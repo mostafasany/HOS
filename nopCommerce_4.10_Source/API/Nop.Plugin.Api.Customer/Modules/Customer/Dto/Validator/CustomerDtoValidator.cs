@@ -7,7 +7,7 @@ using Nop.Core.Domain.Customers;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.Validators;
 using Nop.Plugin.Api.Customer.Helpers;
-using Nop.Plugin.Api.Modules.Cart.Dto.Validator;
+//using Nop.Plugin.Api.Modules.Cart.Dto.Validator;
 
 namespace Nop.Plugin.Api.Modules.Customer.Dto.Validator
 {
@@ -33,7 +33,7 @@ namespace Nop.Plugin.Api.Modules.Customer.Dto.Validator
             SetShippingAddressRule();
 
             SetCustomerAddressesRule();
-            SetShoppingCartItemsRule();
+            //SetShoppingCartItemsRule();
         }
 
         #endregion
@@ -121,25 +121,25 @@ namespace Nop.Plugin.Api.Modules.Customer.Dto.Validator
             }
         }
 
-        private void SetShoppingCartItemsRule()
-        {
-            var key = "shopping_cart_items";
-            if (RequestJsonDictionary.ContainsKey(key))
-                RuleForEach(c => c.ShoppingCartItems)
-                    .Custom((shoppingCartItemDto, validationContext) =>
-                    {
-                        Dictionary<string, object> shoppingCartItemJsonDictionary = GetRequestJsonDictionaryCollectionItemDictionary(key, shoppingCartItemDto);
+        //private void SetShoppingCartItemsRule()
+        //{
+        //    var key = "shopping_cart_items";
+        //    if (RequestJsonDictionary.ContainsKey(key))
+        //        RuleForEach(c => c.ShoppingCartItems)
+        //            .Custom((shoppingCartItemDto, validationContext) =>
+        //            {
+        //                Dictionary<string, object> shoppingCartItemJsonDictionary = GetRequestJsonDictionaryCollectionItemDictionary(key, shoppingCartItemDto);
 
-                        var validator = new ShoppingCartItemDtoValidator(HttpContextAccessor, JsonHelper, shoppingCartItemJsonDictionary);
+        //                var validator = new ShoppingCartItemDtoValidator(HttpContextAccessor, JsonHelper, shoppingCartItemJsonDictionary);
 
-                        //force create validation for new addresses
-                        if (shoppingCartItemDto.Id == 0) validator.HttpMethod = HttpMethod.Post;
+        //                //force create validation for new addresses
+        //                if (shoppingCartItemDto.Id == 0) validator.HttpMethod = HttpMethod.Post;
 
-                        ValidationResult validationResult = validator.Validate(shoppingCartItemDto);
+        //                ValidationResult validationResult = validator.Validate(shoppingCartItemDto);
 
-                        MergeValidationResult(validationContext, validationResult);
-                    });
-        }
+        //                MergeValidationResult(validationContext, validationResult);
+        //            });
+        //}
 
         #endregion
     }

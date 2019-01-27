@@ -26,7 +26,6 @@ using Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems;
 using Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders;
 using Nop.Plugin.Api.Customer.Modules.Order.Translator;
 using Nop.Plugin.Api.Modules.Cart.Dto;
-using Nop.Plugin.Api.Modules.Cart.Translator;
 using Nop.Plugin.Api.Modules.Customer.Dto;
 using Nop.Plugin.Api.Modules.Customer.Translator;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Dto;
@@ -149,12 +148,12 @@ namespace Nop.Plugin.Api
                             src =>
                                 src.Addresses.GetWithDefault(x => x, new List<Address>())
                                     .Select(address => address.ToDto())))
-                .ForMember(x => x.ShoppingCartItems,
-                    y =>
-                        y.MapFrom(
-                            src =>
-                                src.ShoppingCartItems.GetWithDefault(x => x, new List<ShoppingCartItem>())
-                                    .Select(item => item.ToDto())))
+                //.ForMember(x => x.ShoppingCartItems,
+                //    y =>
+                //        y.MapFrom(
+                //            src =>
+                //                src.ShoppingCartItems.GetWithDefault(x => x, new List<ShoppingCartItem>())
+                //                    .Select(item => item.ToDto())))
                 .ForMember(x => x.RoleIds, y => y.MapFrom(src => src.CustomerRoles.Select(z => z.Id)));
         }
 

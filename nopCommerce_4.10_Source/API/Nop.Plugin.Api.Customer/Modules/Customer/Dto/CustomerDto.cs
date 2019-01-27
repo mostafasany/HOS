@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using FluentValidation.Attributes;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.Common.Attributes;
+//using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.DTOs;
-using Nop.Plugin.Api.Modules.Cart.Dto;
+//using Nop.Plugin.Api.Modules.Cart.Dto;
 using Nop.Plugin.Api.Modules.Customer.Dto.Validator;
 
 namespace Nop.Plugin.Api.Modules.Customer.Dto
@@ -13,7 +13,7 @@ namespace Nop.Plugin.Api.Modules.Customer.Dto
     public class CustomerDto : BaseCustomerDto
     {
         private ICollection<AddressDto> _addresses;
-        private ICollection<ShoppingCartItemDto> _shoppingCartItems;
+        //private ICollection<ShoppingCartItemDto> _shoppingCartItems;
 
         [JsonIgnore]
         [JsonProperty("password")]
@@ -24,18 +24,18 @@ namespace Nop.Plugin.Api.Modules.Customer.Dto
         /// <summary>
         ///     Gets or sets shopping cart items
         /// </summary>
-        [JsonProperty("shopping_cart_items")]
-        [DoNotMap]
-        public ICollection<ShoppingCartItemDto> ShoppingCartItems
-        {
-            get
-            {
-                if (_shoppingCartItems == null) _shoppingCartItems = new List<ShoppingCartItemDto>();
+        //[JsonProperty("shopping_cart_items")]
+        //[DoNotMap]
+        //public ICollection<ShoppingCartItemDto> ShoppingCartItems
+        //{
+        //    get
+        //    {
+        //        if (_shoppingCartItems == null) _shoppingCartItems = new List<ShoppingCartItemDto>();
 
-                return _shoppingCartItems;
-            }
-            set => _shoppingCartItems = value;
-        }
+        //        return _shoppingCartItems;
+        //    }
+        //    set => _shoppingCartItems = value;
+        //}
 
         /// <summary>
         ///     Default billing address
