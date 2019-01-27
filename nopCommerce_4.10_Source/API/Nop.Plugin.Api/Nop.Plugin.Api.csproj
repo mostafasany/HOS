@@ -17,6 +17,12 @@
     <OutDir>$(OutputPath)</OutDir>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Modules\Category\**" />
+    <EmbeddedResource Remove="Modules\Category\**" />
+    <None Remove="Modules\Category\**" />
+  </ItemGroup>
   
   <ItemGroup>
     <None Remove="logo.jpg" />
@@ -50,12 +56,10 @@
     <ProjectReference Include="..\Nop.Plugin.Api.HomeCarsoul\Nop.Plugin.Api.HomeCarsoul.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modules\Category\" />
     <Folder Include="Modules\Discount\Dto\Validator\" />
     <Folder Include="Modules\Menu\Dto\Validator\" />
     <Folder Include="Modules\Menu\Model\" />
     <Folder Include="Modules\Menu\Translator\" />
-    <Folder Include="Modules\NewsLetterSubscription\Dto\Validator\" />
     <Folder Include="Modules\Picture\Dto\Validator\" />
     <Folder Include="Modules\Picture\Model\" />
     <Folder Include="Modules\Picture\Service\" />
