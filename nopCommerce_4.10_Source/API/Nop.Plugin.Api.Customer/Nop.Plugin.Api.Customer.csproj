@@ -12,6 +12,7 @@
     <Folder Include="Modules\CustomerRoles\Dto\Validator\" />
     <Folder Include="Modules\CustomerRoles\Model\" />
     <Folder Include="Modules\CustomerRoles\Service\" />
+    <Folder Include="Modules\NewsLetterSubscription\Dto\Validator\" />
   </ItemGroup>
 
 </Project>
