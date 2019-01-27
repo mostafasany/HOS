@@ -19,6 +19,8 @@ using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Common.Models;
 using Nop.Plugin.Api.Content.Modules.Language.Dto;
+using Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems;
+using Nop.Plugin.Api.Customer.Modules.Order.Translator;
 using Nop.Plugin.Api.Modules.Cart.Dto;
 using Nop.Plugin.Api.Modules.Cart.Translator;
 using Nop.Plugin.Api.Modules.Category.Dto;

@@ -5,12 +5,11 @@ using System.Linq;
 using System.Xml;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Media;
-using Nop.Plugin.Api.Common.Converters;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Services.Catalog;
 using Nop.Services.Media;
 
-namespace Nop.Plugin.Api.Modules.ProductAttributes.Service
+namespace Nop.Plugin.Api.Common.Converters
 {
     public class ProductAttributeConverter : IProductAttributeConverter
     {
@@ -20,8 +19,7 @@ namespace Nop.Plugin.Api.Modules.ProductAttributes.Service
 
         public ProductAttributeConverter(IProductAttributeService productAttributeService,
             IProductAttributeParser productAttributeParser,
-            IDownloadService downloadService,
-            IApiTypeConverter apiTypeConverter)
+            IDownloadService downloadService)
         {
             _productAttributeService = productAttributeService;
             _productAttributeParser = productAttributeParser;
@@ -130,8 +128,6 @@ namespace Nop.Plugin.Api.Modules.ProductAttributes.Service
                         }
                     }
                         break;
-                    default:
-                        break;
                 }
 
             // No Gift Card attributes support yet
@@ -164,7 +160,10 @@ namespace Nop.Plugin.Api.Modules.ProductAttributes.Service
                             }
                     }
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
 
             return attributeDtos;
         }

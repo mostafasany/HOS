@@ -28,9 +28,6 @@ using Nop.Plugin.Api.Modules.Discount.Service;
 using Nop.Plugin.Api.Modules.Discount.Translator;
 using Nop.Plugin.Api.Modules.Menu.Service;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Service;
-using Nop.Plugin.Api.Modules.Order.Factory;
-using Nop.Plugin.Api.Modules.Order.Service;
-using Nop.Plugin.Api.Modules.Order.Translator;
 using Nop.Plugin.Api.Modules.Product.Factory;
 using Nop.Plugin.Api.Modules.Product.Service;
 using Nop.Plugin.Api.Modules.Product.Translator;
@@ -69,9 +66,7 @@ namespace Nop.Plugin.Api.Common.Infrastructure
             builder.RegisterType<CategoryApiService>().As<ICategoryApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductApiService>().As<IProductApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductCategoryMappingsApiService>().As<IProductCategoryMappingsApiService>().InstancePerLifetimeScope();
-            builder.RegisterType<OrderApiService>().As<IOrderApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ShoppingCartItemApiService>().As<IShoppingCartItemApiService>().InstancePerLifetimeScope();
-            builder.RegisterType<OrderItemApiService>().As<IOrderItemApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductAttributesApiService>().As<IProductAttributesApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductAttributeConverter>().As<IProductAttributeConverter>().InstancePerLifetimeScope();
             builder.RegisterType<SpecificationAttributesApiService>().As<ISpecificationAttributeApiService>().InstancePerLifetimeScope();
@@ -101,7 +96,6 @@ namespace Nop.Plugin.Api.Common.Infrastructure
             builder.RegisterType<ProductFactory>().As<IFactory<Product>>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerFactory>().As<IFactory<Core.Domain.Customers.Customer>>().InstancePerLifetimeScope();
             builder.RegisterType<AddressFactory>().As<IFactory<Address>>().InstancePerLifetimeScope();
-            builder.RegisterType<OrderFactory>().As<IFactory<Order>>().InstancePerLifetimeScope();
             builder.RegisterType<ShoppingCartItemFactory>().As<IFactory<ShoppingCartItem>>().InstancePerLifetimeScope();
 
             builder.RegisterType<JsonPropertyMapper>().As<IJsonPropertyMapper>().InstancePerLifetimeScope();
@@ -115,7 +109,6 @@ namespace Nop.Plugin.Api.Common.Infrastructure
 
             builder.RegisterType<ProductTransaltor>().As<IProductTransaltor>().InstancePerLifetimeScope();
 
-            builder.RegisterType<OrderTransaltor>().As<IOrderTransaltor>().InstancePerLifetimeScope();
 
             builder.RegisterType<CategoryTransaltor>().As<ICategoryTransaltor>().InstancePerLifetimeScope();
 

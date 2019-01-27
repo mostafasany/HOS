@@ -8,7 +8,7 @@ using Nop.Plugin.Api.Common.DTOs.Base;
 using Nop.Plugin.Api.Modules.Order.Dto.Validator;
 using Nop.Plugin.Api.Modules.Product.Dto;
 
-namespace Nop.Plugin.Api.Modules.Order.Dto.OrderItems
+namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems
 {
     [Validator(typeof(OrderItemDtoValidator))]
     [JsonObject(Title = "order_item")]
@@ -111,9 +111,9 @@ namespace Nop.Plugin.Api.Modules.Order.Dto.OrderItems
         [JsonProperty("rental_end_date_utc")]
         public DateTime? RentalEndDateUtc { get; set; }
 
-        /// <summary>
-        ///     Gets the product
-        /// </summary>
+        ///// <summary>
+        /////     Gets the product
+        ///// </summary>
         [JsonProperty("product")]
         [DoNotMap]
         public ProductDto Product { get; set; }

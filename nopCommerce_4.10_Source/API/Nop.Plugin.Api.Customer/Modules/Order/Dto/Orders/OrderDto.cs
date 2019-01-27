@@ -4,7 +4,7 @@ using FluentValidation.Attributes;
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
-using Nop.Plugin.Api.Modules.Customer.Dto;
+using Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems;
 using Nop.Plugin.Api.Modules.Order.Dto.OrderItems;
 using Nop.Plugin.Api.Modules.Order.Dto.Validator;
 
@@ -235,11 +235,6 @@ namespace Nop.Plugin.Api.Modules.Order.Dto.Orders
         [JsonProperty("created_on_utc")]
         public DateTime? CreatedOnUtc { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the customer
-        /// </summary>
-        [JsonProperty("customer")]
-        public OrderCustomerDto Customer { get; set; }
 
         [JsonProperty("customer_id")]
         public int? CustomerId { get; set; }

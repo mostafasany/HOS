@@ -13,6 +13,8 @@ using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
+using Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems;
+using Nop.Plugin.Api.Customer.Modules.Order.Translator;
 using Nop.Plugin.Api.Modules.Order.Dto.OrderItems;
 using Nop.Plugin.Api.Modules.Order.Model;
 using Nop.Plugin.Api.Modules.Order.Service;

@@ -6,10 +6,10 @@ using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
-using Nop.Plugin.Api.Content.Modules.Language.Dto;
 using Nop.Plugin.Api.Modules.Product.Attributes;
 using Nop.Plugin.Api.Modules.Product.Dto.Validator;
 using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;
+using Nop.Web.Framework.Mvc.Filters;
 
 namespace Nop.Plugin.Api.Modules.Product.Dto
 {
@@ -33,11 +33,6 @@ namespace Nop.Plugin.Api.Modules.Product.Dto
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the localized names
-        /// </summary>
-        [JsonProperty("localized_names")]
-        public List<LocalizedNameDto> LocalizedNames { get; set; }
 
         /// <summary>
         ///     Gets or sets the short description
@@ -571,7 +566,7 @@ namespace Nop.Plugin.Api.Modules.Product.Dto
         [JsonProperty("tags")]
         public List<string> Tags { get; set; }
 
-        [ValidateVendor]
+        [Attributes.ValidateVendor]
         [JsonProperty("vendor_id")]
         public int? VendorId { get; set; }
 
