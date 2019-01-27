@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
+using Nop.Plugin.Api.Common.DTOs.Product;
 
 namespace Nop.Plugin.Api.Modules.Product.Dto
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs.Base;
-using Nop.Plugin.Api.Modules.Product.Dto;
+using Nop.Plugin.Api.Common.DTOs.Product;
 
 namespace Nop.Plugin.Api.Modules.Menu.Dto
 {

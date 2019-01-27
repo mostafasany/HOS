@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
+using Nop.Plugin.Api.Common.DTOs.Product;
 using Nop.Plugin.Api.Modules.Cart.Dto.Validator;
 using Nop.Plugin.Api.Modules.Customer.Dto;
-using Nop.Plugin.Api.Modules.Product.Dto;
 
 namespace Nop.Plugin.Api.Modules.Cart.Dto
 {

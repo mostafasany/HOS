@@ -17,8 +17,10 @@
           "Nop.Core": "4.1.0",
           "Nop.Plugin.Api.Admin": "1.0.0",
           "Nop.Plugin.Api.Article": "1.0.0",
+          "Nop.Plugin.Api.Category": "1.0.0",
           "Nop.Plugin.Api.Common": "1.0.0",
           "Nop.Plugin.Api.Content": "1.0.0",
+          "Nop.Plugin.Api.Customer": "1.0.0",
           "Nop.Plugin.Api.HomeCarsoul": "1.0.0",
           "Nop.Web.Framework": "4.1.0"
         },
@@ -4445,6 +4447,14 @@
           "Nop.Plugin.Api.Article.dll": {}
         }
       },
+      "Nop.Plugin.Api.Category/1.0.0": {
+        "dependencies": {
+          "Nop.Plugin.Api.Common": "1.0.0"
+        },
+        "runtime": {
+          "Nop.Plugin.Api.Category.dll": {}
+        }
+      },
       "Nop.Plugin.Api.Common/1.0.0": {
         "dependencies": {
           "Nop.Core": "4.1.0",
@@ -4460,6 +4470,14 @@
         },
         "runtime": {
           "Nop.Plugin.Api.Content.dll": {}
+        }
+      },
+      "Nop.Plugin.Api.Customer/1.0.0": {
+        "dependencies": {
+          "Nop.Plugin.Api.Common": "1.0.0"
+        },
+        "runtime": {
+          "Nop.Plugin.Api.Customer.dll": {}
         }
       },
       "Nop.Plugin.Api.HomeCarsoul/1.0.0": {
@@ -6794,12 +6812,22 @@
       "serviceable": false,
       "sha512": ""
     },
+    "Nop.Plugin.Api.Category/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
     "Nop.Plugin.Api.Common/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
     "Nop.Plugin.Api.Content/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Nop.Plugin.Api.Customer/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

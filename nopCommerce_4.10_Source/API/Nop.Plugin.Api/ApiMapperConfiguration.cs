@@ -13,27 +13,26 @@ using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Stores;
 using Nop.Core.Infrastructure.Mapper;
 using Nop.Plugin.Api.Admin.Model;
+using Nop.Plugin.Api.Category.Dto;
 using Nop.Plugin.Api.Common.AutoMapper;
 using Nop.Plugin.Api.Common.Domain;
 using Nop.Plugin.Api.Common.DTOs;
+using Nop.Plugin.Api.Common.DTOs.Product;
 using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Common.Models;
 using Nop.Plugin.Api.Content.Modules.Language.Dto;
+using Nop.Plugin.Api.Customer.Modules.CustomerRoles.Dto;
+using Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems;
+using Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders;
+using Nop.Plugin.Api.Customer.Modules.Order.Translator;
 using Nop.Plugin.Api.Modules.Cart.Dto;
 using Nop.Plugin.Api.Modules.Cart.Translator;
-using Nop.Plugin.Api.Modules.Category.Dto;
 using Nop.Plugin.Api.Modules.Customer.Dto;
 using Nop.Plugin.Api.Modules.Customer.Translator;
-using Nop.Plugin.Api.Modules.CustomerRoles.Dto;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Dto;
-using Nop.Plugin.Api.Modules.Order.Dto.OrderItems;
-using Nop.Plugin.Api.Modules.Order.Dto.Orders;
-using Nop.Plugin.Api.Modules.Order.Translator;
-using Nop.Plugin.Api.Modules.Product.Dto;
 using Nop.Plugin.Api.Modules.Product.Translator;
 using Nop.Plugin.Api.Modules.ProductAttributes.Dto;
 using Nop.Plugin.Api.Modules.ProductCategoryMappings.Dto;
-using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;
 using Nop.Plugin.Api.Modules.Store.Dto;
 
 namespace Nop.Plugin.Api
@@ -45,8 +44,8 @@ namespace Nop.Plugin.Api
             CreateMap<ApiSettings, ConfigurationModel>();
             CreateMap<ConfigurationModel, ApiSettings>();
 
-            CreateMap<Category, CategoryDto>();
-            CreateMap<CategoryDto, Category>();
+            CreateMap<Core.Domain.Catalog.Category, CategoryDto>();
+            CreateMap<CategoryDto, Core.Domain.Catalog.Category>();
 
             CreateMap<Store, StoreDto>();
 
@@ -123,7 +122,7 @@ namespace Nop.Plugin.Api
         private void CreateCustomerForShoppingCartItemMapFromCustomer()
         {
             AutoMapperApiConfiguration.MapperConfigurationExpression
-                .CreateMap<Customer, CustomerForShoppingCartItemDto>()
+                .CreateMap<Core.Domain.Customers.Customer, CustomerForShoppingCartItemDto>()
                 .IgnoreAllNonExisting()
                 .ForMember(x => x.Id, y => y.MapFrom(src => src.Id))
                 .ForMember(x => x.BillingAddress,
@@ -137,7 +136,7 @@ namespace Nop.Plugin.Api
 
         private void CreateCustomerToDTOMap()
         {
-            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<Customer, CustomerDto>()
+            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<Core.Domain.Customers.Customer, CustomerDto>()
                 .IgnoreAllNonExisting()
                 .ForMember(x => x.Id, y => y.MapFrom(src => src.Id))
                 .ForMember(x => x.BillingAddress,
@@ -161,7 +160,7 @@ namespace Nop.Plugin.Api
 
         private void CreateCustomerToOrderCustomerDTOMap()
         {
-            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<Customer, OrderCustomerDto>()
+            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<Core.Domain.Customers.Customer, OrderCustomerDto>()
                 .IgnoreAllNonExisting();
         }
 
@@ -195,7 +194,7 @@ namespace Nop.Plugin.Api
                 .IgnoreAllNonExisting()
                 .ForMember(x => x.CustomerDto,
                     y => y.MapFrom(src =>
-                        src.Customer.GetWithDefault(x => x, new Customer()).ToCustomerForShoppingCartItemDto()))
+                        src.Customer.GetWithDefault(x => x, new Core.Domain.Customers.Customer()).ToCustomerForShoppingCartItemDto()))
                 .ForMember(x => x.ProductDto,
                     y => y.MapFrom(src => src.Product.GetWithDefault(x => x, new Product()).ToDto()));
         }

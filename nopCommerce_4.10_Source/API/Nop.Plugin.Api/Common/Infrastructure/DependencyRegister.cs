@@ -4,13 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Nop.Core.Configuration;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
-using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Infrastructure;
 using Nop.Core.Infrastructure.DependencyManagement;
-using Nop.Plugin.Api.Admin.Service;
-using Nop.Plugin.Api.Article.Service;
-using Nop.Plugin.Api.Article.Translator;
 using Nop.Plugin.Api.Common.Converters;
 using Nop.Plugin.Api.Common.Factories;
 using Nop.Plugin.Api.Common.Helpers;
@@ -18,28 +14,17 @@ using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.Maps;
 using Nop.Plugin.Api.Common.ModelBinders;
 using Nop.Plugin.Api.Common.Validators;
-using Nop.Plugin.Api.Content.Modules.Country.Service;
-using Nop.Plugin.Api.Content.Modules.Country.Translator;
-using Nop.Plugin.Api.Content.Modules.Language.Translator;
 using Nop.Plugin.Api.Content.Modules.Manufacturer.Service;
-using Nop.Plugin.Api.Content.Modules.Manufacturer.Translator;
 using Nop.Plugin.Api.Content.Modules.Topic.Service;
-using Nop.Plugin.Api.Content.Modules.Topic.Translator;
 using Nop.Plugin.Api.Modules.Cart.Factory;
 using Nop.Plugin.Api.Modules.Cart.Service;
 using Nop.Plugin.Api.Modules.Cart.Translator;
-using Nop.Plugin.Api.Modules.Category.Factory;
-using Nop.Plugin.Api.Modules.Category.Service;
-using Nop.Plugin.Api.Modules.Category.Translator;
 using Nop.Plugin.Api.Modules.Customer.Factory;
 using Nop.Plugin.Api.Modules.Customer.Service;
 using Nop.Plugin.Api.Modules.Discount.Service;
 using Nop.Plugin.Api.Modules.Discount.Translator;
 using Nop.Plugin.Api.Modules.Menu.Service;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Service;
-using Nop.Plugin.Api.Modules.Order.Factory;
-using Nop.Plugin.Api.Modules.Order.Service;
-using Nop.Plugin.Api.Modules.Order.Translator;
 using Nop.Plugin.Api.Modules.Product.Factory;
 using Nop.Plugin.Api.Modules.Product.Service;
 using Nop.Plugin.Api.Modules.Product.Translator;
@@ -74,14 +59,10 @@ namespace Nop.Plugin.Api.Common.Infrastructure
 
         private void RegisterPluginServices(ContainerBuilder builder)
         {
-            builder.RegisterType<ClientService>().As<IClientService>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerApiService>().As<ICustomerApiService>().InstancePerLifetimeScope();
-            builder.RegisterType<CategoryApiService>().As<ICategoryApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductApiService>().As<IProductApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductCategoryMappingsApiService>().As<IProductCategoryMappingsApiService>().InstancePerLifetimeScope();
-            builder.RegisterType<OrderApiService>().As<IOrderApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ShoppingCartItemApiService>().As<IShoppingCartItemApiService>().InstancePerLifetimeScope();
-            builder.RegisterType<OrderItemApiService>().As<IOrderItemApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductAttributesApiService>().As<IProductAttributesApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductAttributeConverter>().As<IProductAttributeConverter>().InstancePerLifetimeScope();
             builder.RegisterType<SpecificationAttributesApiService>().As<ISpecificationAttributeApiService>().InstancePerLifetimeScope();
@@ -89,11 +70,8 @@ namespace Nop.Plugin.Api.Common.Infrastructure
             builder.RegisterType<TopicApiService>().As<ITopicApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ManufacturerApiService>().As<IManufacturerApiService>().InstancePerLifetimeScope();
             builder.RegisterType<MenuApiService>().As<IMenuApiService>().InstancePerLifetimeScope();
-            builder.RegisterType<ArticleApiService>().As<IArticleApiService>().InstancePerLifetimeScope();
-            builder.RegisterType<StateProvinceApiService>().As<IStateProvinceApiService>().InstancePerLifetimeScope();
             builder.RegisterType<DiscountApiService>().As<IDiscountApiService>().InstancePerLifetimeScope();
             builder.RegisterType<MappingHelper>().As<IMappingHelper>().InstancePerLifetimeScope();
-            builder.RegisterType<CustomerRolesHelper>().As<ICustomerRolesHelper>().InstancePerLifetimeScope();
             builder.RegisterType<JsonHelper>().As<IJsonHelper>().InstancePerLifetimeScope();
             builder.RegisterType<NopConfigManagerHelper>().As<IConfigManagerHelper>().InstancePerLifetimeScope();
 
@@ -110,11 +88,9 @@ namespace Nop.Plugin.Api.Common.Infrastructure
             builder.RegisterType<ObjectConverter>().As<IObjectConverter>().InstancePerLifetimeScope();
             builder.RegisterType<ApiTypeConverter>().As<IApiTypeConverter>().InstancePerLifetimeScope();
 
-            builder.RegisterType<CategoryFactory>().As<IFactory<Category>>().InstancePerLifetimeScope();
             builder.RegisterType<ProductFactory>().As<IFactory<Product>>().InstancePerLifetimeScope();
-            builder.RegisterType<CustomerFactory>().As<IFactory<Customer>>().InstancePerLifetimeScope();
+            builder.RegisterType<CustomerFactory>().As<IFactory<Core.Domain.Customers.Customer>>().InstancePerLifetimeScope();
             builder.RegisterType<AddressFactory>().As<IFactory<Address>>().InstancePerLifetimeScope();
-            builder.RegisterType<OrderFactory>().As<IFactory<Order>>().InstancePerLifetimeScope();
             builder.RegisterType<ShoppingCartItemFactory>().As<IFactory<ShoppingCartItem>>().InstancePerLifetimeScope();
 
             builder.RegisterType<JsonPropertyMapper>().As<IJsonPropertyMapper>().InstancePerLifetimeScope();
@@ -123,23 +99,11 @@ namespace Nop.Plugin.Api.Common.Infrastructure
 
             builder.RegisterType<Dictionary<string, object>>().SingleInstance();
 
-            builder.RegisterType<TopicTransaltor>().As<ITopicTransaltor>().InstancePerLifetimeScope();
-
-            builder.RegisterType<CountryTransaltor>().As<ICountryTransaltor>().InstancePerLifetimeScope();
-
-            builder.RegisterType<ManufacturerTransaltor>().As<IManufacturerTransaltor>().InstancePerLifetimeScope();
-
-            builder.RegisterType<LanguageTransaltor>().As<ILanguageTransaltor>().InstancePerLifetimeScope();
-
-            builder.RegisterType<ArticleTransaltor>().As<IArticleTransaltor>().InstancePerLifetimeScope();
 
             builder.RegisterType<Cartransaltor>().As<ICartTransaltor>().InstancePerLifetimeScope();
 
             builder.RegisterType<ProductTransaltor>().As<IProductTransaltor>().InstancePerLifetimeScope();
 
-            builder.RegisterType<OrderTransaltor>().As<IOrderTransaltor>().InstancePerLifetimeScope();
-
-            builder.RegisterType<CategoryTransaltor>().As<ICategoryTransaltor>().InstancePerLifetimeScope();
 
             builder.RegisterType<ProductSpecificationAttributesTransaltor>().As<IProductSpecificationAttributesTransaltor>().InstancePerLifetimeScope();
 

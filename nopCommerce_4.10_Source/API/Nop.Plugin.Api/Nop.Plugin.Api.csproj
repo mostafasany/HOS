@@ -42,13 +42,15 @@
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj" />
     <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Articles\Nop.Plugin.Api.Article.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Category\Nop.Plugin.Api.Category.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Client\Nop.Plugin.Api.Admin.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Content\Nop.Plugin.Api.Content.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Customer\Nop.Plugin.Api.Customer.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.HomeCarsoul\Nop.Plugin.Api.HomeCarsoul.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modules\CustomerRoles\Dto\Validator\" />
+    <Folder Include="Modules\Category\" />
     <Folder Include="Modules\Discount\Dto\Validator\" />
     <Folder Include="Modules\Menu\Dto\Validator\" />
     <Folder Include="Modules\Menu\Model\" />
@@ -58,19 +60,16 @@
     <Folder Include="Modules\Picture\Model\" />
     <Folder Include="Modules\Picture\Service\" />
     <Folder Include="Modules\Picture\Translator\" />
-    <Folder Include="Modules\CustomerRoles\Model\" />
-    <Folder Include="Modules\CustomerRoles\Service\" />
+    <Folder Include="Modules\ProductSpecificationAttributes\Dto\Validator\" />
     <Folder Include="Modules\ProductSpecificationAttributes\Service\" />
+    <Folder Include="Modules\Product\Dto\Validator\" />
+    <Folder Include="Modules\SpecificationAttributes\Dto\Validator\" />
     <Folder Include="Modules\Store\Dto\Validator\" />
     <Folder Include="Modules\Store\Model\" />
     <Folder Include="Modules\Store\Service\" />
-    <Folder Include="Modules\Template\Dto\Validator\" />
     <Folder Include="Modules\WebHook\Dto\Validator\" />
     <Folder Include="Modules\WebHook\Model\" />
     <Folder Include="Modules\WebHook\Translator\" />
-    <Folder Include="Modules\Template\Translator\" />
-    <Folder Include="Modules\Template\Service\" />
-    <Folder Include="Modules\Template\Model\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web.Http">

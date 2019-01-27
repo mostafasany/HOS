@@ -20,6 +20,7 @@ using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Common.ModelBinders;
+using Nop.Plugin.Api.Customer.Helpers;
 using Nop.Plugin.Api.Modules.Customer.Dto;
 using Nop.Plugin.Api.Modules.Customer.Model;
 using Nop.Plugin.Api.Modules.Customer.Service;
