@@ -19,9 +19,6 @@ using Nop.Plugin.Api.Content.Modules.Topic.Service;
 using Nop.Plugin.Api.Modules.Cart.Factory;
 using Nop.Plugin.Api.Modules.Cart.Service;
 using Nop.Plugin.Api.Modules.Cart.Translator;
-using Nop.Plugin.Api.Modules.Category.Factory;
-using Nop.Plugin.Api.Modules.Category.Service;
-using Nop.Plugin.Api.Modules.Category.Translator;
 using Nop.Plugin.Api.Modules.Customer.Factory;
 using Nop.Plugin.Api.Modules.Customer.Service;
 using Nop.Plugin.Api.Modules.Discount.Service;
@@ -63,7 +60,6 @@ namespace Nop.Plugin.Api.Common.Infrastructure
         private void RegisterPluginServices(ContainerBuilder builder)
         {
             builder.RegisterType<CustomerApiService>().As<ICustomerApiService>().InstancePerLifetimeScope();
-            builder.RegisterType<CategoryApiService>().As<ICategoryApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductApiService>().As<IProductApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ProductCategoryMappingsApiService>().As<IProductCategoryMappingsApiService>().InstancePerLifetimeScope();
             builder.RegisterType<ShoppingCartItemApiService>().As<IShoppingCartItemApiService>().InstancePerLifetimeScope();
@@ -92,7 +88,6 @@ namespace Nop.Plugin.Api.Common.Infrastructure
             builder.RegisterType<ObjectConverter>().As<IObjectConverter>().InstancePerLifetimeScope();
             builder.RegisterType<ApiTypeConverter>().As<IApiTypeConverter>().InstancePerLifetimeScope();
 
-            builder.RegisterType<CategoryFactory>().As<IFactory<Category>>().InstancePerLifetimeScope();
             builder.RegisterType<ProductFactory>().As<IFactory<Product>>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerFactory>().As<IFactory<Core.Domain.Customers.Customer>>().InstancePerLifetimeScope();
             builder.RegisterType<AddressFactory>().As<IFactory<Address>>().InstancePerLifetimeScope();
@@ -109,8 +104,6 @@ namespace Nop.Plugin.Api.Common.Infrastructure
 
             builder.RegisterType<ProductTransaltor>().As<IProductTransaltor>().InstancePerLifetimeScope();
 
-
-            builder.RegisterType<CategoryTransaltor>().As<ICategoryTransaltor>().InstancePerLifetimeScope();
 
             builder.RegisterType<ProductSpecificationAttributesTransaltor>().As<IProductSpecificationAttributesTransaltor>().InstancePerLifetimeScope();
 

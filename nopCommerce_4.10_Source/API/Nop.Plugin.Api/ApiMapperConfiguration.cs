@@ -13,6 +13,7 @@ using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Stores;
 using Nop.Core.Infrastructure.Mapper;
 using Nop.Plugin.Api.Admin.Model;
+using Nop.Plugin.Api.Category.Dto;
 using Nop.Plugin.Api.Common.AutoMapper;
 using Nop.Plugin.Api.Common.Domain;
 using Nop.Plugin.Api.Common.DTOs;
@@ -23,14 +24,11 @@ using Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems;
 using Nop.Plugin.Api.Customer.Modules.Order.Translator;
 using Nop.Plugin.Api.Modules.Cart.Dto;
 using Nop.Plugin.Api.Modules.Cart.Translator;
-using Nop.Plugin.Api.Modules.Category.Dto;
 using Nop.Plugin.Api.Modules.Customer.Dto;
 using Nop.Plugin.Api.Modules.Customer.Translator;
 using Nop.Plugin.Api.Modules.CustomerRoles.Dto;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Dto;
-using Nop.Plugin.Api.Modules.Order.Dto.OrderItems;
 using Nop.Plugin.Api.Modules.Order.Dto.Orders;
-using Nop.Plugin.Api.Modules.Order.Translator;
 using Nop.Plugin.Api.Modules.Product.Dto;
 using Nop.Plugin.Api.Modules.Product.Translator;
 using Nop.Plugin.Api.Modules.ProductAttributes.Dto;
@@ -47,8 +45,8 @@ namespace Nop.Plugin.Api
             CreateMap<ApiSettings, ConfigurationModel>();
             CreateMap<ConfigurationModel, ApiSettings>();
 
-            CreateMap<Category, CategoryDto>();
-            CreateMap<CategoryDto, Category>();
+            CreateMap<Core.Domain.Catalog.Category, CategoryDto>();
+            CreateMap<CategoryDto, Core.Domain.Catalog.Category>();
 
             CreateMap<Store, StoreDto>();
 

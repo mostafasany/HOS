@@ -1,4 +1,5 @@
-﻿using Nop.Plugin.Api.Modules.Category.Dto;
+﻿using Nop.Plugin.Api.Category.Dto;
+using Nop.Plugin.Api.Modules.Category.Dto;
 
 namespace Nop.Plugin.Api.Modules.Category.Translator
 {

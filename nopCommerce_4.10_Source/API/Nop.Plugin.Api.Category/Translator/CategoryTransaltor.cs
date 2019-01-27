@@ -1,24 +1,23 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using Nop.Core.Domain.Localization;
+using Nop.Core.Domain.Media;
+using Nop.Plugin.Api.Category.Dto;
 using Nop.Plugin.Api.Common.DTOs;
-using Nop.Plugin.Api.Content.Modules.Language.Dto;
 using Nop.Plugin.Api.Modules.Category.Dto;
+using Nop.Plugin.Api.Modules.Category.Translator;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Seo;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Category.Translator
+namespace Nop.Plugin.Api.Category.Translator
 {
     public class CategoryTransaltor : ICategoryTransaltor
     {
         private readonly IAclService _aclService;
         private readonly int _currentLangaugeId;
-        private readonly ILanguageService _languageService;
         private readonly ILocalizationService _localizationService;
         private readonly IPictureService _pictureService;
         private readonly IStoreMappingService _storeMappingService;
@@ -28,14 +27,12 @@ namespace Nop.Plugin.Api.Modules.Category.Translator
             IAclService aclService,
             IStoreMappingService storeMappingService,
             IPictureService pictureService,
-            ILanguageService languageService,
             ILocalizationService localizationService,
             IUrlRecordService urlRecordService, IHttpContextAccessor httpContextAccessor)
         {
             _aclService = aclService;
             _storeMappingService = storeMappingService;
             _pictureService = pictureService;
-            _languageService = languageService;
             _localizationService = localizationService;
             _urlRecordService = urlRecordService;
             IHeaderDictionary headers = httpContextAccessor.HttpContext.Request.Headers;
@@ -56,7 +53,7 @@ namespace Nop.Plugin.Api.Modules.Category.Translator
             categoryDto.Name = _localizationService.GetLocalized(category, x => x.Name, _currentLangaugeId);
             categoryDto.Description = _localizationService.GetLocalized(category, x => x.Description, _currentLangaugeId);
 
-            Core.Domain.Media.Picture picture = _pictureService.GetPictureById(category.PictureId);
+            Picture picture = _pictureService.GetPictureById(category.PictureId);
             ImageDto imageDto = PrepareImageDto(picture);
 
             if (imageDto != null) categoryDto.Image = imageDto;
@@ -67,25 +64,10 @@ namespace Nop.Plugin.Api.Modules.Category.Translator
             categoryDto.StoreIds = _storeMappingService.GetStoreMappings(category).Select(mapping => mapping.StoreId)
                 .ToList();
 
-            IList<Language> allLanguages = _languageService.GetAllLanguages();
-
-            categoryDto.LocalizedNames = new List<LocalizedNameDto>();
-
-            foreach (Language language in allLanguages)
-            {
-                var localizedNameDto = new LocalizedNameDto
-                {
-                    LanguageId = language.Id,
-                    LocalizedName = _localizationService.GetLocalized(category, x => x.Name, language.Id)
-                };
-
-                categoryDto.LocalizedNames.Add(localizedNameDto);
-            }
-
             return categoryDto;
         }
 
-        protected ImageDto PrepareImageDto(Core.Domain.Media.Picture picture)
+        protected ImageDto PrepareImageDto(Picture picture)
         {
             ImageDto image = null;
 

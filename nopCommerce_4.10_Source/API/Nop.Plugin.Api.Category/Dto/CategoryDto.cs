@@ -4,10 +4,9 @@ using FluentValidation.Attributes;
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
-using Nop.Plugin.Api.Content.Modules.Language.Dto;
 using Nop.Plugin.Api.Modules.Category.Dto.Validator;
 
-namespace Nop.Plugin.Api.Modules.Category.Dto
+namespace Nop.Plugin.Api.Category.Dto
 {
     [Validator(typeof(CategoryDtoValidator))]
     [JsonObject(Title = "category")]
@@ -15,12 +14,6 @@ namespace Nop.Plugin.Api.Modules.Category.Dto
     {
         [JsonProperty("name")]
         public string Name { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the localized names
-        /// </summary>
-        [JsonProperty("localized_names")]
-        public List<LocalizedNameDto> LocalizedNames { get; set; }
 
         /// <summary>
         ///     Gets or sets the description
