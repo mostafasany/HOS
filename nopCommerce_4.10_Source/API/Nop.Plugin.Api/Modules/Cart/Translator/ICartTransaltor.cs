@@ -1,7 +1,7 @@
 ﻿using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Shipping;
+using Nop.Plugin.Api.Common.DTOs.Product;
 using Nop.Plugin.Api.Modules.Cart.Dto;
-using Nop.Plugin.Api.Modules.Product.Dto;
 
 namespace Nop.Plugin.Api.Modules.Cart.Translator
 {

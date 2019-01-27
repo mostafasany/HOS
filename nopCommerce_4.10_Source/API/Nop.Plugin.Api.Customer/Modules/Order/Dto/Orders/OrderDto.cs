@@ -5,10 +5,9 @@ using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
 using Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems;
-using Nop.Plugin.Api.Modules.Order.Dto.OrderItems;
-using Nop.Plugin.Api.Modules.Order.Dto.Validator;
+using Nop.Plugin.Api.Customer.Modules.Order.Dto.Validator;
 
-namespace Nop.Plugin.Api.Modules.Order.Dto.Orders
+namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders
 {
     [JsonObject(Title = "order")]
     [Validator(typeof(OrderDtoValidator))]

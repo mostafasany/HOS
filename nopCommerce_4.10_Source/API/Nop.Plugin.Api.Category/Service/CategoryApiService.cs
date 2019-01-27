@@ -7,7 +7,7 @@ using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Category.Service
+namespace Nop.Plugin.Api.Category.Service
 {
     public class CategoryApiService : ICategoryApiService
     {

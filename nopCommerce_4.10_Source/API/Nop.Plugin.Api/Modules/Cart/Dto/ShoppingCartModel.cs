@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.Modules.Product.Dto;
+using Nop.Plugin.Api.Common.DTOs.Product;
 
 namespace Nop.Plugin.Api.Modules.Cart.Dto
 {

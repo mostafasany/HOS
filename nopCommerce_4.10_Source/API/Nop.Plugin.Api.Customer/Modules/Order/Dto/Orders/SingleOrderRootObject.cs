@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nop.Plugin.Api.Modules.Order.Dto.Orders
+namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders
 {
     public class SingleOrderRootObject
     {

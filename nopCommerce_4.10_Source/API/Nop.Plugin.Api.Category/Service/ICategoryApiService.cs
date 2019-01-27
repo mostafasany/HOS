@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Modules.Category.Service
+namespace Nop.Plugin.Api.Category.Service
 {
     public interface ICategoryApiService
     {

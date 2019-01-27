@@ -14,11 +14,9 @@ using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
 using Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems;
+using Nop.Plugin.Api.Customer.Modules.Order.Model;
+using Nop.Plugin.Api.Customer.Modules.Order.Service;
 using Nop.Plugin.Api.Customer.Modules.Order.Translator;
-using Nop.Plugin.Api.Modules.Order.Dto.OrderItems;
-using Nop.Plugin.Api.Modules.Order.Model;
-using Nop.Plugin.Api.Modules.Order.Service;
-using Nop.Plugin.Api.Modules.Order.Translator;
 using Nop.Plugin.Api.Modules.Product.Service;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
@@ -31,7 +29,7 @@ using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Services.Tax;
 
-namespace Nop.Plugin.Api.Modules.Order
+namespace Nop.Plugin.Api.Modules
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme,
         AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -93,7 +91,7 @@ namespace Nop.Plugin.Api.Modules.Order
             // Here we display the errors if the validation has failed at some point.
             if (!ModelState.IsValid) return Error();
 
-            Core.Domain.Orders.Order order = _orderApiService.GetOrderById(orderId);
+            Order order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
@@ -142,7 +140,7 @@ namespace Nop.Plugin.Api.Modules.Order
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult DeleteAllOrderItemsForOrder(int orderId)
         {
-            Core.Domain.Orders.Order order = _orderApiService.GetOrderById(orderId);
+            Order order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
@@ -162,7 +160,7 @@ namespace Nop.Plugin.Api.Modules.Order
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult DeleteOrderItemById(int orderId, int orderItemId)
         {
-            Core.Domain.Orders.Order order = _orderApiService.GetOrderById(orderId);
+            Order order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
@@ -181,7 +179,7 @@ namespace Nop.Plugin.Api.Modules.Order
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetOrderItemByIdForOrder(int orderId, int orderItemId, string fields = "")
         {
-            Core.Domain.Orders.Order order = _orderApiService.GetOrderById(orderId);
+            Order order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
@@ -214,7 +212,7 @@ namespace Nop.Plugin.Api.Modules.Order
 
             if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "Invalid request parameters");
 
-            Core.Domain.Orders.Order order = _orderApiService.GetOrderById(orderId);
+            Order order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
@@ -241,7 +239,7 @@ namespace Nop.Plugin.Api.Modules.Order
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetOrderItemsCount(int orderId)
         {
-            Core.Domain.Orders.Order order = _orderApiService.GetOrderById(orderId);
+            Order order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
@@ -273,7 +271,7 @@ namespace Nop.Plugin.Api.Modules.Order
 
             if (orderItemToUpdate == null) return Error(HttpStatusCode.NotFound, "order_item", "not found");
 
-            Core.Domain.Orders.Order order = _orderApiService.GetOrderById(orderId);
+            Order order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
@@ -316,7 +314,7 @@ namespace Nop.Plugin.Api.Modules.Order
             return product;
         }
 
-        private OrderItem PrepareDefaultOrderItemFromProduct(Core.Domain.Orders.Order order, Core.Domain.Catalog.Product product)
+        private OrderItem PrepareDefaultOrderItemFromProduct(Order order, Core.Domain.Catalog.Product product)
         {
             var presetQty = 1;
             decimal presetPrice =

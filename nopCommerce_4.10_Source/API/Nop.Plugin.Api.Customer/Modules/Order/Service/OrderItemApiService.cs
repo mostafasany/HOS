@@ -3,7 +3,7 @@ using System.Linq;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Api.Common.DataStructures;
 
-namespace Nop.Plugin.Api.Modules.Order.Service
+namespace Nop.Plugin.Api.Customer.Modules.Order.Service
 {
     public class OrderItemApiService : IOrderItemApiService
     {

@@ -4,7 +4,7 @@ using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Common.Factories;
 using Nop.Services.Catalog;
 
-namespace Nop.Plugin.Api.Modules.Category.Factory
+namespace Nop.Plugin.Api.Category.Factory
 {
     public class CategoryFactory : IFactory<Core.Domain.Catalog.Category>
     {

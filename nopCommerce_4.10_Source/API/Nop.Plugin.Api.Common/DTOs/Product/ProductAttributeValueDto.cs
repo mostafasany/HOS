@@ -1,10 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.Modules.Product.Dto
+namespace Nop.Plugin.Api.Common.DTOs.Product
 {
     [JsonObject(Title = "attribute_value")]
     //[Validator(typeof(ProductDtoValidator))]

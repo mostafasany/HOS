@@ -4,8 +4,6 @@ using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Media;
 using Nop.Plugin.Api.Category.Dto;
 using Nop.Plugin.Api.Common.DTOs;
-using Nop.Plugin.Api.Modules.Category.Dto;
-using Nop.Plugin.Api.Modules.Category.Translator;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Security;

@@ -1,8 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.Modules.Product.Dto
+namespace Nop.Plugin.Api.Common.DTOs.Product
 {
     public class ProductsFiltersDto : ISerializableObject
     {

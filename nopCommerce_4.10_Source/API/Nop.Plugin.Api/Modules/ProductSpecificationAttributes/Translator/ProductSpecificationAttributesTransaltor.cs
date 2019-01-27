@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;
+using Nop.Plugin.Api.Common.DTOs.Product;
 using Nop.Plugin.Api.Modules.SpecificationAttributes.Translator;
 using Nop.Services.Localization;
 using Nop.Services.Media;

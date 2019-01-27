@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Modules.Order.Model
+namespace Nop.Plugin.Api.Customer.Modules.Order.Model
 {
     [ModelBinder(typeof(ParametersModelBinder<OrderItemsParametersModel>))]
     public class OrderItemsParametersModel

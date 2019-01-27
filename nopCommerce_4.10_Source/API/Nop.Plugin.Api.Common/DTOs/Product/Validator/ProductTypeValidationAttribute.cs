@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Common.Attributes;
 
-namespace Nop.Plugin.Api.Modules.Product.Attributes
+namespace Nop.Plugin.Api.Common.DTOs.Product.Validator
 {
     public class ProductTypeValidationAttribute : BaseValidationAttribute
     {

@@ -8,7 +8,7 @@ using Nop.Core.Domain.Shipping;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 
-namespace Nop.Plugin.Api.Modules.Order.Service
+namespace Nop.Plugin.Api.Customer.Modules.Order.Service
 {
     public class OrderApiService : IOrderApiService
     {

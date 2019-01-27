@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.Modules.CustomerRoles.Dto
+namespace Nop.Plugin.Api.Customer.Modules.CustomerRoles.Dto
 {
     [JsonObject(Title = "customer_role")]
     public class CustomerRoleDto : BaseDto

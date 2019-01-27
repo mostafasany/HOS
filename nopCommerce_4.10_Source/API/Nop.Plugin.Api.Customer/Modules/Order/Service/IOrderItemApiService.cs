@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Nop.Core.Domain.Orders;
 
-namespace Nop.Plugin.Api.Modules.Order.Service
+namespace Nop.Plugin.Api.Customer.Modules.Order.Service
 {
     public interface IOrderItemApiService
     {

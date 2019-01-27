@@ -17,23 +17,22 @@ using Nop.Plugin.Api.Category.Dto;
 using Nop.Plugin.Api.Common.AutoMapper;
 using Nop.Plugin.Api.Common.Domain;
 using Nop.Plugin.Api.Common.DTOs;
+using Nop.Plugin.Api.Common.DTOs.Product;
 using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Common.Models;
 using Nop.Plugin.Api.Content.Modules.Language.Dto;
+using Nop.Plugin.Api.Customer.Modules.CustomerRoles.Dto;
 using Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems;
+using Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders;
 using Nop.Plugin.Api.Customer.Modules.Order.Translator;
 using Nop.Plugin.Api.Modules.Cart.Dto;
 using Nop.Plugin.Api.Modules.Cart.Translator;
 using Nop.Plugin.Api.Modules.Customer.Dto;
 using Nop.Plugin.Api.Modules.Customer.Translator;
-using Nop.Plugin.Api.Modules.CustomerRoles.Dto;
 using Nop.Plugin.Api.Modules.NewsLetterSubscription.Dto;
-using Nop.Plugin.Api.Modules.Order.Dto.Orders;
-using Nop.Plugin.Api.Modules.Product.Dto;
 using Nop.Plugin.Api.Modules.Product.Translator;
 using Nop.Plugin.Api.Modules.ProductAttributes.Dto;
 using Nop.Plugin.Api.Modules.ProductCategoryMappings.Dto;
-using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;
 using Nop.Plugin.Api.Modules.Store.Dto;
 
 namespace Nop.Plugin.Api

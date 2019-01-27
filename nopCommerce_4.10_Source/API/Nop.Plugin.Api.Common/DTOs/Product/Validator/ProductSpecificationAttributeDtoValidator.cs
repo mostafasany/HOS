@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.Modules.SpecificationAttributes.Dto;
 
-namespace Nop.Plugin.Api.Modules.ProductSpecificationAttributes.Dto.Validator
+namespace Nop.Plugin.Api.Common.DTOs.Product.Validator
 {
     public class ProductSpecificationAttributeDtoValidator : AbstractValidator<ProductSpecificationAttributeDto>
     {

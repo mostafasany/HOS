@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
-using Nop.Plugin.Api.Category.Dto;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.Validators;
 
-namespace Nop.Plugin.Api.Modules.Category.Dto.Validator
+namespace Nop.Plugin.Api.Category.Dto.Validator
 {
     public class CategoryDtoValidator : BaseDtoValidator<CategoryDto>
     {

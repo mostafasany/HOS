@@ -5,9 +5,9 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.Validators;
-using Nop.Plugin.Api.Modules.Order.Dto.Orders;
+using Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders;
 
-namespace Nop.Plugin.Api.Modules.Order.Dto.Validator
+namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Validator
 {
     public class OrderDtoValidator : BaseDtoValidator<OrderDto>
     {

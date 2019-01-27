@@ -31,8 +31,6 @@ namespace Nop.Plugin.Api.Content.Modules
             builder.RegisterType<ManufacturerTransaltor>().As<IManufacturerTransaltor>().InstancePerLifetimeScope();
 
             builder.RegisterType<LanguageTransaltor>().As<ILanguageTransaltor>().InstancePerLifetimeScope();
-
-
         }
 
         public virtual int Order => short.MaxValue;

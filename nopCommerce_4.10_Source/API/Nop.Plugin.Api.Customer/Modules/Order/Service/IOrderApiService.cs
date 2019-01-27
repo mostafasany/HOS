@@ -5,7 +5,7 @@ using Nop.Core.Domain.Payments;
 using Nop.Core.Domain.Shipping;
 using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Modules.Order.Service
+namespace Nop.Plugin.Api.Customer.Modules.Order.Service
 {
     public interface IOrderApiService
     {

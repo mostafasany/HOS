@@ -5,8 +5,8 @@ using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
-using Nop.Plugin.Api.Modules.Order.Dto.Validator;
-using Nop.Plugin.Api.Modules.Product.Dto;
+using Nop.Plugin.Api.Common.DTOs.Product;
+using Nop.Plugin.Api.Customer.Modules.Order.Dto.Validator;
 
 namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems
 {

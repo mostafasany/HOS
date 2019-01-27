@@ -1,9 +1,8 @@
 ﻿using Nop.Core.Domain.Orders;
 using Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems;
-using Nop.Plugin.Api.Modules.Order.Dto.OrderItems;
-using Nop.Plugin.Api.Modules.Order.Dto.Orders;
+using Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders;
 
-namespace Nop.Plugin.Api.Modules.Order.Translator
+namespace Nop.Plugin.Api.Customer.Modules.Order.Translator
 {
     public interface IOrderTransaltor
     {

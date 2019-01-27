@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nop.Plugin.Api.Modules.Product.Dto
+namespace Nop.Plugin.Api.Common.DTOs.Product
 {
     public class ProductAttributeCombinationDto
     {

@@ -7,7 +7,7 @@ using Nop.Core.Domain.Seo;
 using Nop.Core.Domain.Vendors;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
-using Nop.Plugin.Api.Modules.Product.Dto;
+using Nop.Plugin.Api.Common.DTOs.Product;
 using Nop.Services.Seo;
 using Nop.Services.Stores;
 

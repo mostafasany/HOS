@@ -4,7 +4,7 @@ using Nop.Core.Infrastructure;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Services.Vendors;
 
-namespace Nop.Plugin.Api.Modules.Product.Attributes
+namespace Nop.Plugin.Api.Common.DTOs.Product.Validator
 {
     public class ValidateVendor : BaseValidationAttribute
     {

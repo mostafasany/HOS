@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using FluentValidation.Attributes;
 using Newtonsoft.Json;
+using Nop.Plugin.Api.Category.Dto.Validator;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
-using Nop.Plugin.Api.Modules.Category.Dto.Validator;
 
 namespace Nop.Plugin.Api.Category.Dto
 {
