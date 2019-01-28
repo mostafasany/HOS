@@ -6,7 +6,6 @@ using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Localization;
-using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Stores;
 using Nop.Core.Infrastructure.Mapper;
 using Nop.Plugin.Api.Admin.Model;
@@ -17,9 +16,6 @@ using Nop.Plugin.Api.Common.DTOs.Product;
 using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Common.Models;
 using Nop.Plugin.Api.Content.Modules.Language.Dto;
-using Nop.Plugin.Api.Modules.Cart.Dto;
-using Nop.Plugin.Api.Modules.Customer.Translator;
-using Nop.Plugin.Api.Modules.Product.Translator;
 using Nop.Plugin.Api.Modules.ProductAttributes.Dto;
 using Nop.Plugin.Api.Modules.ProductCategoryMappings.Dto;
 using Nop.Plugin.Api.Modules.Store.Dto;
@@ -39,11 +35,8 @@ namespace Nop.Plugin.Api
 
             CreateMap<Language, LanguageDto>();
 
-            CreateClientToClientApiModelMap();
-
             CreateAddressMap();
             CreateAddressDtoToEntityMap();
-            CreateShoppingCartItemMap();
 
             CreateProductMap();
 
@@ -77,16 +70,6 @@ namespace Nop.Plugin.Api
                     y => y.MapFrom(src => src.StateProvince.GetWithDefault(x => x, new StateProvince()).Name));
         }
 
-        private static void CreateClientToClientApiModelMap()
-        {
-            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<Client, ClientApiModel>()
-                .ForMember(x => x.ClientSecret, y => y.MapFrom(src => src.ClientSecrets.FirstOrDefault().Description))
-                .ForMember(x => x.RedirectUrl, y => y.MapFrom(src => src.RedirectUris.FirstOrDefault().RedirectUri))
-                .ForMember(x => x.AccessTokenLifetime, y => y.MapFrom(src => src.AccessTokenLifetime))
-                .ForMember(x => x.RefreshTokenLifetime, y => y.MapFrom(src => src.AbsoluteRefreshTokenLifetime));
-        }
-
-
         private new static void CreateMap<TSource, TDestination>()
         {
             AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<TSource, TDestination>()
@@ -102,17 +85,6 @@ namespace Nop.Plugin.Api
                 .ForMember(x => x.FullDescription, y => y.MapFrom(src => WebUtility.HtmlEncode(src.FullDescription)))
                 .ForMember(x => x.Tags,
                     y => y.MapFrom(src => src.ProductProductTagMappings.Select(x => x.ProductTag.Name)));
-        }
-
-        private void CreateShoppingCartItemMap()
-        {
-            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<ShoppingCartItem, ShoppingCartItemDto>()
-                .IgnoreAllNonExisting()
-                .ForMember(x => x.CustomerDto,
-                    y => y.MapFrom(src =>
-                        src.Customer.GetWithDefault(x => x, new Core.Domain.Customers.Customer()).ToCustomerForShoppingCartItemDto()))
-                .ForMember(x => x.ProductDto,
-                    y => y.MapFrom(src => src.Product.GetWithDefault(x => x, new Product()).ToDto()));
         }
     }
 }
