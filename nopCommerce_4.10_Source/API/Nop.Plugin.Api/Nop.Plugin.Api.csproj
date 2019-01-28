@@ -20,8 +20,11 @@
 
   <ItemGroup>
     <Compile Remove="Modules\Category\**" />
+    <Compile Remove="Modules\Product\Dto\Validator\**" />
     <EmbeddedResource Remove="Modules\Category\**" />
+    <EmbeddedResource Remove="Modules\Product\Dto\Validator\**" />
     <None Remove="Modules\Category\**" />
+    <None Remove="Modules\Product\Dto\Validator\**" />
   </ItemGroup>
   
   <ItemGroup>
@@ -66,7 +69,6 @@
     <Folder Include="Modules\Picture\Translator\" />
     <Folder Include="Modules\ProductSpecificationAttributes\Dto\Validator\" />
     <Folder Include="Modules\ProductSpecificationAttributes\Service\" />
-    <Folder Include="Modules\Product\Dto\Validator\" />
     <Folder Include="Modules\SpecificationAttributes\Dto\Validator\" />
     <Folder Include="Modules\Store\Dto\Validator\" />
     <Folder Include="Modules\Store\Model\" />
