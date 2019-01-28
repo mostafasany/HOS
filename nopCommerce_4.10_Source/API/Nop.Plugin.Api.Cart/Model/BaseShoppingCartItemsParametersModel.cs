@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Modules.Cart.Model
+namespace Nop.Plugin.Api.Cart.Model
 {
     // JsonProperty is used only for swagger
     public class BaseShoppingCartItemsParametersModel

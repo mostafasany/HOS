@@ -1,8 +1,8 @@
 ﻿using Nop.Core.Domain.Orders;
+using Nop.Plugin.Api.Cart.Dto;
 using Nop.Plugin.Api.Common.AutoMapper;
-using Nop.Plugin.Api.Modules.Cart.Dto;
 
-namespace Nop.Plugin.Api.Modules.Cart.Translator
+namespace Nop.Plugin.Api.Cart.Translator
 {
     public static class ShoppingCartItemDtoMappings
     {

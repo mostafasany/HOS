@@ -1,13 +1,11 @@
 ﻿using System.Linq;
 using AutoMapper;
 using IdentityServer4.EntityFramework.Entities;
-
 using Nop.Core.Infrastructure.Mapper;
 using Nop.Plugin.Api.Admin.Model;
 using Nop.Plugin.Api.Common.AutoMapper;
 
-
-namespace Nop.Plugin.Api
+namespace Nop.Plugin.Api.Admin
 {
     public class ApiMapperConfiguration : Profile, IOrderedMapperProfile
     {

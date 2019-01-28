@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Modules.NewsLetterSubscription.Service
+namespace Nop.Plugin.Api.Customer.Modules.NewsLetterSubscription.Service
 {
     public interface INewsLetterSubscriptionApiService
     {

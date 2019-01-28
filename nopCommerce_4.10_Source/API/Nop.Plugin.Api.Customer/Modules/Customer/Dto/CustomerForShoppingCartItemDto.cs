@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.Modules.Customer.Dto
+namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
 {
     // We need this DTO object to avoid loop in the entity to dto mappings. The difference is the missing ShoppingCartItems collection.
     [JsonObject(Title = "customers")]

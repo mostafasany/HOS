@@ -13,12 +13,12 @@ using Nop.Core.Domain.Localization;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 using Nop.Plugin.Api.Common.Helpers;
-using Nop.Plugin.Api.Modules.Customer.Dto;
-using Nop.Plugin.Api.Modules.Customer.Translator;
+using Nop.Plugin.Api.Customer.Modules.Customer.Dto;
+using Nop.Plugin.Api.Customer.Modules.Customer.Translator;
 using Nop.Services.Localization;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Customer.Service
+namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
 {
     public class CustomerApiService : ICustomerApiService
     {

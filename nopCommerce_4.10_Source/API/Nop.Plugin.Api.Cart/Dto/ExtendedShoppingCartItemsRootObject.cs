@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.Modules.Cart.Dto
+namespace Nop.Plugin.Api.Cart.Dto
 {
     public class ExtendedShoppingCartItemsRootObject : ISerializableObject
     {

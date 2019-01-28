@@ -7,7 +7,7 @@ using Nop.Core.Domain.Orders;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.Validators;
 
-namespace Nop.Plugin.Api.Modules.Cart.Dto.Validator
+namespace Nop.Plugin.Api.Cart.Dto.Validator
 {
     public class ShoppingCartItemDtoValidator : BaseDtoValidator<ShoppingCartItemDto>
     {

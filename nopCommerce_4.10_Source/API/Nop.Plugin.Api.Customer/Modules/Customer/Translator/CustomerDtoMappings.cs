@@ -1,7 +1,7 @@
 ﻿using Nop.Plugin.Api.Common.AutoMapper;
-using Nop.Plugin.Api.Modules.Customer.Dto;
+using Nop.Plugin.Api.Customer.Modules.Customer.Dto;
 
-namespace Nop.Plugin.Api.Modules.Customer.Translator
+namespace Nop.Plugin.Api.Customer.Modules.Customer.Translator
 {
     public static class CustomerDtoMappings
     {

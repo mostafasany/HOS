@@ -2,7 +2,7 @@
 using Nop.Plugin.Api.Common.AutoMapper;
 using Nop.Plugin.Api.Common.DTOs.Product;
 
-namespace Nop.Plugin.Api.Modules.Product.Translator
+namespace Nop.Plugin.Api.Common.DTOs
 {
     public static class ProductDtoMappings
     {

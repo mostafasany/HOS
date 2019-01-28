@@ -1,6 +1,6 @@
 ﻿using Nop.Core.Domain.Common;
 
-namespace Nop.Plugin.Api.Modules.Customer.Dto
+namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
 {
     public class CustomerAttributeMappingDto
     {

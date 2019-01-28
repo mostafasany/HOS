@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Nop.Plugin.Api.Modules.Cart.Dto
+namespace Nop.Plugin.Api.Cart.Dto
 {
     /// <summary>
     ///     Represents base nopCommerce model

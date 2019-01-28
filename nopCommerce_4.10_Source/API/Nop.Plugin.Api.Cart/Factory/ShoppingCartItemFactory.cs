@@ -2,7 +2,7 @@
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Api.Common.Factories;
 
-namespace Nop.Plugin.Api.Modules.Cart.Factory
+namespace Nop.Plugin.Api.Cart.Factory
 {
     public class ShoppingCartItemFactory : IFactory<ShoppingCartItem>
     {

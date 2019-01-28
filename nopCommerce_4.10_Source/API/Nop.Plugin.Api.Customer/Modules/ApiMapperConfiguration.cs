@@ -3,17 +3,16 @@ using System.Linq;
 using AutoMapper;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Messages;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Infrastructure.Mapper;
 using Nop.Plugin.Api.Common.AutoMapper;
 using Nop.Plugin.Api.Common.MappingExtensions;
+using Nop.Plugin.Api.Customer.Modules.Customer.Dto;
 using Nop.Plugin.Api.Customer.Modules.CustomerRoles.Dto;
+using Nop.Plugin.Api.Customer.Modules.NewsLetterSubscription.Dto;
 using Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems;
 using Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders;
 using Nop.Plugin.Api.Customer.Modules.Order.Translator;
-using Nop.Plugin.Api.Modules.Customer.Dto;
-using Nop.Plugin.Api.Modules.NewsLetterSubscription.Dto;
 
 namespace Nop.Plugin.Api.Customer.Modules
 {
@@ -31,8 +30,8 @@ namespace Nop.Plugin.Api.Customer.Modules
             CreateMap<OrderItem, OrderItemDto>();
             CreateOrderEntityToOrderDtoMap();
 
-            CreateMap<NewsLetterSubscriptionDto, NewsLetterSubscription>();
-            CreateMap<NewsLetterSubscription, NewsLetterSubscriptionDto>();
+            CreateMap<NewsLetterSubscriptionDto, Core.Domain.Messages.NewsLetterSubscription>();
+            CreateMap<Core.Domain.Messages.NewsLetterSubscription, NewsLetterSubscriptionDto>();
         }
 
         public int Order => 0;

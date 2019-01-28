@@ -2,17 +2,15 @@
 using Nop.Core.Configuration;
 using Nop.Core.Infrastructure;
 using Nop.Core.Infrastructure.DependencyManagement;
-using Nop.Plugin.Api.Article.Service;
-using Nop.Plugin.Api.Article.Translator;
+using Nop.Plugin.Api.Cart.Translator;
 
-namespace Nop.Plugin.Api.Article
+namespace Nop.Plugin.Api.Cart
 {
     public class DependencyRegister : IDependencyRegistrar
     {
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
         {
-            builder.RegisterType<ArticleApiService>().As<IArticleApiService>().InstancePerLifetimeScope();
-            builder.RegisterType<ArticleTransaltor>().As<IArticleTransaltor>().InstancePerLifetimeScope();
+            builder.RegisterType<Cartransaltor>().As<ICartTransaltor>().InstancePerLifetimeScope();
         }
 
         public virtual int Order => short.MaxValue;

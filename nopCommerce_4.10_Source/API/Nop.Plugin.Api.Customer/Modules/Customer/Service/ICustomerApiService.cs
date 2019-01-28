@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Nop.Plugin.Api.Common.Constants;
-using Nop.Plugin.Api.Modules.Customer.Dto;
+using Nop.Plugin.Api.Customer.Modules.Customer.Dto;
 
-namespace Nop.Plugin.Api.Modules.Customer.Service
+namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
 {
     public interface ICustomerApiService
     {

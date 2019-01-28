@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nop.Plugin.Api.Modules.Customer.Dto
+namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
 {
     [JsonObject(Title = "forget")]
     public class ForgetDto

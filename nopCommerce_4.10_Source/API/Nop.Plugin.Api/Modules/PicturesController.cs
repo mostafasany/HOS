@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Nop.Core.Domain.Media;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
@@ -14,7 +15,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Picture
+namespace Nop.Plugin.Api.Modules
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PicturesController : BaseApiController
@@ -48,7 +49,7 @@ namespace Nop.Plugin.Api.Modules.Picture
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetPictures(int id)
         {
-            Core.Domain.Media.Picture picture = _pictureService.GetPictureById(id);
+            Picture picture = _pictureService.GetPictureById(id);
             string url = _pictureService.GetPictureUrl(picture);
             return Ok(url);
         }

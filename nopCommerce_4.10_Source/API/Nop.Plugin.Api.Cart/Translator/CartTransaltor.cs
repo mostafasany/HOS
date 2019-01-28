@@ -3,14 +3,13 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Catalog;
+using Nop.Core.Domain.Media;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Shipping;
+using Nop.Plugin.Api.Cart.Dto;
 using Nop.Plugin.Api.Common.Converters;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Product;
-using Nop.Plugin.Api.Modules.Cart.Dto;
-using Nop.Plugin.Api.Modules.Product.Translator;
-using Nop.Plugin.Api.Modules.SpecificationAttributes.Translator;
 using Nop.Services.Catalog;
 using Nop.Services.Localization;
 using Nop.Services.Media;
@@ -18,7 +17,7 @@ using Nop.Services.Security;
 using Nop.Services.Seo;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Cart.Translator
+namespace Nop.Plugin.Api.Cart.Translator
 {
     public class Cartransaltor : ICartTransaltor
     {
@@ -82,7 +81,7 @@ namespace Nop.Plugin.Api.Modules.Cart.Translator
         }
 
 
-        public ProductDto PrepareProductDTO(Core.Domain.Catalog.Product product)
+        public ProductDto PrepareProductDTO(Product product)
         {
             ProductDto productDto = product.ToDto();
 
@@ -145,7 +144,7 @@ namespace Nop.Plugin.Api.Modules.Cart.Translator
             }
         }
 
-        protected ImageDto PrepareImageDto(Core.Domain.Media.Picture picture)
+        protected ImageDto PrepareImageDto(Picture picture)
         {
             ImageDto image = null;
 
@@ -239,7 +238,7 @@ namespace Nop.Plugin.Api.Modules.Cart.Translator
         }
 
         private ProductAttributeValueDto PrepareProductAttributeValueDto(ProductAttributeValue productAttributeValue,
-            Core.Domain.Catalog.Product product)
+            Product product)
         {
             ProductAttributeValueDto productAttributeValueDto = null;
 
@@ -250,7 +249,7 @@ namespace Nop.Plugin.Api.Modules.Cart.Translator
                 productAttributeValueDto.Name = _localizationService.GetLocalized(productAttributeValue, x => x.Name, _currentLangaugeId);
                 if (productAttributeValue.ImageSquaresPictureId > 0)
                 {
-                    Core.Domain.Media.Picture imageSquaresPicture =
+                    Picture imageSquaresPicture =
                         _pictureService.GetPictureById(productAttributeValue.ImageSquaresPictureId);
                     ImageDto imageDto = PrepareImageDto(imageSquaresPicture);
                     productAttributeValueDto.ImageSquaresImage = imageDto;

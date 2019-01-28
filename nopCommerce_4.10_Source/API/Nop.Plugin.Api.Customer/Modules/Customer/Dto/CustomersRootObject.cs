@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.Modules.Customer.Dto
+namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
 {
     public class CustomersRootObject : ISerializableObject
     {

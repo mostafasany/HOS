@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Nop.Core.Domain.Orders;
+using Nop.Plugin.Api.Cart.Dto;
 using Nop.Plugin.Api.Common.Constants;
-using Nop.Plugin.Api.Modules.Cart.Dto;
 
-namespace Nop.Plugin.Api.Modules.Cart.Service
+namespace Nop.Plugin.Api.Cart.Service
 {
     public interface IShoppingCartItemApiService
     {

@@ -4,17 +4,19 @@ using Nop.Core.Infrastructure;
 using Nop.Core.Infrastructure.DependencyManagement;
 using Nop.Plugin.Api.Common.Factories;
 using Nop.Plugin.Api.Customer.Helpers;
+using Nop.Plugin.Api.Customer.Modules.Customer.Factory;
+using Nop.Plugin.Api.Customer.Modules.Customer.Service;
+using Nop.Plugin.Api.Customer.Modules.NewsLetterSubscription.Service;
 using Nop.Plugin.Api.Customer.Modules.Order.Factory;
 using Nop.Plugin.Api.Customer.Modules.Order.Service;
 using Nop.Plugin.Api.Customer.Modules.Order.Translator;
-using Nop.Plugin.Api.Modules.Customer.Factory;
-using Nop.Plugin.Api.Modules.Customer.Service;
-using Nop.Plugin.Api.Modules.NewsLetterSubscription.Service;
 
 namespace Nop.Plugin.Api.Customer.Modules
 {
     public class DependencyRegister : IDependencyRegistrar
     {
+        public virtual int Order => short.MaxValue;
+
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
         {
             builder.RegisterType<CustomerRolesHelper>().As<ICustomerRolesHelper>().InstancePerLifetimeScope();
@@ -26,7 +28,5 @@ namespace Nop.Plugin.Api.Customer.Modules
             builder.RegisterType<OrderFactory>().As<IFactory<Core.Domain.Orders.Order>>().InstancePerLifetimeScope();
             builder.RegisterType<OrderTransaltor>().As<IOrderTransaltor>().InstancePerLifetimeScope();
         }
-
-        public virtual int Order => short.MaxValue;
     }
 }

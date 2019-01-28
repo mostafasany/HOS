@@ -1,14 +1,12 @@
 ﻿using System.Linq;
 using System.Net;
 using AutoMapper;
-using IdentityServer4.EntityFramework.Entities;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Stores;
 using Nop.Core.Infrastructure.Mapper;
-using Nop.Plugin.Api.Admin.Model;
 using Nop.Plugin.Api.Common.AutoMapper;
 using Nop.Plugin.Api.Common.Domain;
 using Nop.Plugin.Api.Common.DTOs;

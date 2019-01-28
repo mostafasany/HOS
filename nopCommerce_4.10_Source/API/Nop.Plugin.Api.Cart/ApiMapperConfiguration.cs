@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Infrastructure.Mapper;
+using Nop.Plugin.Api.Cart.Dto;
 using Nop.Plugin.Api.Common.AutoMapper;
 using Nop.Plugin.Api.Common.MappingExtensions;
-using Nop.Plugin.Api.Modules.Cart.Dto;
 
-namespace Nop.Plugin.Api
+namespace Nop.Plugin.Api.Cart
 {
     public class ApiMapperConfiguration : Profile, IOrderedMapperProfile
     {

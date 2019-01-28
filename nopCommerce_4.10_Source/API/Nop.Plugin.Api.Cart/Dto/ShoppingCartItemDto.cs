@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using FluentValidation.Attributes;
 using Newtonsoft.Json;
 using Nop.Core.Domain.Orders;
+using Nop.Plugin.Api.Cart.Dto.Validator;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
 using Nop.Plugin.Api.Common.DTOs.Product;
-using Nop.Plugin.Api.Modules.Cart.Dto.Validator;
 
 //using Nop.Plugin.Api.Modules.Customer.Dto;
 
-namespace Nop.Plugin.Api.Modules.Cart.Dto
+namespace Nop.Plugin.Api.Cart.Dto
 {
     [Validator(typeof(ShoppingCartItemDtoValidator))]
     [JsonObject(Title = "shopping_cart_item")]

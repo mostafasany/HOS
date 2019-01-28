@@ -6,7 +6,7 @@ using Nop.Core.Data;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 
-namespace Nop.Plugin.Api.Modules.NewsLetterSubscription.Service
+namespace Nop.Plugin.Api.Customer.Modules.NewsLetterSubscription.Service
 {
     public class NewsLetterSubscriptionApiService : INewsLetterSubscriptionApiService
     {

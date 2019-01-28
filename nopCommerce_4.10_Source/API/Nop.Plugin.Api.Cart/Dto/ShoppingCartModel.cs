@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Common.DTOs.Product;
 
-namespace Nop.Plugin.Api.Modules.Cart.Dto
+namespace Nop.Plugin.Api.Cart.Dto
 {
     public class ShoppingCartModel : BaseNopModel
     {

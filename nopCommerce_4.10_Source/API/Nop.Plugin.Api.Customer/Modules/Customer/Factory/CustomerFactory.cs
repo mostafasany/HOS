@@ -1,7 +1,7 @@
 ﻿using System;
 using Nop.Plugin.Api.Common.Factories;
 
-namespace Nop.Plugin.Api.Modules.Customer.Factory
+namespace Nop.Plugin.Api.Customer.Modules.Customer.Factory
 {
     public class CustomerFactory : IFactory<Core.Domain.Customers.Customer>
     {

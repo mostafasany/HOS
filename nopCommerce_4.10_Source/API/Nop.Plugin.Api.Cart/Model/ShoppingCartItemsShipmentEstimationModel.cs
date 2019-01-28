@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Modules.Cart.Model
+namespace Nop.Plugin.Api.Cart.Model
 {
     [ModelBinder(typeof(ParametersModelBinder<ShoppingCartItemsShipmentEstimationModel>))]
     public class ShoppingCartItemsShipmentEstimationModel

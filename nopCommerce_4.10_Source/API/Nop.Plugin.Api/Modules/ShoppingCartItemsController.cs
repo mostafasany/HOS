@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Orders;
+using Nop.Plugin.Api.Cart.Dto;
+using Nop.Plugin.Api.Cart.Model;
+using Nop.Plugin.Api.Cart.Service;
+using Nop.Plugin.Api.Cart.Translator;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
@@ -18,10 +22,6 @@ using Nop.Plugin.Api.Common.Factories;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
-using Nop.Plugin.Api.Modules.Cart.Dto;
-using Nop.Plugin.Api.Modules.Cart.Model;
-using Nop.Plugin.Api.Modules.Cart.Service;
-using Nop.Plugin.Api.Modules.Cart.Translator;
 using Nop.Plugin.Api.Modules.Product.Dto;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
@@ -34,7 +34,7 @@ using Nop.Services.Security;
 using Nop.Services.Shipping;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Cart
+namespace Nop.Plugin.Api.Modules
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ShoppingCartItemsController : BaseApiController

@@ -14,13 +14,13 @@ using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Shipping;
 using Nop.Core.Domain.Vendors;
 using Nop.Core.Http.Extensions;
+using Nop.Plugin.Api.Cart.Dto;
+using Nop.Plugin.Api.Cart.Translator;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Converters;
 using Nop.Plugin.Api.Common.DataStructures;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Product;
-using Nop.Plugin.Api.Modules.Cart.Dto;
-using Nop.Plugin.Api.Modules.Cart.Translator;
 using Nop.Services.Catalog;
 using Nop.Services.Common;
 using Nop.Services.Customers;
@@ -33,7 +33,7 @@ using Nop.Services.Seo;
 using Nop.Services.Tax;
 using Nop.Services.Vendors;
 
-namespace Nop.Plugin.Api.Modules.Cart.Service
+namespace Nop.Plugin.Api.Cart.Service
 {
     public class ShoppingCartItemApiService : IShoppingCartItemApiService
     {

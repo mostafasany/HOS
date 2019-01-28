@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Discounts;
+using Nop.Core.Domain.Media;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
@@ -493,7 +494,7 @@ namespace Nop.Plugin.Api.Modules.Product
             List<ProductPicture> unusedProductPictures = entityToUpdate.ProductPictures.Where(x => setPictures.All(y => y.Id != x.Id)).ToList();
             foreach (ProductPicture unusedProductPicture in unusedProductPictures)
             {
-                Core.Domain.Media.Picture picture = PictureService.GetPictureById(unusedProductPicture.PictureId);
+                Picture picture = PictureService.GetPictureById(unusedProductPicture.PictureId);
                 if (picture == null)
                     throw new ArgumentException("No picture found with the specified id");
                 PictureService.DeletePicture(picture);
@@ -513,7 +514,7 @@ namespace Nop.Plugin.Api.Modules.Product
                 else
                 {
                     // add new product picture
-                    Core.Domain.Media.Picture newPicture = PictureService.InsertPicture(imageDto.Binary, imageDto.MimeType, string.Empty);
+                    Picture newPicture = PictureService.InsertPicture(imageDto.Binary, imageDto.MimeType, string.Empty);
                     _productService.InsertProductPicture(new ProductPicture
                     {
                         PictureId = newPicture.Id,

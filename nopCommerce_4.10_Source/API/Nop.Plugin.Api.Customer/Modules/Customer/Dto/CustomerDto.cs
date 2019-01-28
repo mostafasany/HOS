@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using FluentValidation.Attributes;
 using Newtonsoft.Json;
-//using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.DTOs;
-//using Nop.Plugin.Api.Modules.Cart.Dto;
-using Nop.Plugin.Api.Modules.Customer.Dto.Validator;
+using Nop.Plugin.Api.Customer.Modules.Customer.Dto.Validator;
 
-namespace Nop.Plugin.Api.Modules.Customer.Dto
+
+namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
 {
     [JsonObject(Title = "customer")]
     [Validator(typeof(CustomerDtoValidator))]
@@ -36,7 +35,6 @@ namespace Nop.Plugin.Api.Modules.Customer.Dto
         //    }
         //    set => _shoppingCartItems = value;
         //}
-
         /// <summary>
         ///     Default billing address
         /// </summary>

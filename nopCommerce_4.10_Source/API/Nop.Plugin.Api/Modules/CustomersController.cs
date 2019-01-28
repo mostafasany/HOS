@@ -21,10 +21,10 @@ using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Common.ModelBinders;
 using Nop.Plugin.Api.Customer.Helpers;
-using Nop.Plugin.Api.Modules.Customer.Dto;
-using Nop.Plugin.Api.Modules.Customer.Model;
-using Nop.Plugin.Api.Modules.Customer.Service;
-using Nop.Plugin.Api.Modules.Customer.Translator;
+using Nop.Plugin.Api.Customer.Modules.Customer.Dto;
+using Nop.Plugin.Api.Customer.Modules.Customer.Model;
+using Nop.Plugin.Api.Customer.Modules.Customer.Service;
+using Nop.Plugin.Api.Customer.Modules.Customer.Translator;
 using Nop.Services.Authentication;
 using Nop.Services.Common;
 using Nop.Services.Customers;
@@ -39,7 +39,7 @@ using Nop.Services.Orders;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Customer
+namespace Nop.Plugin.Api.Modules
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CustomersController : BaseApiController
