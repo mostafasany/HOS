@@ -63,10 +63,6 @@
     <Folder Include="Modules\Menu\Dto\Validator\" />
     <Folder Include="Modules\Menu\Model\" />
     <Folder Include="Modules\Menu\Translator\" />
-    <Folder Include="Modules\Picture\Dto\Validator\" />
-    <Folder Include="Modules\Picture\Model\" />
-    <Folder Include="Modules\Picture\Service\" />
-    <Folder Include="Modules\Picture\Translator\" />
     <Folder Include="Modules\ProductSpecificationAttributes\Dto\Validator\" />
     <Folder Include="Modules\ProductSpecificationAttributes\Service\" />
     <Folder Include="Modules\SpecificationAttributes\Dto\Validator\" />
