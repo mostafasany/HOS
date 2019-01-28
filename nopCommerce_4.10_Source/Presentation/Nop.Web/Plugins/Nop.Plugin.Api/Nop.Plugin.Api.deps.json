@@ -17,6 +17,7 @@
           "Nop.Core": "4.1.0",
           "Nop.Plugin.Api.Admin": "1.0.0",
           "Nop.Plugin.Api.Article": "1.0.0",
+          "Nop.Plugin.Api.Cart": "1.0.0",
           "Nop.Plugin.Api.Category": "1.0.0",
           "Nop.Plugin.Api.Common": "1.0.0",
           "Nop.Plugin.Api.Content": "1.0.0",
@@ -4447,6 +4448,14 @@
           "Nop.Plugin.Api.Article.dll": {}
         }
       },
+      "Nop.Plugin.Api.Cart/1.0.0": {
+        "dependencies": {
+          "Nop.Plugin.Api.Common": "1.0.0"
+        },
+        "runtime": {
+          "Nop.Plugin.Api.Cart.dll": {}
+        }
+      },
       "Nop.Plugin.Api.Category/1.0.0": {
         "dependencies": {
           "Nop.Plugin.Api.Common": "1.0.0"
@@ -6808,6 +6817,11 @@
       "sha512": ""
     },
     "Nop.Plugin.Api.Article/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Nop.Plugin.Api.Cart/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

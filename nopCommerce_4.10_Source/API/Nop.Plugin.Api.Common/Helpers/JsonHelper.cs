@@ -95,7 +95,7 @@ namespace Nop.Plugin.Api.Common.Helpers
 
         private string GetRequestBodyString(Stream stream, bool rewindStream)
         {
-            var result = "";
+            string result;
 
             using (var streamReader = new StreamReader(stream, Encoding.UTF8, true, 1024, rewindStream))
             {

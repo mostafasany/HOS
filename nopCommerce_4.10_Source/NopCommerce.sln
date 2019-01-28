@@ -77,9 +77,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.HomeCarsoul"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.Content", "API\Nop.Plugin.Api.Content\Nop.Plugin.Api.Content.csproj", "{6E3AA41B-4C4A-41A3-9E06-83FD1B0B2DB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Api.Customer", "API\Nop.Plugin.Api.Customer\Nop.Plugin.Api.Customer.csproj", "{4E36016D-CF3E-4510-98A1-241FF2E24756}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.Customer", "API\Nop.Plugin.Api.Customer\Nop.Plugin.Api.Customer.csproj", "{4E36016D-CF3E-4510-98A1-241FF2E24756}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Api.Category", "API\Nop.Plugin.Api.Category\Nop.Plugin.Api.Category.csproj", "{BF3E198F-F7F2-4089-911F-F6A8DABD7D81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.Category", "API\Nop.Plugin.Api.Category\Nop.Plugin.Api.Category.csproj", "{BF3E198F-F7F2-4089-911F-F6A8DABD7D81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Api.Cart", "API\Nop.Plugin.Api.Cart\Nop.Plugin.Api.Cart.csproj", "{14358461-A9F9-4842-844C-E82B2EE0D37E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -467,6 +469,18 @@ Global
 		{BF3E198F-F7F2-4089-911F-F6A8DABD7D81}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BF3E198F-F7F2-4089-911F-F6A8DABD7D81}.Release|x86.ActiveCfg = Release|Any CPU
 		{BF3E198F-F7F2-4089-911F-F6A8DABD7D81}.Release|x86.Build.0 = Release|Any CPU
+		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Debug|x86.Build.0 = Debug|Any CPU
+		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Release|x86.ActiveCfg = Release|Any CPU
+		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -506,6 +520,7 @@ Global
 		{6E3AA41B-4C4A-41A3-9E06-83FD1B0B2DB2} = {CAF3C68E-87A1-4B70-920F-4C9A66E794FA}
 		{4E36016D-CF3E-4510-98A1-241FF2E24756} = {CAF3C68E-87A1-4B70-920F-4C9A66E794FA}
 		{BF3E198F-F7F2-4089-911F-F6A8DABD7D81} = {CAF3C68E-87A1-4B70-920F-4C9A66E794FA}
+		{14358461-A9F9-4842-844C-E82B2EE0D37E} = {CAF3C68E-87A1-4B70-920F-4C9A66E794FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE72A8B2-332A-4175-9319-6726D36E9D25}

@@ -5,6 +5,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Discounts;
+using Nop.Core.Domain.Media;
 using Nop.Plugin.Api.Category.Dto;
 using Nop.Plugin.Api.Category.Model;
 using Nop.Plugin.Api.Category.Service;
@@ -76,7 +77,7 @@ namespace Nop.Plugin.Api.Modules
 
             //If the validation has passed the categoryDelta object won't be null for sure so we don't need to check for this.
 
-            Core.Domain.Media.Picture insertedPicture = null;
+            Picture insertedPicture = null;
 
             // We need to insert the picture before the category so we can obtain the picture id and map it to the category.
             if (categoryDelta.Dto.Image != null && categoryDelta.Dto.Image.Binary != null) insertedPicture = PictureService.InsertPicture(categoryDelta.Dto.Image.Binary, categoryDelta.Dto.Image.MimeType, string.Empty);
@@ -321,8 +322,8 @@ namespace Nop.Plugin.Api.Modules
             if (imageDto == null)
                 return;
 
-            Core.Domain.Media.Picture updatedPicture;
-            Core.Domain.Media.Picture currentCategoryPicture = PictureService.GetPictureById(categoryEntityToUpdate.PictureId);
+            Picture updatedPicture;
+            Picture currentCategoryPicture = PictureService.GetPictureById(categoryEntityToUpdate.PictureId);
 
             // when there is a picture set for the category
             if (currentCategoryPicture != null)
