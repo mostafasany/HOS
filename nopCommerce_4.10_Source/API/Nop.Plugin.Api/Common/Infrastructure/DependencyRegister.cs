@@ -78,7 +78,7 @@ namespace Nop.Plugin.Api.Common.Infrastructure
             builder.RegisterType<ObjectConverter>().As<IObjectConverter>().InstancePerLifetimeScope();
             builder.RegisterType<ApiTypeConverter>().As<IApiTypeConverter>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductFactory>().As<IFactory<Product>>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductFactory>().As<IFactory<Core.Domain.Catalog.Product>>().InstancePerLifetimeScope();
 
             builder.RegisterType<AddressFactory>().As<IFactory<Address>>().InstancePerLifetimeScope();
             builder.RegisterType<ShoppingCartItemFactory>().As<IFactory<ShoppingCartItem>>().InstancePerLifetimeScope();
