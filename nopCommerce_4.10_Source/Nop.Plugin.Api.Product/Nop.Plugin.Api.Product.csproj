@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Modules\SpecificationAttributes\Dto\Validator\**" />
+    <EmbeddedResource Remove="Modules\SpecificationAttributes\Dto\Validator\**" />
+    <None Remove="Modules\SpecificationAttributes\Dto\Validator\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\API\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
+  </ItemGroup>
+
+</Project>

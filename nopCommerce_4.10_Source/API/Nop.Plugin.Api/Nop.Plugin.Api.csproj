@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj" />
+    <ProjectReference Include="..\..\Nop.Plugin.Api.Product\Nop.Plugin.Api.Product.csproj" />
     <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Articles\Nop.Plugin.Api.Article.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Cart\Nop.Plugin.Api.Cart.csproj" />
@@ -67,7 +68,7 @@
     <Folder Include="Modules\ProductSpecificationAttributes\Dto\Validator\" />
     <Folder Include="Modules\ProductSpecificationAttributes\Service\" />
     <Folder Include="Modules\Product\Dto\Validator\" />
-    <Folder Include="Modules\SpecificationAttributes\Dto\Validator\" />
+    <Folder Include="Modules\SpecificationAttributes\" />
     <Folder Include="Modules\Store\Dto\Validator\" />
     <Folder Include="Modules\Store\Model\" />
     <Folder Include="Modules\Store\Service\" />
