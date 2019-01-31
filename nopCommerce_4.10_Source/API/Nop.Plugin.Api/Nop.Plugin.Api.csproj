@@ -61,7 +61,6 @@
     <ProjectReference Include="..\Nop.Plugin.Api.HomeCarsoul\Nop.Plugin.Api.HomeCarsoul.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modules\Discount\Dto\Validator\" />
     <Folder Include="Modules\Menu\Dto\Validator\" />
     <Folder Include="Modules\Menu\Model\" />
     <Folder Include="Modules\Menu\Translator\" />
