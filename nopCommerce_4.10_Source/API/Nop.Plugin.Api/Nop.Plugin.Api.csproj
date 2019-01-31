@@ -62,9 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modules\Menu\Dto\Validator\" />
-    <Folder Include="Modules\Store\Dto\Validator\" />
-    <Folder Include="Modules\Store\Model\" />
-    <Folder Include="Modules\Store\Service\" />
     <Folder Include="Modules\WebHook\Dto\Validator\" />
     <Folder Include="Modules\WebHook\Model\" />
     <Folder Include="Modules\WebHook\Translator\" />

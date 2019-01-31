@@ -1,18 +1,14 @@
 ﻿using AutoMapper;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Directory;
-using Nop.Core.Domain.Localization;
-using Nop.Core.Domain.Stores;
 using Nop.Core.Infrastructure.Mapper;
 using Nop.Plugin.Api.Common.AutoMapper;
 using Nop.Plugin.Api.Common.Domain;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Common.Models;
-using Nop.Plugin.Api.Content.Modules.Language.Dto;
-using Nop.Plugin.Api.Modules.Store.Dto;
 
-namespace Nop.Plugin.Api
+namespace Nop.Plugin.Api.Common
 {
     public class ApiMapperConfiguration : Profile, IOrderedMapperProfile
     {
@@ -21,10 +17,6 @@ namespace Nop.Plugin.Api
             CreateMap<ApiSettings, ConfigurationModel>();
 
             CreateMap<ConfigurationModel, ApiSettings>();
-
-            CreateMap<Store, StoreDto>();
-
-            CreateMap<Language, LanguageDto>();
 
             CreateAddressMap();
 

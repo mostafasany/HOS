@@ -13,9 +13,8 @@ using Nop.Plugin.Api.Common.Maps;
 using Nop.Plugin.Api.Common.ModelBinders;
 using Nop.Plugin.Api.Common.Validators;
 using Nop.Plugin.Api.Modules.Menu.Service;
-using Nop.Plugin.Api.Modules.Store.Translator;
 
-namespace Nop.Plugin.Api.Common.Infrastructure
+namespace Nop.Plugin.Api.Common
 {
     public class DependencyRegister : IDependencyRegistrar
     {
@@ -66,7 +65,7 @@ namespace Nop.Plugin.Api.Common.Infrastructure
 
             builder.RegisterType<Dictionary<string, object>>().SingleInstance();
 
-            builder.RegisterType<StoreTransaltor>().As<IStoreTransaltor>().InstancePerLifetimeScope();
+
         }
     }
 }
