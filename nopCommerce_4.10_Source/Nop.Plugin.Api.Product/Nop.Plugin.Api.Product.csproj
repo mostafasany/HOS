@@ -14,4 +14,8 @@
     <ProjectReference Include="..\API\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Modules\ProductSpecificationAttributes\Service\" />
+  </ItemGroup>
+
 </Project>
