@@ -15,7 +15,7 @@ namespace Nop.Plugin.Api.Modules.Product.Service
 {
     public class ProductApiService : IProductApiService
     {
-        private readonly IRepository<Core.Domain.Catalog.Category> _categoryRepository;
+        private readonly IRepository<Category> _categoryRepository;
         private readonly IRepository<Manufacturer> _manufacturerRepository;
         private readonly IRepository<ProductCategory> _productCategoryMappingRepository;
         private readonly IRepository<Core.Domain.Catalog.Product> _productRepository;
@@ -28,7 +28,7 @@ namespace Nop.Plugin.Api.Modules.Product.Service
             IRepository<ProductCategory> productCategoryMappingRepository,
             IRepository<Vendor> vendorRepository,
             IStoreMappingService storeMappingService, IRepository<RelatedProduct> relatedProductRepository
-            , IUrlRecordService urlRecordService, IRepository<Manufacturer> manufacturerRepository, IRepository<Core.Domain.Catalog.Category> categoryRepository)
+            , IUrlRecordService urlRecordService, IRepository<Manufacturer> manufacturerRepository, IRepository<Category> categoryRepository)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
@@ -169,7 +169,7 @@ namespace Nop.Plugin.Api.Modules.Product.Service
                     orderby productCategoryMapping.DisplayOrder descending
                     select product;
 
-                Core.Domain.Catalog.Category category = _categoryRepository.Table.FirstOrDefault(a => a.Id == categoryId);
+                Category category = _categoryRepository.Table.FirstOrDefault(a => a.Id == categoryId);
                 filters.Add(new ProductsFiltersDto("Category", category.Name));
             }
             else

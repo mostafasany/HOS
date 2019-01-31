@@ -8,6 +8,7 @@ using Nop.Core;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
+using Nop.Core.Domain.Messages;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
@@ -238,7 +239,7 @@ namespace Nop.Plugin.Api.Modules
             //remove newsletter subscription (if exists)
             foreach (Core.Domain.Stores.Store store in StoreService.GetAllStores())
             {
-                Core.Domain.Messages.NewsLetterSubscription subscription = _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreId(customer.Email, store.Id);
+                NewsLetterSubscription subscription = _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreId(customer.Email, store.Id);
                 if (subscription != null)
                     _newsLetterSubscriptionService.DeleteNewsLetterSubscription(subscription);
             }
