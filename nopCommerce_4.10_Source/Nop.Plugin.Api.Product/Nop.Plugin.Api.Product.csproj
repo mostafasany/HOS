@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Modules\ProductSpecificationAttributes\Service\" />
+    <Folder Include="Modules\Product\Dto\Validator\" />
   </ItemGroup>
 
 </Project>
