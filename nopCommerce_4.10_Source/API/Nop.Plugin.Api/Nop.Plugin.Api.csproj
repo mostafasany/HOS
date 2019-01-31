@@ -59,12 +59,10 @@
     <ProjectReference Include="..\Nop.Plugin.Api.Content\Nop.Plugin.Api.Content.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Customer\Nop.Plugin.Api.Customer.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.HomeCarsoul\Nop.Plugin.Api.HomeCarsoul.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.WebHooks\Nop.Plugin.Api.WebHooks.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Modules\Menu\Dto\Validator\" />
-    <Folder Include="Modules\WebHook\Dto\Validator\" />
-    <Folder Include="Modules\WebHook\Model\" />
-    <Folder Include="Modules\WebHook\Translator\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web.Http">
