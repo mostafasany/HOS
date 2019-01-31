@@ -7,8 +7,6 @@ using Nop.Plugin.Api.Article.Translator;
 
 namespace Nop.Plugin.Api.Article
 {
-    //using Nop.Plugin.Api.WebHooks;
-
     public class DependencyRegister : IDependencyRegistrar
     {
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)

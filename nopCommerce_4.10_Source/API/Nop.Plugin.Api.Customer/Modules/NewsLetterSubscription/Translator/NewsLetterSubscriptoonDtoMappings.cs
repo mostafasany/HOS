@@ -1,7 +1,7 @@
 ﻿using Nop.Plugin.Api.Common.AutoMapper;
-using Nop.Plugin.Api.Modules.NewsLetterSubscription.Dto;
+using Nop.Plugin.Api.Customer.Modules.NewsLetterSubscription.Dto;
 
-namespace Nop.Plugin.Api.Modules.NewsLetterSubscription.Translator
+namespace Nop.Plugin.Api.Customer.Modules.NewsLetterSubscription.Translator
 {
     public static class NewsLetterSubscriptoonDtoMappings
     {

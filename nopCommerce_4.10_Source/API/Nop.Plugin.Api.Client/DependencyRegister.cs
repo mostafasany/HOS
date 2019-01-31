@@ -6,8 +6,6 @@ using Nop.Plugin.Api.Admin.Service;
 
 namespace Nop.Plugin.Api.Admin
 {
-    //using Nop.Plugin.Api.WebHooks;
-
     public class DependencyRegister : IDependencyRegistrar
     {
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder, NopConfig config)
