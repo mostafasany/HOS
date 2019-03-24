@@ -9,6 +9,7 @@ using Nop.Plugin.Api.Content.Modules.Manufacturer.Service;
 using Nop.Plugin.Api.Content.Modules.Manufacturer.Translator;
 using Nop.Plugin.Api.Content.Modules.Topic.Service;
 using Nop.Plugin.Api.Content.Modules.Topic.Translator;
+using Nop.Plugin.Api.Modules.Store.Translator;
 
 namespace Nop.Plugin.Api.Content.Modules
 {
@@ -23,6 +24,7 @@ namespace Nop.Plugin.Api.Content.Modules
             builder.RegisterType<TopicTransaltor>().As<ITopicTransaltor>().InstancePerLifetimeScope();
             builder.RegisterType<ManufacturerTransaltor>().As<IManufacturerTransaltor>().InstancePerLifetimeScope();
             builder.RegisterType<LanguageTransaltor>().As<ILanguageTransaltor>().InstancePerLifetimeScope();
+            builder.RegisterType<StoreTransaltor>().As<IStoreTransaltor>().InstancePerLifetimeScope();
         }
 
         public virtual int Order => short.MaxValue;

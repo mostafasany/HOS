@@ -20,6 +20,9 @@
     <Folder Include="Modules\Picture\Model\" />
     <Folder Include="Modules\Picture\Service\" />
     <Folder Include="Modules\Picture\Translator\" />
+    <Folder Include="Modules\Store\Dto\Validator\" />
+    <Folder Include="Modules\Store\Model\" />
+    <Folder Include="Modules\Store\Service\" />
     <Folder Include="Modules\Topic\Dto\Validator\" />
     <Folder Include="Modules\Topic\Model\" />
   </ItemGroup>

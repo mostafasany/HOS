@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Customer.Modules.Customer.Dto.Validator;
 
-
 namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
 {
     [JsonObject(Title = "customer")]
