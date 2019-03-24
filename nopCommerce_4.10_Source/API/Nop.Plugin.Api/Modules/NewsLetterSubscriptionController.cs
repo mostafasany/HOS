@@ -105,7 +105,7 @@ namespace Nop.Plugin.Api.Modules
                 NewsLetterSubscriptions = newsLetterSubscriptionsDtos
             };
 
-            string json =JsonFieldsSerializer.Serialize(newsLetterSubscriptionsRootObject, parameters.Fields);
+            string json = JsonFieldsSerializer.Serialize(newsLetterSubscriptionsRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }

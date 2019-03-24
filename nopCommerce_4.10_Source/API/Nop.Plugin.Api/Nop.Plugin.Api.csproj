@@ -20,11 +20,11 @@
 
   <ItemGroup>
     <Compile Remove="Modules\Category\**" />
-    <Compile Remove="Modules\Product\Dto\Validator\**" />
+    <Compile Remove="Modules\Picture\**" />
     <EmbeddedResource Remove="Modules\Category\**" />
-    <EmbeddedResource Remove="Modules\Product\Dto\Validator\**" />
+    <EmbeddedResource Remove="Modules\Picture\**" />
     <None Remove="Modules\Category\**" />
-    <None Remove="Modules\Product\Dto\Validator\**" />
+    <None Remove="Modules\Picture\**" />
   </ItemGroup>
   
   <ItemGroup>
@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj" />
+    <ProjectReference Include="..\..\Nop.Plugin.Api.Product\Nop.Plugin.Api.Product.csproj" />
     <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Articles\Nop.Plugin.Api.Article.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Cart\Nop.Plugin.Api.Cart.csproj" />
@@ -58,21 +59,10 @@
     <ProjectReference Include="..\Nop.Plugin.Api.Content\Nop.Plugin.Api.Content.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Customer\Nop.Plugin.Api.Customer.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.HomeCarsoul\Nop.Plugin.Api.HomeCarsoul.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.WebHooks\Nop.Plugin.Api.WebHooks.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modules\Discount\Dto\Validator\" />
     <Folder Include="Modules\Menu\Dto\Validator\" />
-    <Folder Include="Modules\Menu\Model\" />
-    <Folder Include="Modules\Menu\Translator\" />
-    <Folder Include="Modules\ProductSpecificationAttributes\Dto\Validator\" />
-    <Folder Include="Modules\ProductSpecificationAttributes\Service\" />
-    <Folder Include="Modules\SpecificationAttributes\Dto\Validator\" />
-    <Folder Include="Modules\Store\Dto\Validator\" />
-    <Folder Include="Modules\Store\Model\" />
-    <Folder Include="Modules\Store\Service\" />
-    <Folder Include="Modules\WebHook\Dto\Validator\" />
-    <Folder Include="Modules\WebHook\Model\" />
-    <Folder Include="Modules\WebHook\Translator\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web.Http">

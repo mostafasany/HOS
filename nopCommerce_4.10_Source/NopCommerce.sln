@@ -81,7 +81,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.Customer", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.Category", "API\Nop.Plugin.Api.Category\Nop.Plugin.Api.Category.csproj", "{BF3E198F-F7F2-4089-911F-F6A8DABD7D81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Api.Cart", "API\Nop.Plugin.Api.Cart\Nop.Plugin.Api.Cart.csproj", "{14358461-A9F9-4842-844C-E82B2EE0D37E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.Cart", "API\Nop.Plugin.Api.Cart\Nop.Plugin.Api.Cart.csproj", "{14358461-A9F9-4842-844C-E82B2EE0D37E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.Product", "Nop.Plugin.Api.Product\Nop.Plugin.Api.Product.csproj", "{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Api.WebHooks", "API\Nop.Plugin.Api.WebHooks\Nop.Plugin.Api.WebHooks.csproj", "{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -481,6 +485,30 @@ Global
 		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Release|x86.ActiveCfg = Release|Any CPU
 		{14358461-A9F9-4842-844C-E82B2EE0D37E}.Release|x86.Build.0 = Release|Any CPU
+		{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE}.Debug|x86.Build.0 = Debug|Any CPU
+		{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE}.Release|x86.ActiveCfg = Release|Any CPU
+		{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE}.Release|x86.Build.0 = Release|Any CPU
+		{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B}.Debug|x86.Build.0 = Debug|Any CPU
+		{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B}.Release|x86.ActiveCfg = Release|Any CPU
+		{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -521,6 +549,8 @@ Global
 		{4E36016D-CF3E-4510-98A1-241FF2E24756} = {CAF3C68E-87A1-4B70-920F-4C9A66E794FA}
 		{BF3E198F-F7F2-4089-911F-F6A8DABD7D81} = {CAF3C68E-87A1-4B70-920F-4C9A66E794FA}
 		{14358461-A9F9-4842-844C-E82B2EE0D37E} = {CAF3C68E-87A1-4B70-920F-4C9A66E794FA}
+		{64DD0217-7FF4-4083-BA7C-DFD835D3CDBE} = {CAF3C68E-87A1-4B70-920F-4C9A66E794FA}
+		{997965D3-E5E9-4A7A-A6BB-B6DAC2F82F7B} = {CAF3C68E-87A1-4B70-920F-4C9A66E794FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE72A8B2-332A-4175-9319-6726D36E9D25}
