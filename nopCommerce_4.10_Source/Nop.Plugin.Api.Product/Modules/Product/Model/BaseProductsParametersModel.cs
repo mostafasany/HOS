@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Nop.Plugin.Api.Modules.Product.Model
+namespace Nop.Plugin.Api.Product.Modules.Product.Model
 {
     // JsonProperty is used only for swagger
     public class BaseProductsParametersModel

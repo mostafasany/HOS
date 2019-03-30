@@ -2,7 +2,7 @@
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Product;
 
-namespace Nop.Plugin.Api.Modules.ProductSpecificationAttributes.Translator
+namespace Nop.Plugin.Api.Product.Modules.ProductSpecificationAttributes.Translator
 {
     public class ProductSpecificationAttributesTransaltor : IProductSpecificationAttributesTransaltor
     {

@@ -18,10 +18,10 @@ using Nop.Plugin.Api.Common.Factories;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
-using Nop.Plugin.Api.Modules.Product.Dto;
-using Nop.Plugin.Api.Modules.Product.Model;
-using Nop.Plugin.Api.Modules.Product.Service;
-using Nop.Plugin.Api.Modules.Product.Translator;
+using Nop.Plugin.Api.Product.Modules.Product.Dto;
+using Nop.Plugin.Api.Product.Modules.Product.Model;
+using Nop.Plugin.Api.Product.Modules.Product.Service;
+using Nop.Plugin.Api.Product.Modules.Product.Translator;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
@@ -32,7 +32,7 @@ using Nop.Services.Security;
 using Nop.Services.Seo;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Product
+namespace Nop.Plugin.Api.Modules
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductsController : BaseApiController
@@ -366,9 +366,9 @@ namespace Nop.Plugin.Api.Modules.Product
             if (passedDiscountIds == null)
                 return;
 
-            IList<Core.Domain.Discounts.Discount> allDiscounts = DiscountService.GetAllDiscounts(DiscountType.AssignedToSkus, showHidden: true);
+            IList<Discount> allDiscounts = DiscountService.GetAllDiscounts(DiscountType.AssignedToSkus, showHidden: true);
 
-            foreach (Core.Domain.Discounts.Discount discount in allDiscounts)
+            foreach (Discount discount in allDiscounts)
                 if (passedDiscountIds.Contains(discount.Id))
                 {
                     //new discount

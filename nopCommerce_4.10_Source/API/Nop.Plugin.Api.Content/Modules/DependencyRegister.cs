@@ -7,9 +7,9 @@ using Nop.Plugin.Api.Content.Modules.Country.Translator;
 using Nop.Plugin.Api.Content.Modules.Language.Translator;
 using Nop.Plugin.Api.Content.Modules.Manufacturer.Service;
 using Nop.Plugin.Api.Content.Modules.Manufacturer.Translator;
+using Nop.Plugin.Api.Content.Modules.Store.Translator;
 using Nop.Plugin.Api.Content.Modules.Topic.Service;
 using Nop.Plugin.Api.Content.Modules.Topic.Translator;
-using Nop.Plugin.Api.Modules.Store.Translator;
 
 namespace Nop.Plugin.Api.Content.Modules
 {

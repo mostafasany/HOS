@@ -10,7 +10,7 @@ using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Product;
 using Nop.Plugin.Api.Content.Modules.Manufacturer.Service;
 using Nop.Plugin.Api.Modules.Menu.Dto;
-using Nop.Plugin.Api.Modules.Product.Service;
+using Nop.Plugin.Api.Product.Modules.Product.Service;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Seo;

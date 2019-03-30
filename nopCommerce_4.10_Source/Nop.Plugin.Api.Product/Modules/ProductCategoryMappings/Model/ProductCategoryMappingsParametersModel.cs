@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Modules.ProductCategoryMappings.Model
+namespace Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Model
 {
     // JsonProperty is used only for swagger
     [ModelBinder(typeof(ParametersModelBinder<ProductCategoryMappingsParametersModel>))]

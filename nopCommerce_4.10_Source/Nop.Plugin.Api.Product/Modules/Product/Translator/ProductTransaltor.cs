@@ -14,7 +14,7 @@ using Nop.Services.Security;
 using Nop.Services.Seo;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Product.Translator
+namespace Nop.Plugin.Api.Product.Modules.Product.Translator
 {
     public class ProductTransaltor : IProductTransaltor
     {

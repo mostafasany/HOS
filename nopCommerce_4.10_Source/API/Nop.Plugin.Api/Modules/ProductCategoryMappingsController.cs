@@ -13,11 +13,11 @@ using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
-using Nop.Plugin.Api.Modules.Product.Service;
-using Nop.Plugin.Api.Modules.ProductCategoryMappings.Dto;
-using Nop.Plugin.Api.Modules.ProductCategoryMappings.Model;
-using Nop.Plugin.Api.Modules.ProductCategoryMappings.Service;
-using Nop.Plugin.Api.Modules.ProductCategoryMappings.Translator;
+using Nop.Plugin.Api.Product.Modules.Product.Service;
+using Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Dto;
+using Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Model;
+using Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Service;
+using Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Translator;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
@@ -27,7 +27,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.ProductCategoryMappings
+namespace Nop.Plugin.Api.Modules
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductCategoryMappingsController : BaseApiController

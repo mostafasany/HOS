@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.Validators;
 
-namespace Nop.Plugin.Api.Modules.ProductAttributes.Dto.Validator
+namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Dto.Validator
 {
     public class ProductAttributeDtoValidator : BaseDtoValidator<ProductAttributeDto>
     {

@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using Nop.Core.Domain.Stores;
 using Nop.Core.Infrastructure.Mapper;
 using Nop.Plugin.Api.Common.AutoMapper;
 using Nop.Plugin.Api.Common.MappingExtensions;
 using Nop.Plugin.Api.Content.Modules.Language.Dto;
-using Nop.Plugin.Api.Modules.Store.Dto;
+using Nop.Plugin.Api.Content.Modules.Store.Dto;
 
 namespace Nop.Plugin.Api.Content.Modules
 {
@@ -12,7 +11,7 @@ namespace Nop.Plugin.Api.Content.Modules
     {
         public ApiMapperConfiguration()
         {
-            CreateMap<Store, StoreDto>();
+            CreateMap<Core.Domain.Stores.Store, StoreDto>();
 
             CreateMap<Core.Domain.Localization.Language, LanguageDto>();
         }

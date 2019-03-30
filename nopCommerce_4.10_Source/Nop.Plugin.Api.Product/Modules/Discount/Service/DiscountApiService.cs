@@ -3,7 +3,7 @@ using System.Linq;
 using Nop.Core.Data;
 using Nop.Plugin.Api.Common.DataStructures;
 
-namespace Nop.Plugin.Api.Modules.Discount.Service
+namespace Nop.Plugin.Api.Product.Modules.Discount.Service
 {
     public class DiscountApiService : IDiscountApiService
     {

@@ -3,13 +3,14 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
+using Nop.Core.Domain.Stores;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
-using Nop.Plugin.Api.Modules.Store.Dto;
-using Nop.Plugin.Api.Modules.Store.Translator;
+using Nop.Plugin.Api.Content.Modules.Store.Dto;
+using Nop.Plugin.Api.Content.Modules.Store.Translator;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -18,7 +19,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Store
+namespace Nop.Plugin.Api.Modules
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class StoreController : BaseApiController
@@ -65,11 +66,11 @@ namespace Nop.Plugin.Api.Modules.Store
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetAllStores(string fields = "")
         {
-            IList<Core.Domain.Stores.Store> allStores = StoreService.GetAllStores();
+            IList<Store> allStores = StoreService.GetAllStores();
 
             IList<StoreDto> storesAsDto = new List<StoreDto>();
 
-            foreach (Core.Domain.Stores.Store store in allStores)
+            foreach (Store store in allStores)
             {
                 StoreDto storeDto = _dtoHelper.PrepareStoreDTO(store);
 
@@ -102,7 +103,7 @@ namespace Nop.Plugin.Api.Modules.Store
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetCurrentStore(string fields = "")
         {
-            Core.Domain.Stores.Store store = _storeContext.CurrentStore;
+            Store store = _storeContext.CurrentStore;
 
             if (store == null) return Error(HttpStatusCode.NotFound, "store", "store not found");
 

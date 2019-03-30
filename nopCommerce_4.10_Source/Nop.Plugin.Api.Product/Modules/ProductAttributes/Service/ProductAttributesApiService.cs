@@ -5,7 +5,7 @@ using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 
-namespace Nop.Plugin.Api.Modules.ProductAttributes.Service
+namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Service
 {
     public class ProductAttributesApiService : IProductAttributesApiService
     {

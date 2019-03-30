@@ -11,7 +11,7 @@ using Nop.Plugin.Api.Common.DTOs.Product;
 using Nop.Services.Seo;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Product.Service
+namespace Nop.Plugin.Api.Product.Modules.Product.Service
 {
     public class ProductApiService : IProductApiService
     {

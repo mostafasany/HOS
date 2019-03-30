@@ -1,7 +1,7 @@
 ﻿using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.Modules.ProductAttributes.Dto;
+using Nop.Plugin.Api.Product.Modules.ProductAttributes.Dto;
 
-namespace Nop.Plugin.Api.Modules.ProductAttributes.Translator
+namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Translator
 {
     public interface IProductAttributesTransaltor
     {

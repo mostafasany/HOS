@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nop.Plugin.Api.Modules.ProductCategoryMappings.Model
+namespace Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Model
 {
     // JsonProperty is used only for swagger
     public class BaseCategoryMappingsParametersModel

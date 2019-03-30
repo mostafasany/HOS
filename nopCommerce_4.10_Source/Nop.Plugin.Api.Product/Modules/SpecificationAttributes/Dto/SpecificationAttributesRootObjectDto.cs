@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Product;
 
-namespace Nop.Plugin.Api.Modules.SpecificationAttributes.Dto
+namespace Nop.Plugin.Api.Product.Modules.SpecificationAttributes.Dto
 {
     public class SpecificationAttributesRootObjectDto : ISerializableObject
     {

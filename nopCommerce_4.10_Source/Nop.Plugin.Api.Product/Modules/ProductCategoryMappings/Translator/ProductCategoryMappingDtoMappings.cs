@@ -1,8 +1,8 @@
 ﻿using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Common.AutoMapper;
-using Nop.Plugin.Api.Modules.ProductCategoryMappings.Dto;
+using Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Dto;
 
-namespace Nop.Plugin.Api.Modules.ProductCategoryMappings.Translator
+namespace Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Translator
 {
     public static class ProductCategoryMappingDtoMappings
     {

@@ -17,7 +17,7 @@ using Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems;
 using Nop.Plugin.Api.Customer.Modules.Order.Model;
 using Nop.Plugin.Api.Customer.Modules.Order.Service;
 using Nop.Plugin.Api.Customer.Modules.Order.Translator;
-using Nop.Plugin.Api.Modules.Product.Service;
+using Nop.Plugin.Api.Product.Modules.Product.Service;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;

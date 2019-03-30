@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Nop.Plugin.Api.Modules.Discount.Service
+namespace Nop.Plugin.Api.Product.Modules.Discount.Service
 {
     public interface IDiscountApiService
     {

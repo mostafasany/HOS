@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.Modules.Discount.Dto
+namespace Nop.Plugin.Api.Product.Modules.Discount.Dto
 {
     public class DiscountsRootObject : ISerializableObject
     {

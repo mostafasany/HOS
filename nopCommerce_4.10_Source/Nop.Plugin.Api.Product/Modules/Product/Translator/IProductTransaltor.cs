@@ -1,6 +1,6 @@
 ﻿using Nop.Plugin.Api.Common.DTOs.Product;
 
-namespace Nop.Plugin.Api.Modules.Product.Translator
+namespace Nop.Plugin.Api.Product.Modules.Product.Translator
 {
     public interface IProductTransaltor
     {

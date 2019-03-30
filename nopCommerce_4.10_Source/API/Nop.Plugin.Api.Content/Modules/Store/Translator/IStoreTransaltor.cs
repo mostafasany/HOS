@@ -1,6 +1,6 @@
-﻿using Nop.Plugin.Api.Modules.Store.Dto;
+﻿using Nop.Plugin.Api.Content.Modules.Store.Dto;
 
-namespace Nop.Plugin.Api.Modules.Store.Translator
+namespace Nop.Plugin.Api.Content.Modules.Store.Translator
 {
     public interface IStoreTransaltor
     {

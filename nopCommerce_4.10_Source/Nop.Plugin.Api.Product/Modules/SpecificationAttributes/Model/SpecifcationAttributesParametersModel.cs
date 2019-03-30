@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Modules.SpecificationAttributes.Model
+namespace Nop.Plugin.Api.Product.Modules.SpecificationAttributes.Model
 {
     [ModelBinder(typeof(ParametersModelBinder<SpecifcationAttributesParametersModel>))]
     public class SpecifcationAttributesParametersModel

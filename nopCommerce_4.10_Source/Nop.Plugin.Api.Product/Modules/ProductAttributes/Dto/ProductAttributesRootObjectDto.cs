@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.Modules.ProductAttributes.Dto
+namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Dto
 {
     public class ProductAttributesRootObjectDto : ISerializableObject
     {

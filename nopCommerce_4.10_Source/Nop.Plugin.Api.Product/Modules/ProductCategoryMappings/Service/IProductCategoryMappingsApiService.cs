@@ -2,7 +2,7 @@
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Common.Constants;
 
-namespace Nop.Plugin.Api.Modules.ProductCategoryMappings.Service
+namespace Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Service
 {
     public interface IProductCategoryMappingsApiService
     {

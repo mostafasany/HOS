@@ -6,8 +6,8 @@ using Nop.Core.Infrastructure.Mapper;
 using Nop.Plugin.Api.Common.AutoMapper;
 using Nop.Plugin.Api.Common.DTOs.Product;
 using Nop.Plugin.Api.Common.MappingExtensions;
-using Nop.Plugin.Api.Modules.ProductAttributes.Dto;
-using Nop.Plugin.Api.Modules.ProductCategoryMappings.Dto;
+using Nop.Plugin.Api.Product.Modules.ProductAttributes.Dto;
+using Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Dto;
 
 namespace Nop.Plugin.Api.Product.Modules
 {

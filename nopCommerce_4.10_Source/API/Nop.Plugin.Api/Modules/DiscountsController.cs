@@ -3,15 +3,16 @@ using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Nop.Core.Domain.Discounts;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
-using Nop.Plugin.Api.Modules.Discount.Dto;
-using Nop.Plugin.Api.Modules.Discount.Model;
-using Nop.Plugin.Api.Modules.Discount.Service;
-using Nop.Plugin.Api.Modules.Discount.Translator;
+using Nop.Plugin.Api.Product.Modules.Discount.Dto;
+using Nop.Plugin.Api.Product.Modules.Discount.Model;
+using Nop.Plugin.Api.Product.Modules.Discount.Service;
+using Nop.Plugin.Api.Product.Modules.Discount.Translator;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -20,7 +21,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.Discount
+namespace Nop.Plugin.Api.Modules
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class DiscountsController : BaseApiController
@@ -60,7 +61,7 @@ namespace Nop.Plugin.Api.Modules.Discount
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetDiscounts(DiscountsParametersModel parameters)
         {
-            IEnumerable<Core.Domain.Discounts.Discount> allDiscounts = _discountApiService.GetDiscounts(parameters.Ids);
+            IEnumerable<Discount> allDiscounts = _discountApiService.GetDiscounts(parameters.Ids);
 
             IList<DiscountDto> discountsAsDtos = allDiscounts.Select(discount =>
                 _dtoHelper.PrepateDiscountDto(discount)).ToList();

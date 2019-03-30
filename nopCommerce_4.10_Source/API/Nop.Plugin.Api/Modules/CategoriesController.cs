@@ -298,8 +298,8 @@ namespace Nop.Plugin.Api.Modules
             if (passedDiscountIds == null)
                 return;
 
-            IList<Core.Domain.Discounts.Discount> allDiscounts = DiscountService.GetAllDiscounts(DiscountType.AssignedToCategories, showHidden: true);
-            foreach (Core.Domain.Discounts.Discount discount in allDiscounts)
+            IList<Discount> allDiscounts = DiscountService.GetAllDiscounts(DiscountType.AssignedToCategories, showHidden: true);
+            foreach (Discount discount in allDiscounts)
                 if (passedDiscountIds.Contains(discount.Id))
                 {
                     //new discount

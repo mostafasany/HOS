@@ -1,6 +1,6 @@
-﻿using Nop.Plugin.Api.Modules.Discount.Dto;
+﻿using Nop.Plugin.Api.Product.Modules.Discount.Dto;
 
-namespace Nop.Plugin.Api.Modules.Discount.Translator
+namespace Nop.Plugin.Api.Product.Modules.Discount.Translator
 {
     public interface IDiscountTransaltor
     {

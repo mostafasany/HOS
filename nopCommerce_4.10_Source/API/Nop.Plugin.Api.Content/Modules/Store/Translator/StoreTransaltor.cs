@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Directory;
-using Nop.Plugin.Api.Modules.Store.Dto;
+using Nop.Plugin.Api.Content.Modules.Store.Dto;
 using Nop.Services.Directory;
 using Nop.Services.Localization;
 
-namespace Nop.Plugin.Api.Modules.Store.Translator
+namespace Nop.Plugin.Api.Content.Modules.Store.Translator
 {
     public class StoreTransaltor : IStoreTransaltor
     {

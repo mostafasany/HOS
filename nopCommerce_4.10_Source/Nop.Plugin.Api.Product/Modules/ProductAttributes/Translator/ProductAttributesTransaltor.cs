@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Catalog;
-using Nop.Plugin.Api.Modules.ProductAttributes.Dto;
+using Nop.Plugin.Api.Product.Modules.ProductAttributes.Dto;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Seo;
 
-namespace Nop.Plugin.Api.Modules.ProductAttributes.Translator
+namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Translator
 {
     public class ProductAttributesTransaltor : IProductAttributesTransaltor
     {

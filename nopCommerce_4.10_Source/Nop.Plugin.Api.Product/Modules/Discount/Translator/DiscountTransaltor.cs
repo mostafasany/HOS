@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using Nop.Plugin.Api.Modules.Discount.Dto;
+using Nop.Plugin.Api.Product.Modules.Discount.Dto;
 using Nop.Services.Localization;
 using Nop.Services.Media;
 using Nop.Services.Seo;
 
-namespace Nop.Plugin.Api.Modules.Discount.Translator
+namespace Nop.Plugin.Api.Product.Modules.Discount.Translator
 {
     public class DiscountTransaltor : IDiscountTransaltor
     {

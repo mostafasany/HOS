@@ -12,10 +12,10 @@ using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
-using Nop.Plugin.Api.Modules.ProductAttributes.Dto;
-using Nop.Plugin.Api.Modules.ProductAttributes.Model;
-using Nop.Plugin.Api.Modules.ProductAttributes.Service;
-using Nop.Plugin.Api.Modules.ProductAttributes.Translator;
+using Nop.Plugin.Api.Product.Modules.ProductAttributes.Dto;
+using Nop.Plugin.Api.Product.Modules.ProductAttributes.Model;
+using Nop.Plugin.Api.Product.Modules.ProductAttributes.Service;
+using Nop.Plugin.Api.Product.Modules.ProductAttributes.Translator;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
@@ -25,7 +25,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules.ProductAttributes
+namespace Nop.Plugin.Api.Modules
 {
     [ApiAuthorize(Policy = JwtBearerDefaults.AuthenticationScheme, AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductAttributesController : BaseApiController

@@ -4,17 +4,17 @@ using Nop.Core.Infrastructure;
 using Nop.Core.Infrastructure.DependencyManagement;
 using Nop.Plugin.Api.Common.Converters;
 using Nop.Plugin.Api.Common.Factories;
-using Nop.Plugin.Api.Modules.Discount.Service;
-using Nop.Plugin.Api.Modules.Discount.Translator;
-using Nop.Plugin.Api.Modules.Product.Factory;
-using Nop.Plugin.Api.Modules.Product.Service;
-using Nop.Plugin.Api.Modules.Product.Translator;
-using Nop.Plugin.Api.Modules.ProductAttributes.Service;
-using Nop.Plugin.Api.Modules.ProductAttributes.Translator;
-using Nop.Plugin.Api.Modules.ProductCategoryMappings.Service;
-using Nop.Plugin.Api.Modules.ProductSpecificationAttributes.Translator;
-using Nop.Plugin.Api.Modules.SpecificationAttributes.Service;
-using Nop.Plugin.Api.Modules.SpecificationAttributes.Translator;
+using Nop.Plugin.Api.Product.Modules.Discount.Service;
+using Nop.Plugin.Api.Product.Modules.Discount.Translator;
+using Nop.Plugin.Api.Product.Modules.Product.Factory;
+using Nop.Plugin.Api.Product.Modules.Product.Service;
+using Nop.Plugin.Api.Product.Modules.Product.Translator;
+using Nop.Plugin.Api.Product.Modules.ProductAttributes.Service;
+using Nop.Plugin.Api.Product.Modules.ProductAttributes.Translator;
+using Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Service;
+using Nop.Plugin.Api.Product.Modules.ProductSpecificationAttributes.Translator;
+using Nop.Plugin.Api.Product.Modules.SpecificationAttributes.Service;
+using Nop.Plugin.Api.Product.Modules.SpecificationAttributes.Translator;
 
 namespace Nop.Plugin.Api.Product.Modules
 {
