@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
@@ -303,6 +304,13 @@ namespace Nop.Plugin.Api.Modules
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetCustomerById(int id, string fields = "")
         {
+            var caller = User as ClaimsPrincipal;
+            var t = caller.Claims;
+            if (HttpContext.User.Identity is ClaimsIdentity identity)
+            {
+                IEnumerable<Claim> claims = identity.Claims;
+            }
+
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
             CustomerDto customer = _customerApiService.GetCustomerById(id);
@@ -371,77 +379,6 @@ namespace Nop.Plugin.Api.Modules
         }
 
 
-        /// <summary>
-        ///     Get a count of all customers
-        /// </summary>
-        /// <response code="200">OK</response>
-        /// <response code="401">Unauthorized</response>
-        [HttpPost]
-        [Route("/api/customers/login")]
-        [ProducesResponseType(typeof(CustomersCountRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        public IActionResult Login([ModelBinder(typeof(JsonModelBinder<LoginDto>))]
-            Delta<LoginDto> loginDelta)
-        {
-            CustomerLoginResults loginResult = _customerRegistrationService.ValidateCustomer(loginDelta.Dto.UserNameOrEmail, loginDelta.Dto.Password);
-            switch (loginResult)
-            {
-                case CustomerLoginResults.Successful:
-                {
-                    Core.Domain.Customers.Customer customer = _customerSettings.UsernamesEnabled
-                        ? _customerService.GetCustomerByUsername(loginDelta.Dto.UserNameOrEmail)
-                        : _customerService.GetCustomerByEmail(loginDelta.Dto.UserNameOrEmail);
-
-                    CustomerDto customerDto = _customerApiService.GetCustomerById(customer.Id);
-
-                    //migrate shopping cart
-                    _shoppingCartService.MigrateShoppingCart(_workContext.CurrentCustomer, customer, true);
-
-                    //sign in new customer
-                    _authenticationService.SignIn(customer, true);
-
-                    //raise event       
-                    _eventPublisher.Publish(new CustomerLoggedinEvent(customer));
-
-                    //activity log
-                    _customerActivityService.InsertActivity(customer, "PublicStore.Login",
-                        _localizationService.GetResource("ActivityLog.PublicStore.Login"), customer);
-
-                    var customersRootObject = new CustomersRootObject();
-                    customersRootObject.Customers.Add(customerDto);
-
-                    string json = JsonFieldsSerializer.Serialize(customersRootObject, "");
-
-                    return new RawJsonActionResult(json);
-                    //if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
-                    //    return RedirectToRoute("HomePage");
-                    // return Ok(customer);
-                    //return Redirect(returnUrl);
-                }
-                case CustomerLoginResults.CustomerNotExist:
-                    ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials.CustomerNotExist"));
-                    break;
-                case CustomerLoginResults.Deleted:
-                    ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials.Deleted"));
-                    break;
-                case CustomerLoginResults.NotActive:
-                    ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials.NotActive"));
-                    break;
-                case CustomerLoginResults.NotRegistered:
-                    ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials.NotRegistered"));
-                    break;
-                case CustomerLoginResults.LockedOut:
-                    ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials.LockedOut"));
-                    break;
-                case CustomerLoginResults.WrongPassword:
-                default:
-                    ModelState.AddModelError("", _localizationService.GetResource("Account.Login.WrongCredentials"));
-                    break;
-            }
-
-            return null;
-        }
 
         /// <summary>
         ///     Get a count of all customers

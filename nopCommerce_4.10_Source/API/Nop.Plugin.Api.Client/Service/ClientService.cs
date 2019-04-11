@@ -66,6 +66,21 @@ namespace Nop.Plugin.Api.Admin.Service
                 {
                     Client = client,
                     GrantType = OidcConstants.GrantTypes.JwtBearer
+                },
+                new ClientGrantType
+                {
+                    Client = client,
+                    GrantType = OidcConstants.GrantTypes.Password
+                },
+                new ClientGrantType
+                {
+                    Client = client,
+                    GrantType = OidcConstants.GrantTypes.Implicit
+                },
+                new ClientGrantType
+                {
+                    Client = client,
+                    GrantType = OidcConstants.GrantTypes.ClientCredentials
                 }
             };
 

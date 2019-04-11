@@ -6,10 +6,15 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using IdentityServer4;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.Hosting;
 using IdentityServer4.Models;
+using IdentityServer4.Services;
+using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -19,7 +24,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Nop.Core;
 using Nop.Core.Data;
+using Nop.Core.Domain.Customers;
 using Nop.Core.Infrastructure;
 using Nop.Plugin.Api.Common.Authorization.Policies;
 using Nop.Plugin.Api.Common.Authorization.Requirements;
@@ -29,6 +36,14 @@ using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.IdentityServer.Endpoints;
 using Nop.Plugin.Api.Common.IdentityServer.Generators;
 using Nop.Plugin.Api.Common.IdentityServer.Middlewares;
+using Nop.Plugin.Api.Customer.Modules.Customer.Dto;
+using Nop.Plugin.Api.Customer.Modules.Customer.Service;
+using Nop.Services.Authentication;
+using Nop.Services.Customers;
+using Nop.Services.Events;
+using Nop.Services.Localization;
+using Nop.Services.Logging;
+using Nop.Services.Orders;
 using Nop.Web.Framework.Infrastructure;
 using Nop.Web.Framework.Infrastructure.Extensions;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
@@ -54,6 +69,7 @@ namespace Nop.Plugin.Api
             {
                 optionsBuilder.UseSqlServerWithLazyLoading(services);
             });
+
 
             AddRequiredConfiguration();
 
@@ -152,7 +168,7 @@ namespace Nop.Plugin.Api
             AppDomain.CurrentDomain.AssemblyResolve += handler;
         }
 
-        private void AddAuthorizationPipeline(IServiceCollection services)
+        private void  AddAuthorizationPipeline(IServiceCollection services)
         {
             services.AddAuthorization(options =>
             {
@@ -207,7 +223,7 @@ namespace Nop.Plugin.Api
 
             string migrationsAssembly = typeof(ApiStartup).GetTypeInfo().Assembly.GetName().Name;
 
-            services.AddIdentityServer()
+            IIdentityServerBuilder identityServerConfig = services.AddIdentityServer()
                 .AddSigningCredential(signingKey)
                 .AddConfigurationStore(options =>
                 {
@@ -225,6 +241,15 @@ namespace Nop.Plugin.Api
                 .AddEndpoint<AuthorizeCallbackEndpoint>("Authorize", "/oauth/authorize/callback")
                 .AddEndpoint<AuthorizeEndpoint>("Authorize", "/oauth/authorize")
                 .AddEndpoint<TokenEndpoint>("Token", "/oauth/token");
+
+            identityServerConfig.Services.AddTransient<IResourceOwnerPasswordValidator, PasswordValidator>();
+           // identityServerConfig.Services.AddTransient<IProfileService,Common.IdentityServer.Services.ProfileService>();
+            //identityServerConfig.Services.AddAuthentication().AddFacebook("Facebook", options =>
+            //{
+            //    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+            //    options.AppId = "349528745853190";
+            //    options.AppSecret = "2883a27c2bb44630641e7c4bb1117147";
+            //});
         }
 
         private void ApplyIdentityServerMigrations(IApplicationBuilder app)
@@ -318,6 +343,89 @@ namespace Nop.Plugin.Api
             app.ConfigureCors();
             //app.UseAuthentication();
             app.UseMiddleware<IdentityServerMiddleware>();
+        }
+    }
+
+    public class PasswordValidator : IResourceOwnerPasswordValidator
+    {
+        private readonly IAuthenticationService _authenticationService;
+        private readonly ICustomerActivityService _customerActivityService;
+        private readonly ICustomerApiService _customerApiService;
+        private readonly ICustomerRegistrationService _customerRegistrationService;
+        private readonly ICustomerService _customerService;
+        private readonly CustomerSettings _customerSettings;
+        private readonly IEventPublisher _eventPublisher;
+        private readonly ILocalizationService _localizationService;
+        private readonly IShoppingCartService _shoppingCartService;
+        private readonly IWorkContext _workContext;
+
+        public PasswordValidator(ICustomerApiService customerApiService,
+            ICustomerService customerService,
+            CustomerSettings customerSettings,
+            ICustomerActivityService customerActivityService,
+            ILocalizationService localizationService,
+            ICustomerRegistrationService customerRegistrationService,
+            IShoppingCartService shoppingCartService,
+            IAuthenticationService authenticationService,
+            IWorkContext workContext,
+            IEventPublisher eventPublisher)
+        {
+            _customerApiService = customerApiService;
+            _customerActivityService = customerActivityService;
+            _customerRegistrationService = customerRegistrationService;
+            _shoppingCartService = shoppingCartService;
+            _authenticationService = authenticationService;
+            _workContext = workContext;
+            _customerService = customerService;
+            _localizationService = localizationService;
+            _eventPublisher = eventPublisher;
+            _customerSettings = customerSettings;
+        }
+
+        public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
+        {
+            string userName = context.UserName;
+            string password = context.Password;
+
+            CustomerLoginResults loginResult = _customerRegistrationService.ValidateCustomer(userName, password);
+            switch (loginResult)
+            {
+                case CustomerLoginResults.Successful:
+                {
+                    Core.Domain.Customers.Customer customer = _customerSettings.UsernamesEnabled
+                        ? _customerService.GetCustomerByUsername(userName)
+                        : _customerService.GetCustomerByEmail(userName);
+
+                    CustomerDto customerDto = _customerApiService.GetCustomerById(customer.Id);
+
+                    //migrate shopping cart
+                    _shoppingCartService.MigrateShoppingCart(_workContext.CurrentCustomer, customer, true);
+
+                    //sign in new customer
+                    _authenticationService.SignIn(customer, true);
+
+                    //raise event       
+                    _eventPublisher.Publish(new CustomerLoggedinEvent(customer));
+
+                    //activity log
+                    _customerActivityService.InsertActivity(customer, "PublicStore.Login",
+                        _localizationService.GetResource("ActivityLog.PublicStore.Login"), customer);
+
+                    var customersRootObject = new CustomersRootObject();
+                    customersRootObject.Customers.Add(customerDto);
+
+                    context.Result = new GrantValidationResult(
+                        customerDto.Id.ToString(),
+                        "",
+                        new[]
+                        {
+                            new Claim(ClaimTypes.Name, userName),
+                            new Claim(ClaimTypes.GivenName, customerDto.FirstName),
+                            new Claim("id", customerDto.Id.ToString())
+                        });
+                }
+                    break;
+            }
         }
     }
 }
