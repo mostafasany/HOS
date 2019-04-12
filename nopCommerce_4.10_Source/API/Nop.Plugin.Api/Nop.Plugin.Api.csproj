@@ -19,10 +19,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Common\IdentityServer\**" />
     <Compile Remove="Modules\Category\**" />
     <Compile Remove="Modules\Picture\**" />
+    <EmbeddedResource Remove="Common\IdentityServer\**" />
     <EmbeddedResource Remove="Modules\Category\**" />
     <EmbeddedResource Remove="Modules\Picture\**" />
+    <None Remove="Common\IdentityServer\**" />
     <None Remove="Modules\Category\**" />
     <None Remove="Modules\Picture\**" />
   </ItemGroup>

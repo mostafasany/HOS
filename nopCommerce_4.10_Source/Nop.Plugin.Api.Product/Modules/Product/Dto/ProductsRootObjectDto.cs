@@ -20,6 +20,9 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Dto
         [JsonProperty("filters")]
         public List<ProductsFiltersDto> Filters { get; set; }
 
+        [JsonProperty("category")]
+        public string Category { get; set; }
+
         public string GetPrimaryPropertyName() => "products";
 
         public Type GetPrimaryPropertyType() => typeof(ProductDto);

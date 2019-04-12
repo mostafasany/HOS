@@ -8,7 +8,7 @@ using System.Net;
 using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using IdentityServer4;
+using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.Hosting;
@@ -33,9 +33,6 @@ using Nop.Plugin.Api.Common.Authorization.Requirements;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Data;
 using Nop.Plugin.Api.Common.Helpers;
-using Nop.Plugin.Api.Common.IdentityServer.Endpoints;
-using Nop.Plugin.Api.Common.IdentityServer.Generators;
-using Nop.Plugin.Api.Common.IdentityServer.Middlewares;
 using Nop.Plugin.Api.Customer.Modules.Customer.Dto;
 using Nop.Plugin.Api.Customer.Modules.Customer.Service;
 using Nop.Services.Authentication;
@@ -48,6 +45,9 @@ using Nop.Web.Framework.Infrastructure;
 using Nop.Web.Framework.Infrastructure.Extensions;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
 using Client = IdentityServer4.EntityFramework.Entities.Client;
+//using Nop.Plugin.Api.Common.IdentityServer.Endpoints;
+//using Nop.Plugin.Api.Common.IdentityServer.Generators;
+//using Nop.Plugin.Api.Common.IdentityServer.Middlewares;
 
 namespace Nop.Plugin.Api
 {
@@ -120,7 +120,7 @@ namespace Nop.Plugin.Api
 
             app.UseRewriter(rewriteOptions);
 
-            app.UseMiddleware<IdentityServerScopeParameterMiddleware>();
+            //app.UseMiddleware<IdentityServerScopeParameterMiddleware>();
 
             ////uncomment only if the client is an angular application that directly calls the oauth endpoint
             // app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
@@ -168,7 +168,7 @@ namespace Nop.Plugin.Api
             AppDomain.CurrentDomain.AssemblyResolve += handler;
         }
 
-        private void  AddAuthorizationPipeline(IServiceCollection services)
+        private void AddAuthorizationPipeline(IServiceCollection services)
         {
             services.AddAuthorization(options =>
             {
@@ -236,14 +236,14 @@ namespace Nop.Plugin.Api
                     options.ConfigureDbContext = builder =>
                         builder.UseSqlServer(connectionStringFromNop,
                             sql => sql.MigrationsAssembly(migrationsAssembly));
-                })
-                .AddAuthorizeInteractionResponseGenerator<NopApiAuthorizeInteractionResponseGenerator>()
-                .AddEndpoint<AuthorizeCallbackEndpoint>("Authorize", "/oauth/authorize/callback")
-                .AddEndpoint<AuthorizeEndpoint>("Authorize", "/oauth/authorize")
-                .AddEndpoint<TokenEndpoint>("Token", "/oauth/token");
+                });
+            //.AddAuthorizeInteractionResponseGenerator<NopApiAuthorizeInteractionResponseGenerator>()
+            //.AddEndpoint<AuthorizeCallbackEndpoint>("Authorize", "/oauth/authorize/callback")
+            //.AddEndpoint<AuthorizeEndpoint>("Authorize", "/oauth/authorize")
+            //.AddEndpoint<TokenEndpoint>("Token", "/oauth/token");
 
             identityServerConfig.Services.AddTransient<IResourceOwnerPasswordValidator, PasswordValidator>();
-           // identityServerConfig.Services.AddTransient<IProfileService,Common.IdentityServer.Services.ProfileService>();
+            identityServerConfig.Services.AddTransient<IProfileService, ProfileService>();
             //identityServerConfig.Services.AddAuthentication().AddFacebook("Facebook", options =>
             //{
             //    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
@@ -346,6 +346,25 @@ namespace Nop.Plugin.Api
         }
     }
 
+    public class ProfileService : IProfileService
+    {
+        public Task GetProfileDataAsync(ProfileDataRequestContext context)
+        {
+            var claims = new List<Claim>();
+            string id = context.Subject.Claims.FirstOrDefault(a => a.Type == "id")?.Value;
+            if (!string.IsNullOrEmpty(id))
+                claims.Add(new Claim("id", id));
+            context.IssuedClaims = claims;
+            return Task.FromResult(0);
+        }
+
+        public Task IsActiveAsync(IsActiveContext context)
+        {
+            context.IsActive = true;
+            return Task.FromResult(0);
+        }
+    }
+
     public class PasswordValidator : IResourceOwnerPasswordValidator
     {
         private readonly IAuthenticationService _authenticationService;
@@ -413,19 +432,22 @@ namespace Nop.Plugin.Api
 
                     var customersRootObject = new CustomersRootObject();
                     customersRootObject.Customers.Add(customerDto);
-
                     context.Result = new GrantValidationResult(
-                        customerDto.Id.ToString(),
-                        "",
-                        new[]
-                        {
-                            new Claim(ClaimTypes.Name, userName),
-                            new Claim(ClaimTypes.GivenName, customerDto.FirstName),
-                            new Claim("id", customerDto.Id.ToString())
-                        });
+                        userName,
+                        "Authenticated",
+                        DateTime.Now,
+                        CreateClaim(customerDto));
                 }
                     break;
             }
+
+            await Task.FromResult(context.Result);
         }
+
+        private IEnumerable<Claim> CreateClaim(CustomerDto userInfo) => new List<Claim>
+        {
+            new Claim(JwtClaimTypes.Email, userInfo.Email),
+            new Claim(JwtClaimTypes.Id, userInfo.Id.ToString())
+        };
     }
 }

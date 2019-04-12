@@ -12,6 +12,9 @@ namespace Nop.Plugin.Api.Article.Dto
         [JsonProperty("articles")]
         public IList<ArticlesDto> Articles { get; set; }
 
+        [JsonProperty("category")]
+        public string Category { get; set; }
+
         public string GetPrimaryPropertyName() => "articles";
 
         public Type GetPrimaryPropertyType() => typeof(ArticlesDto);

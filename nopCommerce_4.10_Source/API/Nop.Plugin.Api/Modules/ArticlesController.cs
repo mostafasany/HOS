@@ -8,6 +8,9 @@ using Nop.Plugin.Api.Article.Dto;
 using Nop.Plugin.Api.Article.Model;
 using Nop.Plugin.Api.Article.Service;
 using Nop.Plugin.Api.Article.Translator;
+using Nop.Plugin.Api.Category.Dto;
+using Nop.Plugin.Api.Category.Service;
+using Nop.Plugin.Api.Category.Translator;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
@@ -28,6 +31,8 @@ namespace Nop.Plugin.Api.Modules
     public class ArticlesController : BaseApiController
     {
         private readonly IArticleApiService _articleApiService;
+        private readonly ICategoryApiService _categoryApiService;
+        private readonly ICategoryTransaltor _categoryTransaltor;
         private readonly IArticleTransaltor _dtoHelper;
 
         public ArticlesController(IArticleApiService articleApiService,
@@ -39,11 +44,15 @@ namespace Nop.Plugin.Api.Modules
             IStoreService storeService,
             IDiscountService discountService,
             IAclService aclService,
+            ICategoryTransaltor categoryTransaltor,
+            ICategoryApiService categoryApiService,
             ICustomerService customerService,
             IArticleTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService)
         {
+            _categoryTransaltor = categoryTransaltor;
+            _categoryApiService = categoryApiService;
             _articleApiService = articleApiService;
             _dtoHelper = dtoHelper;
         }
@@ -103,12 +112,21 @@ namespace Nop.Plugin.Api.Modules
                 parameters.UpdatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId, parameters.CategoryId, parameters.GroupId, parameters.Keyword, parameters.Tag,
                 parameters.PublishedStatus);
 
+            var catgeoryName = "";
+            if (parameters.CategoryId.HasValue)
+            {
+                Core.Domain.Catalog.Category category = _categoryApiService.GetCategoryById(parameters.CategoryId.Value);
+                CategoryDto dto = _categoryTransaltor.PrepareCategoryDTO(category);
+                catgeoryName = dto.Name;
+            }
+
             IList<ArticlesDto> articlesAsDtos = allArticles.Select(article =>
                 _dtoHelper.PrepateArticleDto(article)).ToList();
 
             var artcilesRootObject = new ArticlesRootObject
             {
-                Articles = articlesAsDtos
+                Articles = articlesAsDtos,
+                Category = catgeoryName
             };
 
             string json = JsonFieldsSerializer.Serialize(artcilesRootObject, parameters.Fields);

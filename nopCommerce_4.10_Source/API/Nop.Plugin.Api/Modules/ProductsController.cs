@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Discounts;
 using Nop.Core.Domain.Media;
+using Nop.Plugin.Api.Category.Dto;
+using Nop.Plugin.Api.Category.Service;
+using Nop.Plugin.Api.Category.Translator;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
@@ -45,6 +48,8 @@ namespace Nop.Plugin.Api.Modules
         private readonly IProductService _productService;
         private readonly IProductTagService _productTagService;
         private readonly IUrlRecordService _urlRecordService;
+        private readonly ICategoryApiService _categoryApiService;
+        private readonly ICategoryTransaltor _categoryTransaltor;
 
         public ProductsController(IProductApiService productApiService,
             IJsonFieldsSerializer jsonFieldsSerializer,
@@ -57,6 +62,8 @@ namespace Nop.Plugin.Api.Modules
             IStoreMappingService storeMappingService,
             IStoreService storeService,
             ICustomerService customerService,
+            ICategoryTransaltor categoryTransaltor,
+            ICategoryApiService categoryApiService,
             IDiscountService discountService,
             IPictureService pictureService,
             IManufacturerService manufacturerService,
@@ -72,6 +79,8 @@ namespace Nop.Plugin.Api.Modules
             _productService = productService;
             _productAttributeService = productAttributeService;
             _dtoHelper = dtoHelper;
+            _categoryApiService = categoryApiService;
+            _categoryTransaltor = categoryTransaltor;
         }
 
         [HttpPost]
@@ -209,10 +218,20 @@ namespace Nop.Plugin.Api.Modules
 
             IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
 
+            var catgeoryName = "";
+            if (parameters.CategoryId.HasValue)
+            {
+                Core.Domain.Catalog.Category category = _categoryApiService.GetCategoryById(parameters.CategoryId.Value);
+                CategoryDto dto = _categoryTransaltor.PrepareCategoryDTO(category);
+                catgeoryName = dto.Name;
+            }
+
+
             var productsRootObject = new ProductsRootObjectDto
             {
                 Products = productsAsDtos,
-                Filters = tuple.Item2
+                Filters = tuple.Item2,
+                Category= catgeoryName
             };
 
             string json = JsonFieldsSerializer.Serialize(productsRootObject, parameters.Fields);

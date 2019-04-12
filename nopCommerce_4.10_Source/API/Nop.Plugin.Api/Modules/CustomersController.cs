@@ -63,7 +63,6 @@ namespace Nop.Plugin.Api.Modules
         private readonly ILocalizationService _localizationService;
         private readonly IMappingHelper _mappingHelper;
         private readonly INewsLetterSubscriptionService _newsLetterSubscriptionService;
-        private readonly IShoppingCartService _shoppingCartService;
         private readonly IWorkContext _workContext;
         private readonly IWorkflowMessageService _workflowMessageService;
 
@@ -106,7 +105,6 @@ namespace Nop.Plugin.Api.Modules
             _customerRolesHelper = customerRolesHelper;
             _customerActivityService = customerActivityService;
             _customerRegistrationService = customerRegistrationService;
-            _shoppingCartService = shoppingCartService;
             _authenticationService = authenticationService;
             _workContext = workContext;
             _customerService = customerService;
@@ -287,6 +285,7 @@ namespace Nop.Plugin.Api.Modules
             return BadRequest(_localizationService.GetResource("Account.PasswordRecovery.EmailNotFound"));
         }
 
+
         /// <summary>
         ///     Retrieve customer by spcified id
         /// </summary>
@@ -304,12 +303,12 @@ namespace Nop.Plugin.Api.Modules
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetCustomerById(int id, string fields = "")
         {
-            var caller = User as ClaimsPrincipal;
-            var t = caller.Claims;
-            if (HttpContext.User.Identity is ClaimsIdentity identity)
-            {
-                IEnumerable<Claim> claims = identity.Claims;
-            }
+            //var caller = User as ClaimsPrincipal;
+            //var t=caller.Claims;
+            //if (HttpContext.User.Identity is ClaimsIdentity identity)
+            //{
+            //    IEnumerable<Claim> claims = identity.Claims;
+            //}
 
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
@@ -378,6 +377,42 @@ namespace Nop.Plugin.Api.Modules
             return Ok(customersCountRootObject);
         }
 
+
+        /// <summary>
+        ///     Retrieve customer by spcified id
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="404">Not Found</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/profile")]
+        [ProducesResponseType(typeof(CustomersRootObject), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetProfileData()
+        {
+            var id = 0;
+            if (HttpContext.User.Identity is ClaimsIdentity identity)
+            {
+                IEnumerable<Claim> claims = identity.Claims;
+                int.TryParse(claims.FirstOrDefault(a => a.Type == "id")?.Value, out id);
+            }
+
+            if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
+
+            CustomerDto customer = _customerApiService.GetCustomerById(id);
+
+            if (customer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
+
+            var customersRootObject = new CustomersRootObject();
+            customersRootObject.Customers.Add(customer);
+
+            string json = JsonFieldsSerializer.Serialize(customersRootObject, "");
+
+            return new RawJsonActionResult(json);
+        }
 
 
         /// <summary>
