@@ -127,24 +127,26 @@ namespace Nop.Plugin.Api.Modules
         public IActionResult ChangePassword([ModelBinder(typeof(JsonModelBinder<ChangePasswordDto>))]
             Delta<ChangePasswordDto> changeDelta)
         {
-            //if (!_workContext.CurrentCustomer.IsRegistered())
-            //    return Challenge();
+            if (!_workContext.CurrentCustomer.IsRegistered())
+                return Challenge();
 
-            //var customer = _workContext.CurrentCustomer;
-            ChangePasswordResult result = null;
-            if (ModelState.IsValid)
-            {
-                var changePasswordRequest = new ChangePasswordRequest(changeDelta.Dto.Email,
-                    true, _customerSettings.DefaultPasswordFormat, changeDelta.Dto.NewPassword, changeDelta.Dto.OldPassword);
-                result = _customerRegistrationService.ChangePassword(changePasswordRequest);
-                if (result.Success) return Ok(_localizationService.GetResource("Account.ChangePassword.Success"));
+            if (!ModelState.IsValid) return BadRequest();
 
-                //errors
-                foreach (string error in result.Errors)
-                    ModelState.AddModelError("", error);
-            }
 
-            return BadRequest(result.Errors);
+            var changePasswordRequest = new ChangePasswordRequest(changeDelta.Dto.Email,
+                true, _customerSettings.DefaultPasswordFormat, changeDelta.Dto.NewPassword, changeDelta.Dto.OldPassword);
+            ChangePasswordResult result = _customerRegistrationService.ChangePassword(changePasswordRequest);
+            if (result.Success) return Ok(_localizationService.GetResource("Account.ChangePassword.Success"));
+
+            //errors
+            foreach (string error in result.Errors)
+                ModelState.AddModelError("", error);
+
+            if(result.Errors!=null)
+                return BadRequest(result.Errors);
+
+            return new RawJsonActionResult("Password Changed");
+
         }
 
         [HttpPost]
@@ -263,6 +265,8 @@ namespace Nop.Plugin.Api.Modules
         public IActionResult Forget([ModelBinder(typeof(JsonModelBinder<ForgetDto>))]
             Delta<ForgetDto> forgetDelta)
         {
+            if (!ModelState.IsValid) return BadRequest();
+
             Core.Domain.Customers.Customer customer = _customerService.GetCustomerByEmail(forgetDelta.Dto.Email);
             if (customer != null && customer.Active && !customer.Deleted)
             {
