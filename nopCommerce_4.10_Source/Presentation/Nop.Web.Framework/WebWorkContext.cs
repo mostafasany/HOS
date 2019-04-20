@@ -119,10 +119,21 @@ namespace Nop.Web.Framework
                 cookieExpiresDate = DateTime.Now.AddMonths(-1);
 
             //set new cookie value
+            //var options = new CookieOptions
+            //{
+            //    //HttpOnly = true,
+            //    // Expires = cookieExpiresDate,
+            //    SameSite = SameSiteMode.None,
+            //    Domain = "hosapp.azurewebsites.net"
+            //};
             var options = new CookieOptions
             {
-                HttpOnly = true,
-                Expires = cookieExpiresDate
+                HttpOnly = false,
+                Secure = false,
+                Expires = cookieExpiresDate,
+                SameSite = SameSiteMode.Lax,
+                //SameSite = SameSiteMode.None,
+                //Domain = "hosapp.azurewebsites.net"
             };
             _httpContextAccessor.HttpContext.Response.Cookies.Append(cookieName, customerGuid.ToString(), options);
         }

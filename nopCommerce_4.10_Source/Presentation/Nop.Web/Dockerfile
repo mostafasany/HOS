@@ -26,19 +26,24 @@
 #ENTRYPOINT ["dotnet", "Nop.Web.dll"]
 #
 
-FROM microsoft/dotnet:sdk AS build-env
-WORKDIR /app
+#FROM microsoft/dotnet:sdk AS build-env
+#WORKDIR /app
+#
+## Copy csproj and restore as distinct layers
+#COPY *.csproj ./
+#RUN dotnet restore
+#
+## Copy everything else and build
+#COPY . ./
+#RUN dotnet publish -c Release -o out
+#
+## Build runtime image
+#FROM microsoft/dotnet:aspnetcore-runtime
+#WORKDIR /app
+#COPY --from=build-env /app/out .
+#ENTRYPOINT ["dotnet", "aspnetapp.dll"]
 
-# Copy csproj and restore as distinct layers
-COPY *.csproj ./
-RUN dotnet restore
-
-# Copy everything else and build
-COPY . ./
-RUN dotnet publish -c Release -o out
-
-# Build runtime image
 FROM microsoft/dotnet:aspnetcore-runtime
-WORKDIR /app
-COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "aspnetapp.dll"]
+
+# The final instruction copies the site you published earlier into the container.
+COPY ./bin/Release/PublishOutput/ /inetpub/wwwroot

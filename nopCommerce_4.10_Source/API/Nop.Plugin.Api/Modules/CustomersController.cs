@@ -133,7 +133,7 @@ namespace Nop.Plugin.Api.Modules
             if (!ModelState.IsValid) return BadRequest();
 
 
-            var changePasswordRequest = new ChangePasswordRequest(changeDelta.Dto.Email,
+            var changePasswordRequest = new ChangePasswordRequest(_workContext.CurrentCustomer.Email,
                 true, _customerSettings.DefaultPasswordFormat, changeDelta.Dto.NewPassword, changeDelta.Dto.OldPassword);
             ChangePasswordResult result = _customerRegistrationService.ChangePassword(changePasswordRequest);
             if (result.Success) return Ok(_localizationService.GetResource("Account.ChangePassword.Success"));
@@ -282,8 +282,8 @@ namespace Nop.Plugin.Api.Modules
                 _workflowMessageService.SendCustomerPasswordRecoveryMessage(customer,
                     _workContext.WorkingLanguage.Id);
 
-                //return new RawJsonActionResult(_localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent"));
-                return Ok(_localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent"));
+                return new RawJsonActionResult(_localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent"));
+                //return Ok(_localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent"));
             }
 
             return BadRequest(_localizationService.GetResource("Account.PasswordRecovery.EmailNotFound"));

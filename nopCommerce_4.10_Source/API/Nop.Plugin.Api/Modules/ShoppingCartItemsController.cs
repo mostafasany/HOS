@@ -47,6 +47,7 @@ namespace Nop.Plugin.Api.Modules
         private readonly IShoppingCartItemApiService _shoppingCartItemApiService;
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IStoreContext _storeContext;
+        private readonly IWorkContext _workContext;
 
         public ShoppingCartItemsController(IShoppingCartItemApiService shoppingCartItemApiService, IShippingService shippingService,
             IJsonFieldsSerializer jsonFieldsSerializer,
@@ -63,7 +64,8 @@ namespace Nop.Plugin.Api.Modules
             IPictureService pictureService,
             IProductAttributeConverter productAttributeConverter,
             ICartTransaltor dtoHelper,
-            IStoreContext storeContext)
+            IStoreContext storeContext,
+            IWorkContext workContext)
             : base(jsonFieldsSerializer,
                 aclService,
                 customerService,
@@ -82,6 +84,7 @@ namespace Nop.Plugin.Api.Modules
             _dtoHelper = dtoHelper;
             _storeContext = storeContext;
             _shippingService = shippingService;
+            _workContext = workContext;
         }
 
         [HttpPost]
@@ -106,7 +109,7 @@ namespace Nop.Plugin.Api.Modules
 
             if (product == null) return Error(HttpStatusCode.NotFound, "product", "not found");
 
-            Core.Domain.Customers.Customer customer = CustomerService.GetCustomerById(newShoppingCartItem.CustomerId);
+            Core.Domain.Customers.Customer customer = _workContext.CurrentCustomer;// CustomerService.GetCustomerById(newShoppingCartItem.CustomerId);
 
             if (customer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
 
@@ -201,6 +204,44 @@ namespace Nop.Plugin.Api.Modules
             return new RawJsonActionResult(json);
         }
 
+
+        /// <summary>
+        ///     Receive a list of all shopping cart items
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/shopping_cart_items/cart")]
+        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetShoppingCartItemsByCookie(ShoppingCartItemsParametersModel parameters)
+        {
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
+
+            if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
+
+            IList<ShoppingCartItem> shoppingCartItems = _workContext.CurrentCustomer.ShoppingCartItems.
+                Where(a=>a.ShoppingCartType==ShoppingCartType.ShoppingCart).ToList();
+
+            shoppingCartItems = shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart).ToList();
+            var model = new ShoppingCartModel();
+            _shoppingCartItemApiService.PrepareShoppingCartModel(model, shoppingCartItems);
+            model.SubTotal = model.Items.Sum(a => a.SubTotalNumber);
+            model.SubTotalDiscount = model.Items.Sum(a => a.DiscountlNumber);
+
+            var shoppingCartsRootObject = new ExtendedShoppingCartItemsRootObject
+            {
+                ShoppingCart = model
+            };
+
+            string json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
+
+            return new RawJsonActionResult(json);
+        }
+
         /// <summary>
         ///     Receive a list of all shopping cart items
         /// </summary>
@@ -232,8 +273,6 @@ namespace Nop.Plugin.Api.Modules
             _shoppingCartItemApiService.PrepareShoppingCartModel(model, shoppingCartItems);
             model.SubTotal = model.Items.Sum(a => a.SubTotalNumber);
             model.SubTotalDiscount = model.Items.Sum(a => a.DiscountlNumber);
-            //  var shoppingCartItemsDtos = _dtoHelper.PrepareExtendedShoppingCartItemDto(
-            //    shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart));
 
             var shoppingCartsRootObject = new ExtendedShoppingCartItemsRootObject
             {

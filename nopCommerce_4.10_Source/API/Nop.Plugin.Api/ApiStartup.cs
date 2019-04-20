@@ -60,8 +60,11 @@ namespace Nop.Plugin.Api
         {
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {
-                builder.AllowAnyOrigin()
+                builder.WithOrigins("*", "http://localhost:4200"
+,                        "https://houseofsupplementsweb-dev.azurewebsites.net",
+                        "https://houseofsupplementsweb.azurewebsites.net")
                     .AllowAnyMethod()
+                    .AllowCredentials()
                     .AllowAnyHeader();
             }));
 
@@ -123,7 +126,7 @@ namespace Nop.Plugin.Api
             //app.UseMiddleware<IdentityServerScopeParameterMiddleware>();
 
             ////uncomment only if the client is an angular application that directly calls the oauth endpoint
-            // app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+             //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             UseIdentityServer(app);
 
             //need to enable rewind so we can read the request body multiple times (this should eventually be refactored, but both JsonModelBinder and all of the DTO validators need to read this stream)
