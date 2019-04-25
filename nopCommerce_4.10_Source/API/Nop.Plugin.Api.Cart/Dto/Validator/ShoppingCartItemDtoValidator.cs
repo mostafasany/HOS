@@ -15,7 +15,7 @@ namespace Nop.Plugin.Api.Cart.Dto.Validator
 
         public ShoppingCartItemDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper, Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper, requestJsonDictionary)
         {
-            SetCustomerIdRule();
+            //SetCustomerIdRule(); //I use cookie not id
             SetProductIdRule();
             SetQuantityRule();
             SetShoppingCartTypeRule();

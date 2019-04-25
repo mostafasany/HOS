@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Core.Domain.Common;
@@ -11,6 +12,7 @@ using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Directory;
 using Nop.Core.Domain.Messages;
 using Nop.Core.Domain.Stores;
+using Nop.Core.Http;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
@@ -65,7 +67,7 @@ namespace Nop.Plugin.Api.Modules
         private readonly INewsLetterSubscriptionService _newsLetterSubscriptionService;
         private readonly IWorkContext _workContext;
         private readonly IWorkflowMessageService _workflowMessageService;
-
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public CustomersController(
             ICustomerApiService customerApiService,
             IJsonFieldsSerializer jsonFieldsSerializer,
@@ -90,7 +92,8 @@ namespace Nop.Plugin.Api.Modules
             IAuthenticationService authenticationService,
             IWorkContext workContext,
             IEventPublisher eventPublisher,
-            IWorkflowMessageService workflowMessageService
+            IWorkflowMessageService workflowMessageService,
+            IHttpContextAccessor httpContextAccessor
         ) :
             base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
         {
@@ -112,6 +115,7 @@ namespace Nop.Plugin.Api.Modules
             _eventPublisher = eventPublisher;
             _customerSettings = customerSettings;
             _workflowMessageService = workflowMessageService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -122,8 +126,8 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpPost]
         [Route("/api/customers/changepassword")]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         public IActionResult ChangePassword([ModelBinder(typeof(JsonModelBinder<ChangePasswordDto>))]
             Delta<ChangePasswordDto> changeDelta)
         {
@@ -136,24 +140,28 @@ namespace Nop.Plugin.Api.Modules
             var changePasswordRequest = new ChangePasswordRequest(_workContext.CurrentCustomer.Email,
                 true, _customerSettings.DefaultPasswordFormat, changeDelta.Dto.NewPassword, changeDelta.Dto.OldPassword);
             ChangePasswordResult result = _customerRegistrationService.ChangePassword(changePasswordRequest);
-            if (result.Success) return Ok(_localizationService.GetResource("Account.ChangePassword.Success"));
+
+            InformationDto dynamicVariable = new InformationDto { Message = _localizationService.GetResource("Account.ChangePassword.Success") };
+            string json = JsonFieldsSerializer.Serialize(dynamicVariable, string.Empty);
+            if (result.Success)
+                return new RawJsonActionResult(json);
 
             //errors
             foreach (string error in result.Errors)
                 ModelState.AddModelError("", error);
 
-            if(result.Errors!=null)
+            if (result.Errors != null)
                 return BadRequest(result.Errors);
 
-            return new RawJsonActionResult("Password Changed");
 
+            return BadRequest("Error");
         }
 
         [HttpPost]
         [Route("/api/customers")]
-        [ProducesResponseType(typeof(CustomersRootObject), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         public IActionResult CreateCustomer([ModelBinder(typeof(JsonModelBinder<CustomerDto>))]
             Delta<CustomerDto> customerDelta)
         {
@@ -224,10 +232,10 @@ namespace Nop.Plugin.Api.Modules
         [HttpDelete]
         [Route("/api/customers/{id}")]
         [GetRequestsErrorInterceptorActionFilter]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         public IActionResult DeleteCustomer(int id)
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
@@ -260,8 +268,8 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpPost]
         [Route("/api/customers/forget")]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         public IActionResult Forget([ModelBinder(typeof(JsonModelBinder<ForgetDto>))]
             Delta<ForgetDto> forgetDelta)
         {
@@ -282,11 +290,14 @@ namespace Nop.Plugin.Api.Modules
                 _workflowMessageService.SendCustomerPasswordRecoveryMessage(customer,
                     _workContext.WorkingLanguage.Id);
 
-                return new RawJsonActionResult(_localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent"));
-                //return Ok(_localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent"));
+                InformationDto emailSent = new InformationDto { Message = _localizationService.GetResource("Account.PasswordRecovery.EmailHasBeenSent") };
+                var json = JsonFieldsSerializer.Serialize(emailSent, string.Empty);
+                return new RawJsonActionResult(json);
             }
 
-            return BadRequest(_localizationService.GetResource("Account.PasswordRecovery.EmailNotFound"));
+            InformationDto notFoundEmail = new InformationDto { Message = _localizationService.GetResource("Account.PasswordRecovery.EmailNotFound") };
+            var notFoundEmailjson = JsonFieldsSerializer.Serialize(notFoundEmail, string.Empty);
+            return new RawJsonActionResult(notFoundEmailjson);
         }
 
 
@@ -300,10 +311,10 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/customers/{id}")]
-        [ProducesResponseType(typeof(CustomersRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetCustomerById(int id, string fields = "")
         {
@@ -336,9 +347,9 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/customers")]
-        [ProducesResponseType(typeof(CustomersRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetCustomers(CustomersParametersModel parameters)
         {
@@ -366,9 +377,9 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/customers/count")]
-        [ProducesResponseType(typeof(CustomersCountRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(CustomersCountRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         public IActionResult GetCustomersCount()
         {
             int allCustomersCount = _customerApiService.GetCustomersCount();
@@ -390,10 +401,10 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/profile")]
-        [ProducesResponseType(typeof(CustomersRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetProfileData()
         {
@@ -426,8 +437,8 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpPost]
         [Route("/api/customers/logout")]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         public IActionResult Logout()
         {
             if (_workContext.OriginalCustomerIfImpersonated != null)
@@ -455,8 +466,13 @@ namespace Nop.Plugin.Api.Modules
             //standard logout 
             _authenticationService.SignOut();
 
+            var cookieName = $"{NopCookieDefaults.Prefix}{NopCookieDefaults.CustomerCookie}";
+            _httpContextAccessor.HttpContext.Response.Cookies.Delete(cookieName);
+
             //raise logged out event       
             _eventPublisher.Publish(new CustomerLoggedOutEvent(_workContext.CurrentCustomer));
+
+            _workContext.CurrentCustomer = _customerService.InsertGuestCustomer();
 
             return Ok();
         }
@@ -469,9 +485,9 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/customers/search")]
-        [ProducesResponseType(typeof(CustomersRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         public IActionResult Search(CustomersSearchParametersModel parameters)
         {
             if (parameters.Limit <= Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
@@ -492,11 +508,11 @@ namespace Nop.Plugin.Api.Modules
 
         [HttpPut]
         [Route("/api/customers/{id}")]
-        [ProducesResponseType(typeof(CustomersRootObject), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         public IActionResult UpdateCustomer([ModelBinder(typeof(JsonModelBinder<CustomerDto>))]
             Delta<CustomerDto> customerDelta)
         {
@@ -597,21 +613,21 @@ namespace Nop.Plugin.Api.Modules
             switch (_customerSettings.DefaultPasswordFormat)
             {
                 case PasswordFormat.Clear:
-                {
-                    customerPassword.Password = newPassword;
-                }
+                    {
+                        customerPassword.Password = newPassword;
+                    }
                     break;
                 case PasswordFormat.Encrypted:
-                {
-                    customerPassword.Password = _encryptionService.EncryptText(newPassword);
-                }
+                    {
+                        customerPassword.Password = _encryptionService.EncryptText(newPassword);
+                    }
                     break;
                 case PasswordFormat.Hashed:
-                {
-                    string saltKey = _encryptionService.CreateSaltKey(5);
-                    customerPassword.PasswordSalt = saltKey;
-                    customerPassword.Password = _encryptionService.CreatePasswordHash(newPassword, saltKey, _customerSettings.HashedPasswordFormat);
-                }
+                    {
+                        string saltKey = _encryptionService.CreateSaltKey(5);
+                        customerPassword.PasswordSalt = saltKey;
+                        customerPassword.Password = _encryptionService.CreatePasswordHash(newPassword, saltKey, _customerSettings.HashedPasswordFormat);
+                    }
                     break;
             }
 

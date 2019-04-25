@@ -63,6 +63,8 @@ namespace Nop.Plugin.Api.Common
 
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
 
+            builder.RegisterType<CookiesService>().As<ICookiesService>().SingleInstance();
+
             builder.RegisterType<Dictionary<string, object>>().SingleInstance();
         }
     }

@@ -6,9 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.Hosting;
@@ -24,48 +21,37 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Nop.Core;
 using Nop.Core.Data;
-using Nop.Core.Domain.Customers;
 using Nop.Core.Infrastructure;
 using Nop.Plugin.Api.Common.Authorization.Policies;
 using Nop.Plugin.Api.Common.Authorization.Requirements;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Data;
 using Nop.Plugin.Api.Common.Helpers;
-using Nop.Plugin.Api.Customer.Modules.Customer.Dto;
-using Nop.Plugin.Api.Customer.Modules.Customer.Service;
-using Nop.Services.Authentication;
-using Nop.Services.Customers;
-using Nop.Services.Events;
-using Nop.Services.Localization;
-using Nop.Services.Logging;
-using Nop.Services.Orders;
 using Nop.Web.Framework.Infrastructure;
 using Nop.Web.Framework.Infrastructure.Extensions;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
 using Client = IdentityServer4.EntityFramework.Entities.Client;
-//using Nop.Plugin.Api.Common.IdentityServer.Endpoints;
-//using Nop.Plugin.Api.Common.IdentityServer.Generators;
-//using Nop.Plugin.Api.Common.IdentityServer.Middlewares;
 
 namespace Nop.Plugin.Api
 {
     public class ApiStartup : INopStartup
     {
         private const string ObjectContextName = "nop_object_context_web_api";
-
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         // TODO: extract all methods into extensions.
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            services.AddCors(options =>
+                options.AddPolicy(MyAllowSpecificOrigins, builder =>
             {
-                builder.WithOrigins("*", "http://localhost:4200"
-,                        "https://houseofsupplementsweb-dev.azurewebsites.net",
-                        "https://houseofsupplementsweb.azurewebsites.net")
+                builder.WithOrigins("http://localhost:4200", "https://hosweb-dev.azurewebsites.net",
+                        "https://hosweb.azurewebsites.net")
                     .AllowAnyMethod()
                     .AllowCredentials()
-                    .AllowAnyHeader();
+                    .AllowAnyHeader()
+                    .WithExposedHeaders(".Nop.Customer")
+                    .AllowAnyOrigin();
             }));
 
             services.AddDbContext<ApiObjectContext>(optionsBuilder =>
@@ -87,7 +73,9 @@ namespace Nop.Plugin.Api
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseCors("CorsPolicy");
+            app.UseMiddleware<RequestResponseMiddleware>();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             // During a clean install we should not register any middlewares i.e IdentityServer as it won't be able to create its  
             // tables without a connection string and will throw an exception
@@ -126,7 +114,7 @@ namespace Nop.Plugin.Api
             //app.UseMiddleware<IdentityServerScopeParameterMiddleware>();
 
             ////uncomment only if the client is an angular application that directly calls the oauth endpoint
-             //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             UseIdentityServer(app);
 
             //need to enable rewind so we can read the request body multiple times (this should eventually be refactored, but both JsonModelBinder and all of the DTO validators need to read this stream)
@@ -347,110 +335,5 @@ namespace Nop.Plugin.Api
             //app.UseAuthentication();
             app.UseMiddleware<IdentityServerMiddleware>();
         }
-    }
-
-    public class ProfileService : IProfileService
-    {
-        public Task GetProfileDataAsync(ProfileDataRequestContext context)
-        {
-            var claims = new List<Claim>();
-            string id = context.Subject.Claims.FirstOrDefault(a => a.Type == "id")?.Value;
-            if (!string.IsNullOrEmpty(id))
-                claims.Add(new Claim("id", id));
-            context.IssuedClaims = claims;
-            return Task.FromResult(0);
-        }
-
-        public Task IsActiveAsync(IsActiveContext context)
-        {
-            context.IsActive = true;
-            return Task.FromResult(0);
-        }
-    }
-
-    public class PasswordValidator : IResourceOwnerPasswordValidator
-    {
-        private readonly IAuthenticationService _authenticationService;
-        private readonly ICustomerActivityService _customerActivityService;
-        private readonly ICustomerApiService _customerApiService;
-        private readonly ICustomerRegistrationService _customerRegistrationService;
-        private readonly ICustomerService _customerService;
-        private readonly CustomerSettings _customerSettings;
-        private readonly IEventPublisher _eventPublisher;
-        private readonly ILocalizationService _localizationService;
-        private readonly IShoppingCartService _shoppingCartService;
-        private readonly IWorkContext _workContext;
-
-        public PasswordValidator(ICustomerApiService customerApiService,
-            ICustomerService customerService,
-            CustomerSettings customerSettings,
-            ICustomerActivityService customerActivityService,
-            ILocalizationService localizationService,
-            ICustomerRegistrationService customerRegistrationService,
-            IShoppingCartService shoppingCartService,
-            IAuthenticationService authenticationService,
-            IWorkContext workContext,
-            IEventPublisher eventPublisher)
-        {
-            _customerApiService = customerApiService;
-            _customerActivityService = customerActivityService;
-            _customerRegistrationService = customerRegistrationService;
-            _shoppingCartService = shoppingCartService;
-            _authenticationService = authenticationService;
-            _workContext = workContext;
-            _customerService = customerService;
-            _localizationService = localizationService;
-            _eventPublisher = eventPublisher;
-            _customerSettings = customerSettings;
-        }
-
-        public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
-        {
-            string userName = context.UserName;
-            string password = context.Password;
-
-            CustomerLoginResults loginResult = _customerRegistrationService.ValidateCustomer(userName, password);
-            switch (loginResult)
-            {
-                case CustomerLoginResults.Successful:
-                {
-                    Core.Domain.Customers.Customer customer = _customerSettings.UsernamesEnabled
-                        ? _customerService.GetCustomerByUsername(userName)
-                        : _customerService.GetCustomerByEmail(userName);
-
-                    CustomerDto customerDto = _customerApiService.GetCustomerById(customer.Id);
-
-                    //migrate shopping cart
-                    _shoppingCartService.MigrateShoppingCart(_workContext.CurrentCustomer, customer, true);
-
-                    //sign in new customer
-                    _authenticationService.SignIn(customer, true);
-
-                    //raise event       
-                    _eventPublisher.Publish(new CustomerLoggedinEvent(customer));
-
-                    //activity log
-                    _customerActivityService.InsertActivity(customer, "PublicStore.Login",
-                        _localizationService.GetResource("ActivityLog.PublicStore.Login"), customer);
-
-                    var customersRootObject = new CustomersRootObject();
-                    customersRootObject.Customers.Add(customerDto);
-                    context.Result = new GrantValidationResult(
-                        userName,
-                        "Authenticated",
-                        DateTime.Now,
-                        CreateClaim(customerDto));
-                }
-                    break;
-            }
-
-            await Task.FromResult(context.Result);
-        }
-
-        private IEnumerable<Claim> CreateClaim(CustomerDto userInfo) => new List<Claim>
-        {
-            new Claim(JwtClaimTypes.Email, userInfo.Email),
-            new Claim(JwtClaimTypes.Id, userInfo.Id.ToString())
-        };
     }
 }

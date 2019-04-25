@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "6febe0f03ae42c664038a7699f81a26456042eb6"
+    "signature": "d7f3fe310fbf0e0074f95aa86160c8bc1933c4e1"
   },
   "compilationOptions": {},
   "targets": {
@@ -13,6 +13,7 @@
           "IdentityServer4.AccessTokenValidation": "2.0.2",
           "IdentityServer4.EntityFramework": "2.1.0",
           "Microsoft.AspNetCore.Rewrite": "2.1.1",
+          "Microsoft.Owin": "4.0.1",
           "Newtonsoft.Json": "11.0.2",
           "Nop.Core": "4.1.0",
           "Nop.Plugin.Api.Admin": "1.0.0",
@@ -2460,6 +2461,17 @@
           }
         }
       },
+      "Microsoft.Owin/4.0.1": {
+        "dependencies": {
+          "Owin": "1.0.0"
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.dll": {
+            "assemblyVersion": "4.0.1.0",
+            "fileVersion": "4.0.14582.116"
+          }
+        }
+      },
       "Microsoft.Win32.Primitives/4.3.0": {
         "dependencies": {
           "System.Runtime": "4.3.0"
@@ -2592,6 +2604,14 @@
           "lib/netstandard1.3/NUglify.dll": {
             "assemblyVersion": "1.5.11.0",
             "fileVersion": "1.5.11.0"
+          }
+        }
+      },
+      "Owin/1.0.0": {
+        "runtime": {
+          "lib/net40/Owin.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -5790,6 +5810,13 @@
       "path": "microsoft.net.http.headers/2.1.1",
       "hashPath": "microsoft.net.http.headers.2.1.1.nupkg.sha512"
     },
+    "Microsoft.Owin/4.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WU9ljhr6WBtc7bxLC+U/PhEnZ0EMe3ZPU75uTlJlXzpdLH/CDlA8aQo3GP5lPsBFeyWw+IwoLKbua5ouNfqfTg==",
+      "path": "microsoft.owin/4.0.1",
+      "hashPath": "microsoft.owin.4.0.1.nupkg.sha512"
+    },
     "Microsoft.Win32.Primitives/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -5859,6 +5886,13 @@
       "sha512": "sha512-pVWo5l4GMn3ViQxUT9TGVE2QEczNxJbUUvML1nQnOIB06xu5gJhaojz518Wa3jgzfvYZIpF34DnqC45JnkU+4A==",
       "path": "nuglify/1.5.11",
       "hashPath": "nuglify.1.5.11.nupkg.sha512"
+    },
+    "Owin/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-S87+AKxSxfhXRzIQfm6WBxfGbnzECLG8bmVp3lRiwjeYG9YBJ0AXd+2Xn7I7aqwwj0j4erSpX6H9OhXy+qQ7tw==",
+      "path": "owin/1.0.0",
+      "hashPath": "owin.1.0.0.nupkg.sha512"
     },
     "Portable.BouncyCastle/1.8.2": {
       "type": "package",
