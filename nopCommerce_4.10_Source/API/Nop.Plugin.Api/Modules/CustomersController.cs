@@ -186,6 +186,8 @@ namespace Nop.Plugin.Api.Modules
 
             InsertFirstAndLastNameGenericAttributes(customerDelta.Dto.FirstName, customerDelta.Dto.LastName, newCustomer);
 
+            InsertPhoneAndPictureGenericAttributes(customerDelta.Dto.Phone, customerDelta.Dto.Picture, newCustomer);
+
             if (!string.IsNullOrEmpty(customerDelta.Dto.LanguageId) && int.TryParse(customerDelta.Dto.LanguageId, out int languageId)
                                                                     && _languageService.GetLanguageById(languageId) != null)
                 _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.LanguageIdAttribute, languageId);
@@ -393,41 +395,41 @@ namespace Nop.Plugin.Api.Modules
         }
 
 
-        /// <summary>
-        ///     Retrieve customer by spcified id
-        /// </summary>
-        /// <response code="200">OK</response>
-        /// <response code="404">Not Found</response>
-        /// <response code="401">Unauthorized</response>
-        [HttpGet]
-        [Route("/api/profile")]
-        [ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
-        [GetRequestsErrorInterceptorActionFilter]
-        public IActionResult GetProfileData()
-        {
-            var id = 0;
-            if (HttpContext.User.Identity is ClaimsIdentity identity)
-            {
-                IEnumerable<Claim> claims = identity.Claims;
-                int.TryParse(claims.FirstOrDefault(a => a.Type == "id")?.Value, out id);
-            }
+        ///// <summary>
+        /////     Retrieve customer by spcified id
+        ///// </summary>
+        ///// <response code="200">OK</response>
+        ///// <response code="404">Not Found</response>
+        ///// <response code="401">Unauthorized</response>
+        //[HttpGet]
+        //[Route("/api/profile")]
+        //[ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        //[GetRequestsErrorInterceptorActionFilter]
+        //public IActionResult GetProfileData()
+        //{
+        //    var id = 0;
+        //    if (HttpContext.User.Identity is ClaimsIdentity identity)
+        //    {
+        //        IEnumerable<Claim> claims = identity.Claims;
+        //        int.TryParse(claims.FirstOrDefault(a => a.Type == "id")?.Value, out id);
+        //    }
 
-            if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
+        //    if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            CustomerDto customer = _customerApiService.GetCustomerById(id);
+        //    CustomerDto customer = _customerApiService.GetCustomerById(id);
 
-            if (customer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
+        //    if (customer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
 
-            var customersRootObject = new CustomersRootObject();
-            customersRootObject.Customers.Add(customer);
+        //    var customersRootObject = new CustomersRootObject();
+        //    customersRootObject.Customers.Add(customer);
 
-            string json = JsonFieldsSerializer.Serialize(customersRootObject, "");
+        //    string json = JsonFieldsSerializer.Serialize(customersRootObject, "");
 
-            return new RawJsonActionResult(json);
-        }
+        //    return new RawJsonActionResult(json);
+        //}
 
 
         /// <summary>
@@ -553,6 +555,8 @@ namespace Nop.Plugin.Api.Modules
 
             InsertFirstAndLastNameGenericAttributes(customerDelta.Dto.FirstName, customerDelta.Dto.LastName, currentCustomer);
 
+            InsertPhoneAndPictureGenericAttributes(customerDelta.Dto.Phone, customerDelta.Dto.Picture, currentCustomer);
+
 
             if (!string.IsNullOrEmpty(customerDelta.Dto.LanguageId) && int.TryParse(customerDelta.Dto.LanguageId, out int languageId)
                                                                     && _languageService.GetLanguageById(languageId) != null)
@@ -652,6 +656,14 @@ namespace Nop.Plugin.Api.Modules
             if (firstName != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.FirstNameAttribute, firstName);
 
             if (lastName != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.LastNameAttribute, lastName);
+        }
+
+        private void InsertPhoneAndPictureGenericAttributes(string phone, string picture, Core.Domain.Customers.Customer newCustomer)
+        {
+            // we assume that if the first name is not sent then it will be null and in this case we don't want to update it
+            if (phone != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.PhoneAttribute, phone);
+
+            if (picture != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.AvatarPictureIdAttribute, picture);
         }
 
         private void PopulateAddressCountryNames(CustomerDto newCustomerDto)

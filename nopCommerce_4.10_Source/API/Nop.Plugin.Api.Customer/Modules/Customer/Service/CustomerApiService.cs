@@ -32,6 +32,8 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
         private readonly IRepository<Core.Domain.Messages.NewsLetterSubscription> _subscriptionRepository;
         private const string FirstName = "firstname";
         private const string LastName = "lastname";
+        private const string Picture = "avatarpictureid";
+        private const string Phone = "phone";
         private const string LanguageId = "languageid";
         private const string DateOfBirth = "dateofbirth";
         private const string Gender = "gender";
@@ -122,20 +124,22 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
 
             // Here we expect to get two records, one for the first name and one for the last name.
             List<CustomerAttributeMappingDto> customerAttributeMappings = (from customer in _customerRepository.Table //NoTracking
-                join attribute in _genericAttributeRepository.Table //NoTracking
-                    on customer.Id equals attribute.EntityId
-                where customer.Id == id &&
-                      attribute.KeyGroup.Equals(KeyGroup, StringComparison.InvariantCultureIgnoreCase) &&
-                      (attribute.Key.Equals(FirstName, StringComparison.InvariantCultureIgnoreCase) ||
-                       attribute.Key.Equals(LastName, StringComparison.InvariantCultureIgnoreCase) ||
-                       attribute.Key.Equals(LanguageId, StringComparison.InvariantCultureIgnoreCase) ||
-                       attribute.Key.Equals(DateOfBirth, StringComparison.InvariantCultureIgnoreCase) ||
-                       attribute.Key.Equals(Gender, StringComparison.InvariantCultureIgnoreCase))
-                select new CustomerAttributeMappingDto
-                {
-                    Attribute = attribute,
-                    Customer = customer
-                }).ToList();
+                                                                           join attribute in _genericAttributeRepository.Table //NoTracking
+                                                                               on customer.Id equals attribute.EntityId
+                                                                           where customer.Id == id &&
+                                                                                 attribute.KeyGroup.Equals(KeyGroup, StringComparison.InvariantCultureIgnoreCase) &&
+                                                                                 (attribute.Key.Equals(FirstName, StringComparison.InvariantCultureIgnoreCase) ||
+                                                                                  attribute.Key.Equals(LastName, StringComparison.InvariantCultureIgnoreCase) ||
+                                                                                  attribute.Key.Equals(LanguageId, StringComparison.InvariantCultureIgnoreCase) ||
+                                                                                  attribute.Key.Equals(DateOfBirth, StringComparison.InvariantCultureIgnoreCase) ||
+                                                                                  attribute.Key.Equals(Phone, StringComparison.InvariantCultureIgnoreCase) ||
+                                                                                  attribute.Key.Equals(Picture, StringComparison.InvariantCultureIgnoreCase) ||
+                                                                                  attribute.Key.Equals(Gender, StringComparison.InvariantCultureIgnoreCase))
+                                                                           select new CustomerAttributeMappingDto
+                                                                           {
+                                                                               Attribute = attribute,
+                                                                               Customer = customer
+                                                                           }).ToList();
 
             CustomerDto customerDto = null;
 
@@ -178,8 +182,13 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
                         else if (mapping.Attribute.Key.Equals(LanguageId, StringComparison.InvariantCultureIgnoreCase))
                             customerDto.LanguageId = mapping.Attribute.Value;
                         else if (mapping.Attribute.Key.Equals(DateOfBirth, StringComparison.InvariantCultureIgnoreCase))
-                            customerDto.DateOfBirth = string.IsNullOrEmpty(mapping.Attribute.Value) ? (DateTime?) null : DateTime.Parse(mapping.Attribute.Value);
-                        else if (mapping.Attribute.Key.Equals(Gender, StringComparison.InvariantCultureIgnoreCase)) customerDto.Gender = mapping.Attribute.Value;
+                            customerDto.DateOfBirth = string.IsNullOrEmpty(mapping.Attribute.Value) ? (DateTime?)null : DateTime.Parse(mapping.Attribute.Value);
+                        else if (mapping.Attribute.Key.Equals(Gender, StringComparison.InvariantCultureIgnoreCase))
+                            customerDto.Gender = mapping.Attribute.Value;
+                        else if (mapping.Attribute.Key.Equals(Phone, StringComparison.InvariantCultureIgnoreCase))
+                            customerDto.Phone = mapping.Attribute.Value;
+                        else if (mapping.Attribute.Key.Equals(Picture, StringComparison.InvariantCultureIgnoreCase))
+                            customerDto.Picture = mapping.Attribute.Value;
                 }
             }
             else
@@ -209,9 +218,9 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
             return _cacheManager.Get(Configurations.NEWSLETTER_SUBSCRIBERS_KEY, () =>
             {
                 IEnumerable<string> subscriberEmails = (from nls in _subscriptionRepository.Table
-                    where nls.StoreId == _storeContext.CurrentStore.Id
-                          && nls.Active
-                    select nls.Email).ToList();
+                                                        where nls.StoreId == _storeContext.CurrentStore.Id
+                                                              && nls.Active
+                                                        select nls.Email).ToList();
 
 
                 subscriberEmails = subscriberEmails.Where(e => !string.IsNullOrEmpty(e)).Select(e => e.ToLowerInvariant());
@@ -225,10 +234,10 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
         {
             // Here we filter the customerAttributesGroups to be only the ones that have the passed key parameter as a key.
             IQueryable<IGrouping<int, CustomerAttributeMappingDto>> customerAttributesMappingByKey = from @group in customerAttributesGroups
-                where @group.Select(x => x.Attribute)
-                    .Any(x => x.Key.Equals(key, StringComparison.InvariantCultureIgnoreCase) &&
-                              x.Value.Equals(value, StringComparison.InvariantCultureIgnoreCase))
-                select @group;
+                                                                                                     where @group.Select(x => x.Attribute)
+                                                                                                         .Any(x => x.Key.Equals(key, StringComparison.InvariantCultureIgnoreCase) &&
+                                                                                                                   x.Value.Equals(value, StringComparison.InvariantCultureIgnoreCase))
+                                                                                                     select @group;
 
             return customerAttributesMappingByKey;
         }
@@ -338,19 +347,19 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
 
             IQueryable<IGrouping<int, CustomerAttributeMappingDto>> allRecordsGroupedByCustomerId =
                 (from customer in query
-                    from attribute in _genericAttributeRepository.Table
-                        .Where(attr => attr.EntityId == customer.Id &&
-                                       attr.KeyGroup.Equals(KeyGroup, StringComparison.InvariantCultureIgnoreCase) &&
-                                       (attr.Key.Equals(FirstName, StringComparison.InvariantCultureIgnoreCase) ||
-                                        attr.Key.Equals(LastName, StringComparison.InvariantCultureIgnoreCase) ||
-                                        attr.Key.Equals(LanguageId, StringComparison.InvariantCultureIgnoreCase) ||
-                                        attr.Key.Equals(DateOfBirth, StringComparison.InvariantCultureIgnoreCase) ||
-                                        attr.Key.Equals(Gender, StringComparison.InvariantCultureIgnoreCase))).DefaultIfEmpty()
-                    select new CustomerAttributeMappingDto
-                    {
-                        Attribute = attribute,
-                        Customer = customer
-                    }).GroupBy(x => x.Customer.Id);
+                 from attribute in _genericAttributeRepository.Table
+                     .Where(attr => attr.EntityId == customer.Id &&
+                                    attr.KeyGroup.Equals(KeyGroup, StringComparison.InvariantCultureIgnoreCase) &&
+                                    (attr.Key.Equals(FirstName, StringComparison.InvariantCultureIgnoreCase) ||
+                                     attr.Key.Equals(LastName, StringComparison.InvariantCultureIgnoreCase) ||
+                                     attr.Key.Equals(LanguageId, StringComparison.InvariantCultureIgnoreCase) ||
+                                     attr.Key.Equals(DateOfBirth, StringComparison.InvariantCultureIgnoreCase) ||
+                                     attr.Key.Equals(Gender, StringComparison.InvariantCultureIgnoreCase))).DefaultIfEmpty()
+                 select new CustomerAttributeMappingDto
+                 {
+                     Attribute = attribute,
+                     Customer = customer
+                 }).GroupBy(x => x.Customer.Id);
 
             if (searchParams != null && searchParams.Count > 0)
             {
@@ -398,7 +407,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
                     else if (attribute.Key.Equals(LanguageId, StringComparison.InvariantCultureIgnoreCase))
                         customerDto.LanguageId = attribute.Value;
                     else if (attribute.Key.Equals(DateOfBirth, StringComparison.InvariantCultureIgnoreCase))
-                        customerDto.DateOfBirth = string.IsNullOrEmpty(attribute.Value) ? (DateTime?) null : DateTime.Parse(attribute.Value);
+                        customerDto.DateOfBirth = string.IsNullOrEmpty(attribute.Value) ? (DateTime?)null : DateTime.Parse(attribute.Value);
                     else if (attribute.Key.Equals(Gender, StringComparison.InvariantCultureIgnoreCase)) customerDto.Gender = attribute.Value;
 
             return customerDto;

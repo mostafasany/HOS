@@ -47,6 +47,19 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
         public AddressDto ShippingAddress { get; set; }
 
         /// <summary>
+        ///     Default Picture
+        /// </summary>
+        [JsonProperty("picture")]
+        public string Picture { get; set; }
+
+
+        /// <summary>
+        ///     Default Phone
+        /// </summary>
+        [JsonProperty("phone")]
+        public string Phone { get; set; }
+
+        /// <summary>
         ///     Gets or sets customer addresses
         /// </summary>
         [JsonProperty("addresses")]

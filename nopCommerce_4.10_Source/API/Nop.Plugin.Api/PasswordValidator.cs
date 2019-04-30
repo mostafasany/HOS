@@ -89,11 +89,20 @@ namespace Nop.Plugin.Api
 
                         _cookiesService.SetCustomerCookieAndHeader(customer.CustomerGuid);
 
+                        var dict = new Dictionary<string, object>
+                        {
+                            {"grant_type", "password"},
+                            { "email", customerDto.Email},
+                            { "user_name", customerDto.Username},
+                            { "id",customerDto.Id},
+                            { "full_name", customerDto.FirstName+" "+customerDto.LastName},
+                            { "provider", ""}
+                        };
                         context.Result = new GrantValidationResult(
                             userName,
                             "Authenticated",
                             DateTime.Now,
-                            CreateClaim(customerDto));
+                            CreateClaim(customerDto), "local", dict);
                     }
                     break;
             }
