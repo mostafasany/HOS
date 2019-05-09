@@ -170,6 +170,16 @@ namespace Nop.Plugin.Api.Modules
 
             //If the validation has passed the customerDelta object won't be null for sure so we don't need to check for this.
 
+            var existingCustomer=_customerService.GetCustomerByEmail(customerDelta.Dto.Email);
+            if (existingCustomer == null)
+                existingCustomer = _customerService.GetCustomerByUsername(customerDelta.Dto.Username);
+
+            if(existingCustomer!=null)
+            {
+                return Error(HttpStatusCode.BadRequest, "Username/Email", "Username/Email already Exists");
+            }
+
+
             // Inserting the new customer
             Core.Domain.Customers.Customer newCustomer = _factory.Initialize();
             customerDelta.Merge(newCustomer);
@@ -181,7 +191,7 @@ namespace Nop.Plugin.Api.Modules
                 if (address.CreatedOnUtc == null) address.CreatedOnUtc = DateTime.UtcNow;
                 newCustomer.Addresses.Add(address.ToEntity());
             }
-
+            newCustomer.Email = newCustomer.Email.ToLower();
             CustomerService.InsertCustomer(newCustomer);
 
             InsertFirstAndLastNameGenericAttributes(customerDelta.Dto.FirstName, customerDelta.Dto.LastName, newCustomer);
@@ -197,14 +207,7 @@ namespace Nop.Plugin.Api.Modules
 
             // We need to insert the entity first so we can have its id in order to map it to anything.
             // TODO: Localization
-            // TODO: move this before inserting the customer.
-            if (customerDelta.Dto.RoleIds.Count > 0)
-            {
-                AddValidRoles(customerDelta, newCustomer);
-
-                CustomerService.UpdateCustomer(newCustomer);
-            }
-
+           
             // Preparing the result dto of the new customer
             // We do not prepare the shopping cart items because we have a separate endpoint for them.
             CustomerDto newCustomerDto = newCustomer.ToDto();
@@ -225,6 +228,15 @@ namespace Nop.Plugin.Api.Modules
             var customersRootObject = new CustomersRootObject();
 
             customersRootObject.Customers.Add(newCustomerDto);
+
+            // TODO: move this before inserting the customer.
+            if (customerDelta.Dto.RoleIds.Count > 0)
+            {
+                AddValidRoles(customerDelta, newCustomer);
+
+                CustomerService.UpdateCustomer(newCustomer);
+            }
+
 
             string json = JsonFieldsSerializer.Serialize(customersRootObject, string.Empty);
 
