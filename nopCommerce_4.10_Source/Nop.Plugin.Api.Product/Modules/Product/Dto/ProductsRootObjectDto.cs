@@ -20,8 +20,8 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Dto
         [JsonProperty("filters")]
         public List<ProductsFiltersDto> Filters { get; set; }
 
-        [JsonProperty("category")]
-        public string Category { get; set; }
+        [JsonProperty("header_title")]
+        public string HeaderTitle { get; set; }
 
         public string GetPrimaryPropertyName() => "products";
 

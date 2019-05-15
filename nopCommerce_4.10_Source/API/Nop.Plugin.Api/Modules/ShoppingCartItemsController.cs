@@ -22,6 +22,8 @@ using Nop.Plugin.Api.Common.Factories;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
+using Nop.Plugin.Api.Product.Modules.Discount.Dto;
+using Nop.Plugin.Api.Product.Modules.Discount.Translator;
 using Nop.Plugin.Api.Product.Modules.Product.Dto;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
@@ -48,6 +50,9 @@ namespace Nop.Plugin.Api.Modules
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IStoreContext _storeContext;
         private readonly IWorkContext _workContext;
+        private readonly ICustomerService _customerService;
+        private readonly IDiscountService _discountService;
+        private readonly IDiscountTransaltor _discountTransaltor;
 
         public ShoppingCartItemsController(IShoppingCartItemApiService shoppingCartItemApiService, IShippingService shippingService,
             IJsonFieldsSerializer jsonFieldsSerializer,
@@ -65,6 +70,7 @@ namespace Nop.Plugin.Api.Modules
             IProductAttributeConverter productAttributeConverter,
             ICartTransaltor dtoHelper,
             IStoreContext storeContext,
+            IDiscountTransaltor discountTransaltor,
             IWorkContext workContext)
             : base(jsonFieldsSerializer,
                 aclService,
@@ -85,14 +91,17 @@ namespace Nop.Plugin.Api.Modules
             _storeContext = storeContext;
             _shippingService = shippingService;
             _workContext = workContext;
+            _customerService = customerService;
+            _discountService = discountService;
+            _discountTransaltor = discountTransaltor;
         }
 
         [HttpPost]
         [Route("/api/shopping_cart_items")]
-        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), 422)]
         public IActionResult CreateShoppingCartItem([ModelBinder(typeof(JsonModelBinder<ShoppingCartItemDto>))]
             Delta<ShoppingCartItemDto> shoppingCartItemDelta)
@@ -113,7 +122,7 @@ namespace Nop.Plugin.Api.Modules
 
             if (customer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
 
-            var shoppingCartType = (ShoppingCartType) Enum.Parse(typeof(ShoppingCartType), shoppingCartItemDelta.Dto.ShoppingCartType);
+            var shoppingCartType = (ShoppingCartType)Enum.Parse(typeof(ShoppingCartType), shoppingCartItemDelta.Dto.ShoppingCartType);
 
             if (!product.IsRental)
             {
@@ -153,10 +162,10 @@ namespace Nop.Plugin.Api.Modules
 
         [HttpDelete]
         [Route("/api/shopping_cart_items/{id}")]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult DeleteShoppingCartItem(int id)
         {
@@ -171,7 +180,7 @@ namespace Nop.Plugin.Api.Modules
             //activity log
             CustomerActivityService.InsertActivity("DeleteShoppingCartItem", LocalizationService.GetResource("ActivityLog.DeleteShoppingCartItem"), shoppingCartItemForDelete);
 
-            return new RawJsonActionResult("{}");
+            return new OkResult();
         }
 
 
@@ -183,13 +192,13 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/shopping_cart_items/crosssells")]
-        [ProducesResponseType(typeof(ProductsRootObjectDto), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ProductsRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetCorssSellsProducts(ShoppingCartItemsForCrossSellsParametersModel parameters)
         {
-            IEnumerable<Core.Domain.Catalog.Product> allProducts = _productService.GetCrosssellProductsByShoppingCart(parameters.ProductIds?.Select(a => new ShoppingCartItem {ProductId = a}).ToList(), parameters.Limit)
+            IEnumerable<Core.Domain.Catalog.Product> allProducts = _productService.GetCrosssellProductsByShoppingCart(parameters.ProductIds?.Select(a => new ShoppingCartItem { ProductId = a }).ToList(), parameters.Limit)
                 .Where(p => StoreMappingService.Authorize(p));
 
             IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
@@ -224,7 +233,7 @@ namespace Nop.Plugin.Api.Modules
             if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
 
             IList<ShoppingCartItem> shoppingCartItems = _workContext.CurrentCustomer.ShoppingCartItems.
-                Where(a=>a.ShoppingCartType==ShoppingCartType.ShoppingCart).ToList();
+                Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart).ToList();
 
             shoppingCartItems = shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart).ToList();
             var model = new ShoppingCartModel();
@@ -250,9 +259,9 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/shopping_cart_items/{customerId}/cart")]
-        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetOnlyShoppingCartItems(int customerId, ShoppingCartItemsParametersModel parameters)
         {
@@ -293,33 +302,40 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/shopping_cart_items/shipping/estimation")]
-        [ProducesResponseType(typeof(ShippingOptionRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ShippingOptionRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetShippingEstimation(ShoppingCartItemsShipmentEstimationModel parameters)
         {
-            if (parameters.CountryId <= 0) return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
+            if (parameters.CountryId <= 0) return Error(HttpStatusCode.BadRequest, "country", "invalid country parameter");
 
-            if (parameters.StateProvinceId <= 0) return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
+            if (parameters.StateProvinceId <= 0) return Error(HttpStatusCode.BadRequest, "province", "invalid province parameter");
 
             IList<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems();
 
-            //var y = _shippingService.LoadActiveShippingRateComputationMethods();
-            //var x = _shippingService.GetAllShippingMethods(123);
-            //var z = _shippingService.LoadAllShippingRateComputationMethods();
-            IShippingRateComputationMethod n = _shippingService.LoadShippingRateComputationMethodBySystemName("Shipping.FixedByWeightByTotal");
+            var shippingRateComputationMethods = _shippingService.LoadActiveShippingRateComputationMethods().FirstOrDefault();
+
+            IShippingRateComputationMethod n = _shippingService.LoadShippingRateComputationMethodBySystemName(shippingRateComputationMethods?.PluginDescriptor?.SystemName);
             var optionsRequest = new GetShippingOptionRequest
             {
-                ShippingAddress = new Address {Address1 = "-", City = "-", CountryId = parameters.CountryId, StateProvinceId = parameters.StateProvinceId}
+                Customer = _workContext.CurrentCustomer,
+                ShippingAddress = new Address
+                {
+                    Address1 = "-",
+                    City = "-",
+                    ZipPostalCode = parameters.ZipPostalCode,
+                    CountryId = parameters.CountryId,
+                    StateProvinceId = parameters.StateProvinceId
+                },
             };
             var items = new List<GetShippingOptionRequest.PackageItem>();
-            foreach (ShoppingCartItem shoppingCart in shoppingCartItems) items.Add(new GetShippingOptionRequest.PackageItem(shoppingCart));
+            foreach (ShoppingCartItem shoppingCart in shoppingCartItems)
+                items.Add(new GetShippingOptionRequest.PackageItem(shoppingCart));
 
             optionsRequest.Items = items;
 
             GetShippingOptionResponse shippingOptionResponse = n.GetShippingOptions(optionsRequest);
-
 
             List<ShippingOptionDto> shippingOptionDto = shippingOptionResponse.ShippingOptions.Select(shoppingCartItem =>
             {
@@ -344,9 +360,9 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/shopping_cart_items")]
-        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetShoppingCartItems(ShoppingCartItemsParametersModel parameters)
         {
@@ -388,10 +404,10 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/shopping_cart_items/{customerId}")]
-        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetShoppingCartItemsByCustomerId(int customerId, ShoppingCartItemsForCustomerParametersModel parameters)
         {
@@ -432,9 +448,9 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/shopping_cart_items/{customerId}/wishlist")]
-        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetWishlistItems(int customerId, ShoppingCartItemsParametersModel parameters)
         {
@@ -469,10 +485,10 @@ namespace Nop.Plugin.Api.Modules
 
         [HttpPut]
         [Route("/api/shopping_cart_items/{id}")]
-        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
         public IActionResult UpdateShoppingCartItem([ModelBinder(typeof(JsonModelBinder<ShoppingCartItemDto>))]
             Delta<ShoppingCartItemDto> shoppingCartItemDelta)
@@ -521,5 +537,76 @@ namespace Nop.Plugin.Api.Modules
 
             return new RawJsonActionResult(json);
         }
+
+        [HttpPut]
+        [Route("/api/shopping_cart_items/discount")]
+        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorsRootObject), 422)]
+        public IActionResult ApplyDiscount(string discountCoupon)
+        {
+            try
+            {
+                _customerService.ApplyDiscountCouponCode(_workContext.CurrentCustomer, discountCoupon);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("/api/shopping_cart_items/discount")]
+        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorsRootObject), 422)]
+        public IActionResult DeleteDiscount(string discountCoupon)
+        {
+            try
+            {
+                _customerService.RemoveDiscountCouponCode(_workContext.CurrentCustomer, discountCoupon);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+
+        [HttpGet]
+        [Route("/api/shopping_cart_items/discount")]
+        [ProducesResponseType(typeof(ShoppingCartItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorsRootObject), 422)]
+        public IActionResult GetDiscount(int discountId)
+        {
+            try
+            {
+                var discount = _discountService.GetDiscountById(discountId);
+                var discountDTo = _discountTransaltor.PrepateDiscountDto(discount);
+                var discountsRootObject = new DiscountsRootObject
+                {
+                    Discounts = new List<DiscountDto>()
+                };
+                discountsRootObject.Discounts.Add(discountDTo);
+                string json = JsonFieldsSerializer.Serialize(discountsRootObject, string.Empty);
+                return new RawJsonActionResult(json);
+
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }

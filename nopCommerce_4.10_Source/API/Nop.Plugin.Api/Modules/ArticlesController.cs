@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -67,9 +68,9 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/articles/{id}")]
-        [ProducesResponseType(typeof(ArticlesRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ArticlesRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetArticleById(int id, string fields = "")
         {
@@ -99,8 +100,8 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/articles")]
-        [ProducesResponseType(typeof(ArticlesRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ArticlesRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetArticles(ArticlelsParametersModel parameters)
         {
@@ -108,16 +109,22 @@ namespace Nop.Plugin.Api.Modules
 
             if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
 
-            IEnumerable<Core.Domain.Articles.Article> allArticles = _articleApiService.GetArticles(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
+            Tuple<IList<Core.Domain.Articles.Article>, List<ArticlesFilterDto>> tuple = _articleApiService.GetArticles(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
                 parameters.UpdatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId, parameters.CategoryId, parameters.GroupId, parameters.Keyword, parameters.Tag,
                 parameters.PublishedStatus);
 
-            var catgeoryName = "";
+            var allArticles = tuple.Item1;
+
+            var title = "";
             if (parameters.CategoryId.HasValue)
             {
                 Core.Domain.Catalog.Category category = _categoryApiService.GetCategoryById(parameters.CategoryId.Value);
                 CategoryDto dto = _categoryTransaltor.PrepareCategoryDTO(category);
-                catgeoryName = dto.Name;
+                title = dto.Name;
+            }
+            else if (!string.IsNullOrEmpty(parameters.Tag))
+            {
+                title = parameters.Tag;
             }
 
             IList<ArticlesDto> articlesAsDtos = allArticles.Select(article =>
@@ -126,7 +133,8 @@ namespace Nop.Plugin.Api.Modules
             var artcilesRootObject = new ArticlesRootObject
             {
                 Articles = articlesAsDtos,
-                Category = catgeoryName
+                HeaderTitle = title,
+                Filters = tuple.Item2,
             };
 
             string json = JsonFieldsSerializer.Serialize(artcilesRootObject, parameters.Fields);
@@ -141,9 +149,9 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/articles/count")]
-        [ProducesResponseType(typeof(ArticlesCountRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ArticlesCountRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetArticlesCount(ArticlesCountParametersModel parameters)
         {
@@ -168,8 +176,8 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/articles/groups")]
-        [ProducesResponseType(typeof(ArticlesRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ArticlesRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetArticlesGroups()
         {
@@ -197,8 +205,8 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/articles/{id}/recommended")]
-        [ProducesResponseType(typeof(ArticlesRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ArticlesRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetRecommendedArticles(int id, ArticlelsParametersModel parameters)
         {

@@ -21,5 +21,8 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Service
             string vendorName = null, string keyword = null, int? categoryId = null);
 
         List<Core.Domain.Catalog.Product> GetRelatedProducts(int productId1, bool showHidden = false);
+
+        bool RateProduct(int productId, int customerId,
+              int rating, int storeId, string reviewText, string title);
     }
 }

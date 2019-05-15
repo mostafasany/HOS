@@ -15,7 +15,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Validator
 
         public OrderDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper, Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper, requestJsonDictionary)
         {
-            SetCustomerIdRule();
+           // SetCustomerIdRule();
             SetOrderItemsRule();
 
             SetBillingAddressRule();

@@ -155,7 +155,7 @@ namespace Nop.Plugin.Api.Modules.Menu.Service
             var articles = new List<MenuArticlesDto>();
             foreach (CategoryDto category in categoriesDto)
             {
-                List<ArticlesDto> articlesDto = _articleApiService.GetArticles(categoryId: category.Id, limit: 5).Select(a => new ArticlesDto
+                List<ArticlesDto> articlesDto = _articleApiService.GetArticles(categoryId: category.Id, limit: 5).Item1.Select(a => new ArticlesDto
                 {
                     SeName = a.Title,
                     Id = a.Id,

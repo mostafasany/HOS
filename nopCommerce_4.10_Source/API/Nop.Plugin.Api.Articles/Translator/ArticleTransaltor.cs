@@ -51,7 +51,8 @@ namespace Nop.Plugin.Api.Article.Translator
                 UpdatedOnUtc = article.UpdatedOnUtc,
                 MetaDescription = article.MetaDescription,
                 MetaTitle = article.MetaTitle,
-                Tags = article.Tags
+                Tags = article.Tags,
+                SeName = _urlRecordService.GetSeName(article)
             };
             articleDto.Title = _localizationService.GetLocalized(article, x => x.Title, _currentLangaugeId);
             articleDto.Body = _localizationService.GetLocalized(article, x => x.Body, _currentLangaugeId);

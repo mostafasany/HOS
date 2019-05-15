@@ -52,7 +52,7 @@ namespace Nop.Plugin.Api.Modules
         private readonly IProductAttributeConverter _productAttributeConverter;
         private readonly IProductService _productService;
         private readonly IShippingService _shippingService;
-
+        private readonly IWorkContext _workContext;
         private readonly IShoppingCartItemApiService _shoppingCartItemApiService;
         private readonly IShoppingCartService _shoppingCartService;
 
@@ -81,6 +81,7 @@ namespace Nop.Plugin.Api.Modules
             IShippingService shippingService,
             IPictureService pictureService,
             IOrderTransaltor dtoHelper,
+             IWorkContext workContext,
             IProductAttributeConverter productAttributeConverter,
             IShoppingCartItemApiService shoppingCartItemApiService)
             : base(jsonFieldsSerializer, aclService, customerService, storeMappingService,
@@ -98,16 +99,17 @@ namespace Nop.Plugin.Api.Modules
             _productService = productService;
             _productAttributeConverter = productAttributeConverter;
             _shoppingCartItemApiService = shoppingCartItemApiService;
+            _workContext = workContext;
         }
 
         private OrderSettings OrderSettings => _orderSettings ?? (_orderSettings = EngineContext.Current.Resolve<OrderSettings>());
 
         [HttpPost]
         [Route("/api/orders")]
-        [ProducesResponseType(typeof(OrdersRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(OrdersRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
         public IActionResult CreateOrder([ModelBinder(typeof(JsonModelBinder<OrderDto>))]
             Delta<OrderDto> orderDelta)
@@ -115,10 +117,11 @@ namespace Nop.Plugin.Api.Modules
             // Here we display the errors if the validation has failed at some point.
             if (!ModelState.IsValid) return Error();
 
-            if (orderDelta.Dto.CustomerId == null) return Error();
+            //if (orderDelta.Dto.CustomerId == null) return Error();
 
             // We doesn't have to check for value because this is done by the order validator.
-            Core.Domain.Customers.Customer customer = CustomerService.GetCustomerById(orderDelta.Dto.CustomerId.Value);
+            //Core.Domain.Customers.Customer customer = CustomerService.GetCustomerById(orderDelta.Dto.CustomerId.Value);
+            Core.Domain.Customers.Customer customer = _workContext.CurrentCustomer;
 
             if (customer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
 
@@ -161,8 +164,12 @@ namespace Nop.Plugin.Api.Modules
             if (!orderDelta.Dto.StoreId.HasValue) newOrder.StoreId = _storeContext.CurrentStore.Id;
 
             PlaceOrderResult placeOrderResult = PlaceOrder(newOrder, customer);
-            if (!string.IsNullOrEmpty(orderDelta.Dto.OrderNotes))
-                placeOrderResult.PlacedOrder.OrderNotes?.Add(new OrderNote {Note = orderDelta.Dto.OrderNotes});
+            if (placeOrderResult != null && placeOrderResult.Success && !string.IsNullOrEmpty(orderDelta.Dto.OrderNotes))
+                placeOrderResult.PlacedOrder.OrderNotes?.Add(new OrderNote
+                {
+                    Note = orderDelta.Dto.OrderNotes,
+                    CreatedOnUtc = DateTime.Now
+                });
 
             if (!placeOrderResult.Success)
             {
@@ -187,10 +194,10 @@ namespace Nop.Plugin.Api.Modules
 
         [HttpDelete]
         [Route("/api/orders/{id}")]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult DeleteOrder(int id)
@@ -220,10 +227,10 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/orders/{id}")]
-        [ProducesResponseType(typeof(OrdersRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(OrdersRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetOrderById(int id, string fields = "")
         {
@@ -251,9 +258,9 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/orders")]
-        [ProducesResponseType(typeof(OrdersRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(OrdersRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetOrders(OrdersParametersModel parameters)
         {
@@ -290,8 +297,8 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/orders/customer/{customerId}")]
-        [ProducesResponseType(typeof(OrdersRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(OrdersRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetOrdersByCustomerId(int customerId, OrdersParametersModel parameters)
         {
@@ -317,9 +324,9 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/orders/count")]
-        [ProducesResponseType(typeof(OrdersCountRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(OrdersCountRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetOrdersCount(OrdersCountParametersModel parameters)
         {
@@ -338,10 +345,10 @@ namespace Nop.Plugin.Api.Modules
 
         [HttpPut]
         [Route("/api/orders/{id}")]
-        [ProducesResponseType(typeof(OrdersRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(OrdersRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
         public IActionResult UpdateOrder([ModelBinder(typeof(JsonModelBinder<OrderDto>))]
             Delta<OrderDto> orderDelta)

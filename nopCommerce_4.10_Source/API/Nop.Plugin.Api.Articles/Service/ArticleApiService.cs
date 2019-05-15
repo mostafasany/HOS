@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Nop.Core.Data;
 using Nop.Core.Domain.Articles;
+using Nop.Plugin.Api.Article.Dto;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
 
@@ -24,17 +25,19 @@ namespace Nop.Plugin.Api.Article.Service
             _articleCategoryRepository = articleCategoryRepository;
         }
 
-        public IList<Core.Domain.Articles.Article> GetArticles(IList<int> ids = null,
+        public Tuple<IList<Core.Domain.Articles.Article>, List<ArticlesFilterDto>> GetArticles(IList<int> ids = null,
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
             int? categoryId = null, int? groupId = null, string keyword = null, string tag = null, bool? publishedStatus = null)
         {
-            IQueryable<Core.Domain.Articles.Article> query = GetArticlesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
+            Tuple<IQueryable<Core.Domain.Articles.Article>, List<ArticlesFilterDto>> tuple = GetArticlesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
                 publishedStatus, categoryId: categoryId, groupId: groupId, tag: tag, keyword: keyword);
 
-            if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
 
-            return new ApiList<Core.Domain.Articles.Article>(query, page - 1, limit);
+            IQueryable<Core.Domain.Articles.Article> query = tuple.Item1;
+            if (sinceId > 0) query = tuple.Item1.Where(c => c.Id > sinceId);
+
+            return new Tuple<IList<Core.Domain.Articles.Article>, List<ArticlesFilterDto>>(new ApiList<Core.Domain.Articles.Article>(query, page - 1, limit), tuple.Item2);
         }
 
         public Core.Domain.Articles.Article GetArticleById(int id)
@@ -71,10 +74,10 @@ namespace Nop.Plugin.Api.Article.Service
             DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, bool? publishedStatus = null,
             int? categoryId = null, int? groupId = null)
         {
-            IQueryable<Core.Domain.Articles.Article> query = GetArticlesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
+            Tuple<IQueryable<Core.Domain.Articles.Article>, List<ArticlesFilterDto>> tuple = GetArticlesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
                 publishedStatus, categoryId: categoryId, groupId: groupId);
 
-            return query.Count();
+            return tuple.Item1.Count();
         }
 
         public IList<FNS_ArticleGroup> GetArticlesGroups()
@@ -93,11 +96,12 @@ namespace Nop.Plugin.Api.Article.Service
                     .All(v => str.Contains(v));
         }
 
-        private IQueryable<Core.Domain.Articles.Article> GetArticlesQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
+        private Tuple<IQueryable<Core.Domain.Articles.Article>, List<ArticlesFilterDto>> GetArticlesQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
             DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             bool? publishedStatus = null, IList<int> ids = null, int? groupId = null, int? categoryId = null, string keyword = null, string tag = null)
 
         {
+            var filters = new List<ArticlesFilterDto>();
             IQueryable<Core.Domain.Articles.Article> query = _articleRepository.Table;
 
             if (ids != null && ids.Count > 0) query = query.Where(c => ids.Contains(c.Id));
@@ -124,6 +128,8 @@ namespace Nop.Plugin.Api.Article.Service
                 query = from product in query
                     join productCategoryMapping in categoryMappingsForProduct on product.Id equals productCategoryMapping.ArticleId
                     select product;
+
+                filters.Add(new ArticlesFilterDto("groupId", groupId.ToString()));
             }
 
             if (categoryId != null && categoryId > 0)
@@ -135,20 +141,30 @@ namespace Nop.Plugin.Api.Article.Service
                 query = from article in query
                     join productCategoryMapping in categoryMappingsForArticles on article.Id equals productCategoryMapping.ArticleId
                     select article;
+
+                filters.Add(new ArticlesFilterDto("categoryId", categoryId.ToString()));
             }
 
-            if (tag != null) query = query.Where(c => c.Tags.Contains(tag));
+            if (tag != null)
+            {
+                string[] tags = tag.Split(new[] { ',' });
+                query = query.Where(a => tags.Any(v => a.Tags.Contains(v)));
+
+                filters.Add(new ArticlesFilterDto("tags", tag));
+            }
 
             if (keyword != null)
             {
                 keyword = keyword.ToLower();
                 query = query.Where(c => c.Title.Contains(keyword));
+
+                filters.Add(new ArticlesFilterDto("keyword", keyword));
             }
 
 
             query = query.OrderByDescending(article => article.UpdatedOnUtc);
 
-            return query;
+            return new Tuple<IQueryable<Core.Domain.Articles.Article>, List<ArticlesFilterDto>>(query, filters);
         }
     }
 }

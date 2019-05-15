@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Nop.Core;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Discounts;
 using Nop.Core.Domain.Media;
@@ -50,6 +51,7 @@ namespace Nop.Plugin.Api.Modules
         private readonly IUrlRecordService _urlRecordService;
         private readonly ICategoryApiService _categoryApiService;
         private readonly ICategoryTransaltor _categoryTransaltor;
+        private readonly IWorkContext _workContext;
 
         public ProductsController(IProductApiService productApiService,
             IJsonFieldsSerializer jsonFieldsSerializer,
@@ -68,6 +70,7 @@ namespace Nop.Plugin.Api.Modules
             IPictureService pictureService,
             IManufacturerService manufacturerService,
             IProductTagService productTagService,
+            IWorkContext workContext,
             IProductAttributeService productAttributeService,
             IProductTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
         {
@@ -81,12 +84,13 @@ namespace Nop.Plugin.Api.Modules
             _dtoHelper = dtoHelper;
             _categoryApiService = categoryApiService;
             _categoryTransaltor = categoryTransaltor;
+            _workContext = workContext;
         }
 
         [HttpPost]
         [Route("/api/products")]
-        [ProducesResponseType(typeof(ProductsRootObjectDto), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ProductsRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
         public IActionResult CreateProduct([ModelBinder(typeof(JsonModelBinder<ProductDto>))]
             Delta<ProductDto> productDelta)
@@ -137,10 +141,10 @@ namespace Nop.Plugin.Api.Modules
 
         [HttpDelete]
         [Route("/api/products/{id}")]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult DeleteProduct(int id)
         {
@@ -169,10 +173,10 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/products/{id}")]
-        [ProducesResponseType(typeof(ProductsRootObjectDto), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ProductsRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetProductById(int id, string fields = "")
         {
@@ -201,9 +205,9 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/products")]
-        [ProducesResponseType(typeof(ProductsRootObjectDto), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ProductsRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetProducts(ProductsParametersModel parameters)
         {
@@ -218,20 +222,19 @@ namespace Nop.Plugin.Api.Modules
 
             IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
 
-            var catgeoryName = "";
+            var title = "";
             if (parameters.CategoryId.HasValue)
             {
                 Core.Domain.Catalog.Category category = _categoryApiService.GetCategoryById(parameters.CategoryId.Value);
                 CategoryDto dto = _categoryTransaltor.PrepareCategoryDTO(category);
-                catgeoryName = dto.Name;
+                title = dto.Name;
             }
-
-
+           
             var productsRootObject = new ProductsRootObjectDto
             {
                 Products = productsAsDtos,
                 Filters = tuple.Item2,
-                Category= catgeoryName
+                HeaderTitle = title
             };
 
             string json = JsonFieldsSerializer.Serialize(productsRootObject, parameters.Fields);
@@ -246,9 +249,9 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/products/count")]
-        [ProducesResponseType(typeof(ProductsCountRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ProductsCountRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetProductsCount(ProductsCountParametersModel parameters)
         {
@@ -272,9 +275,9 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/products/{id}/related")]
-        [ProducesResponseType(typeof(ProductsRootObjectDto), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ProductsRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetRelatedProducts(int id, string fields = "")
         {
@@ -295,11 +298,11 @@ namespace Nop.Plugin.Api.Modules
 
         [HttpPut]
         [Route("/api/products/{id}")]
-        [ProducesResponseType(typeof(ProductsRootObjectDto), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ProductsRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         public IActionResult UpdateProduct([ModelBinder(typeof(JsonModelBinder<ProductDto>))]
             Delta<ProductDto> productDelta)
         {
@@ -353,6 +356,26 @@ namespace Nop.Plugin.Api.Modules
             string json = JsonFieldsSerializer.Serialize(productsRootObject, string.Empty);
 
             return new RawJsonActionResult(json);
+        }
+
+
+        [HttpPut]
+        [Route("/api/products/{id}/rate")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ErrorsRootObject), 422)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        public IActionResult RateProduct(int id, [ModelBinder(typeof(JsonModelBinder<ProductsRatingParametersModel>))]
+            Delta<ProductsRatingParametersModel> productDelta)
+        {
+            var parameters = productDelta.Dto;
+            var success = _productApiService.RateProduct(id, _workContext.CurrentCustomer.Id, parameters.Rating, parameters.StoreId,
+                parameters.ReviewText, parameters.Title);
+            if (success)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
 
         private void UpdateAssociatedProducts(Core.Domain.Catalog.Product product, List<int> passedAssociatedProductIds)
@@ -434,7 +457,7 @@ namespace Nop.Plugin.Api.Modules
                 }
                 else
                 {
-                    var newProductAttributeMapping = new ProductAttributeMapping {ProductId = entityToUpdate.Id};
+                    var newProductAttributeMapping = new ProductAttributeMapping { ProductId = entityToUpdate.Id };
 
                     productDtoDelta.Merge(productAttributeMappingDto, newProductAttributeMapping);
 
@@ -499,7 +522,7 @@ namespace Nop.Plugin.Api.Modules
                     // if manufacturer does not exist we simply ignore it, otherwise add it to the product
                     Manufacturer manufacturer = _manufacturerService.GetManufacturerById(passedManufacturerId);
                     if (manufacturer != null)
-                        _manufacturerService.InsertProductManufacturer(new ProductManufacturer {ProductId = product.Id, ManufacturerId = manufacturer.Id});
+                        _manufacturerService.InsertProductManufacturer(new ProductManufacturer { ProductId = product.Id, ManufacturerId = manufacturer.Id });
                 }
         }
 
@@ -598,7 +621,7 @@ namespace Nop.Plugin.Api.Modules
 
                 if (!_productService.ProductTagExists(product, productTag.Id))
                 {
-                    product.ProductProductTagMappings.Add(new ProductProductTagMapping {ProductTag = productTag});
+                    product.ProductProductTagMappings.Add(new ProductProductTagMapping { ProductTag = productTag });
                     _productService.UpdateProduct(product);
                 }
 

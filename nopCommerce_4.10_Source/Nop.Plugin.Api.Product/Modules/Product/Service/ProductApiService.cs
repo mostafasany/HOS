@@ -20,13 +20,14 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Service
         private readonly IRepository<ProductCategory> _productCategoryMappingRepository;
         private readonly IRepository<Core.Domain.Catalog.Product> _productRepository;
         private readonly IRepository<RelatedProduct> _relatedProductRepository;
+        private readonly IRepository<ProductReview> _productReviewRepository;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IUrlRecordService _urlRecordService;
         private readonly IRepository<Vendor> _vendorRepository;
 
         public ProductApiService(IRepository<Core.Domain.Catalog.Product> productRepository,
             IRepository<ProductCategory> productCategoryMappingRepository,
-            IRepository<Vendor> vendorRepository,
+            IRepository<Vendor> vendorRepository, IRepository<ProductReview> productReviewRepository,
             IStoreMappingService storeMappingService, IRepository<RelatedProduct> relatedProductRepository
             , IUrlRecordService urlRecordService, IRepository<Manufacturer> manufacturerRepository, IRepository<Category> categoryRepository)
         {
@@ -38,6 +39,7 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Service
             _relatedProductRepository = relatedProductRepository;
             _urlRecordService = urlRecordService;
             _manufacturerRepository = manufacturerRepository;
+            _productReviewRepository = productReviewRepository;
         }
 
         public Core.Domain.Catalog.Product GetProductById(int productId)
@@ -179,6 +181,31 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Service
 
 
             return new Tuple<IQueryable<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>>(query, filters);
+        }
+
+
+        public bool RateProduct(int productId,int customerId,
+            int rating,int storeId,string reviewText,string title)
+        {
+            try
+            {
+                _productReviewRepository.Insert(new ProductReview
+                {
+                    CustomerId = customerId,
+                    ProductId = productId,
+                    Rating = rating,
+                    StoreId = storeId,
+                    CreatedOnUtc=DateTime.Now,
+                    Title=title,
+                    ReviewText=reviewText,
+                });
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

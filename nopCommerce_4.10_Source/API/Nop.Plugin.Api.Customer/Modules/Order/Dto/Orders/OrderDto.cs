@@ -272,6 +272,12 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders
         public string OrderStatus { get; set; }
 
         /// <summary>
+        ///     Gets or sets the order status
+        /// </summary>
+        [JsonProperty("order_status_id")]
+        public int OrderStatusId { get; set; }
+
+        /// <summary>
         ///     Gets or sets the payment status
         /// </summary>
         [JsonProperty("payment_status")]
@@ -282,6 +288,12 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders
         /// </summary>
         [JsonProperty("shipping_status")]
         public string ShippingStatus { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the shipping status
+        /// </summary>
+        [JsonProperty("shipping_status_id")]
+        public string ShippingStatusId { get; set; }
 
         /// <summary>
         ///     Gets or sets the customer tax display type

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs.Base;
+using System;
 
 namespace Nop.Plugin.Api.Product.Modules.Discount.Dto
 {
@@ -11,6 +12,9 @@ namespace Nop.Plugin.Api.Product.Modules.Discount.Dto
 
         [JsonProperty("discountTypeId")]
         public int DiscountTypeId { get; set; }
+
+        [JsonProperty("discountAmount")]
+        public decimal DiscountAmount { get; set; }
 
         [JsonProperty("usePercentage")]
         public bool UsePercentage { get; set; }
@@ -36,7 +40,14 @@ namespace Nop.Plugin.Api.Product.Modules.Discount.Dto
         [JsonProperty("limitationTimes")]
         public int LimitationTimes { get; set; }
 
-        [JsonProperty("dfiscountLimitationId")]
+        [JsonProperty("discountLimitationId")]
         public int DiscountLimitationId { get; set; }
+
+        [JsonProperty("startDateUtc")]
+        public DateTime? StartDateUtc { get; set; }
+
+        [JsonProperty("endDateUtc")]
+        public DateTime? EndDateUtc { get; set; }
+
     }
 }

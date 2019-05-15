@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
 
 namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Dto
@@ -17,5 +18,8 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Dto
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("image")]
+        public ImageDto Image { get; set; }
     }
 }

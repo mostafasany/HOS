@@ -12,8 +12,11 @@ namespace Nop.Plugin.Api.Article.Dto
         [JsonProperty("articles")]
         public IList<ArticlesDto> Articles { get; set; }
 
-        [JsonProperty("category")]
-        public string Category { get; set; }
+        [JsonProperty("filters")]
+        public List<ArticlesFilterDto> Filters { get; set; }
+
+        [JsonProperty("header_title")]
+        public string HeaderTitle { get; set; }
 
         public string GetPrimaryPropertyName() => "articles";
 

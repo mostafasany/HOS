@@ -364,6 +364,7 @@ namespace Nop.Plugin.Api
         private readonly IWorkContext _workContext;
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly ICookiesService _cookiesService;
+
         public DelegationGrantValidator(ICustomerApiService customerApiService,
             ICustomerService customerService,
             ICustomerActivityService customerActivityService,
@@ -448,7 +449,7 @@ namespace Nop.Plugin.Api
                     CustomerGuid = Guid.NewGuid()
                 };
                 _customerService.InsertCustomer(customer);
-               
+
             }
 
             InsertFirstAndLastNameGenericAttributes(firstName, lastName, customer);
@@ -473,6 +474,10 @@ namespace Nop.Plugin.Api
             var customersRootObject = new CustomersRootObject();
             customersRootObject.Customers.Add(customerDto);
 
+            AddValidRoles(customer, 3);
+
+            _customerService.UpdateCustomer(customer);
+
             _cookiesService.SetCustomerCookieAndHeader(customer.CustomerGuid);
 
             var dict = new Dictionary<string, object>
@@ -486,6 +491,15 @@ namespace Nop.Plugin.Api
             };
             context.Result = new GrantValidationResult(dict);
             await Task.FromResult(context.Result);
+        }
+
+        private void AddValidRoles(Core.Domain.Customers.Customer currentCustomer, int roleId)
+        {
+            var allCustomerRoles = _customerService.GetAllCustomerRoles(true);
+            var customerRole = allCustomerRoles.FirstOrDefault(a => a.Id == roleId);
+            if (currentCustomer.CustomerCustomerRoleMappings.Count(mapping => mapping.CustomerRoleId == customerRole.Id) == 0)
+                currentCustomer.CustomerCustomerRoleMappings.Add(new CustomerCustomerRoleMapping { CustomerRole = customerRole });
+
         }
     }
 }

@@ -196,7 +196,7 @@ namespace Nop.Plugin.Api.Modules
 
             InsertFirstAndLastNameGenericAttributes(customerDelta.Dto.FirstName, customerDelta.Dto.LastName, newCustomer);
 
-            InsertPhoneAndPictureGenericAttributes(customerDelta.Dto.Phone, customerDelta.Dto.Picture, newCustomer);
+            InsertPhoneAndPictureGenericAttributes(customerDelta.Dto.DateOfBirth.ToString(), customerDelta.Dto.Phone, customerDelta.Dto.Picture, newCustomer);
 
             if (!string.IsNullOrEmpty(customerDelta.Dto.LanguageId) && int.TryParse(customerDelta.Dto.LanguageId, out int languageId)
                                                                     && _languageService.GetLanguageById(languageId) != null)
@@ -229,7 +229,6 @@ namespace Nop.Plugin.Api.Modules
 
             customersRootObject.Customers.Add(newCustomerDto);
 
-            // TODO: move this before inserting the customer.
             if (customerDelta.Dto.RoleIds.Count > 0)
             {
                 AddValidRoles(customerDelta, newCustomer);
@@ -332,13 +331,6 @@ namespace Nop.Plugin.Api.Modules
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetCustomerById(int id, string fields = "")
         {
-            //var caller = User as ClaimsPrincipal;
-            //var t=caller.Claims;
-            //if (HttpContext.User.Identity is ClaimsIdentity identity)
-            //{
-            //    IEnumerable<Claim> claims = identity.Claims;
-            //}
-
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
             CustomerDto customer = _customerApiService.GetCustomerById(id);
@@ -542,9 +534,6 @@ namespace Nop.Plugin.Api.Modules
 
             if (customerDelta.Dto.RoleIds.Count > 0)
             {
-                // Remove all roles
-                while (currentCustomer.CustomerRoles.Count > 0) currentCustomer.CustomerRoles.Remove(currentCustomer.CustomerRoles.First());
-
                 AddValidRoles(customerDelta, currentCustomer);
             }
 
@@ -567,7 +556,7 @@ namespace Nop.Plugin.Api.Modules
 
             InsertFirstAndLastNameGenericAttributes(customerDelta.Dto.FirstName, customerDelta.Dto.LastName, currentCustomer);
 
-            InsertPhoneAndPictureGenericAttributes(customerDelta.Dto.Phone, customerDelta.Dto.Picture, currentCustomer);
+            InsertPhoneAndPictureGenericAttributes(customerDelta.Dto.DateOfBirth.ToString(), customerDelta.Dto.Phone, customerDelta.Dto.Picture, currentCustomer);
 
 
             if (!string.IsNullOrEmpty(customerDelta.Dto.LanguageId) && int.TryParse(customerDelta.Dto.LanguageId, out int languageId)
@@ -655,11 +644,24 @@ namespace Nop.Plugin.Api.Modules
 
         private void AddValidRoles(Delta<CustomerDto> customerDelta, Core.Domain.Customers.Customer currentCustomer)
         {
-            IList<CustomerRole> validCustomerRoles =
-                _customerRolesHelper.GetValidCustomerRoles(customerDelta.Dto.RoleIds).ToList();
-
-            // Add all newly passed roles
-            foreach (CustomerRole role in validCustomerRoles) currentCustomer.CustomerRoles.Add(role);
+            var allCustomerRoles = CustomerService.GetAllCustomerRoles(true);
+            foreach (var customerRole in allCustomerRoles)
+            {
+                if (customerDelta.Dto.RoleIds.Contains(customerRole.Id))
+                {
+                    //new role
+                    if (currentCustomer.CustomerCustomerRoleMappings.Count(mapping => mapping.CustomerRoleId == customerRole.Id) == 0)
+                        currentCustomer.CustomerCustomerRoleMappings.Add(new CustomerCustomerRoleMapping { CustomerRole = customerRole });
+                }
+                else
+                {
+                    if (currentCustomer.CustomerCustomerRoleMappings.Count(mapping => mapping.CustomerRoleId == customerRole.Id) > 0)
+                    {
+                        currentCustomer.CustomerCustomerRoleMappings
+                            .Remove(currentCustomer.CustomerCustomerRoleMappings.FirstOrDefault(mapping => mapping.CustomerRoleId == customerRole.Id));
+                    }
+                }
+            }
         }
 
         private void InsertFirstAndLastNameGenericAttributes(string firstName, string lastName, Core.Domain.Customers.Customer newCustomer)
@@ -670,10 +672,12 @@ namespace Nop.Plugin.Api.Modules
             if (lastName != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.LastNameAttribute, lastName);
         }
 
-        private void InsertPhoneAndPictureGenericAttributes(string phone, string picture, Core.Domain.Customers.Customer newCustomer)
+        private void InsertPhoneAndPictureGenericAttributes(string dob, string phone, string picture, Core.Domain.Customers.Customer newCustomer)
         {
             // we assume that if the first name is not sent then it will be null and in this case we don't want to update it
             if (phone != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.PhoneAttribute, phone);
+
+            if (dob != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.DateOfBirthAttribute, dob);
 
             if (picture != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.AvatarPictureIdAttribute, picture);
         }
