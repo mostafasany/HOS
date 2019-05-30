@@ -54,7 +54,8 @@ namespace Nop.Plugin.Api.Modules
         private readonly IDiscountService _discountService;
         private readonly IDiscountTransaltor _discountTransaltor;
 
-        public ShoppingCartItemsController(IShoppingCartItemApiService shoppingCartItemApiService, IShippingService shippingService,
+        public ShoppingCartItemsController(IShoppingCartItemApiService shoppingCartItemApiService,
+            IShippingService shippingService,
             IJsonFieldsSerializer jsonFieldsSerializer,
             IAclService aclService,
             ICustomerService customerService,
@@ -313,7 +314,7 @@ namespace Nop.Plugin.Api.Modules
             if (parameters.StateProvinceId <= 0) return Error(HttpStatusCode.BadRequest, "province", "invalid province parameter");
 
             IList<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems();
-
+           
             var shippingRateComputationMethods = _shippingService.LoadActiveShippingRateComputationMethods().FirstOrDefault();
 
             IShippingRateComputationMethod n = _shippingService.LoadShippingRateComputationMethodBySystemName(shippingRateComputationMethods?.PluginDescriptor?.SystemName);
@@ -515,7 +516,7 @@ namespace Nop.Plugin.Api.Modules
             IList<string> warnings = _shoppingCartService.UpdateShoppingCartItem(shoppingCartItemForUpdate.Customer, shoppingCartItemForUpdate.Id,
                 shoppingCartItemForUpdate.AttributesXml, shoppingCartItemForUpdate.CustomerEnteredPrice,
                 shoppingCartItemForUpdate.RentalStartDateUtc, shoppingCartItemForUpdate.RentalEndDateUtc,
-                shoppingCartItemForUpdate.Quantity);
+                shoppingCartItemForUpdate.Quantity,false);
 
             if (warnings.Count > 0)
             {

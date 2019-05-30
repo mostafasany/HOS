@@ -54,7 +54,6 @@ namespace Nop.Plugin.Api.Modules
         private readonly ICustomerActivityService _customerActivityService;
         private readonly ICustomerApiService _customerApiService;
         private readonly ICustomerRegistrationService _customerRegistrationService;
-        private readonly ICustomerRolesHelper _customerRolesHelper;
         private readonly ICustomerService _customerService;
         private readonly CustomerSettings _customerSettings;
         private readonly IEncryptionService _encryptionService;
@@ -79,7 +78,6 @@ namespace Nop.Plugin.Api.Modules
             IDiscountService discountService,
             ICustomerActivityService customerActivityService,
             ILocalizationService localizationService,
-            ICustomerRolesHelper customerRolesHelper,
             IGenericAttributeService genericAttributeService,
             IEncryptionService encryptionService,
             IFactory<Core.Domain.Customers.Customer> factory,
@@ -88,14 +86,14 @@ namespace Nop.Plugin.Api.Modules
             INewsLetterSubscriptionService newsLetterSubscriptionService,
             IPictureService pictureService, ILanguageService languageService,
             ICustomerRegistrationService customerRegistrationService,
-            IShoppingCartService shoppingCartService,
             IAuthenticationService authenticationService,
             IWorkContext workContext,
             IEventPublisher eventPublisher,
             IWorkflowMessageService workflowMessageService,
             IHttpContextAccessor httpContextAccessor
         ) :
-            base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
+            base(jsonFieldsSerializer, aclService, customerService, storeMappingService,
+                storeService, discountService, customerActivityService, localizationService, pictureService)
         {
             _customerApiService = customerApiService;
             _factory = factory;
@@ -105,7 +103,6 @@ namespace Nop.Plugin.Api.Modules
             _languageService = languageService;
             _encryptionService = encryptionService;
             _genericAttributeService = genericAttributeService;
-            _customerRolesHelper = customerRolesHelper;
             _customerActivityService = customerActivityService;
             _customerRegistrationService = customerRegistrationService;
             _authenticationService = authenticationService;
@@ -134,7 +131,7 @@ namespace Nop.Plugin.Api.Modules
             if (!_workContext.CurrentCustomer.IsRegistered())
                 return Challenge();
 
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return Error();
 
 
             var changePasswordRequest = new ChangePasswordRequest(_workContext.CurrentCustomer.Email,
@@ -146,15 +143,34 @@ namespace Nop.Plugin.Api.Modules
             if (result.Success)
                 return new RawJsonActionResult(json);
 
-            //errors
-            foreach (string error in result.Errors)
-                ModelState.AddModelError("", error);
+            return Error(HttpStatusCode.BadRequest, "Password In Correct", result.Errors.ToList());
 
-            if (result.Errors != null)
-                return BadRequest(result.Errors);
+        }
 
+        /// <summary>
+        ///     Get a count of all customers
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpPost]
+        [Route("/api/customers/newslettersubscription")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        public IActionResult SubscribeNewsletter(string email,int storeId)
+        {
+            if (string.IsNullOrEmpty(email))
+                return Error(HttpStatusCode.BadRequest,"Email","Email is empty");
 
-            return BadRequest("Error");
+            NewsLetterSubscription subscription = _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreId(email, storeId);
+            if (subscription == null)
+                _newsLetterSubscriptionService.InsertNewsLetterSubscription(new NewsLetterSubscription
+                {
+                    Email = email,
+                    StoreId = storeId,
+                    Active = true
+                });
+
+            return Ok();
         }
 
         [HttpPost]
@@ -170,13 +186,14 @@ namespace Nop.Plugin.Api.Modules
 
             //If the validation has passed the customerDelta object won't be null for sure so we don't need to check for this.
 
-            var existingCustomer=_customerService.GetCustomerByEmail(customerDelta.Dto.Email);
+            var existingCustomer = _customerService.GetCustomerByEmail(customerDelta.Dto.Email);
             if (existingCustomer == null)
                 existingCustomer = _customerService.GetCustomerByUsername(customerDelta.Dto.Username);
 
-            if(existingCustomer!=null)
+            if (existingCustomer != null)
             {
-                return Error(HttpStatusCode.BadRequest, "Username/Email", "Username/Email already Exists");
+                return Error(HttpStatusCode.BadRequest, "Username/Email",
+                    _localizationService.GetResource("Account.CheckUsernameAvailability.Available"));
             }
 
 
@@ -194,9 +211,8 @@ namespace Nop.Plugin.Api.Modules
             newCustomer.Email = newCustomer.Email.ToLower();
             CustomerService.InsertCustomer(newCustomer);
 
-            InsertFirstAndLastNameGenericAttributes(customerDelta.Dto.FirstName, customerDelta.Dto.LastName, newCustomer);
-
-            InsertPhoneAndPictureGenericAttributes(customerDelta.Dto.DateOfBirth.ToString(), customerDelta.Dto.Phone, customerDelta.Dto.Picture, newCustomer);
+            InsertGenericAttributes(customerDelta.Dto.FirstName, customerDelta.Dto.LastName, customerDelta.Dto.Gender,
+              customerDelta.Dto.DateOfBirth, customerDelta.Dto.Phone, customerDelta.Dto.Picture, newCustomer);
 
             if (!string.IsNullOrEmpty(customerDelta.Dto.LanguageId) && int.TryParse(customerDelta.Dto.LanguageId, out int languageId)
                                                                     && _languageService.GetLanguageById(languageId) != null)
@@ -207,7 +223,7 @@ namespace Nop.Plugin.Api.Modules
 
             // We need to insert the entity first so we can have its id in order to map it to anything.
             // TODO: Localization
-           
+
             // Preparing the result dto of the new customer
             // We do not prepare the shopping cart items because we have a separate endpoint for them.
             CustomerDto newCustomerDto = newCustomer.ToDto();
@@ -235,7 +251,6 @@ namespace Nop.Plugin.Api.Modules
 
                 CustomerService.UpdateCustomer(newCustomer);
             }
-
 
             string json = JsonFieldsSerializer.Serialize(customersRootObject, string.Empty);
 
@@ -286,7 +301,7 @@ namespace Nop.Plugin.Api.Modules
         public IActionResult Forget([ModelBinder(typeof(JsonModelBinder<ForgetDto>))]
             Delta<ForgetDto> forgetDelta)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return Error();
 
             Core.Domain.Customers.Customer customer = _customerService.GetCustomerByEmail(forgetDelta.Dto.Email);
             if (customer != null && customer.Active && !customer.Deleted)
@@ -397,43 +412,6 @@ namespace Nop.Plugin.Api.Modules
 
             return Ok(customersCountRootObject);
         }
-
-
-        ///// <summary>
-        /////     Retrieve customer by spcified id
-        ///// </summary>
-        ///// <response code="200">OK</response>
-        ///// <response code="404">Not Found</response>
-        ///// <response code="401">Unauthorized</response>
-        //[HttpGet]
-        //[Route("/api/profile")]
-        //[ProducesResponseType(typeof(CustomersRootObject), (int)HttpStatusCode.OK)]
-        //[ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
-        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
-        //[GetRequestsErrorInterceptorActionFilter]
-        //public IActionResult GetProfileData()
-        //{
-        //    var id = 0;
-        //    if (HttpContext.User.Identity is ClaimsIdentity identity)
-        //    {
-        //        IEnumerable<Claim> claims = identity.Claims;
-        //        int.TryParse(claims.FirstOrDefault(a => a.Type == "id")?.Value, out id);
-        //    }
-
-        //    if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
-
-        //    CustomerDto customer = _customerApiService.GetCustomerById(id);
-
-        //    if (customer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
-
-        //    var customersRootObject = new CustomersRootObject();
-        //    customersRootObject.Customers.Add(customer);
-
-        //    string json = JsonFieldsSerializer.Serialize(customersRootObject, "");
-
-        //    return new RawJsonActionResult(json);
-        //}
 
 
         /// <summary>
@@ -554,9 +532,9 @@ namespace Nop.Plugin.Api.Modules
 
             CustomerService.UpdateCustomer(currentCustomer);
 
-            InsertFirstAndLastNameGenericAttributes(customerDelta.Dto.FirstName, customerDelta.Dto.LastName, currentCustomer);
-
-            InsertPhoneAndPictureGenericAttributes(customerDelta.Dto.DateOfBirth.ToString(), customerDelta.Dto.Phone, customerDelta.Dto.Picture, currentCustomer);
+            InsertGenericAttributes(customerDelta.Dto.FirstName, customerDelta.Dto.LastName, customerDelta.Dto.Gender,
+               customerDelta.Dto.DateOfBirth,
+               customerDelta.Dto.Phone, customerDelta.Dto.Picture, currentCustomer);
 
 
             if (!string.IsNullOrEmpty(customerDelta.Dto.LanguageId) && int.TryParse(customerDelta.Dto.LanguageId, out int languageId)
@@ -603,6 +581,29 @@ namespace Nop.Plugin.Api.Modules
             string json = JsonFieldsSerializer.Serialize(customersRootObject, string.Empty);
 
             return new RawJsonActionResult(json);
+        }
+
+        /// <summary>
+        ///     Get a count of all customers
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpPut]
+        [Route("/api/customers/langauge/{id}")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        public IActionResult SetLanguage(int id)
+        {
+            if (id <= 0)
+                return BadRequest("Language not found");
+
+            var language = _languageService.GetLanguageById(id);
+            if (language?.Published ?? false)
+                _workContext.WorkingLanguage = language;
+            else
+                return BadRequest("Language not found");
+
+            return Ok();
         }
 
         private void AddPassword(string newPassword, Core.Domain.Customers.Customer customer)
@@ -664,22 +665,22 @@ namespace Nop.Plugin.Api.Modules
             }
         }
 
-        private void InsertFirstAndLastNameGenericAttributes(string firstName, string lastName, Core.Domain.Customers.Customer newCustomer)
+        private void InsertGenericAttributes(string firstName, string lastName, string gender,
+            string dob, string phone, string picture, Core.Domain.Customers.Customer newCustomer)
         {
             // we assume that if the first name is not sent then it will be null and in this case we don't want to update it
             if (firstName != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.FirstNameAttribute, firstName);
 
             if (lastName != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.LastNameAttribute, lastName);
-        }
 
-        private void InsertPhoneAndPictureGenericAttributes(string dob, string phone, string picture, Core.Domain.Customers.Customer newCustomer)
-        {
-            // we assume that if the first name is not sent then it will be null and in this case we don't want to update it
+            if (gender != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.GenderAttribute, gender);
+
             if (phone != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.PhoneAttribute, phone);
 
             if (dob != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.DateOfBirthAttribute, dob);
 
             if (picture != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.AvatarPictureIdAttribute, picture);
+
         }
 
         private void PopulateAddressCountryNames(CustomerDto newCustomerDto)

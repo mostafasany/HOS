@@ -22,14 +22,14 @@ namespace Nop.Plugin.Api.Common.Attributes
             if (actionExecutedContext.Exception != null && !actionExecutedContext.ExceptionHandled)
             {
                 var error = new KeyValuePair<string, List<string>>("internal_server_error",
-                    new List<string> {"please, contact the store owner"});
+                    new List<string> { "please, contact the store owner" });
 
                 actionExecutedContext.Exception = null;
                 actionExecutedContext.ExceptionHandled = true;
                 SetError(actionExecutedContext, error);
             }
             else if (actionExecutedContext.HttpContext.Response != null &&
-                     (HttpStatusCode) actionExecutedContext.HttpContext.Response.StatusCode != HttpStatusCode.OK)
+                     (HttpStatusCode)actionExecutedContext.HttpContext.Response.StatusCode != HttpStatusCode.OK)
             {
                 string responseBody;
 
@@ -48,7 +48,7 @@ namespace Nop.Plugin.Api.Common.Attributes
                 if (!string.IsNullOrEmpty(defaultWebApiErrorsModel.Message) &&
                     !string.IsNullOrEmpty(defaultWebApiErrorsModel.MessageDetail))
                 {
-                    var error = new KeyValuePair<string, List<string>>("lookup_error", new List<string> {"not found"});
+                    var error = new KeyValuePair<string, List<string>>("lookup_error", new List<string> { "not found" });
 
                     SetError(actionExecutedContext, error);
                 }
@@ -59,8 +59,9 @@ namespace Nop.Plugin.Api.Common.Attributes
 
         private void SetError(ActionExecutedContext actionExecutedContext, KeyValuePair<string, List<string>> error)
         {
-            var bindingError = new Dictionary<string, List<string>> {{error.Key, error.Value}};
-
+            // var bindingError = new Dictionary<string, List<string>> { { error.Key, error.Value } };
+            var bindingError = new List<ErrorObject>();
+            bindingError.Add(new ErrorObject { Cause = error.Key, Details = error.Value });
             var errorsRootObject = new ErrorsRootObject
             {
                 Errors = bindingError

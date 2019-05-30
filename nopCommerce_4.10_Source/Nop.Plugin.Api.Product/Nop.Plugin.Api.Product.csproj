@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Modules\Product\Dto\Validator\**" />
     <Compile Remove="Modules\SpecificationAttributes\Dto\Validator\**" />
+    <EmbeddedResource Remove="Modules\Product\Dto\Validator\**" />
     <EmbeddedResource Remove="Modules\SpecificationAttributes\Dto\Validator\**" />
+    <None Remove="Modules\Product\Dto\Validator\**" />
     <None Remove="Modules\SpecificationAttributes\Dto\Validator\**" />
   </ItemGroup>
 
@@ -17,7 +20,6 @@
   <ItemGroup>
     <Folder Include="Modules\Discount\Dto\Validator\" />
     <Folder Include="Modules\ProductSpecificationAttributes\Service\" />
-    <Folder Include="Modules\Product\Dto\Validator\" />
   </ItemGroup>
 
 </Project>

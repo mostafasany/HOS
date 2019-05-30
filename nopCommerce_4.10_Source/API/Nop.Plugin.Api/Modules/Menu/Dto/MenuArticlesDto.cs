@@ -28,5 +28,10 @@ namespace Nop.Plugin.Api.Modules.Menu.Dto
 
         [JsonProperty("MenuItemsSecondRow")]
         public List<ArticlesDto> ArticlesSecondRow { get; set; }
+
+        [JsonProperty("MenuItemsThirdRow")]
+        public List<ArticlesDto> ArticlesThirdRow { get; set; }
+
+        
     }
 }

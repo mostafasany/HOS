@@ -1,0 +1,73 @@
+﻿.article-list .tags {
+	float: left;
+	width: 80%;
+	text-align: left;
+}
+.article-list .buttons {
+	float: right;
+	width: 20%;
+	text-align: right;
+}
+.article-page .tags, 
+.articlepost-page .tags {
+	margin: 0 0 15px;
+	overflow: hidden;
+	padding: 0 10px;
+}
+.article-page .tags label,
+.articlepost-page .tags label {
+	display: inline-block;
+	margin: 0 0 3px 3px;
+	font-weight: bold;
+	color: #444;
+}
+.article-page .tags ul,
+.articlepost-page .tags ul {
+	display: inline-block;
+	margin: 0 3px 3px 0;
+	font-size: 0;
+}
+.article-page .tags li,
+.articlepost-page .tags li {
+	display: inline-block;
+	font-size: 14px; /*reset zeroing*/
+}
+.article-page .tags li.separator,
+.articlepost-page .tags li.separator {
+	margin: 0 0 0 8px;
+}
+.article-page .tags a,
+.articlepost-page .tags a {
+	display: block;
+	color: #4ab2f1;
+}
+.article-page .tags a:hover,
+.articlepost-page .tags a:hover {
+	text-decoration: underline;
+}
+
+.article-list .buttons {
+	margin: 0 0 10px 0;
+	padding: 0 10px;
+}
+.article-list .buttons .read-comments {
+	display: block;
+	margin: 0 0 15px;
+	font-weight: bold;
+	color: #444;
+}
+.article-list .buttons .read-comments:hover {
+	color: #4ab2f1;
+}
+.article-list .buttons .read-more {
+	display: inline-block;
+	border: none;
+	background-color: #4ab2f1;
+	padding: 10px 20px;
+	font-size: 12px;
+	color: #fff;
+	text-transform: uppercase;
+}
+.article-list .buttons .read-more:hover {
+	background-color: #248ece;
+}

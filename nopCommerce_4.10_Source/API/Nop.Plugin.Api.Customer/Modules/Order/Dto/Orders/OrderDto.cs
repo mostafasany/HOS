@@ -306,5 +306,18 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders
         /// </summary>
         [JsonProperty("order_notes")]
         public string OrderNotes { get; set; }
+
+
+        /// <summary>
+        ///     Gets or sets the rental product end date (null if it's not a rental product)
+        /// </summary>
+        [JsonProperty("expect_delivery_date_from")]
+        public DateTime? ExpectedDeliveryDateFrom { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the rental product end date (null if it's not a rental product)
+        /// </summary>
+        [JsonProperty("expect_delivery_date_to")]
+        public DateTime? ExpectedDeliveryDateTo { get; set; }
     }
 }

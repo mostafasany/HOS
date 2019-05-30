@@ -392,20 +392,23 @@ namespace Nop.Plugin.Api
 
         public string GrantType => "external";
 
-        private void InsertFirstAndLastNameGenericAttributes(string firstName, string lastName, Core.Domain.Customers.Customer newCustomer)
+
+        private void InsertGenericAttributes(string firstName, string lastName, string gender,
+            string dob, string phone, string picture, Core.Domain.Customers.Customer newCustomer)
         {
             // we assume that if the first name is not sent then it will be null and in this case we don't want to update it
             if (firstName != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.FirstNameAttribute, firstName);
 
             if (lastName != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.LastNameAttribute, lastName);
-        }
 
-        private void InsertPhoneAndPictureGenericAttributes(string phone, string picture, Core.Domain.Customers.Customer newCustomer)
-        {
-            // we assume that if the first name is not sent then it will be null and in this case we don't want to update it
+            if (gender != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.GenderAttribute, gender);
+
             if (phone != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.PhoneAttribute, phone);
 
+            if (dob != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.DateOfBirthAttribute, dob);
+
             if (picture != null) _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.AvatarPictureIdAttribute, picture);
+
         }
 
         public async Task ValidateAsync(ExtensionGrantValidationContext context)
@@ -418,6 +421,8 @@ namespace Nop.Plugin.Api
             var lastName = context.Request.Raw.Get("last_name");
             var picture = context.Request.Raw.Get("picture");
             var phone = context.Request.Raw.Get("phone");
+            var dob = context.Request.Raw.Get("dob");
+            var gender = context.Request.Raw.Get("gender");
 
             if (string.IsNullOrEmpty(userToken))
             {
@@ -452,9 +457,7 @@ namespace Nop.Plugin.Api
 
             }
 
-            InsertFirstAndLastNameGenericAttributes(firstName, lastName, customer);
-
-            InsertPhoneAndPictureGenericAttributes(phone, picture, customer);
+            InsertGenericAttributes(firstName, lastName,gender,dob,phone,picture, customer);
 
             CustomerDto customerDto = _customerApiService.GetCustomerById(customer.Id);
 

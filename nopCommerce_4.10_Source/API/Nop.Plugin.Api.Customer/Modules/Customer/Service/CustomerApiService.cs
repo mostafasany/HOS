@@ -182,7 +182,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
                         else if (mapping.Attribute.Key.Equals(LanguageId, StringComparison.InvariantCultureIgnoreCase))
                             customerDto.LanguageId = mapping.Attribute.Value;
                         else if (mapping.Attribute.Key.Equals(DateOfBirth, StringComparison.InvariantCultureIgnoreCase))
-                            customerDto.DateOfBirth = string.IsNullOrEmpty(mapping.Attribute.Value) ? (DateTime?)null : DateTime.Parse(mapping.Attribute.Value);
+                            customerDto.DateOfBirth = mapping.Attribute.Value;
                         else if (mapping.Attribute.Key.Equals(Gender, StringComparison.InvariantCultureIgnoreCase))
                             customerDto.Gender = mapping.Attribute.Value;
                         else if (mapping.Attribute.Key.Equals(Phone, StringComparison.InvariantCultureIgnoreCase))
@@ -407,7 +407,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
                     else if (attribute.Key.Equals(LanguageId, StringComparison.InvariantCultureIgnoreCase))
                         customerDto.LanguageId = attribute.Value;
                     else if (attribute.Key.Equals(DateOfBirth, StringComparison.InvariantCultureIgnoreCase))
-                        customerDto.DateOfBirth = string.IsNullOrEmpty(attribute.Value) ? (DateTime?)null : DateTime.Parse(attribute.Value);
+                        customerDto.DateOfBirth = attribute.Value;
                     else if (attribute.Key.Equals(Gender, StringComparison.InvariantCultureIgnoreCase)) customerDto.Gender = attribute.Value;
 
             return customerDto;

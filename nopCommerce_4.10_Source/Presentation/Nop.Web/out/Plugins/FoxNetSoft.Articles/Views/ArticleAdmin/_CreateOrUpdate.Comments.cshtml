@@ -1,0 +1,111 @@
+@model FoxNetSoft.Plugin.Misc.Articles.Models.Admin.ArticleModel
+@inject AdminAreaSettings adminAreaSettings
+@using Nop.Core.Domain.Common
+@using FoxNetSoft.Plugin.Misc.Articles.Services
+@using Microsoft.AspNetCore.Routing
+<div class="panel-group">
+    @if (Model.Id > 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @{
+                    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+                    var gridPageSizes = adminAreaSettings.GridPageSizes;
+                }
+                <div id="articlecomments-grid"></div>
+                <script>
+                        $(document).ready(function () {
+                            $("#articlecomments-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("Comments", "ArticleAdmin", new RouteValueDictionary { { "filterByArticleId", Model.Id} }))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        },
+                                        destroy: {
+                                            url: "@Html.Raw(Url.Action("CommentDelete", "ArticleAdmin"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors",
+                                        model: {
+                                            id: "Id",
+                                            fields: {
+                                                //do not implicitly specify all fields
+                                                //we do it only for fields which implicitly require it
+                                                //otherwise, they'll be formatted wrong way
+                                                CreatedOn: {type: "date" }
+                                            }
+                                        }
+                                    },
+                                    error: function(e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(defaultGridPageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(gridPageSizes)]
+                                },
+                                editable: {
+                                    confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                columns: [{
+                                    field: "Id",
+                                    title: "ID",
+                                    width: 50
+                                }, @*{
+                                    field: "ArticleTitle",
+                                    title: "@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Comments.Fields.Article")",
+                                    width: 200,
+                                    template: '<a href="@Url.Content("~/Admin/ArticleAdmin/Edit/")#=ArticleId#">#:ArticleTitle#</a>'
+                                },*@ {
+                                    field: "CustomerId",
+                                    title: "@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Comments.Fields.Customer")",
+                                    width: 200,
+                                    template: '<a href="@Url.Content("~/Admin/Customer/Edit/")#=CustomerId#">#:CustomerInfo#</a>'
+                                }, {
+                                    field: "Comment",
+                                    title: "@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Comments.Fields.Comment")",
+                                    encoded: false
+                                }, {
+                                    field: "CreatedOn",
+                                    title: "@T("Admin.FoxNetSoft.Plugin.Misc.Articles.Comments.Fields.CreatedOn")",
+                                    width: 200,
+                                    type: "date",
+                                    format: "{0:G}"
+                                }, {
+                                    command: { name: "destroy", text: "@T("Admin.Common.Delete")" },
+                                    title: "@T("Admin.Common.Delete")",
+                                    width: 100
+                                }]
+                            });
+                        });
+                </script>
+            </div>
+        </div>
+      }
+      else
+      {
+          <div class="panel panel-default">
+            <div class="panel-body">
+                @T("Admin.FoxNetSoft.Plugin.Misc.Articles.Comments.SaveBeforeEdit")
+            </div>
+          </div>
+      }
+</div>

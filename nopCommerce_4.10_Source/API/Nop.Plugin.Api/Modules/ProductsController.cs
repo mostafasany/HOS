@@ -22,6 +22,7 @@ using Nop.Plugin.Api.Common.Factories;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
+using Nop.Plugin.Api.Content.Modules.Manufacturer.Translator;
 using Nop.Plugin.Api.Product.Modules.Product.Dto;
 using Nop.Plugin.Api.Product.Modules.Product.Model;
 using Nop.Plugin.Api.Product.Modules.Product.Service;
@@ -51,6 +52,7 @@ namespace Nop.Plugin.Api.Modules
         private readonly IUrlRecordService _urlRecordService;
         private readonly ICategoryApiService _categoryApiService;
         private readonly ICategoryTransaltor _categoryTransaltor;
+        private readonly IManufacturerTransaltor _manufacturerTransaltor;
         private readonly IWorkContext _workContext;
 
         public ProductsController(IProductApiService productApiService,
@@ -71,6 +73,7 @@ namespace Nop.Plugin.Api.Modules
             IManufacturerService manufacturerService,
             IProductTagService productTagService,
             IWorkContext workContext,
+            IManufacturerTransaltor manufacturerTransaltor,
             IProductAttributeService productAttributeService,
             IProductTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
         {
@@ -85,6 +88,7 @@ namespace Nop.Plugin.Api.Modules
             _categoryApiService = categoryApiService;
             _categoryTransaltor = categoryTransaltor;
             _workContext = workContext;
+            _manufacturerTransaltor = manufacturerTransaltor;
         }
 
         [HttpPost]
@@ -217,7 +221,7 @@ namespace Nop.Plugin.Api.Modules
 
             Tuple<IList<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>> tuple = _productApiService.GetProducts(parameters.Ids, parameters.CreatedAtMin, parameters.CreatedAtMax, parameters.UpdatedAtMin,
                 parameters.UpdatedAtMax, parameters.Limit, parameters.Page, parameters.SinceId, parameters.CategoryId, parameters.CategorySlug,
-                parameters.VendorName, parameters.ManufacturerName, parameters.Keyword, parameters.PublishedStatus);
+                parameters.VendorName, parameters.ManufacturerName,parameters.ManufacturerId, parameters.Keyword, parameters.PublishedStatus);
             IEnumerable<Core.Domain.Catalog.Product> allProducts = tuple.Item1.Where(p => StoreMappingService.Authorize(p));
 
             IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
@@ -229,7 +233,13 @@ namespace Nop.Plugin.Api.Modules
                 CategoryDto dto = _categoryTransaltor.PrepareCategoryDTO(category);
                 title = dto.Name;
             }
-           
+            else if (parameters.ManufacturerId.HasValue)
+            {
+                var manufacturer = _manufacturerService.GetManufacturerById(parameters.ManufacturerId.Value);
+                var dto = _manufacturerTransaltor.ConvertToDto(manufacturer);
+                title = dto.Name;
+            }
+
             var productsRootObject = new ProductsRootObjectDto
             {
                 Products = productsAsDtos,
@@ -294,6 +304,63 @@ namespace Nop.Plugin.Api.Modules
             string json = JsonFieldsSerializer.Serialize(productsRootObject, fields);
 
             return new RawJsonActionResult(json);
+        }
+
+
+        /// <summary>
+        ///     Receive a list of all products
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/products/{customerId}/productReview")]
+        [ProducesResponseType(typeof(ProductsRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetReviewedProducts(int customerId,bool approved, int pageIndex, int pageSize)
+        {
+            IEnumerable<ProductReview> allProducts = _productService.GetAllProductReviews(customerId, approved, pageIndex: pageIndex, pageSize: pageSize);
+
+            IList<ProductReviewDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductReviewDTO(product)).ToList();
+
+            var productsRootObject = new ProductsReviewRootObjectDto
+            {
+                ProductsReview = productsAsDtos
+            };
+
+            string json = JsonFieldsSerializer.Serialize(productsRootObject, "");
+
+            return new RawJsonActionResult(json);
+        }
+
+
+
+        /// <summary>
+        ///     Receive a list of all products
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpDelete]
+        [Route("/api/products/{customerId}/productReview/{id}")]
+        [ProducesResponseType(typeof(ProductsRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult DeleteReviewedProducts(int id)
+        {
+            try
+            {
+                var review = _productService.GetProductReviewById(id);
+                _productService.DeleteProductReview(review);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }           
         }
 
         [HttpPut]

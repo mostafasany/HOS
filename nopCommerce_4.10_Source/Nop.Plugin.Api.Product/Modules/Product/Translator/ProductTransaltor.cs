@@ -7,6 +7,7 @@ using Nop.Core.Domain.Media;
 using Nop.Plugin.Api.Common.Converters;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Product;
+using Nop.Plugin.Api.Product.Modules.Product.Dto;
 using Nop.Services.Catalog;
 using Nop.Services.Localization;
 using Nop.Services.Media;
@@ -19,7 +20,6 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Translator
     public class ProductTransaltor : IProductTransaltor
     {
         private readonly IAclService _aclService;
-
         private readonly int _currentLangaugeId;
         private readonly ILocalizationService _localizationService;
         private readonly IPictureService _pictureService;
@@ -79,7 +79,7 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Translator
             productDto.RoleIds = _aclService.GetAclRecords(product).Select(acl => acl.CustomerRoleId).ToList();
             productDto.StoreIds = _storeMappingService.GetStoreMappings(product).Select(mapping => mapping.StoreId)
                 .ToList();
-            productDto.Tags = _productTagService.GetAllProductTagsByProductId(product.Id).Select(tag => tag.Name)
+            productDto.Tags = _productTagService.GetAllProductTagsByProductId(product.Id).Select(tag => _localizationService.GetLocalized(tag, x => x.Name, _currentLangaugeId))
                 .ToList();
 
             productDto.AssociatedProductIds =
@@ -105,6 +105,20 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Translator
 
             // productDto.LocalizedNames.FirstOrDefault(a => a.LanguageId == _currentLangaugeId)?.LocalizedName;
             return productDto;
+        }
+
+        public ProductReviewDto PrepareProductReviewDTO(ProductReview productReview)
+        {
+            ProductReviewDto review = new ProductReviewDto();
+            ProductDto productDto = productReview.Product.ToDto();
+            PrepareProductImages(productReview.Product.ProductPictures, productDto);
+            review.Product = productDto;
+            review.Id = productReview.Id;
+            review.Title = productReview.Title;
+            review.ReviewText = productReview.ReviewText;
+            review.Rating = productReview.Rating;
+            review.ReplyText = productReview.ReplyText;
+            return review;
         }
 
         public ProductSpecificationAttributeDto PrepareProductSpecificationAttributeDto(ProductSpecificationAttribute productSpecificationAttribute) => productSpecificationAttribute.ToDto();
@@ -184,7 +198,6 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Translator
             return productAttributeMappingDto;
         }
 
-
         private void PrepareProductAttributes(IEnumerable<ProductAttributeMapping> productAttributeMappings,
             ProductDto productDto)
         {
@@ -198,7 +211,6 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Translator
                 if (productAttributeMappingDto != null) productDto.ProductAttributeMappings.Add(productAttributeMappingDto);
             }
         }
-
 
         private void PrepareProductAttributesCombination(IEnumerable<ProductAttributeCombination> productAttributeCombinations,
             ProductDto productDto)

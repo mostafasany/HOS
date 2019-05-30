@@ -20,10 +20,10 @@ namespace Nop.Plugin.Api.Article.Dto
         [JsonProperty("parent_id")]
         public int ParentId { get; set; }
 
-        [JsonProperty("metaTitle")]
+        [JsonProperty("meta_title")]
         public string MetaTitle { get; set; }
 
-        [JsonProperty("metaDescription")]
+        [JsonProperty("meta_description")]
         public string MetaDescription { get; set; }
 
         [JsonProperty("tags")]

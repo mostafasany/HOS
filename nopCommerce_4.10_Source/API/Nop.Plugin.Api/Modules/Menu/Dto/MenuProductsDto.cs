@@ -32,5 +32,11 @@ namespace Nop.Plugin.Api.Modules.Menu.Dto
         /// </summary>
         [JsonProperty("MenuItemsSecondRow")]
         public IEnumerable<ProductDto> ProductsSecondRow { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the menuItems First Row
+        /// </summary>
+        [JsonProperty("MenuItemsThirdRow")]
+        public IEnumerable<ProductDto> ProductsThirdRow { get; set; }
     }
 }

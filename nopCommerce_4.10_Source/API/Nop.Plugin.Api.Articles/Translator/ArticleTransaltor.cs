@@ -39,23 +39,20 @@ namespace Nop.Plugin.Api.Article.Translator
             Picture picture = _pictureService.GetPictureById(article.PictureId);
             ImageDto imageDto = PrepareImageDto(picture);
 
-
             var articleDto = new ArticlesDto
             {
                 Id = article.Id,
-                Body = article.Body,
-                Title = article.Title,
                 AllowComments = article.AllowComments,
                 CommentCount = article.CommentCount,
                 CreatedOnUtc = article.CreatedOnUtc,
                 UpdatedOnUtc = article.UpdatedOnUtc,
-                MetaDescription = article.MetaDescription,
-                MetaTitle = article.MetaTitle,
-                Tags = article.Tags,
                 SeName = _urlRecordService.GetSeName(article)
             };
             articleDto.Title = _localizationService.GetLocalized(article, x => x.Title, _currentLangaugeId);
+            articleDto.Tags = _localizationService.GetLocalized(article, x => x.Tags, _currentLangaugeId);
             articleDto.Body = _localizationService.GetLocalized(article, x => x.Body, _currentLangaugeId);
+            articleDto.MetaDescription = _localizationService.GetLocalized(article, x => x.MetaDescription, _currentLangaugeId);
+            articleDto.MetaTitle = _localizationService.GetLocalized(article, x => x.MetaTitle, _currentLangaugeId);
             if (imageDto != null) articleDto.Image = imageDto;
 
             return articleDto;

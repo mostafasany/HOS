@@ -28,7 +28,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
         public string LanguageId { get; set; }
 
         [JsonProperty("date_of_birth")]
-        public DateTime? DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
 
         [JsonProperty("gender")]
         public string Gender { get; set; }

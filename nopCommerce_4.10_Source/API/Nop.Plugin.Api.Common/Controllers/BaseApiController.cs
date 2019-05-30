@@ -53,14 +53,12 @@ namespace Nop.Plugin.Api.Common.Controllers
             PictureService = pictureService;
         }
 
-        protected IActionResult Error(HttpStatusCode statusCode = (HttpStatusCode) 422, string propertyKey = "", string errorMessage = "")
+        protected IActionResult Error(HttpStatusCode statusCode = (HttpStatusCode)422, string propertyKey = "", string errorMessage = "")
         {
-            var errors = new Dictionary<string, List<string>>();
-
+            var errors2 = new List<ErrorObject>();
             if (!string.IsNullOrEmpty(errorMessage) && !string.IsNullOrEmpty(propertyKey))
             {
-                var errorsList = new List<string> {errorMessage};
-                errors.Add(propertyKey, errorsList);
+                errors2.Add(new ErrorObject { Cause = propertyKey, Details = new List<string> { errorMessage } });
             }
 
             foreach (KeyValuePair<string, ModelStateEntry> item in ModelState)
@@ -72,15 +70,42 @@ namespace Nop.Plugin.Api.Common.Controllers
                 validErrorMessages.AddRange(errorMessages.Where(message => !string.IsNullOrEmpty(message)));
 
                 if (validErrorMessages.Count > 0)
-                    if (errors.ContainsKey(item.Key))
-                        errors[item.Key].AddRange(validErrorMessages);
-                    else
-                        errors.Add(item.Key, validErrorMessages.ToList());
+                    errors2.Add(new ErrorObject { Cause = item.Key, Details = validErrorMessages });
             }
 
             var errorsRootObject = new ErrorsRootObject
             {
-                Errors = errors
+                Errors=errors2,
+            };
+
+            string errorsJson = JsonFieldsSerializer.Serialize(errorsRootObject, null);
+
+            return new ErrorActionResult(errorsJson, statusCode);
+        }
+
+        protected IActionResult Error(HttpStatusCode statusCode, string propertyKey, List<string> errorMessages)
+        {
+            var errors = new List<ErrorObject>();
+            if (errorMessages!=null && !string.IsNullOrEmpty(propertyKey))
+            {
+                errors.Add(new ErrorObject { Cause = propertyKey, Details = errorMessages });
+            }
+
+            foreach (KeyValuePair<string, ModelStateEntry> item in ModelState)
+            {
+                IEnumerable<string> errorsMessages = item.Value.Errors.Select(x => x.ErrorMessage);
+
+                var validErrorMessages = new List<string>();
+
+                validErrorMessages.AddRange(errorsMessages.Where(message => !string.IsNullOrEmpty(message)));
+
+                if (validErrorMessages.Count > 0)
+                    errors.Add(new ErrorObject { Cause = item.Key, Details = validErrorMessages });
+            }
+
+            var errorsRootObject = new ErrorsRootObject
+            {
+                Errors = errors,
             };
 
             string errorsJson = JsonFieldsSerializer.Serialize(errorsRootObject, null);

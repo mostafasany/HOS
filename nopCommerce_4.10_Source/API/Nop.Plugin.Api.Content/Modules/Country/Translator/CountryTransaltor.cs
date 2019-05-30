@@ -29,6 +29,11 @@ namespace Nop.Plugin.Api.Content.Modules.Country.Translator
             }
         }
 
-        public StateProvinceDto ConvertToDto(StateProvince state) => new StateProvinceDto {Abbreviation = state.Abbreviation, Id = state.Id, Name = state.Name, CountryId = state.CountryId};
+        public StateProvinceDto ConvertToDto(StateProvince state)
+        {
+            var name = _localizationService.GetLocalized(state, x => x.Name, _currentLangaugeId);
+            var abbreviation = _localizationService.GetLocalized(state, x => x.Abbreviation, _currentLangaugeId);
+            return new StateProvinceDto { Abbreviation = abbreviation, Id = state.Id, Name = name, CountryId = state.CountryId };
+        }
     }
 }

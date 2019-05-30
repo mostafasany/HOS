@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
@@ -56,7 +57,7 @@ namespace Nop.Plugin.Api.Modules.Menu.Service
 
         public MenuDto GetMenu()
         {
-            IList<Core.Domain.Catalog.Category> allCategories = _categoryApiService.GetCategories().Where(cat => cat.IncludeInTopMenu).ToList();
+            IList<Core.Domain.Catalog.Category> allCategories = _categoryApiService.GetCategories(limit: 1000).Where(cat => cat.IncludeInTopMenu).ToList();
             List<CategoryDto> allCategoriesDto = allCategories.Select(a => new CategoryDto
             {
                 Description = _localizationService.GetLocalized(a, x => x.Description, _currentLangaugeId),
@@ -115,7 +116,7 @@ namespace Nop.Plugin.Api.Modules.Menu.Service
             foreach (CategoryDto categroyDto in allMenuCategoriesDto)
             {
                 List<CategoryDto> ingerdientCategories = allCategoriesDto.Where(a => a.ParentCategoryId == categroyDto.Id).ToList();
-                ingerdientCategories.Add(new CategoryDto {Name = "All " + categroyDto.Name, SeName = "all-" + categroyDto.SeName, Id = categroyDto.Id});
+                ingerdientCategories.Add(new CategoryDto { Name = "All " + categroyDto.Name, SeName = "all-" + categroyDto.SeName, Id = categroyDto.Id });
                 mainStoreCategories.Add(new MenuCategoriesDto
                 {
                     Id = categroyDto.Id,
@@ -136,14 +137,18 @@ namespace Nop.Plugin.Api.Modules.Menu.Service
 
             foreach (CategoryDto categoryDto in allCategoriesDto)
             {
-                IEnumerable<ProductDto> promotionsProducts = GetProducts(categoryDto);
+                IEnumerable<ProductDto> products = GetProducts(categoryDto);
+                int firstRowItemCount = RandomNumber(2, 4);
+                int secondRowItemCount = RandomNumber(2, 4);
+                int thirdRowItemCount = RandomNumber(2, 4);
                 mainStoreProducts.Add(new MenuProductsDto
                 {
                     Id = categoryDto.Id,
                     MenuItemName = categoryDto.Name,
                     SeName = categoryDto.SeName,
-                    ProductsFirstRow = promotionsProducts.Skip(0).Take(2),
-                    ProductsSecondRow = promotionsProducts.Skip(2).Take(3)
+                    ProductsFirstRow = products.Skip(0).Take(firstRowItemCount),
+                    ProductsSecondRow = products.Skip(firstRowItemCount).Take(secondRowItemCount),
+                    ProductsThirdRow = products.Skip(secondRowItemCount).Take(thirdRowItemCount)
                 });
             }
 
@@ -160,10 +165,13 @@ namespace Nop.Plugin.Api.Modules.Menu.Service
                     SeName = a.Title,
                     Id = a.Id,
                     Title = _localizationService.GetLocalized(a, x => x.Title, _currentLangaugeId),
-                    Image = new ImageDto {Src = _pictureService.GetPictureUrl(a.PictureId)},
+                    Image = new ImageDto { Src = _pictureService.GetPictureUrl(a.PictureId) },
                     Body = _localizationService.GetLocalized(a, x => x.Body, _currentLangaugeId)
                 }).ToList();
                 MenuArticlesDto dto;
+                int firstRowItemCount = RandomNumber(2, 4);
+                int secondRowItemCount = RandomNumber(2, 4);
+                int thirdRowItemCount = RandomNumber(2, 4);
                 if (oneRow)
                     dto = new MenuArticlesDto
                     {
@@ -178,8 +186,9 @@ namespace Nop.Plugin.Api.Modules.Menu.Service
                         Id = category.Id,
                         MenuItemName = category.Name,
                         SeName = category.SeName,
-                        ArticlesFirstRow = articlesDto.Skip(0).Take(2).ToList(),
-                        ArticlesSecondRow = articlesDto.Skip(2).Take(3).ToList()
+                        ArticlesFirstRow = articlesDto.Skip(0).Take(firstRowItemCount).ToList(),
+                        ArticlesSecondRow = articlesDto.Skip(firstRowItemCount).Take(secondRowItemCount).ToList(),
+                        ArticlesThirdRow = articlesDto.Skip(secondRowItemCount).Take(thirdRowItemCount).ToList()
                     };
 
                 articles.Add(dto);
@@ -188,7 +197,13 @@ namespace Nop.Plugin.Api.Modules.Menu.Service
             return articles;
         }
 
-        private List<ProductDto> GetProducts(CategoryDto category, int limit = 5)
+        private int RandomNumber(int min, int max)
+        {
+            Random random = new Random();
+            return random.Next(min, max);
+        }
+
+        private List<ProductDto> GetProducts(CategoryDto category, int limit = 9)
         {
             IEnumerable<ProductDto> products = _productApiService.GetProducts(categoryId: category.Id, limit: limit).Item1.Select(product => new ProductDto
             {

@@ -42,8 +42,33 @@
 #WORKDIR /app
 #COPY --from=build-env /app/out .
 #ENTRYPOINT ["dotnet", "aspnetapp.dll"]
+#
 
+
+
+
+
+
+#FROM microsoft/dotnet:aspnetcore-runtime
+#
+## The final instruction copies the site you published earlier into the container.
+#COPY ./bin/Release/PublishOutput/ /inetpub/wwwroot
+
+
+
+FROM microsoft/dotnet:sdk AS build-env
+WORKDIR /app
+
+# Copy csproj and restore as distinct layers
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copy everything else and build
+COPY . ./
+RUN dotnet publish -c Release -o out
+
+# Build runtime image
 FROM microsoft/dotnet:aspnetcore-runtime
-
-# The final instruction copies the site you published earlier into the container.
-COPY ./bin/Release/PublishOutput/ /inetpub/wwwroot
+WORKDIR /app
+COPY --from=build-env /app/out .
+ENTRYPOINT ["dotnet", "Nop.Web.dll"]

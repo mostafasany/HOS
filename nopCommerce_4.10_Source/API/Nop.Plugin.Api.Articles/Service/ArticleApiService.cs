@@ -56,14 +56,13 @@ namespace Nop.Plugin.Api.Article.Service
                 return null;
 
             Core.Domain.Articles.Article art = _articleRepository.Table.FirstOrDefault(article => article.Id == articleId);
-            string[] tags = art?.Tags.Split(new[] {','});
+
+            string[] tags = art?.Tags?.Split(new[] { ',' });
             IQueryable<Core.Domain.Articles.Article> query = _articleRepository.Table;
             //query= query.Where(a => a.Tags!=null &&  a.Tags.Split(new[] { ',' })
             //    .Intersect(tags)
             //    .Any());
-            query = query.Where(a => a.Id != art.Id && tags.Any(v => a.Tags.Contains(v)));
-            // always return products that are not deleted!!!
-            query = query.Where(c => !c.Deleted);
+            query = query.Where(a => a.Id != art.Id && !a.Deleted && a.Tags != null && tags.Any(v => a.Tags.Contains(v)));
             query = query.OrderByDescending(article => article.UpdatedOnUtc);
             if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
 
@@ -122,12 +121,12 @@ namespace Nop.Plugin.Api.Article.Service
             if (groupId != null)
             {
                 IQueryable<FNS_ArticleGroup_Mapping> categoryMappingsForProduct = from productCategoryMapping in _articleGroupMappingRepository.Table
-                    where productCategoryMapping.GroupId == groupId
-                    select productCategoryMapping;
+                                                                                  where productCategoryMapping.GroupId == groupId
+                                                                                  select productCategoryMapping;
 
                 query = from product in query
-                    join productCategoryMapping in categoryMappingsForProduct on product.Id equals productCategoryMapping.ArticleId
-                    select product;
+                        join productCategoryMapping in categoryMappingsForProduct on product.Id equals productCategoryMapping.ArticleId
+                        select product;
 
                 filters.Add(new ArticlesFilterDto("groupId", groupId.ToString()));
             }
@@ -135,12 +134,12 @@ namespace Nop.Plugin.Api.Article.Service
             if (categoryId != null && categoryId > 0)
             {
                 IQueryable<FNS_ArticleCategory> categoryMappingsForArticles = from productCategoryMapping in _articleCategoryRepository.Table
-                    where productCategoryMapping.CategoryId == categoryId
-                    select productCategoryMapping;
+                                                                              where productCategoryMapping.CategoryId == categoryId
+                                                                              select productCategoryMapping;
 
                 query = from article in query
-                    join productCategoryMapping in categoryMappingsForArticles on article.Id equals productCategoryMapping.ArticleId
-                    select article;
+                        join productCategoryMapping in categoryMappingsForArticles on article.Id equals productCategoryMapping.ArticleId
+                        select article;
 
                 filters.Add(new ArticlesFilterDto("categoryId", categoryId.ToString()));
             }
