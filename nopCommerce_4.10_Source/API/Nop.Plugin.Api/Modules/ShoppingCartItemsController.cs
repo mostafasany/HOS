@@ -241,7 +241,7 @@ namespace Nop.Plugin.Api.Modules
             _shoppingCartItemApiService.PrepareShoppingCartModel(model, shoppingCartItems);
             model.SubTotal = model.Items.Sum(a => a.SubTotalNumber);
             model.SubTotalDiscount = model.Items.Sum(a => a.DiscountlNumber);
-
+            model.Total = model.SubTotal - model.SubTotalDiscount;
             var shoppingCartsRootObject = new ExtendedShoppingCartItemsRootObject
             {
                 ShoppingCart = model
@@ -283,7 +283,7 @@ namespace Nop.Plugin.Api.Modules
             _shoppingCartItemApiService.PrepareShoppingCartModel(model, shoppingCartItems);
             model.SubTotal = model.Items.Sum(a => a.SubTotalNumber);
             model.SubTotalDiscount = model.Items.Sum(a => a.DiscountlNumber);
-
+            model.Total = model.SubTotal - model.SubTotalDiscount;
             var shoppingCartsRootObject = new ExtendedShoppingCartItemsRootObject
             {
                 ShoppingCart = model
@@ -314,7 +314,7 @@ namespace Nop.Plugin.Api.Modules
             if (parameters.StateProvinceId <= 0) return Error(HttpStatusCode.BadRequest, "province", "invalid province parameter");
 
             IList<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems();
-           
+
             var shippingRateComputationMethods = _shippingService.LoadActiveShippingRateComputationMethods().FirstOrDefault();
 
             IShippingRateComputationMethod n = _shippingService.LoadShippingRateComputationMethodBySystemName(shippingRateComputationMethods?.PluginDescriptor?.SystemName);
@@ -516,7 +516,7 @@ namespace Nop.Plugin.Api.Modules
             IList<string> warnings = _shoppingCartService.UpdateShoppingCartItem(shoppingCartItemForUpdate.Customer, shoppingCartItemForUpdate.Id,
                 shoppingCartItemForUpdate.AttributesXml, shoppingCartItemForUpdate.CustomerEnteredPrice,
                 shoppingCartItemForUpdate.RentalStartDateUtc, shoppingCartItemForUpdate.RentalEndDateUtc,
-                shoppingCartItemForUpdate.Quantity,false);
+                shoppingCartItemForUpdate.Quantity, false);
 
             if (warnings.Count > 0)
             {

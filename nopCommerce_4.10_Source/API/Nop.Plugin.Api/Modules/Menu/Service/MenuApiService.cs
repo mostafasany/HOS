@@ -148,7 +148,7 @@ namespace Nop.Plugin.Api.Modules.Menu.Service
                     SeName = categoryDto.SeName,
                     ProductsFirstRow = products.Skip(0).Take(firstRowItemCount),
                     ProductsSecondRow = products.Skip(firstRowItemCount).Take(secondRowItemCount),
-                    ProductsThirdRow = products.Skip(secondRowItemCount).Take(thirdRowItemCount)
+                    ProductsThirdRow = products.Skip(firstRowItemCount + secondRowItemCount).Take(thirdRowItemCount)
                 });
             }
 
@@ -188,7 +188,7 @@ namespace Nop.Plugin.Api.Modules.Menu.Service
                         SeName = category.SeName,
                         ArticlesFirstRow = articlesDto.Skip(0).Take(firstRowItemCount).ToList(),
                         ArticlesSecondRow = articlesDto.Skip(firstRowItemCount).Take(secondRowItemCount).ToList(),
-                        ArticlesThirdRow = articlesDto.Skip(secondRowItemCount).Take(thirdRowItemCount).ToList()
+                        ArticlesThirdRow = articlesDto.Skip(firstRowItemCount + secondRowItemCount).Take(thirdRowItemCount).ToList()
                     };
 
                 articles.Add(dto);

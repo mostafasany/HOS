@@ -63,13 +63,30 @@ namespace Nop.Plugin.Api.Cart.Translator
             }
         }
 
-        public ShippingOptionDto PrepareShippingOptionItemDTO(ShippingOption shippingOption) => new ShippingOptionDto
+        public ShippingOptionDto PrepareShippingOptionItemDTO(ShippingOption shippingOption)
         {
-            Description = shippingOption.Description,
-            Name = shippingOption.Name,
-            Rate = shippingOption.Rate,
-            ShippingRateComputationMethodSystemName = shippingOption.ShippingRateComputationMethodSystemName
-        };
+            var options = new ShippingOptionDto
+            {
+                Description = shippingOption.Description,
+                Name = shippingOption.Name,
+                Rate = shippingOption.Rate,
+                ShippingRateComputationMethodSystemName = shippingOption.ShippingRateComputationMethodSystemName
+            };
+            try
+            {
+                var fromToDays = shippingOption.Description.Split(':');
+                if (fromToDays.Count() > 0)
+                {
+                    options.FromDays = int.Parse(fromToDays.First());
+                    options.ToDays = int.Parse(fromToDays.Last());
+                }
+            }
+            catch (System.Exception ex)
+            {
+            }
+
+            return options;
+        }
 
 
         public ShoppingCartItemDto PrepareShoppingCartItemDTO(ShoppingCartItem shoppingCartItem)

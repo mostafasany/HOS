@@ -147,7 +147,7 @@ namespace Nop.Plugin.Api.Article.Service
             if (tag != null)
             {
                 string[] tags = tag.Split(new[] { ',' });
-                query = query.Where(a => tags.Any(v => a.Tags.Contains(v)));
+                query = query.Where(a => tags.Any(v => a.Tags != null && a.Tags.Contains(v)));
 
                 filters.Add(new ArticlesFilterDto("tags", tag));
             }

@@ -305,7 +305,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders
         ///     Gets or sets the payment method system name
         /// </summary>
         [JsonProperty("order_notes")]
-        public string OrderNotes { get; set; }
+        public List<string> OrderNotes { get; set; }
 
 
         /// <summary>

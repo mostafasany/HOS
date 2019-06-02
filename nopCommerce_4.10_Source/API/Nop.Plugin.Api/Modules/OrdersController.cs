@@ -164,12 +164,17 @@ namespace Nop.Plugin.Api.Modules
             if (!orderDelta.Dto.StoreId.HasValue) newOrder.StoreId = _storeContext.CurrentStore.Id;
 
             PlaceOrderResult placeOrderResult = PlaceOrder(newOrder, customer);
-            if (placeOrderResult != null && placeOrderResult.Success && !string.IsNullOrEmpty(orderDelta.Dto.OrderNotes))
-                placeOrderResult.PlacedOrder.OrderNotes?.Add(new OrderNote
+            if (placeOrderResult != null && placeOrderResult.Success && 
+                orderDelta.Dto.OrderNotes!=null && orderDelta.Dto.OrderNotes.Count>0)
+                foreach (var order in orderDelta.Dto.OrderNotes)
                 {
-                    Note = orderDelta.Dto.OrderNotes,
-                    CreatedOnUtc = DateTime.Now
-                });
+                    placeOrderResult.PlacedOrder.OrderNotes?.Add(new OrderNote
+                    {
+                        Note = order,
+                        CreatedOnUtc = DateTime.Now
+                    });
+                }
+               
 
             if (!placeOrderResult.Success)
             {
