@@ -8,7 +8,6 @@
     ".NETCoreApp,Version=v2.1": {
       "Nop.Plugin.Api/1.0.0": {
         "dependencies": {
-          "AutoMapper": "7.0.1",
           "IdentityServer4": "2.0.3",
           "Nop.Core": "4.1.0",
           "Nop.Plugin.Api.Admin": "1.0.0",
