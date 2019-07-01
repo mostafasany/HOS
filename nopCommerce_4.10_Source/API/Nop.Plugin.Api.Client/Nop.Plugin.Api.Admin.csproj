@@ -41,7 +41,6 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.6.104" />
     <PackageReference Include="IdentityServer4" Version="2.0.3" />
-    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.0.2" />
     <PackageReference Include="IdentityServer4.EntityFramework" Version="2.1.0" />
   </ItemGroup>
 
