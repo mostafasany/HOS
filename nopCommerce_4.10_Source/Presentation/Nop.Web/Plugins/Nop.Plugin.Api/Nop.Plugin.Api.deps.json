@@ -4468,6 +4468,7 @@
       },
       "Nop.Plugin.Api.Product/1.0.0": {
         "dependencies": {
+          "Nop.Core": "4.1.0",
           "Nop.Plugin.Api.Common": "1.0.0"
         },
         "runtime": {
