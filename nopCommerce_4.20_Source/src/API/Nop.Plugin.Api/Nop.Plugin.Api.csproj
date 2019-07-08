@@ -22,6 +22,7 @@
     <Compile Remove="Common\IdentityServer\**" />
     <EmbeddedResource Remove="Common\IdentityServer\**" />
     <None Remove="Common\IdentityServer\**" />
+    <Compile Remove="Infrastructure\PreFlightRequestMiddleware.cs" />
   </ItemGroup>
   
   <ItemGroup>
