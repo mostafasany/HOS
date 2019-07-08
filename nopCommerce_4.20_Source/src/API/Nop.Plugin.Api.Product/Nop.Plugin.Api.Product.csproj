@@ -14,11 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\Discount\Dto\Validator\" />
-    <Folder Include="Modules\ProductSpecificationAttributes\Service\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
   </ItemGroup>

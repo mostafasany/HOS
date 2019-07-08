@@ -8,8 +8,4 @@
     <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dto\Validator\" />
-  </ItemGroup>
-
 </Project>
