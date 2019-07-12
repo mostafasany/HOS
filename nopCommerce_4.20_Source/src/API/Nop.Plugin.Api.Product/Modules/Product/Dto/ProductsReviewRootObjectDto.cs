@@ -12,11 +12,16 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Dto
             ProductsReview = new List<ProductReviewDto>();
         }
 
-        [JsonProperty("products_review")]
-        public IList<ProductReviewDto> ProductsReview { get; set; }
+        [JsonProperty("products_review")] public IList<ProductReviewDto> ProductsReview { get; set; }
 
-        public string GetPrimaryPropertyName() => "products_review";
+        public string GetPrimaryPropertyName()
+        {
+            return "products_review";
+        }
 
-        public Type GetPrimaryPropertyType() => typeof(ProductReviewDto);
+        public Type GetPrimaryPropertyType()
+        {
+            return typeof(ProductReviewDto);
+        }
     }
 }

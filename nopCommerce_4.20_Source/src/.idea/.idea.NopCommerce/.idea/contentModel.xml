@@ -44,46 +44,7 @@
           <e p="upgrade_script.sql" t="Include" />
         </e>
         <e p="Nop.Plugin.Api.Admin" t="IncludeRecursive">
-          <e p="ApiAdminController.cs" t="Include" />
-          <e p="ApiMapperConfiguration.cs" t="Include" />
-          <e p="bin" t="ExcludeRecursive" />
-          <e p="DependencyRegister.cs" t="Include" />
-          <e p="Dto" t="Include">
-            <e p="Validator" t="Include">
-              <e p="ClientValidator.cs" t="Include" />
-            </e>
-          </e>
-          <e p="ManageClientsAdminController.cs" t="Include" />
-          <e p="Model" t="Include">
-            <e p="ClientApiModel.cs" t="Include" />
-          </e>
           <e p="Nop.Plugin.Api.Admin.csproj" t="IncludeRecursive" />
-          <e p="obj" t="ExcludeRecursive">
-            <e p="Debug" t="Include">
-              <e p="netcoreapp2.2" t="Include">
-                <e p="Nop.Plugin.Api.Admin.AssemblyInfo.cs" t="Include" />
-              </e>
-            </e>
-          </e>
-          <e p="Service" t="Include">
-            <e p="ClientService.cs" t="Include" />
-            <e p="IClientService.cs" t="Include" />
-          </e>
-          <e p="Translator" t="Include">
-            <e p="ClientMappings.cs" t="Include" />
-          </e>
-          <e p="ViewNames.cs" t="Include" />
-          <e p="Views" t="Include">
-            <e p="_ViewImports.cshtml" t="Include" />
-            <e p="Clients" t="Include">
-              <e p="ClientSettings.cshtml" t="Include" />
-              <e p="Create.cshtml" t="Include" />
-              <e p="CreateOrUpdate.cshtml" t="Include" />
-              <e p="Edit.cshtml" t="Include" />
-              <e p="List.cshtml" t="Include" />
-            </e>
-            <e p="Settings.cshtml" t="Include" />
-          </e>
         </e>
         <e p="Nop.Plugin.Api.Cart" t="IncludeRecursive">
           <e p="ApiMapperConfiguration.cs" t="Include" />
@@ -133,7 +94,7 @@
           </e>
           <e p="ShoppingCartItemsController.cs" t="Include" />
           <e p="Translator" t="Include">
-            <e p="CartTransaltor.cs" t="Include" />
+            <e p="Cartransaltor.cs" t="Include" />
             <e p="DiscountTransaltor.cs" t="Include" />
             <e p="ICartTransaltor.cs" t="Include" />
             <e p="IDiscountTransaltor.cs" t="Include" />
@@ -181,11 +142,11 @@
         </e>
         <e p="Nop.Plugin.Api.Common" t="IncludeRecursive">
           <e p="Attributes" t="Include">
-            <e p="BaseAttributeInvoker.cs" t="Include" />
-            <e p="DoNotMap.cs" t="Include" />
+            <e p="BaseValidationAttribute.cs" t="Include" />
+            <e p="DoNotMapAttribute.cs" t="Include" />
             <e p="GetRequestsErrorInterceptorActionFilter.cs" t="Include" />
-            <e p="ImageAttribute.cs" t="Include" />
-            <e p="ImageCollectionAttribute.cs" t="Include" />
+            <e p="ImageCollectionValidationAttribute.cs" t="Include" />
+            <e p="ImageValidationAttribute.cs" t="Include" />
           </e>
           <e p="AutoMapper" t="Include">
             <e p="AutoMapperApiConfiguration.cs" t="Include" />
@@ -230,6 +191,7 @@
               <e p="BaseDto.cs" t="Include" />
             </e>
             <e p="Errors" t="Include">
+              <e p="ErrorObject.cs" t="Include" />
               <e p="ErrorsRootObject.cs" t="Include" />
             </e>
             <e p="ImageDto.cs" t="Include" />
@@ -255,7 +217,7 @@
             </e>
             <e p="ProductDtoMappings.cs" t="Include" />
             <e p="ProductItemAttributeDto.cs" t="Include" />
-            <e p="SpecificationAttributeDtoMapping.cs" t="Include" />
+            <e p="SpecificationAttributeDtoMappings.cs" t="Include" />
           </e>
           <e p="Factories" t="Include">
             <e p="AddressFactory.cs" t="Include" />
@@ -263,13 +225,13 @@
           </e>
           <e p="Helpers" t="Include">
             <e p="CryptoHelper.cs" t="Include" />
-            <e p="IConfigManаgerHelper.cs" t="Include" />
+            <e p="IConfigManagerHelper.cs" t="Include" />
             <e p="IJsonHelper.cs" t="Include" />
             <e p="IMappingHelper.cs" t="Include" />
             <e p="JsonHelper.cs" t="Include" />
             <e p="JTokenHelper.cs" t="Include" />
             <e p="MappingHelper.cs" t="Include" />
-            <e p="NopConfigManаgerHelper.cs" t="Include" />
+            <e p="NopConfigManagerHelper.cs" t="Include" />
             <e p="ReflectionHelper.cs" t="Include" />
           </e>
           <e p="JSON" t="Include">
@@ -288,8 +250,8 @@
             <e p="ConfigurationMappings.cs" t="Include" />
           </e>
           <e p="Maps" t="Include">
-            <e p="IJsonPropertyMap.cs" t="Include" />
-            <e p="JsonPropertyMap.cs" t="Include" />
+            <e p="IJsonPropertyMapper.cs" t="Include" />
+            <e p="JsonPropertyMapper.cs" t="Include" />
           </e>
           <e p="ModelBinders" t="Include">
             <e p="JsonModelBinder.cs" t="Include" />
@@ -389,7 +351,7 @@
             <e p="Topic" t="Include">
               <e p="Dto" t="Include">
                 <e p="TopicDto.cs" t="Include" />
-                <e p="TopicsCoutRootObject.cs" t="Include" />
+                <e p="TopicsCountRootObject.cs" t="Include" />
                 <e p="TopicsRootObject.cs" t="Include" />
               </e>
               <e p="Model" t="Include">
@@ -4569,6 +4531,11 @@
               <e p="IdentityServer4.EntityFramework.dll" t="Include" />
               <e p="IdentityServer4.EntityFramework.Storage.dll" t="Include" />
               <e p="IdentityServer4.Storage.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Rewrite.dll" t="Include" />
+              <e p="Nop.Core.dll" t="Include" />
+              <e p="Nop.Core.pdb" t="Include" />
+              <e p="Nop.Data.dll" t="Include" />
+              <e p="Nop.Data.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Cart.dll" t="Include" />
               <e p="Nop.Plugin.Api.Cart.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Category.dll" t="Include" />
@@ -4586,7 +4553,12 @@
               <e p="Nop.Plugin.Api.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Product.dll" t="Include" />
               <e p="Nop.Plugin.Api.Product.pdb" t="Include" />
+              <e p="Nop.Services.dll" t="Include" />
+              <e p="Nop.Services.pdb" t="Include" />
+              <e p="Nop.Web.Framework.dll" t="Include" />
+              <e p="Nop.Web.Framework.pdb" t="Include" />
               <e p="plugin.json" t="Include" />
+              <e p="System.IdentityModel.Tokens.Jwt.dll" t="Include" />
             </e>
             <e p="Payments.CheckMoneyOrder" t="ExcludeRecursive">
               <e p="logo.jpg" t="Include" />

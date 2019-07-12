@@ -16,11 +16,13 @@ namespace Nop.Plugin.Api.Common.Validators
             fields = fields.Replace("_", string.Empty);
 
             var validFields = new Dictionary<string, bool>();
-            IEnumerable<string> fieldsAsList = GetPropertiesIntoList(fields);
+            var fieldsAsList = GetPropertiesIntoList(fields);
 
-            foreach (string field in fieldsAsList)
+            foreach (var field in fieldsAsList)
             {
-                bool propertyExists = type.GetProperty(field, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) != null;
+                var propertyExists =
+                    type.GetProperty(field, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) !=
+                    null;
 
                 if (propertyExists) validFields.Add(field, true);
             }
@@ -30,7 +32,7 @@ namespace Nop.Plugin.Api.Common.Validators
 
         private static IEnumerable<string> GetPropertiesIntoList(string fields)
         {
-            List<string> properties = fields.ToLowerInvariant()
+            var properties = fields.ToLowerInvariant()
                 .Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.Trim())
                 .Distinct()

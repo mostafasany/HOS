@@ -8,10 +8,10 @@ namespace Nop.Plugin.Api.Customer.Helpers
 {
     public class CustomerRolesHelper : ICustomerRolesHelper
     {
+        private const string CUSTOMERROLES_ALL_KEY = "Nop.customerrole.all-{0}";
         private readonly ICacheManager _cacheManager;
 
         private readonly ICustomerService _customerService;
-        private const string CUSTOMERROLES_ALL_KEY = "Nop.customerrole.all-{0}";
 
         public CustomerRolesHelper(ICustomerService customerService, ICacheManager cacheManager)
         {
@@ -27,9 +27,9 @@ namespace Nop.Plugin.Api.Customer.Helpers
             //_cacheManager.RemoveByPattern(CUSTOMERROLES_ALL_KEY);
             _cacheManager.Remove(CUSTOMERROLES_ALL_KEY);
 
-            IList<CustomerRole> allCustomerRoles = _customerService.GetAllCustomerRoles(true);
+            var allCustomerRoles = _customerService.GetAllCustomerRoles(true);
             var newCustomerRoles = new List<CustomerRole>();
-            foreach (CustomerRole customerRole in allCustomerRoles)
+            foreach (var customerRole in allCustomerRoles)
                 if (roleIds != null && roleIds.Contains(customerRole.Id))
                     newCustomerRoles.Add(customerRole);
 

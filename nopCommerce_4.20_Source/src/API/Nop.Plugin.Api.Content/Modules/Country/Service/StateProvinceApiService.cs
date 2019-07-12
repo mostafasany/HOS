@@ -10,17 +10,20 @@ namespace Nop.Plugin.Api.Content.Modules.Country.Service
     {
         private readonly IRepository<StateProvince> _stateProvinceRepository;
 
-        public StateProvinceApiService(IRepository<StateProvince> stateProvinceRepository) => _stateProvinceRepository = stateProvinceRepository;
+        public StateProvinceApiService(IRepository<StateProvince> stateProvinceRepository)
+        {
+            _stateProvinceRepository = stateProvinceRepository;
+        }
 
         public IList<StateProvince> GetStateProvincesByCountryId(int countryId)
         {
-            IQueryable<StateProvince> query = GetStatesQuery(countryId);
+            var query = GetStatesQuery(countryId);
             return new ApiList<StateProvince>(query, 0, 10000);
         }
 
         private IQueryable<StateProvince> GetStatesQuery(int countryId)
         {
-            IQueryable<StateProvince> query = from productCategoryMapping in _stateProvinceRepository.Table
+            var query = from productCategoryMapping in _stateProvinceRepository.Table
                 where productCategoryMapping.CountryId == countryId
                 select productCategoryMapping;
             return query;

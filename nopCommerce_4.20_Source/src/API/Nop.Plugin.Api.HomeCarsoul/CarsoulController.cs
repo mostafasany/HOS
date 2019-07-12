@@ -14,7 +14,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules
+namespace Nop.Plugin.Api.HomeCarsoul
 {
     public class CarsoulController : BaseApiController
     {
@@ -42,8 +42,8 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/carsoul")]
-        [ProducesResponseType(typeof(CarsoulDto), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(CarsoulDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetCarsoul()
         {
@@ -53,7 +53,7 @@ namespace Nop.Plugin.Api.Modules
             carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner2.jpg", Topic = 19});
             carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner2.jpg", Topic = 20});
             carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner1.jpg", Topic = 21});
-            string json = JsonFieldsSerializer.Serialize(carsoul, string.Empty);
+            var json = JsonFieldsSerializer.Serialize(carsoul, string.Empty);
             return new RawJsonActionResult(json);
         }
     }

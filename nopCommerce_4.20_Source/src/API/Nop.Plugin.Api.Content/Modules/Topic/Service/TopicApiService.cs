@@ -20,10 +20,11 @@ namespace Nop.Plugin.Api.Content.Modules.Topic.Service
         }
 
         public IList<Core.Domain.Topics.Topic> GetTopics(IList<int> ids = null,
-            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
+            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue,
+            int sinceId = Configurations.DefaultSinceId,
             bool? publishedStatus = null)
         {
-            IQueryable<Core.Domain.Topics.Topic> query = GetCategoriesQuery(publishedStatus, ids);
+            var query = GetCategoriesQuery(publishedStatus, ids);
 
 
             if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
@@ -36,7 +37,7 @@ namespace Nop.Plugin.Api.Content.Modules.Topic.Service
             if (id <= 0)
                 return null;
 
-            Core.Domain.Topics.Topic category = _topicRepository.Table.FirstOrDefault(cat => cat.Id == id);
+            var category = _topicRepository.Table.FirstOrDefault(cat => cat.Id == id);
 
             return category;
         }
@@ -44,14 +45,15 @@ namespace Nop.Plugin.Api.Content.Modules.Topic.Service
         public int GetTopicsCount(
             bool? publishedStatus = null)
         {
-            IQueryable<Core.Domain.Topics.Topic> query = GetCategoriesQuery(publishedStatus);
+            var query = GetCategoriesQuery(publishedStatus);
 
             return query.Count(c => _storeMappingService.Authorize(c));
         }
 
-        private IQueryable<Core.Domain.Topics.Topic> GetCategoriesQuery(bool? publishedStatus = null, IList<int> ids = null)
+        private IQueryable<Core.Domain.Topics.Topic> GetCategoriesQuery(bool? publishedStatus = null,
+            IList<int> ids = null)
         {
-            IQueryable<Core.Domain.Topics.Topic> query = _topicRepository.Table;
+            var query = _topicRepository.Table;
 
             if (ids != null && ids.Count > 0) query = query.Where(c => ids.Contains(c.Id));
 

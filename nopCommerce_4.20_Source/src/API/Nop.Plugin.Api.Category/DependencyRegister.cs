@@ -15,7 +15,8 @@ namespace Nop.Plugin.Api.Category
         {
             builder.RegisterType<CategoryApiService>().As<ICategoryApiService>().InstancePerLifetimeScope();
 
-            builder.RegisterType<CategoryFactory>().As<IFactory<Core.Domain.Catalog.Category>>().InstancePerLifetimeScope();
+            builder.RegisterType<CategoryFactory>().As<IFactory<Core.Domain.Catalog.Category>>()
+                .InstancePerLifetimeScope();
             builder.RegisterType<CategoryTransaltor>().As<ICategoryTransaltor>().InstancePerLifetimeScope();
         }
 

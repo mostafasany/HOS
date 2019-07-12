@@ -7,13 +7,21 @@ namespace Nop.Plugin.Api.Content.Modules.Language.Dto
 {
     public class LanguagesRootObject : ISerializableObject
     {
-        public LanguagesRootObject() => Languages = new List<LanguageDto>();
+        public LanguagesRootObject()
+        {
+            Languages = new List<LanguageDto>();
+        }
 
-        [JsonProperty("languages")]
-        public IList<LanguageDto> Languages { get; set; }
+        [JsonProperty("languages")] public IList<LanguageDto> Languages { get; set; }
 
-        public string GetPrimaryPropertyName() => "languages";
+        public string GetPrimaryPropertyName()
+        {
+            return "languages";
+        }
 
-        public Type GetPrimaryPropertyType() => typeof(LanguageDto);
+        public Type GetPrimaryPropertyType()
+        {
+            return typeof(LanguageDto);
+        }
     }
 }

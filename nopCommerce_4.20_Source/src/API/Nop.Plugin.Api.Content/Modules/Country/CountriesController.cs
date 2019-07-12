@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Nop.Core.Domain.Directory;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
@@ -19,7 +18,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules
+namespace Nop.Plugin.Api.Content.Modules.Country
 {
     public class CountriesController : BaseApiController
     {
@@ -54,15 +53,15 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/countries/{id}/states")]
-        [ProducesResponseType(typeof(StateProvinceRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(StateProvinceRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetStateByCountryId(int id, string fields = "")
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            IList<StateProvince> states = _stateProvinceApiService.GetStateProvincesByCountryId(id);
+            var states = _stateProvinceApiService.GetStateProvincesByCountryId(id);
 
             if (states == null) return Error(HttpStatusCode.NotFound, "states", "states not found");
 
@@ -72,7 +71,7 @@ namespace Nop.Plugin.Api.Modules
             var statesRootObject = new StateProvinceRootObject {States = statesAsDtos};
 
 
-            string json = JsonFieldsSerializer.Serialize(statesRootObject, fields);
+            var json = JsonFieldsSerializer.Serialize(statesRootObject, fields);
 
             return new RawJsonActionResult(json);
         }

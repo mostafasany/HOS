@@ -24,11 +24,9 @@ namespace Nop.Plugin.Api.Cart.Dto
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty("from_days")]
-        public int FromDays { get; set; }
+        [JsonProperty("from_days")] public int FromDays { get; set; }
 
-        [JsonProperty("to_days")]
-        public int ToDays { get; set; }
+        [JsonProperty("to_days")] public int ToDays { get; set; }
 
         [JsonProperty("shippingRateComputationMethodSystemName")]
         public string ShippingRateComputationMethodSystemName { get; set; }

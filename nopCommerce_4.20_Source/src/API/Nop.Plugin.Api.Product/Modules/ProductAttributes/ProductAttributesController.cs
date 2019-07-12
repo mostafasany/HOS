@@ -24,7 +24,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules
+namespace Nop.Plugin.Api.Product.Modules.ProductAttributes
 {
     public class ProductAttributesController : BaseApiController
     {
@@ -43,7 +43,9 @@ namespace Nop.Plugin.Api.Modules
             IPictureService pictureService,
             IProductAttributeService productAttributeService,
             IProductAttributesApiService productAttributesApiService,
-            IProductAttributesTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
+            IProductAttributesTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            storeMappingService, storeService, discountService, customerActivityService, localizationService,
+            pictureService)
         {
             _productAttributeService = productAttributeService;
             _productAttributesApiService = productAttributesApiService;
@@ -52,10 +54,10 @@ namespace Nop.Plugin.Api.Modules
 
         [HttpPost]
         [Route("/api/productattributes")]
-        [ProducesResponseType(typeof(ProductAttributesRootObjectDto), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ProductAttributesRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult CreateProductAttribute([ModelBinder(typeof(JsonModelBinder<ProductAttributeDto>))]
@@ -74,37 +76,38 @@ namespace Nop.Plugin.Api.Modules
                 LocalizationService.GetResource("ActivityLog.AddNewProductAttribute"), productAttribute);
 
             // Preparing the result dto of the new product
-            ProductAttributeDto productAttributeDto = _dtoHelper.PrepareProductAttributeDTO(productAttribute);
+            var productAttributeDto = _dtoHelper.PrepareProductAttributeDTO(productAttribute);
 
             var productAttributesRootObjectDto = new ProductAttributesRootObjectDto();
 
             productAttributesRootObjectDto.ProductAttributes.Add(productAttributeDto);
 
-            string json = JsonFieldsSerializer.Serialize(productAttributesRootObjectDto, string.Empty);
+            var json = JsonFieldsSerializer.Serialize(productAttributesRootObjectDto, string.Empty);
 
             return new RawJsonActionResult(json);
         }
 
         [HttpDelete]
         [Route("/api/productattributes/{id}")]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult DeleteProductAttribute(int id)
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            ProductAttribute productAttribute = _productAttributesApiService.GetById(id);
+            var productAttribute = _productAttributesApiService.GetById(id);
 
             if (productAttribute == null) return Error(HttpStatusCode.NotFound, "product attribute", "not found");
 
             _productAttributeService.DeleteProductAttribute(productAttribute);
 
             //activity log
-            CustomerActivityService.InsertActivity("DeleteProductAttribute", LocalizationService.GetResource("ActivityLog.DeleteProductAttribute"), productAttribute);
+            CustomerActivityService.InsertActivity("DeleteProductAttribute",
+                LocalizationService.GetResource("ActivityLog.DeleteProductAttribute"), productAttribute);
 
             return new RawJsonActionResult("{}");
         }
@@ -119,25 +122,25 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/productattributes/{id}")]
-        [ProducesResponseType(typeof(ProductAttributesRootObjectDto), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ProductAttributesRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetProductAttributeById(int id, string fields = "")
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            ProductAttribute productAttribute = _productAttributesApiService.GetById(id);
+            var productAttribute = _productAttributesApiService.GetById(id);
 
             if (productAttribute == null) return Error(HttpStatusCode.NotFound, "product attribute", "not found");
 
-            ProductAttributeDto productAttributeDto = _dtoHelper.PrepareProductAttributeDTO(productAttribute);
+            var productAttributeDto = _dtoHelper.PrepareProductAttributeDTO(productAttribute);
 
             var productAttributesRootObject = new ProductAttributesRootObjectDto();
 
             productAttributesRootObject.ProductAttributes.Add(productAttributeDto);
 
-            string json = JsonFieldsSerializer.Serialize(productAttributesRootObject, fields);
+            var json = JsonFieldsSerializer.Serialize(productAttributesRootObject, fields);
 
             return new RawJsonActionResult(json);
         }
@@ -150,26 +153,31 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/productattributes")]
-        [ProducesResponseType(typeof(ProductAttributesRootObjectDto), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ProductAttributesRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetProductAttributes(ProductAttributesParametersModel parameters)
         {
-            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+                return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
 
-            if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
+            if (parameters.Page < Configurations.DefaultPageValue)
+                return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
 
-            IList<ProductAttribute> allProductAttributes = _productAttributesApiService.GetProductAttributes(parameters.Limit, parameters.Page, parameters.SinceId);
+            var allProductAttributes =
+                _productAttributesApiService.GetProductAttributes(parameters.Limit, parameters.Page,
+                    parameters.SinceId);
 
-            IList<ProductAttributeDto> productAttributesAsDtos = allProductAttributes.Select(productAttribute => _dtoHelper.PrepareProductAttributeDTO(productAttribute)).ToList();
+            IList<ProductAttributeDto> productAttributesAsDtos = allProductAttributes
+                .Select(productAttribute => _dtoHelper.PrepareProductAttributeDTO(productAttribute)).ToList();
 
             var productAttributesRootObject = new ProductAttributesRootObjectDto
             {
                 ProductAttributes = productAttributesAsDtos
             };
 
-            string json = JsonFieldsSerializer.Serialize(productAttributesRootObject, parameters.Fields);
+            var json = JsonFieldsSerializer.Serialize(productAttributesRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }
@@ -181,12 +189,12 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/productattributes/count")]
-        [ProducesResponseType(typeof(ProductAttributesCountRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ProductAttributesCountRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetProductAttributesCount()
         {
-            int allProductAttributesCount = _productAttributesApiService.GetProductAttributesCount();
+            var allProductAttributesCount = _productAttributesApiService.GetProductAttributesCount();
 
             var productAttributesCountRootObject = new ProductAttributesCountRootObject
             {
@@ -198,10 +206,10 @@ namespace Nop.Plugin.Api.Modules
 
         [HttpPut]
         [Route("/api/productattributes/{id}")]
-        [ProducesResponseType(typeof(ProductAttributesRootObjectDto), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(ProductAttributesRootObjectDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult UpdateProductAttribute([ModelBinder(typeof(JsonModelBinder<ProductAttributeDto>))]
@@ -210,7 +218,7 @@ namespace Nop.Plugin.Api.Modules
             // Here we display the errors if the validation has failed at some point.
             if (!ModelState.IsValid) return Error();
 
-            ProductAttribute productAttribute = _productAttributesApiService.GetById(productAttributeDelta.Dto.Id);
+            var productAttribute = _productAttributesApiService.GetById(productAttributeDelta.Dto.Id);
 
             if (productAttribute == null) return Error(HttpStatusCode.NotFound, "product attribute", "not found");
 
@@ -223,13 +231,13 @@ namespace Nop.Plugin.Api.Modules
                 LocalizationService.GetResource("ActivityLog.EditProductAttribute"), productAttribute);
 
             // Preparing the result dto of the new product attribute
-            ProductAttributeDto productAttributeDto = _dtoHelper.PrepareProductAttributeDTO(productAttribute);
+            var productAttributeDto = _dtoHelper.PrepareProductAttributeDTO(productAttribute);
 
             var productAttributesRootObjectDto = new ProductAttributesRootObjectDto();
 
             productAttributesRootObjectDto.ProductAttributes.Add(productAttributeDto);
 
-            string json = JsonFieldsSerializer.Serialize(productAttributesRootObjectDto, string.Empty);
+            var json = JsonFieldsSerializer.Serialize(productAttributesRootObjectDto, string.Empty);
 
             return new RawJsonActionResult(json);
         }

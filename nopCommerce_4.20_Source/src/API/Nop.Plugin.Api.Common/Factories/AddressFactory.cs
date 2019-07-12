@@ -7,10 +7,7 @@ namespace Nop.Plugin.Api.Common.Factories
     {
         public Address Initialize()
         {
-            var address = new Address
-            {
-                CreatedOnUtc = DateTime.UtcNow
-            };
+            var address = new Address {CreatedOnUtc = DateTime.UtcNow};
 
             return address;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
@@ -27,7 +28,7 @@ using Nop.Services.Security;
 using Nop.Services.Stores;
 using Nop.Services.Tax;
 
-namespace Nop.Plugin.Api.Modules
+namespace Nop.Plugin.Api.Customer.Modules.Order
 {
     public class OrderItemsController : BaseApiController
     {
@@ -75,11 +76,11 @@ namespace Nop.Plugin.Api.Modules
 
         [HttpPost]
         [Route("/api/orders/{orderId}/items")]
-        [ProducesResponseType(typeof(OrderItemsRootObject), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(OrderItemsRootObject), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         public IActionResult CreateOrderItem(int orderId,
             [ModelBinder(typeof(JsonModelBinder<OrderItemDto>))]
             Delta<OrderItemDto> orderItemDelta)
@@ -87,28 +88,31 @@ namespace Nop.Plugin.Api.Modules
             // Here we display the errors if the validation has failed at some point.
             if (!ModelState.IsValid) return Error();
 
-            Order order = _orderApiService.GetOrderById(orderId);
+            var order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
-            Core.Domain.Catalog.Product product = GetProduct(orderItemDelta.Dto.ProductId);
+            var product = GetProduct(orderItemDelta.Dto.ProductId);
 
             if (product == null) return Error(HttpStatusCode.NotFound, "product", "not found");
 
             if (product.IsRental)
             {
-                if (orderItemDelta.Dto.RentalStartDateUtc == null) return Error(HttpStatusCode.BadRequest, "rental_start_date_utc", "required");
+                if (orderItemDelta.Dto.RentalStartDateUtc == null)
+                    return Error(HttpStatusCode.BadRequest, "rental_start_date_utc", "required");
 
-                if (orderItemDelta.Dto.RentalEndDateUtc == null) return Error(HttpStatusCode.BadRequest, "rental_end_date_utc", "required");
+                if (orderItemDelta.Dto.RentalEndDateUtc == null)
+                    return Error(HttpStatusCode.BadRequest, "rental_end_date_utc", "required");
 
                 if (orderItemDelta.Dto.RentalStartDateUtc > orderItemDelta.Dto.RentalEndDateUtc)
                     return Error(HttpStatusCode.BadRequest, "rental_start_date_utc",
                         "should be before rental_end_date_utc");
 
-                if (orderItemDelta.Dto.RentalStartDateUtc < DateTime.UtcNow) return Error(HttpStatusCode.BadRequest, "rental_start_date_utc", "should be a future date");
+                if (orderItemDelta.Dto.RentalStartDateUtc < DateTime.UtcNow)
+                    return Error(HttpStatusCode.BadRequest, "rental_start_date_utc", "should be a future date");
             }
 
-            OrderItem newOrderItem = PrepareDefaultOrderItemFromProduct(order, product);
+            var newOrderItem = PrepareDefaultOrderItemFromProduct(order, product);
             orderItemDelta.Merge(newOrderItem);
 
             order.OrderItems.Add(newOrderItem);
@@ -122,45 +126,45 @@ namespace Nop.Plugin.Api.Modules
 
             orderItemsRootObject.OrderItems.Add(newOrderItem.ToDto());
 
-            string json = JsonFieldsSerializer.Serialize(orderItemsRootObject, string.Empty);
+            var json = JsonFieldsSerializer.Serialize(orderItemsRootObject, string.Empty);
 
             return new RawJsonActionResult(json);
         }
 
         [HttpDelete]
         [Route("/api/orders/{orderId}/items")]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult DeleteAllOrderItemsForOrder(int orderId)
         {
-            Order order = _orderApiService.GetOrderById(orderId);
+            var order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
-            List<OrderItem> orderItemsList = order.OrderItems.ToList();
+            var orderItemsList = order.OrderItems.ToList();
 
-            foreach (OrderItem t in orderItemsList) _orderService.DeleteOrderItem(t);
+            foreach (var t in orderItemsList) _orderService.DeleteOrderItem(t);
 
             return new RawJsonActionResult("{}");
         }
 
         [HttpDelete]
         [Route("/api/orders/{orderId}/items/{orderItemId}")]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult DeleteOrderItemById(int orderId, int orderItemId)
         {
-            Order order = _orderApiService.GetOrderById(orderId);
+            var order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
-            OrderItem orderItem = _orderService.GetOrderItemById(orderItemId);
+            var orderItem = _orderService.GetOrderItemById(orderItemId);
             _orderService.DeleteOrderItem(orderItem);
 
             return new RawJsonActionResult("{}");
@@ -168,51 +172,50 @@ namespace Nop.Plugin.Api.Modules
 
         [HttpGet]
         [Route("/api/orders/{orderId}/items/{orderItemId}")]
-        [ProducesResponseType(typeof(OrderItemsRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(OrderItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetOrderItemByIdForOrder(int orderId, int orderItemId, string fields = "")
         {
-            Order order = _orderApiService.GetOrderById(orderId);
+            var order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
-            OrderItem orderItem = _orderService.GetOrderItemById(orderItemId);
+            var orderItem = _orderService.GetOrderItemById(orderItemId);
 
             if (orderItem == null) return Error(HttpStatusCode.NotFound, "order_item", "not found");
 
             var orderItemDtos = new List<OrderItemDto> {_dtoHelper.PrepareOrderItemDTO(orderItem)};
 
-            var orderItemsRootObject = new OrderItemsRootObject
-            {
-                OrderItems = orderItemDtos
-            };
+            var orderItemsRootObject = new OrderItemsRootObject {OrderItems = orderItemDtos};
 
-            string json = JsonFieldsSerializer.Serialize(orderItemsRootObject, fields);
+            var json = JsonFieldsSerializer.Serialize(orderItemsRootObject, fields);
 
             return new RawJsonActionResult(json);
         }
 
         [HttpGet]
         [Route("/api/orders/{orderId}/items")]
-        [ProducesResponseType(typeof(OrderItemsRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(OrderItemsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetOrderItems(int orderId, OrderItemsParametersModel parameters)
         {
-            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+                return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
 
-            if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "Invalid request parameters");
+            if (parameters.Page < Configurations.DefaultPageValue)
+                return Error(HttpStatusCode.BadRequest, "page", "Invalid request parameters");
 
-            Order order = _orderApiService.GetOrderById(orderId);
+            var order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
-            IList<OrderItem> allOrderItemsForOrder =
+            var allOrderItemsForOrder =
                 _orderItemApiService.GetOrderItemsForOrder(order, parameters.Limit, parameters.Page,
                     parameters.SinceId);
 
@@ -221,41 +224,38 @@ namespace Nop.Plugin.Api.Modules
                 OrderItems = allOrderItemsForOrder.Select(item => _dtoHelper.PrepareOrderItemDTO(item)).ToList()
             };
 
-            string json = JsonFieldsSerializer.Serialize(orderItemsRootObject, parameters.Fields);
+            var json = JsonFieldsSerializer.Serialize(orderItemsRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }
 
         [HttpGet]
         [Route("/api/orders/{orderId}/items/count")]
-        [ProducesResponseType(typeof(OrderItemsCountRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(OrderItemsCountRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetOrderItemsCount(int orderId)
         {
-            Order order = _orderApiService.GetOrderById(orderId);
+            var order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
-            int orderItemsCountForOrder = _orderItemApiService.GetOrderItemsCount(order);
+            var orderItemsCountForOrder = _orderItemApiService.GetOrderItemsCount(order);
 
-            var orderItemsCountRootObject = new OrderItemsCountRootObject
-            {
-                Count = orderItemsCountForOrder
-            };
+            var orderItemsCountRootObject = new OrderItemsCountRootObject {Count = orderItemsCountForOrder};
 
             return Ok(orderItemsCountRootObject);
         }
 
         [HttpPut]
         [Route("/api/orders/{orderId}/items/{orderItemId}")]
-        [ProducesResponseType(typeof(OrderItemsRootObject), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(OrderItemsRootObject), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         public IActionResult UpdateOrderItem(int orderId, int orderItemId,
             [ModelBinder(typeof(JsonModelBinder<OrderItemDto>))]
             Delta<OrderItemDto> orderItemDelta)
@@ -263,22 +263,22 @@ namespace Nop.Plugin.Api.Modules
             // Here we display the errors if the validation has failed at some point.
             if (!ModelState.IsValid) return Error();
 
-            OrderItem orderItemToUpdate = _orderService.GetOrderItemById(orderItemId);
+            var orderItemToUpdate = _orderService.GetOrderItemById(orderItemId);
 
             if (orderItemToUpdate == null) return Error(HttpStatusCode.NotFound, "order_item", "not found");
 
-            Order order = _orderApiService.GetOrderById(orderId);
+            var order = _orderApiService.GetOrderById(orderId);
 
             if (order == null) return Error(HttpStatusCode.NotFound, "order", "not found");
 
             // This is needed because those fields shouldn't be updatable. That is why we save them and after the merge set them back.
             int? productId = orderItemToUpdate.ProductId;
-            DateTime? rentalStartDate = orderItemToUpdate.RentalStartDateUtc;
-            DateTime? rentalEndDate = orderItemToUpdate.RentalEndDateUtc;
+            var rentalStartDate = orderItemToUpdate.RentalStartDateUtc;
+            var rentalEndDate = orderItemToUpdate.RentalEndDateUtc;
 
             orderItemDelta.Merge(orderItemToUpdate);
 
-            orderItemToUpdate.ProductId = (int) productId;
+            orderItemToUpdate.ProductId = (int)productId;
             orderItemToUpdate.RentalStartDateUtc = rentalStartDate;
             orderItemToUpdate.RentalEndDateUtc = rentalEndDate;
 
@@ -291,18 +291,18 @@ namespace Nop.Plugin.Api.Modules
 
             orderItemsRootObject.OrderItems.Add(orderItemToUpdate.ToDto());
 
-            string json = JsonFieldsSerializer.Serialize(orderItemsRootObject, string.Empty);
+            var json = JsonFieldsSerializer.Serialize(orderItemsRootObject, string.Empty);
 
             return new RawJsonActionResult(json);
         }
 
-        private Core.Domain.Catalog.Product GetProduct(int? productId)
+        private Product GetProduct(int? productId)
         {
-            Core.Domain.Catalog.Product product = null;
+            Product product = null;
 
             if (productId.HasValue)
             {
-                int id = productId.Value;
+                var id = productId.Value;
 
                 product = _productApiService.GetProductById(id);
             }
@@ -310,15 +310,15 @@ namespace Nop.Plugin.Api.Modules
             return product;
         }
 
-        private OrderItem PrepareDefaultOrderItemFromProduct(Order order, Core.Domain.Catalog.Product product)
+        private OrderItem PrepareDefaultOrderItemFromProduct(Core.Domain.Orders.Order order, Product product)
         {
             var presetQty = 1;
-            decimal presetPrice =
+            var presetPrice =
                 _priceCalculationService.GetFinalPrice(product, order.Customer, decimal.Zero, true, presetQty);
 
-            decimal presetPriceInclTax =
+            var presetPriceInclTax =
                 _taxService.GetProductPrice(product, presetPrice, true, order.Customer, out _);
-            decimal presetPriceExclTax =
+            var presetPriceExclTax =
                 _taxService.GetProductPrice(product, presetPrice, false, order.Customer, out _);
 
             var orderItem = new OrderItem

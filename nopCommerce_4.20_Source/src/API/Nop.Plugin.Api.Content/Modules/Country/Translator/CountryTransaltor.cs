@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Directory;
 using Nop.Plugin.Api.Content.Modules.Country.Dto;
 using Nop.Services.Localization;
@@ -18,10 +17,10 @@ namespace Nop.Plugin.Api.Content.Modules.Country.Translator
         {
             _localizationService = localizationService;
             _urlRecordService = urlRecordService;
-            IHeaderDictionary headers = httpContextAccessor.HttpContext.Request.Headers;
+            var headers = httpContextAccessor.HttpContext.Request.Headers;
             if (headers.ContainsKey("Accept-Language"))
             {
-                StringValues lan = headers["Accept-Language"];
+                var lan = headers["Accept-Language"];
                 if (lan.ToString() == "en")
                     _currentLangaugeId = 1;
                 else
@@ -33,7 +32,10 @@ namespace Nop.Plugin.Api.Content.Modules.Country.Translator
         {
             var name = _localizationService.GetLocalized(state, x => x.Name, _currentLangaugeId);
             var abbreviation = _localizationService.GetLocalized(state, x => x.Abbreviation, _currentLangaugeId);
-            return new StateProvinceDto { Abbreviation = abbreviation, Id = state.Id, Name = name, CountryId = state.CountryId };
+            return new StateProvinceDto
+            {
+                Abbreviation = abbreviation, Id = state.Id, Name = name, CountryId = state.CountryId
+            };
         }
     }
 }

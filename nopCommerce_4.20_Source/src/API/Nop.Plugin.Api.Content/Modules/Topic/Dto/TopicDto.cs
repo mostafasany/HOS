@@ -18,7 +18,6 @@ namespace Nop.Plugin.Api.Content.Modules.Topic.Dto
         [JsonProperty("body")]
         public string Body { get; set; }
 
-        [JsonProperty("se_name")]
-        public string SeName { get; set; }
+        [JsonProperty("se_name")] public string SeName { get; set; }
     }
 }

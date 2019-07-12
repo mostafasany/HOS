@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Nop.Core.Domain.Vendors;
 using Nop.Core.Infrastructure;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Services.Vendors;
@@ -12,7 +11,10 @@ namespace Nop.Plugin.Api.Common.DTOs.Product.Validator
 
         private IVendorService _vendorService;
 
-        public ValidateVendor() => _errors = new Dictionary<string, string>();
+        public ValidateVendor()
+        {
+            _errors = new Dictionary<string, string>();
+        }
 
         private IVendorService VendorService
         {
@@ -24,7 +26,10 @@ namespace Nop.Plugin.Api.Common.DTOs.Product.Validator
             }
         }
 
-        public override Dictionary<string, string> GetErrors() => _errors;
+        public override Dictionary<string, string> GetErrors()
+        {
+            return _errors;
+        }
 
         public override void Validate(object instance)
         {
@@ -33,7 +38,7 @@ namespace Nop.Plugin.Api.Common.DTOs.Product.Validator
             if (instance != null && int.TryParse(instance.ToString(), out vendorId))
                 if (vendorId > 0)
                 {
-                    Vendor vendor = VendorService.GetVendorById(vendorId);
+                    var vendor = VendorService.GetVendorById(vendorId);
 
                     if (vendor == null) _errors.Add("Invalid vendor id", "Non existing vendor");
                 }

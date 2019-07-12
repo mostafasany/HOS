@@ -1,9 +1,10 @@
-﻿using Nop.Plugin.Api.Cart.Modules.Discount.Dto;
+﻿using Nop.Core.Domain.Discounts;
+using Nop.Plugin.Api.Cart.Dto;
 
-namespace Nop.Plugin.Api.Cart.Modules.Discount.Translator
+namespace Nop.Plugin.Api.Cart.Translator
 {
     public interface IDiscountTransaltor
     {
-        DiscountDto PrepateDiscountDto(Core.Domain.Discounts.Discount discount);
+        DiscountDto PrepateDiscountDto(Discount discount);
     }
 }

@@ -5,6 +5,7 @@ namespace Nop.Plugin.Api.Product.Modules.ProductSpecificationAttributes.Translat
 {
     public interface IProductSpecificationAttributesTransaltor
     {
-        ProductSpecificationAttributeDto PrepareProductSpecificationAttributeDto(ProductSpecificationAttribute productSpecificationAttribute);
+        ProductSpecificationAttributeDto PrepareProductSpecificationAttributeDto(
+            ProductSpecificationAttribute productSpecificationAttribute);
     }
 }

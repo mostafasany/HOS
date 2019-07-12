@@ -7,13 +7,22 @@ namespace Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Dto
 {
     public class ProductCategoryMappingsRootObject : ISerializableObject
     {
-        public ProductCategoryMappingsRootObject() => ProductCategoryMappingDtos = new List<ProductCategoryMappingDto>();
+        public ProductCategoryMappingsRootObject()
+        {
+            ProductCategoryMappingDtos = new List<ProductCategoryMappingDto>();
+        }
 
         [JsonProperty("product_category_mappings")]
         public IList<ProductCategoryMappingDto> ProductCategoryMappingDtos { get; set; }
 
-        public string GetPrimaryPropertyName() => "product_category_mappings";
+        public string GetPrimaryPropertyName()
+        {
+            return "product_category_mappings";
+        }
 
-        public Type GetPrimaryPropertyType() => typeof(ProductCategoryMappingDto);
+        public Type GetPrimaryPropertyType()
+        {
+            return typeof(ProductCategoryMappingDto);
+        }
     }
 }

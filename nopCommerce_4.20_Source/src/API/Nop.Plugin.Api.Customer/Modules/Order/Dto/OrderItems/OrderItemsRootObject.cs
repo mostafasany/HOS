@@ -7,13 +7,21 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems
 {
     public class OrderItemsRootObject : ISerializableObject
     {
-        public OrderItemsRootObject() => OrderItems = new List<OrderItemDto>();
+        public OrderItemsRootObject()
+        {
+            OrderItems = new List<OrderItemDto>();
+        }
 
-        [JsonProperty("order_items")]
-        public IList<OrderItemDto> OrderItems { get; set; }
+        [JsonProperty("order_items")] public IList<OrderItemDto> OrderItems { get; set; }
 
-        public string GetPrimaryPropertyName() => "order_items";
+        public string GetPrimaryPropertyName()
+        {
+            return "order_items";
+        }
 
-        public Type GetPrimaryPropertyType() => typeof(OrderItemDto);
+        public Type GetPrimaryPropertyType()
+        {
+            return typeof(OrderItemDto);
+        }
     }
 }

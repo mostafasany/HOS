@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Content.Modules.Topic.Model
+namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Model
 {
     // JsonProperty is used only for swagger
     [ModelBinder(typeof(ParametersModelBinder<ManufacturersParamatersModel>))]
@@ -49,7 +49,6 @@ namespace Nop.Plugin.Api.Content.Modules.Topic.Model
         [JsonProperty("fields")]
         public string Fields { get; set; }
 
-        [JsonProperty("published_status")]
-        public bool? PublishedStatus { get; set; }
+        [JsonProperty("published_status")] public bool? PublishedStatus { get; set; }
     }
 }

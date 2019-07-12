@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
 using Nop.Core;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Shipping;
@@ -16,25 +15,26 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Translator
 {
     public class OrderTransaltor : IOrderTransaltor
     {
-        private readonly IProductAttributeConverter _productAttributeConverter;
+        private readonly int _currentLangaugeId;
         private readonly ILocalizationService _localizationService;
+        private readonly IProductAttributeConverter _productAttributeConverter;
         private readonly IShippingService _shippingService;
         private readonly IWorkContext _workContext;
-        private readonly int _currentLangaugeId;
-        IList<ShippingMethod> ShippingsMethods;
+        private readonly IList<ShippingMethod> ShippingsMethods;
 
         public OrderTransaltor(ILocalizationService localizationService, IHttpContextAccessor httpContextAccessor,
-            IProductAttributeConverter productAttributeConverter, IWorkContext workContext, IShippingService shippingService)
+            IProductAttributeConverter productAttributeConverter, IWorkContext workContext,
+            IShippingService shippingService)
         {
             _productAttributeConverter = productAttributeConverter;
             _localizationService = localizationService;
             _workContext = workContext;
             _shippingService = shippingService;
             ShippingsMethods = _shippingService.GetAllShippingMethods();
-            IHeaderDictionary headers = httpContextAccessor.HttpContext.Request.Headers;
+            var headers = httpContextAccessor.HttpContext.Request.Headers;
             if (headers.ContainsKey("Accept-Language"))
             {
-                StringValues lan = headers["Accept-Language"];
+                var lan = headers["Accept-Language"];
                 if (lan.ToString() == "en")
                     _currentLangaugeId = 1;
                 else
@@ -44,7 +44,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Translator
 
         public OrderDto PrepareOrderDTO(Core.Domain.Orders.Order order)
         {
-            OrderDto orderDto = order.ToDto();
+            var orderDto = order.ToDto();
             orderDto.OrderItems = order.OrderItems.Select(PrepareOrderItemDTO).ToList();
             try
             {
@@ -61,13 +61,13 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Translator
             catch (Exception ex)
             {
             }
-           
+
             return orderDto;
         }
 
         public OrderItemDto PrepareOrderItemDTO(OrderItem orderItem)
         {
-            OrderItemDto dto = orderItem.ToDto();
+            var dto = orderItem.ToDto();
             dto.Product.Name = _localizationService.GetLocalized(orderItem.Product, x => x.Name, _currentLangaugeId);
             dto.Attributes = _productAttributeConverter.Parse(orderItem.AttributesXml);
             return dto;

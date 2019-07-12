@@ -18,16 +18,12 @@ namespace Nop.Plugin.Api.Common.Converters
 
             var formats = new[]
             {
-                "yyyy",
-                "yyyy-MM",
-                "yyyy-MM-dd",
-                "yyyy-MM-ddTHH:mm",
-                "yyyy-MM-ddTHH:mm:ss",
-                "yyyy-MM-ddTHH:mm:sszzz",
-                "yyyy-MM-ddTHH:mm:ss.FFFFFFFK"
+                "yyyy", "yyyy-MM", "yyyy-MM-dd", "yyyy-MM-ddTHH:mm", "yyyy-MM-ddTHH:mm:ss",
+                "yyyy-MM-ddTHH:mm:sszzz", "yyyy-MM-ddTHH:mm:ss.FFFFFFFK"
             };
 
-            if (DateTime.TryParseExact(value, formats, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out result))
+            if (DateTime.TryParseExact(value, formats, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind,
+                out result))
             {
                 // only if parsed in Local time then we need to convert it to UTC
                 if (result.Kind == DateTimeKind.Local) return result.ToUniversalTime();
@@ -60,10 +56,10 @@ namespace Nop.Plugin.Api.Common.Converters
         {
             if (!string.IsNullOrEmpty(value))
             {
-                List<string> stringIds = value.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).ToList();
+                var stringIds = value.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries).ToList();
                 var intIds = new List<int>();
 
-                foreach (string id in stringIds)
+                foreach (var id in stringIds)
                 {
                     int intId;
                     if (int.TryParse(id, out intId)) intIds.Add(intId);
@@ -90,11 +86,12 @@ namespace Nop.Plugin.Api.Common.Converters
         {
             if (!string.IsNullOrEmpty(value))
             {
-                Type enumType = Nullable.GetUnderlyingType(type);
+                var enumType = Nullable.GetUnderlyingType(type);
 
-                string[] enumNames = enumType.GetEnumNames();
+                var enumNames = enumType.GetEnumNames();
 
-                if (enumNames.Any(x => x.ToLowerInvariant().Equals(value.ToLowerInvariant()))) return Enum.Parse(enumType, value, true);
+                if (enumNames.Any(x => x.ToLowerInvariant().Equals(value.ToLowerInvariant())))
+                    return Enum.Parse(enumType, value, true);
             }
 
             return null;

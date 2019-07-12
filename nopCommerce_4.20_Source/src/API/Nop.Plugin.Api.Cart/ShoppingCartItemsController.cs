@@ -21,9 +21,6 @@ using Nop.Plugin.Api.Common.Factories;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
-using Nop.Plugin.Api.Cart.Modules.Discount.Dto;
-using Nop.Plugin.Api.Cart.Modules.Discount.Translator;
-using Nop.Plugin.Api.Cart.Modules.Product.Dto;
 using Nop.Services.Catalog;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
@@ -35,10 +32,13 @@ using Nop.Services.Security;
 using Nop.Services.Shipping;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules
+namespace Nop.Plugin.Api.Cart
 {
     public class ShoppingCartItemsController : BaseApiController
     {
+        private readonly ICustomerService _customerService;
+        private readonly IDiscountService _discountService;
+        private readonly IDiscountTransaltor _discountTransaltor;
         private readonly ICartTransaltor _dtoHelper;
         private readonly IFactory<ShoppingCartItem> _factory;
         private readonly IProductAttributeConverter _productAttributeConverter;
@@ -48,9 +48,6 @@ namespace Nop.Plugin.Api.Modules
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IStoreContext _storeContext;
         private readonly IWorkContext _workContext;
-        private readonly ICustomerService _customerService;
-        private readonly IDiscountService _discountService;
-        private readonly IDiscountTransaltor _discountTransaltor;
 
         public ShoppingCartItemsController(IShoppingCartItemApiService shoppingCartItemApiService,
             IShippingService shippingService,
@@ -108,20 +105,22 @@ namespace Nop.Plugin.Api.Modules
             // Here we display the errors if the validation has failed at some point.
             if (!ModelState.IsValid) return Error();
 
-            ShoppingCartItem newShoppingCartItem = _factory.Initialize();
+            var newShoppingCartItem = _factory.Initialize();
             shoppingCartItemDelta.Merge(newShoppingCartItem);
 
             // We know that the product id and customer id will be provided because they are required by the validator.
             // TODO: validate
-            Core.Domain.Catalog.Product product = _productService.GetProductById(newShoppingCartItem.ProductId);
+            var product = _productService.GetProductById(newShoppingCartItem.ProductId);
 
             if (product == null) return Error(HttpStatusCode.NotFound, "product", "not found");
 
-            Core.Domain.Customers.Customer customer = _workContext.CurrentCustomer;// CustomerService.GetCustomerById(newShoppingCartItem.CustomerId);
+            var customer =
+                _workContext.CurrentCustomer; // CustomerService.GetCustomerById(newShoppingCartItem.CustomerId);
 
             if (customer == null) return Error(HttpStatusCode.NotFound, "customer", "not found");
 
-            var shoppingCartType = (ShoppingCartType)Enum.Parse(typeof(ShoppingCartType), shoppingCartItemDelta.Dto.ShoppingCartType);
+            var shoppingCartType =
+                (ShoppingCartType)Enum.Parse(typeof(ShoppingCartType), shoppingCartItemDelta.Dto.ShoppingCartType);
 
             if (!product.IsRental)
             {
@@ -129,17 +128,19 @@ namespace Nop.Plugin.Api.Modules
                 newShoppingCartItem.RentalEndDateUtc = null;
             }
 
-            string attributesXml = _productAttributeConverter.ConvertToXml(shoppingCartItemDelta.Dto.Attributes, product.Id);
+            var attributesXml =
+                _productAttributeConverter.ConvertToXml(shoppingCartItemDelta.Dto.Attributes, product.Id);
 
-            int currentStoreId = _storeContext.CurrentStore.Id;
+            var currentStoreId = _storeContext.CurrentStore.Id;
 
-            IList<string> warnings = _shoppingCartService.AddToCart(customer, product, shoppingCartType, currentStoreId, attributesXml, 0M,
+            var warnings = _shoppingCartService.AddToCart(customer, product, shoppingCartType, currentStoreId,
+                attributesXml, 0M,
                 newShoppingCartItem.RentalStartDateUtc, newShoppingCartItem.RentalEndDateUtc,
                 shoppingCartItemDelta.Dto.Quantity ?? 1);
 
             if (warnings.Count > 0)
             {
-                foreach (string warning in warnings) ModelState.AddModelError("shopping cart item", warning);
+                foreach (var warning in warnings) ModelState.AddModelError("shopping cart item", warning);
 
                 return Error(HttpStatusCode.BadRequest);
             }
@@ -148,13 +149,13 @@ namespace Nop.Plugin.Api.Modules
             newShoppingCartItem = customer.ShoppingCartItems.LastOrDefault();
 
             // Preparing the result dto of the new product category mapping
-            ShoppingCartItemDto newShoppingCartItemDto = _dtoHelper.PrepareShoppingCartItemDTO(newShoppingCartItem);
+            var newShoppingCartItemDto = _dtoHelper.PrepareShoppingCartItemDTO(newShoppingCartItem);
 
             var shoppingCartsRootObject = new ShoppingCartItemsRootObject();
 
             shoppingCartsRootObject.ShoppingCartItems.Add(newShoppingCartItemDto);
 
-            string json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, string.Empty);
+            var json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, string.Empty);
 
             return new RawJsonActionResult(json);
         }
@@ -170,14 +171,16 @@ namespace Nop.Plugin.Api.Modules
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            ShoppingCartItem shoppingCartItemForDelete = _shoppingCartItemApiService.GetShoppingCartItem(id);
+            var shoppingCartItemForDelete = _shoppingCartItemApiService.GetShoppingCartItem(id);
 
-            if (shoppingCartItemForDelete == null) return Error(HttpStatusCode.NotFound, "shopping_cart_item", "not found");
+            if (shoppingCartItemForDelete == null)
+                return Error(HttpStatusCode.NotFound, "shopping_cart_item", "not found");
 
             _shoppingCartService.DeleteShoppingCartItem(shoppingCartItemForDelete);
 
             //activity log
-            CustomerActivityService.InsertActivity("DeleteShoppingCartItem", LocalizationService.GetResource("ActivityLog.DeleteShoppingCartItem"), shoppingCartItemForDelete);
+            CustomerActivityService.InsertActivity("DeleteShoppingCartItem",
+                LocalizationService.GetResource("ActivityLog.DeleteShoppingCartItem"), shoppingCartItemForDelete);
 
             return new OkResult();
         }
@@ -197,17 +200,16 @@ namespace Nop.Plugin.Api.Modules
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetCorssSellsProducts(ShoppingCartItemsForCrossSellsParametersModel parameters)
         {
-            IEnumerable<Core.Domain.Catalog.Product> allProducts = _productService.GetCrosssellProductsByShoppingCart(parameters.ProductIds?.Select(a => new ShoppingCartItem { ProductId = a }).ToList(), parameters.Limit)
+            var allProducts = _productService.GetCrosssellProductsByShoppingCart(
+                    parameters.ProductIds?.Select(a => new ShoppingCartItem {ProductId = a}).ToList(), parameters.Limit)
                 .Where(p => StoreMappingService.Authorize(p));
 
-            IList<ProductDto> productsAsDtos = allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
+            IList<ProductDto> productsAsDtos =
+                allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
 
-            var productsRootObject = new ProductsRootObjectDto
-            {
-                Products = productsAsDtos
-            };
+            var productsRootObject = new ProductsRootObjectDto {Products = productsAsDtos};
 
-            string json = JsonFieldsSerializer.Serialize(productsRootObject, parameters.Fields);
+            var json = JsonFieldsSerializer.Serialize(productsRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }
@@ -227,25 +229,25 @@ namespace Nop.Plugin.Api.Modules
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetShoppingCartItemsByCookie(ShoppingCartItemsParametersModel parameters)
         {
-            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+                return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
 
-            if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
+            if (parameters.Page < Configurations.DefaultPageValue)
+                return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
 
-            IList<ShoppingCartItem> shoppingCartItems = _workContext.CurrentCustomer.ShoppingCartItems.
-                Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart).ToList();
+            IList<ShoppingCartItem> shoppingCartItems = _workContext.CurrentCustomer.ShoppingCartItems
+                .Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart).ToList();
 
-            shoppingCartItems = shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart).ToList();
+            shoppingCartItems = shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart)
+                .ToList();
             var model = new ShoppingCartModel();
             _shoppingCartItemApiService.PrepareShoppingCartModel(model, shoppingCartItems);
             model.SubTotal = model.Items.Sum(a => a.SubTotalNumber);
             model.SubTotalDiscount = model.Items.Sum(a => a.DiscountlNumber);
             model.Total = model.SubTotal - model.SubTotalDiscount;
-            var shoppingCartsRootObject = new ExtendedShoppingCartItemsRootObject
-            {
-                ShoppingCart = model
-            };
+            var shoppingCartsRootObject = new ExtendedShoppingCartItemsRootObject {ShoppingCart = model};
 
-            string json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
+            var json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }
@@ -264,9 +266,11 @@ namespace Nop.Plugin.Api.Modules
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetOnlyShoppingCartItems(int customerId, ShoppingCartItemsParametersModel parameters)
         {
-            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+                return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
 
-            if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
+            if (parameters.Page < Configurations.DefaultPageValue)
+                return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
 
             IList<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems(customerId,
                 parameters.CreatedAtMin,
@@ -276,18 +280,16 @@ namespace Nop.Plugin.Api.Modules
                 parameters.Limit,
                 parameters.Page);
 
-            shoppingCartItems = shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart).ToList();
+            shoppingCartItems = shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.ShoppingCart)
+                .ToList();
             var model = new ShoppingCartModel();
             _shoppingCartItemApiService.PrepareShoppingCartModel(model, shoppingCartItems);
             model.SubTotal = model.Items.Sum(a => a.SubTotalNumber);
             model.SubTotalDiscount = model.Items.Sum(a => a.DiscountlNumber);
             model.Total = model.SubTotal - model.SubTotalDiscount;
-            var shoppingCartsRootObject = new ExtendedShoppingCartItemsRootObject
-            {
-                ShoppingCart = model
-            };
+            var shoppingCartsRootObject = new ExtendedShoppingCartItemsRootObject {ShoppingCart = model};
 
-            string json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
+            var json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }
@@ -334,25 +336,23 @@ namespace Nop.Plugin.Api.Modules
                 StateProvinceId = parameters.StateProvinceId
             };
             var items = new List<GetShippingOptionRequest.PackageItem>();
-            foreach (ShoppingCartItem shoppingCart in shoppingCartItems)
+            foreach (var shoppingCart in shoppingCartItems)
                 items.Add(new GetShippingOptionRequest.PackageItem(shoppingCart));
 
             // optionsRequest.Items = items;
 
-            GetShippingOptionResponse shippingOptionResponse = _shippingService.GetShippingOptions(shoppingCartItems, shippingAddress, _workContext.CurrentCustomer, storeId: _storeContext.CurrentStore.Id);
+            var shippingOptionResponse = _shippingService.GetShippingOptions(shoppingCartItems, shippingAddress,
+                _workContext.CurrentCustomer, storeId: _storeContext.CurrentStore.Id);
             //  GetShippingOptionResponse shippingOptionResponse = n.GetShippingOptions(optionsRequest);
 
-            List<ShippingOptionDto> shippingOptionDto = shippingOptionResponse.ShippingOptions.Select(shoppingCartItem =>
+            var shippingOptionDto = shippingOptionResponse.ShippingOptions.Select(shoppingCartItem =>
             {
                 return _dtoHelper.PrepareShippingOptionItemDTO(shoppingCartItem);
             }).ToList();
 
-            var shippingOptionRootObject = new ShippingOptionRootObject
-            {
-                ShippingOptions = shippingOptionDto
-            };
+            var shippingOptionRootObject = new ShippingOptionRootObject {ShippingOptions = shippingOptionDto};
 
-            string json = JsonFieldsSerializer.Serialize(shippingOptionRootObject, "");
+            var json = JsonFieldsSerializer.Serialize(shippingOptionRootObject, "");
 
             return new RawJsonActionResult(json);
         }
@@ -371,9 +371,11 @@ namespace Nop.Plugin.Api.Modules
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetShoppingCartItems(ShoppingCartItemsParametersModel parameters)
         {
-            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+                return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
 
-            if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
+            if (parameters.Page < Configurations.DefaultPageValue)
+                return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
 
             IList<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems(null,
                 parameters.CreatedAtMin,
@@ -383,17 +385,14 @@ namespace Nop.Plugin.Api.Modules
                 parameters.Limit,
                 parameters.Page);
 
-            List<ShoppingCartItemDto> shoppingCartItemsDtos = shoppingCartItems.Select(shoppingCartItem =>
+            var shoppingCartItemsDtos = shoppingCartItems.Select(shoppingCartItem =>
             {
                 return _dtoHelper.PrepareShoppingCartItemDTO(shoppingCartItem);
             }).ToList();
 
-            var shoppingCartsRootObject = new ShoppingCartItemsRootObject
-            {
-                ShoppingCartItems = shoppingCartItemsDtos
-            };
+            var shoppingCartsRootObject = new ShoppingCartItemsRootObject {ShoppingCartItems = shoppingCartItemsDtos};
 
-            string json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
+            var json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }
@@ -414,13 +413,17 @@ namespace Nop.Plugin.Api.Modules
         [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [GetRequestsErrorInterceptorActionFilter]
-        public IActionResult GetShoppingCartItemsByCustomerId(int customerId, ShoppingCartItemsForCustomerParametersModel parameters)
+        public IActionResult GetShoppingCartItemsByCustomerId(int customerId,
+            ShoppingCartItemsForCustomerParametersModel parameters)
         {
-            if (customerId <= Configurations.DefaultCustomerId) return Error(HttpStatusCode.BadRequest, "customer_id", "invalid customer_id");
+            if (customerId <= Configurations.DefaultCustomerId)
+                return Error(HttpStatusCode.BadRequest, "customer_id", "invalid customer_id");
 
-            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+                return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
 
-            if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
+            if (parameters.Page < Configurations.DefaultPageValue)
+                return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
 
             IList<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems(customerId,
                 parameters.CreatedAtMin,
@@ -430,16 +433,13 @@ namespace Nop.Plugin.Api.Modules
 
             if (shoppingCartItems == null) return Error(HttpStatusCode.NotFound, "shopping_cart_item", "not found");
 
-            List<ShoppingCartItemDto> shoppingCartItemsDtos = shoppingCartItems
+            var shoppingCartItemsDtos = shoppingCartItems
                 .Select(shoppingCartItem => _dtoHelper.PrepareShoppingCartItemDTO(shoppingCartItem))
                 .ToList();
 
-            var shoppingCartsRootObject = new ShoppingCartItemsRootObject
-            {
-                ShoppingCartItems = shoppingCartItemsDtos
-            };
+            var shoppingCartsRootObject = new ShoppingCartItemsRootObject {ShoppingCartItems = shoppingCartItemsDtos};
 
-            string json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
+            var json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }
@@ -459,9 +459,11 @@ namespace Nop.Plugin.Api.Modules
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetWishlistItems(int customerId, ShoppingCartItemsParametersModel parameters)
         {
-            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+                return Error(HttpStatusCode.BadRequest, "limit", "invalid limit parameter");
 
-            if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
+            if (parameters.Page < Configurations.DefaultPageValue)
+                return Error(HttpStatusCode.BadRequest, "page", "invalid page parameter");
 
             IList<ShoppingCartItem> shoppingCartItems = _shoppingCartItemApiService.GetShoppingCartItems(customerId,
                 parameters.CreatedAtMin,
@@ -473,17 +475,14 @@ namespace Nop.Plugin.Api.Modules
 
             shoppingCartItems = shoppingCartItems.Where(a => a.ShoppingCartType == ShoppingCartType.Wishlist).ToList();
 
-            List<ShoppingCartItemDto> shoppingCartItemsDtos = shoppingCartItems.Select(shoppingCartItem =>
+            var shoppingCartItemsDtos = shoppingCartItems.Select(shoppingCartItem =>
             {
                 return _dtoHelper.PrepareShoppingCartItemDTO(shoppingCartItem);
             }).ToList();
 
-            var shoppingCartsRootObject = new ShoppingCartItemsRootObject
-            {
-                ShoppingCartItems = shoppingCartItemsDtos
-            };
+            var shoppingCartsRootObject = new ShoppingCartItemsRootObject {ShoppingCartItems = shoppingCartItemsDtos};
 
-            string json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
+            var json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }
@@ -502,9 +501,11 @@ namespace Nop.Plugin.Api.Modules
             if (!ModelState.IsValid) return Error();
 
             // We kno that the id will be valid integer because the validation for this happens in the validator which is executed by the model binder.
-            ShoppingCartItem shoppingCartItemForUpdate = _shoppingCartItemApiService.GetShoppingCartItem(shoppingCartItemDelta.Dto.Id);
+            var shoppingCartItemForUpdate =
+                _shoppingCartItemApiService.GetShoppingCartItem(shoppingCartItemDelta.Dto.Id);
 
-            if (shoppingCartItemForUpdate == null) return Error(HttpStatusCode.NotFound, "shopping_cart_item", "not found");
+            if (shoppingCartItemForUpdate == null)
+                return Error(HttpStatusCode.NotFound, "shopping_cart_item", "not found");
 
             shoppingCartItemDelta.Merge(shoppingCartItemForUpdate);
 
@@ -514,17 +515,21 @@ namespace Nop.Plugin.Api.Modules
                 shoppingCartItemForUpdate.RentalEndDateUtc = null;
             }
 
-            if (shoppingCartItemDelta.Dto.Attributes != null) shoppingCartItemForUpdate.AttributesXml = _productAttributeConverter.ConvertToXml(shoppingCartItemDelta.Dto.Attributes, shoppingCartItemForUpdate.Product.Id);
+            if (shoppingCartItemDelta.Dto.Attributes != null)
+                shoppingCartItemForUpdate.AttributesXml =
+                    _productAttributeConverter.ConvertToXml(shoppingCartItemDelta.Dto.Attributes,
+                        shoppingCartItemForUpdate.Product.Id);
 
             // The update time is set in the service.
-            IList<string> warnings = _shoppingCartService.UpdateShoppingCartItem(shoppingCartItemForUpdate.Customer, shoppingCartItemForUpdate.Id,
+            var warnings = _shoppingCartService.UpdateShoppingCartItem(shoppingCartItemForUpdate.Customer,
+                shoppingCartItemForUpdate.Id,
                 shoppingCartItemForUpdate.AttributesXml, shoppingCartItemForUpdate.CustomerEnteredPrice,
                 shoppingCartItemForUpdate.RentalStartDateUtc, shoppingCartItemForUpdate.RentalEndDateUtc,
                 shoppingCartItemForUpdate.Quantity, false);
 
             if (warnings.Count > 0)
             {
-                foreach (string warning in warnings) ModelState.AddModelError("shopping cart item", warning);
+                foreach (var warning in warnings) ModelState.AddModelError("shopping cart item", warning);
 
                 return Error(HttpStatusCode.BadRequest);
             }
@@ -532,13 +537,13 @@ namespace Nop.Plugin.Api.Modules
             shoppingCartItemForUpdate = _shoppingCartItemApiService.GetShoppingCartItem(shoppingCartItemForUpdate.Id);
 
             // Preparing the result dto of the new product category mapping
-            ShoppingCartItemDto newShoppingCartItemDto = _dtoHelper.PrepareShoppingCartItemDTO(shoppingCartItemForUpdate);
+            var newShoppingCartItemDto = _dtoHelper.PrepareShoppingCartItemDTO(shoppingCartItemForUpdate);
 
             var shoppingCartsRootObject = new ShoppingCartItemsRootObject();
 
             shoppingCartsRootObject.ShoppingCartItems.Add(newShoppingCartItemDto);
 
-            string json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, string.Empty);
+            var json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, string.Empty);
 
             return new RawJsonActionResult(json);
         }
@@ -598,20 +603,15 @@ namespace Nop.Plugin.Api.Modules
             {
                 var discount = _discountService.GetDiscountById(discountId);
                 var discountDTo = _discountTransaltor.PrepateDiscountDto(discount);
-                var discountsRootObject = new DiscountsRootObject
-                {
-                    Discounts = new List<DiscountDto>()
-                };
+                var discountsRootObject = new DiscountsRootObject {Discounts = new List<DiscountDto>()};
                 discountsRootObject.Discounts.Add(discountDTo);
-                string json = JsonFieldsSerializer.Serialize(discountsRootObject, string.Empty);
+                var json = JsonFieldsSerializer.Serialize(discountsRootObject, string.Empty);
                 return new RawJsonActionResult(json);
-
             }
             catch (Exception)
             {
                 return BadRequest();
             }
         }
-
     }
 }

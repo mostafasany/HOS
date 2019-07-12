@@ -13,7 +13,9 @@ namespace Nop.Plugin.Api.Cart.Dto.Validator
     {
         #region Constructors
 
-        public ShoppingCartItemDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper, Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper, requestJsonDictionary)
+        public ShoppingCartItemDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper,
+            Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper,
+            requestJsonDictionary)
         {
             //SetCustomerIdRule(); //I use cookie not id
             SetProductIdRule();
@@ -44,7 +46,8 @@ namespace Nop.Plugin.Api.Cart.Dto.Validator
 
         private void SetRentalDateRules()
         {
-            if (RequestJsonDictionary.ContainsKey("rental_start_date_utc") || RequestJsonDictionary.ContainsKey("rental_end_date_utc"))
+            if (RequestJsonDictionary.ContainsKey("rental_start_date_utc") ||
+                RequestJsonDictionary.ContainsKey("rental_end_date_utc"))
             {
                 RuleFor(x => x.RentalStartDateUtc)
                     .NotNull()
@@ -75,7 +78,7 @@ namespace Nop.Plugin.Api.Cart.Dto.Validator
                     .NotNull()
                     .Must(x =>
                     {
-                        bool parsed = Enum.TryParse(x, true, out ShoppingCartType _);
+                        var parsed = Enum.TryParse(x, true, out ShoppingCartType _);
                         return parsed;
                     })
                     .WithMessage("Please provide a valid shopping cart type");

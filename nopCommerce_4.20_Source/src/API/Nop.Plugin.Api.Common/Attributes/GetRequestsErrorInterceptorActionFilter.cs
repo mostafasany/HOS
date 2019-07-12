@@ -15,14 +15,17 @@ namespace Nop.Plugin.Api.Common.Attributes
     {
         private readonly IJsonFieldsSerializer _jsonFieldsSerializer;
 
-        public GetRequestsErrorInterceptorActionFilter() => _jsonFieldsSerializer = EngineContext.Current.Resolve<IJsonFieldsSerializer>();
+        public GetRequestsErrorInterceptorActionFilter()
+        {
+            _jsonFieldsSerializer = EngineContext.Current.Resolve<IJsonFieldsSerializer>();
+        }
 
         public override void OnActionExecuted(ActionExecutedContext actionExecutedContext)
         {
             if (actionExecutedContext.Exception != null && !actionExecutedContext.ExceptionHandled)
             {
                 var error = new KeyValuePair<string, List<string>>("internal_server_error",
-                    new List<string> { "please, contact the store owner" });
+                    new List<string> {"please, contact the store owner"});
 
                 actionExecutedContext.Exception = null;
                 actionExecutedContext.ExceptionHandled = true;
@@ -34,9 +37,7 @@ namespace Nop.Plugin.Api.Common.Attributes
                 string responseBody;
 
                 using (var streamReader = new StreamReader(actionExecutedContext.HttpContext.Response.Body))
-                {
                     responseBody = streamReader.ReadToEnd();
-                }
 
                 // reset reader possition.
                 actionExecutedContext.HttpContext.Response.Body.Position = 0;
@@ -48,7 +49,7 @@ namespace Nop.Plugin.Api.Common.Attributes
                 if (!string.IsNullOrEmpty(defaultWebApiErrorsModel.Message) &&
                     !string.IsNullOrEmpty(defaultWebApiErrorsModel.MessageDetail))
                 {
-                    var error = new KeyValuePair<string, List<string>>("lookup_error", new List<string> { "not found" });
+                    var error = new KeyValuePair<string, List<string>>("lookup_error", new List<string> {"not found"});
 
                     SetError(actionExecutedContext, error);
                 }
@@ -61,13 +62,10 @@ namespace Nop.Plugin.Api.Common.Attributes
         {
             // var bindingError = new Dictionary<string, List<string>> { { error.Key, error.Value } };
             var bindingError = new List<ErrorObject>();
-            bindingError.Add(new ErrorObject { Cause = error.Key, Details = error.Value });
-            var errorsRootObject = new ErrorsRootObject
-            {
-                Errors = bindingError
-            };
+            bindingError.Add(new ErrorObject {Cause = error.Key, Details = error.Value});
+            var errorsRootObject = new ErrorsRootObject {Errors = bindingError};
 
-            string errorJson = _jsonFieldsSerializer.Serialize(errorsRootObject, null);
+            var errorJson = _jsonFieldsSerializer.Serialize(errorsRootObject, null);
 
             actionExecutedContext.Result = new ErrorActionResult(errorJson, HttpStatusCode.BadRequest);
         }

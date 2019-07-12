@@ -17,16 +17,16 @@ namespace Nop.Plugin.Api.Common.Helpers
         {
             if (_key == null)
             {
-                string pathToKey = CommonHelper.DefaultFileProvider.MapPath($"~/App_Data/{TokenSigningKeyFileName}");
+                var pathToKey = CommonHelper.DefaultFileProvider.MapPath($"~/App_Data/{TokenSigningKeyFileName}");
 
                 if (!File.Exists(pathToKey))
                 {
                     // generate random parameters
-                    RSAParameters randomParameters = GetRandomParameters();
+                    var randomParameters = GetRandomParameters();
 
                     var rsaParams = new RSAParametersWithPrivate();
                     rsaParams.SetParameters(randomParameters);
-                    string serializedParameters = JsonConvert.SerializeObject(rsaParams);
+                    var serializedParameters = JsonConvert.SerializeObject(rsaParams);
 
                     // create file and save the key
                     File.WriteAllText(pathToKey, serializedParameters);
@@ -48,7 +48,6 @@ namespace Nop.Plugin.Api.Common.Helpers
         public static RSAParameters GetRandomParameters()
         {
             using (var rsa = new RSACryptoServiceProvider(2048))
-            {
                 try
                 {
                     return rsa.ExportParameters(true);
@@ -57,7 +56,6 @@ namespace Nop.Plugin.Api.Common.Helpers
                 {
                     rsa.PersistKeyInCsp = false;
                 }
-            }
         }
 
         // https://github.com/mrsheepuk/ASPNETSelfCreatedTokenAuthExample/blob/master/src/TokenAuthExampleWebApplication/RSAKeyUtils.cs
@@ -84,17 +82,20 @@ namespace Nop.Plugin.Api.Common.Helpers
                 Q = p.Q;
             }
 
-            public RSAParameters ToRSAParameters() => new RSAParameters
+            public RSAParameters ToRSAParameters()
             {
-                D = D,
-                DP = DP,
-                DQ = DQ,
-                Exponent = Exponent,
-                InverseQ = InverseQ,
-                Modulus = Modulus,
-                P = P,
-                Q = Q
-            };
+                return new RSAParameters
+                {
+                    D = D,
+                    DP = DP,
+                    DQ = DQ,
+                    Exponent = Exponent,
+                    InverseQ = InverseQ,
+                    Modulus = Modulus,
+                    P = P,
+                    Q = Q
+                };
+            }
         }
     }
 }

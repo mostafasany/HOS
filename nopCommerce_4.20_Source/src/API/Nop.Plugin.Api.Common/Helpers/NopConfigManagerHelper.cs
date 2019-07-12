@@ -10,9 +10,15 @@ namespace Nop.Plugin.Api.Common.Helpers
 {
     public class NopConfigManagerHelper : IConfigManagerHelper
     {
-        public NopConfigManagerHelper(DataSettings dataSettings) => DataSettings = dataSettings;
+        public NopConfigManagerHelper(DataSettings dataSettings)
+        {
+            DataSettings = dataSettings;
+        }
 
-        public NopConfigManagerHelper() => DataSettings = DataSettingsManager.LoadSettings();
+        public NopConfigManagerHelper()
+        {
+            DataSettings = DataSettingsManager.LoadSettings();
+        }
 
         public void AddBindingRedirects()
         {
@@ -21,18 +27,15 @@ namespace Nop.Plugin.Api.Common.Helpers
             // load Nop.Web.exe.config
             XDocument appConfig = null;
 
-            string nopWebAssemblyConfigLocation = $"{Assembly.GetEntryAssembly().Location}.config";
+            var nopWebAssemblyConfigLocation = $"{Assembly.GetEntryAssembly().Location}.config";
 
-            using (FileStream fs = File.OpenRead(nopWebAssemblyConfigLocation))
-            {
-                appConfig = XDocument.Load(fs);
-            }
+            using (var fs = File.OpenRead(nopWebAssemblyConfigLocation)) appConfig = XDocument.Load(fs);
 
             if (appConfig != null)
             {
                 appConfig.Changed += (o, e) => { hasChanged = true; };
 
-                XElement runtime = appConfig.XPathSelectElement("configuration//runtime");
+                var runtime = appConfig.XPathSelectElement("configuration//runtime");
 
                 if (runtime == null)
                 {
@@ -46,7 +49,8 @@ namespace Nop.Plugin.Api.Common.Helpers
                 //AddAssemblyBinding(runtime, "Microsoft.AspNetCore.Mvc.Formatters.Json", "adb9793829ddae60", "0.0.0.0-2.0.0.0", "2.0.0.0");
 
                 // Required by WebHooks
-                AddAssemblyBinding(runtime, "Microsoft.AspNetCore.DataProtection.Abstractions", "adb9793829ddae60", "0.0.0.0-2.0.0.0", "2.0.0.0");
+                AddAssemblyBinding(runtime, "Microsoft.AspNetCore.DataProtection.Abstractions", "adb9793829ddae60",
+                    "0.0.0.0-2.0.0.0", "2.0.0.0");
 
                 if (hasChanged)
                     try
@@ -81,29 +85,28 @@ namespace Nop.Plugin.Api.Common.Helpers
             // load web.config
             XDocument appConfig = null;
 
-            string nopWebAssemblyConfigLocation = $"{Assembly.GetEntryAssembly().Location}.config";
+            var nopWebAssemblyConfigLocation = $"{Assembly.GetEntryAssembly().Location}.config";
 
-            using (FileStream fs = File.OpenRead(nopWebAssemblyConfigLocation))
-            {
-                appConfig = XDocument.Load(fs);
-            }
+            using (var fs = File.OpenRead(nopWebAssemblyConfigLocation)) appConfig = XDocument.Load(fs);
 
             if (appConfig != null)
             {
                 appConfig.Changed += (o, e) => { hasChanged = true; };
 
-                XElement connectionStrings = appConfig.XPathSelectElement("configuration//connectionStrings");
+                var connectionStrings = appConfig.XPathSelectElement("configuration//connectionStrings");
 
                 if (connectionStrings == null)
                 {
-                    XElement configuration = appConfig.XPathSelectElement("configuration");
+                    var configuration = appConfig.XPathSelectElement("configuration");
                     connectionStrings = new XElement("connectionStrings");
                     configuration.Add(connectionStrings);
                 }
 
-                string connectionStringFromNop = DataSettings.DataConnectionString;
+                var connectionStringFromNop = DataSettings.DataConnectionString;
 
-                XElement element = appConfig.XPathSelectElement("configuration//connectionStrings//add[@name='MS_SqlStoreConnectionString']");
+                var element =
+                    appConfig.XPathSelectElement(
+                        "configuration//connectionStrings//add[@name='MS_SqlStoreConnectionString']");
 
                 // create the connection string if not exists
                 if (element == null)
@@ -118,9 +121,11 @@ namespace Nop.Plugin.Api.Common.Helpers
                 {
                     // Check if the connection string is changed.
                     // If so update the connection string in the config.
-                    string connectionStringInConfig = element.Attribute("connectionString").Value;
+                    var connectionStringInConfig = element.Attribute("connectionString").Value;
 
-                    if (!string.Equals(connectionStringFromNop, connectionStringInConfig, StringComparison.InvariantCultureIgnoreCase)) element.SetAttributeValue("connectionString", connectionStringFromNop);
+                    if (!string.Equals(connectionStringFromNop, connectionStringInConfig,
+                        StringComparison.InvariantCultureIgnoreCase))
+                        element.SetAttributeValue("connectionString", connectionStringFromNop);
                 }
 
                 if (hasChanged)
@@ -147,13 +152,15 @@ namespace Nop.Plugin.Api.Common.Helpers
             }
         }
 
-        private void AddAssemblyBinding(XElement runtime, string name, string publicToken, string oldVersion, string newVersion)
+        private void AddAssemblyBinding(XElement runtime, string name, string publicToken, string oldVersion,
+            string newVersion)
         {
             var xmlNamespaceManager = new XmlNamespaceManager(new NameTable());
             xmlNamespaceManager.AddNamespace("bind", "urn:schemas-microsoft-com:asm.v1");
 
-            XElement assemblyBindingElement = runtime.XPathSelectElement(
-                $"bind:assemblyBinding//bind:dependentAssembly//bind:assemblyIdentity[@name='{name}']", xmlNamespaceManager);
+            var assemblyBindingElement = runtime.XPathSelectElement(
+                $"bind:assemblyBinding//bind:dependentAssembly//bind:assemblyIdentity[@name='{name}']",
+                xmlNamespaceManager);
 
             // create the binding redirect if it does not exist
             if (assemblyBindingElement == null)

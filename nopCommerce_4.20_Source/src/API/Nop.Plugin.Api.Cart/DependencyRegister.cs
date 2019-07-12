@@ -7,7 +7,7 @@ using Nop.Plugin.Api.Cart.Factory;
 using Nop.Plugin.Api.Cart.Service;
 using Nop.Plugin.Api.Cart.Translator;
 using Nop.Plugin.Api.Common.Factories;
-using Nop.Plugin.Api.Cart.Modules.Discount.Translator;
+
 namespace Nop.Plugin.Api.Cart
 {
     public class DependencyRegister : IDependencyRegistrar
@@ -16,7 +16,8 @@ namespace Nop.Plugin.Api.Cart
         {
             builder.RegisterType<Cartransaltor>().As<ICartTransaltor>().InstancePerLifetimeScope();
             builder.RegisterType<DiscountTransaltor>().As<IDiscountTransaltor>().InstancePerLifetimeScope();
-            builder.RegisterType<ShoppingCartItemApiService>().As<IShoppingCartItemApiService>().InstancePerLifetimeScope();
+            builder.RegisterType<ShoppingCartItemApiService>().As<IShoppingCartItemApiService>()
+                .InstancePerLifetimeScope();
             builder.RegisterType<ShoppingCartItemFactory>().As<IFactory<ShoppingCartItem>>().InstancePerLifetimeScope();
         }
 

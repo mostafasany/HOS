@@ -6,6 +6,10 @@ namespace Nop.Plugin.Api.Product.Modules.ProductSpecificationAttributes.Translat
 {
     public class ProductSpecificationAttributesTransaltor : IProductSpecificationAttributesTransaltor
     {
-        public ProductSpecificationAttributeDto PrepareProductSpecificationAttributeDto(ProductSpecificationAttribute productSpecificationAttribute) => productSpecificationAttribute.ToDto();
+        public ProductSpecificationAttributeDto PrepareProductSpecificationAttributeDto(
+            ProductSpecificationAttribute productSpecificationAttribute)
+        {
+            return productSpecificationAttribute.ToDto();
+        }
     }
 }

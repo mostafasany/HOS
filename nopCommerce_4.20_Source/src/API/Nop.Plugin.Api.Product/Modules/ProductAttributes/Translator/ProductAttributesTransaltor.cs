@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Product.Modules.ProductAttributes.Dto;
 using Nop.Services.Localization;
@@ -16,15 +15,16 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Translator
         private readonly IUrlRecordService _urlRecordService;
 
         public ProductAttributesTransaltor(ILocalizationService localizationService,
-            IUrlRecordService urlRecordService, IHttpContextAccessor httpContextAccessor, IPictureService pictureService)
+            IUrlRecordService urlRecordService, IHttpContextAccessor httpContextAccessor,
+            IPictureService pictureService)
         {
             _localizationService = localizationService;
             _urlRecordService = urlRecordService;
             _pictureService = pictureService;
-            IHeaderDictionary headers = httpContextAccessor.HttpContext.Request.Headers;
+            var headers = httpContextAccessor.HttpContext.Request.Headers;
             if (headers.ContainsKey("Accept-Language"))
             {
-                StringValues lan = headers["Accept-Language"];
+                var lan = headers["Accept-Language"];
                 if (lan.ToString() == "en")
                     _currentLangaugeId = 1;
                 else
@@ -35,9 +35,10 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Translator
 
         public ProductAttributeDto PrepareProductAttributeDTO(ProductAttribute productAttribute)
         {
-            ProductAttributeDto attribute = productAttribute.ToDto();
+            var attribute = productAttribute.ToDto();
             attribute.Name = _localizationService.GetLocalized(productAttribute, x => x.Name, _currentLangaugeId);
-            attribute.Description = _localizationService.GetLocalized(productAttribute, x => x.Description, _currentLangaugeId);
+            attribute.Description =
+                _localizationService.GetLocalized(productAttribute, x => x.Description, _currentLangaugeId);
             return attribute;
         }
     }

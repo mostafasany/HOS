@@ -7,13 +7,21 @@ namespace Nop.Plugin.Api.HomeCarsoul.Dto
 {
     public class CarsoulRootObject : ISerializableObject
     {
-        public CarsoulRootObject() => Carsoul = new List<CarsoulDto>();
+        public CarsoulRootObject()
+        {
+            Carsoul = new List<CarsoulDto>();
+        }
 
-        [JsonProperty("carsoul")]
-        public IList<CarsoulDto> Carsoul { get; set; }
+        [JsonProperty("carsoul")] public IList<CarsoulDto> Carsoul { get; set; }
 
-        public string GetPrimaryPropertyName() => "Carsoul";
+        public string GetPrimaryPropertyName()
+        {
+            return "Carsoul";
+        }
 
-        public Type GetPrimaryPropertyType() => typeof(CarsoulDto);
+        public Type GetPrimaryPropertyType()
+        {
+            return typeof(CarsoulDto);
+        }
     }
 }

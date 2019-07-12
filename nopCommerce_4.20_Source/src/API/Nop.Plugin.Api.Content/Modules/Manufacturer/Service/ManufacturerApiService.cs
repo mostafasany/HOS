@@ -20,10 +20,11 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Service
         }
 
         public IList<Core.Domain.Catalog.Manufacturer> GetManufacturers(IList<int> ids = null,
-            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
+            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue,
+            int sinceId = Configurations.DefaultSinceId,
             bool? publishedStatus = null)
         {
-            IQueryable<Core.Domain.Catalog.Manufacturer> query = GetManufacturersQuery(publishedStatus, ids);
+            var query = GetManufacturersQuery(publishedStatus, ids);
 
 
             if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
@@ -36,7 +37,7 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Service
             if (id <= 0)
                 return null;
 
-            Core.Domain.Catalog.Manufacturer category = _manufacturerRepository.Table.FirstOrDefault(cat => cat.Id == id);
+            var category = _manufacturerRepository.Table.FirstOrDefault(cat => cat.Id == id);
 
             return category;
         }
@@ -44,14 +45,15 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Service
         public int GetManufacturersCount(
             bool? publishedStatus = null)
         {
-            IQueryable<Core.Domain.Catalog.Manufacturer> query = GetManufacturersQuery(publishedStatus);
+            var query = GetManufacturersQuery(publishedStatus);
 
             return query.Count(c => _storeMappingService.Authorize(c));
         }
 
-        private IQueryable<Core.Domain.Catalog.Manufacturer> GetManufacturersQuery(bool? publishedStatus = null, IList<int> ids = null)
+        private IQueryable<Core.Domain.Catalog.Manufacturer> GetManufacturersQuery(bool? publishedStatus = null,
+            IList<int> ids = null)
         {
-            IQueryable<Core.Domain.Catalog.Manufacturer> query = _manufacturerRepository.Table;
+            var query = _manufacturerRepository.Table;
 
             if (ids != null && ids.Count > 0) query = query.Where(c => ids.Contains(c.Id));
 

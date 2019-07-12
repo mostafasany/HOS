@@ -6,8 +6,14 @@ namespace Nop.Plugin.Api.Common.MappingExtensions
 {
     public static class AddressDtoMappings
     {
-        public static AddressDto ToDto(this Address address) => address.MapTo<Address, AddressDto>();
+        public static AddressDto ToDto(this Address address)
+        {
+            return address.MapTo<Address, AddressDto>();
+        }
 
-        public static Address ToEntity(this AddressDto addressDto) => addressDto.MapTo<AddressDto, Address>();
+        public static Address ToEntity(this AddressDto addressDto)
+        {
+            return addressDto.MapTo<AddressDto, Address>();
+        }
     }
 }

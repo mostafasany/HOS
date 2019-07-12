@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Nop.Core.Domain.Localization;
 using Nop.Services.Localization;
 
 namespace Nop.Plugin.Api.Common.Helpers
@@ -18,7 +16,7 @@ namespace Nop.Plugin.Api.Common.Helpers
         {
             _localizationService = localizationService;
 
-            Language language = languageService.GetAllLanguages().FirstOrDefault();
+            var language = languageService.GetAllLanguages().FirstOrDefault();
             _languageId = language != null ? language.Id : 0;
         }
 
@@ -36,11 +34,15 @@ namespace Nop.Plugin.Api.Common.Helpers
 
         public Dictionary<string, object> GetRequestJsonDictionaryFromStream(Stream stream, bool rewindStream)
         {
-            string json = GetRequestBodyString(stream, rewindStream);
-            if (string.IsNullOrEmpty(json)) throw new InvalidOperationException(_localizationService.GetResource("Api.NoJsonProvided", _languageId, false));
+            var json = GetRequestBodyString(stream, rewindStream);
+            if (string.IsNullOrEmpty(json))
+                throw new InvalidOperationException(_localizationService.GetResource("Api.NoJsonProvided", _languageId,
+                    false));
 
-            Dictionary<string, object> requestBodyDictioanry = DeserializeToDictionary(json);
-            if (requestBodyDictioanry == null || requestBodyDictioanry.Count == 0) throw new InvalidOperationException(_localizationService.GetResource("Api.InvalidJsonFormat", _languageId, false));
+            var requestBodyDictioanry = DeserializeToDictionary(json);
+            if (requestBodyDictioanry == null || requestBodyDictioanry.Count == 0)
+                throw new InvalidOperationException(_localizationService.GetResource("Api.InvalidJsonFormat",
+                    _languageId, false));
 
             return requestBodyDictioanry;
         }
@@ -49,10 +51,11 @@ namespace Nop.Plugin.Api.Common.Helpers
         {
             var rootProperty = "";
 
-            JsonObjectAttribute jsonObjectAttribute = ReflectionHelper.GetJsonObjectAttribute(typeof(T));
+            var jsonObjectAttribute = ReflectionHelper.GetJsonObjectAttribute(typeof(T));
             if (jsonObjectAttribute != null) rootProperty = jsonObjectAttribute.Title;
 
-            if (string.IsNullOrEmpty(rootProperty)) throw new InvalidOperationException($"Error getting root property for type {typeof(T).FullName}.");
+            if (string.IsNullOrEmpty(rootProperty))
+                throw new InvalidOperationException($"Error getting root property for type {typeof(T).FullName}.");
 
             return rootProperty;
         }
@@ -89,7 +92,7 @@ namespace Nop.Plugin.Api.Common.Helpers
                     return token.Select(ToObject).ToList();
 
                 default:
-                    return ((JValue) token).Value;
+                    return ((JValue)token).Value;
             }
         }
 

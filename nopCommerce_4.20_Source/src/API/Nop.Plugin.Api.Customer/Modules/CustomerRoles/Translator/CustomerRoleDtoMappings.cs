@@ -6,6 +6,9 @@ namespace Nop.Plugin.Api.Customer.Modules.CustomerRoles.Translator
 {
     public static class CustomerRoleDtoMappings
     {
-        public static CustomerRoleDto ToDto(this CustomerRole customerRole) => customerRole.MapTo<CustomerRole, CustomerRoleDto>();
+        public static CustomerRoleDto ToDto(this CustomerRole customerRole)
+        {
+            return customerRole.MapTo<CustomerRole, CustomerRoleDto>();
+        }
     }
 }

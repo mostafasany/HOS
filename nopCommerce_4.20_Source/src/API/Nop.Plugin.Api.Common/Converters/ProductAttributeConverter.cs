@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Xml;
 using Nop.Core.Domain.Catalog;
-using Nop.Core.Domain.Media;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Services.Catalog;
 using Nop.Services.Media;
@@ -33,8 +32,8 @@ namespace Nop.Plugin.Api.Common.Converters
             if (attributeDtos == null)
                 return attributesXml;
 
-            IList<ProductAttributeMapping> productAttributes = _productAttributeService.GetProductAttributeMappingsByProductId(productId);
-            foreach (ProductAttributeMapping attribute in productAttributes)
+            var productAttributes = _productAttributeService.GetProductAttributeMappingsByProductId(productId);
+            foreach (var attribute in productAttributes)
                 switch (attribute.AttributeControlType)
                 {
                     case AttributeControlType.DropdownList:
@@ -43,11 +42,11 @@ namespace Nop.Plugin.Api.Common.Converters
                     case AttributeControlType.ImageSquares:
                     {
                         // there should be only one selected value for this attribute
-                        ProductItemAttributeDto selectedAttribute = attributeDtos.Where(x => x.Id == attribute.Id).FirstOrDefault();
+                        var selectedAttribute = attributeDtos.Where(x => x.Id == attribute.Id).FirstOrDefault();
                         if (selectedAttribute != null)
                         {
                             int selectedAttributeValue;
-                            bool isInt = int.TryParse(selectedAttribute.Value, out selectedAttributeValue);
+                            var isInt = int.TryParse(selectedAttribute.Value, out selectedAttributeValue);
                             if (isInt && selectedAttributeValue > 0)
                                 attributesXml = _productAttributeParser.AddProductAttribute(attributesXml,
                                     attribute, selectedAttributeValue.ToString());
@@ -57,11 +56,11 @@ namespace Nop.Plugin.Api.Common.Converters
                     case AttributeControlType.Checkboxes:
                     {
                         // there could be more than one selected value for this attribute
-                        IEnumerable<ProductItemAttributeDto> selectedAttributes = attributeDtos.Where(x => x.Id == attribute.Id);
-                        foreach (ProductItemAttributeDto selectedAttribute in selectedAttributes)
+                        var selectedAttributes = attributeDtos.Where(x => x.Id == attribute.Id);
+                        foreach (var selectedAttribute in selectedAttributes)
                         {
                             int selectedAttributeValue;
-                            bool isInt = int.TryParse(selectedAttribute.Value, out selectedAttributeValue);
+                            var isInt = int.TryParse(selectedAttribute.Value, out selectedAttributeValue);
                             if (isInt && selectedAttributeValue > 0)
                             {
                                 // currently there is no support for attribute quantity
@@ -76,8 +75,8 @@ namespace Nop.Plugin.Api.Common.Converters
                     case AttributeControlType.ReadonlyCheckboxes:
                     {
                         //load read-only(already server - side selected) values
-                        IList<ProductAttributeValue> attributeValues = _productAttributeService.GetProductAttributeValues(attribute.Id);
-                        foreach (int selectedAttributeId in attributeValues
+                        var attributeValues = _productAttributeService.GetProductAttributeValues(attribute.Id);
+                        foreach (var selectedAttributeId in attributeValues
                             .Where(v => v.IsPreSelected)
                             .Select(v => v.Id)
                             .ToList())
@@ -88,7 +87,7 @@ namespace Nop.Plugin.Api.Common.Converters
                     case AttributeControlType.TextBox:
                     case AttributeControlType.MultilineTextbox:
                     {
-                        ProductItemAttributeDto selectedAttribute = attributeDtos.Where(x => x.Id == attribute.Id).FirstOrDefault();
+                        var selectedAttribute = attributeDtos.Where(x => x.Id == attribute.Id).FirstOrDefault();
 
                         if (selectedAttribute != null)
                             attributesXml = _productAttributeParser.AddProductAttribute(attributesXml,
@@ -97,14 +96,15 @@ namespace Nop.Plugin.Api.Common.Converters
                         break;
                     case AttributeControlType.Datepicker:
                     {
-                        ProductItemAttributeDto selectedAttribute = attributeDtos.Where(x => x.Id == attribute.Id).FirstOrDefault();
+                        var selectedAttribute = attributeDtos.Where(x => x.Id == attribute.Id).FirstOrDefault();
 
                         if (selectedAttribute != null)
                         {
                             DateTime selectedDate;
 
                             // Since nopCommerce uses this format to keep the date in the database to keep it consisten we will expect the same format to be passed
-                            bool validDate = DateTime.TryParseExact(selectedAttribute.Value, "D", CultureInfo.CurrentCulture,
+                            var validDate = DateTime.TryParseExact(selectedAttribute.Value, "D",
+                                CultureInfo.CurrentCulture,
                                 DateTimeStyles.None, out selectedDate);
 
                             if (validDate)
@@ -115,13 +115,13 @@ namespace Nop.Plugin.Api.Common.Converters
                         break;
                     case AttributeControlType.FileUpload:
                     {
-                        ProductItemAttributeDto selectedAttribute = attributeDtos.Where(x => x.Id == attribute.Id).FirstOrDefault();
+                        var selectedAttribute = attributeDtos.Where(x => x.Id == attribute.Id).FirstOrDefault();
 
                         if (selectedAttribute != null)
                         {
                             Guid downloadGuid;
                             Guid.TryParse(selectedAttribute.Value, out downloadGuid);
-                            Download download = _downloadService.GetDownloadByGuid(downloadGuid);
+                            var download = _downloadService.GetDownloadByGuid(downloadGuid);
                             if (download != null)
                                 attributesXml = _productAttributeParser.AddProductAttribute(attributesXml,
                                     attribute, download.DownloadGuid.ToString());
@@ -153,7 +153,7 @@ namespace Nop.Plugin.Api.Common.Converters
                         if (int.TryParse(attributeNode.Attributes["ID"].InnerText.Trim(), out attributeId))
                             foreach (XmlNode attributeValue in attributeNode.SelectNodes("ProductAttributeValue"))
                             {
-                                string value = attributeValue.SelectSingleNode("Value").InnerText.Trim();
+                                var value = attributeValue.SelectSingleNode("Value").InnerText.Trim();
                                 // no support for quantity yet
                                 //var quantityNode = attributeValue.SelectSingleNode("Quantity");
                                 attributeDtos.Add(new ProductItemAttributeDto {Id = attributeId, Value = value});

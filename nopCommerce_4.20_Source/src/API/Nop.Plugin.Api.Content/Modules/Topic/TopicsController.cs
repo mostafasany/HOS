@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Nop.Core.Domain.Topics;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
@@ -21,7 +20,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules
+namespace Nop.Plugin.Api.Content.Modules.Topic
 {
     public class TopicsController : BaseApiController
     {
@@ -56,25 +55,25 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/topics/{id}")]
-        [ProducesResponseType(typeof(TopicsRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(TopicsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetTopicById(int id, string fields = "")
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            Topic topic = _topicApiService.GetTopicById(id);
+            var topic = _topicApiService.GetTopicById(id);
 
             if (topic == null) return Error(HttpStatusCode.NotFound, "topic", "topic not found");
 
-            TopicDto topicDto = _dtoHelper.ConvertToDto(topic);
+            var topicDto = _dtoHelper.ConvertToDto(topic);
 
             var topicsRootObject = new TopicsRootObject();
 
             topicsRootObject.Topics.Add(topicDto);
 
-            string json = JsonFieldsSerializer.Serialize(topicsRootObject, fields);
+            var json = JsonFieldsSerializer.Serialize(topicsRootObject, fields);
 
             return new RawJsonActionResult(json);
         }
@@ -87,28 +86,28 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/topics")]
-        [ProducesResponseType(typeof(TopicsRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(TopicsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetTopics(TopicsParamatersModel parameters)
         {
-            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+                return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
 
-            if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
+            if (parameters.Page < Configurations.DefaultPageValue)
+                return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
 
-            IEnumerable<Topic> allTopics = _topicApiService.GetTopics(parameters.Ids, parameters.Limit, parameters.Page, parameters.SinceId,
+            var allTopics = _topicApiService.GetTopics(parameters.Ids, parameters.Limit, parameters.Page,
+                    parameters.SinceId,
                     parameters.PublishedStatus)
                 .Where(c => StoreMappingService.Authorize(c));
 
             IList<TopicDto> topicsAsDtos = allTopics.Select(topic =>
                 _dtoHelper.ConvertToDto(topic)).ToList();
 
-            var topicsRootObject = new TopicsRootObject
-            {
-                Topics = topicsAsDtos
-            };
+            var topicsRootObject = new TopicsRootObject {Topics = topicsAsDtos};
 
-            string json = JsonFieldsSerializer.Serialize(topicsRootObject, parameters.Fields);
+            var json = JsonFieldsSerializer.Serialize(topicsRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }
@@ -120,18 +119,15 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/topics/count")]
-        [ProducesResponseType(typeof(TopicsCountRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(TopicsCountRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetTopicsCount(TopicsParamatersModel parameters)
         {
-            int allTopicCount = _topicApiService.GetTopicsCount(parameters.PublishedStatus);
+            var allTopicCount = _topicApiService.GetTopicsCount(parameters.PublishedStatus);
 
-            var topicsCountRootObject = new TopicsCountRootObject
-            {
-                Count = allTopicCount
-            };
+            var topicsCountRootObject = new TopicsCountRootObject {Count = allTopicCount};
 
             return Ok(topicsCountRootObject);
         }

@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
 using Nop.Core.Domain.Media;
 using Nop.Plugin.Api.Category.Dto;
 using Nop.Plugin.Api.Common.DTOs;
@@ -33,10 +32,10 @@ namespace Nop.Plugin.Api.Category.Translator
             _pictureService = pictureService;
             _localizationService = localizationService;
             _urlRecordService = urlRecordService;
-            IHeaderDictionary headers = httpContextAccessor.HttpContext.Request.Headers;
+            var headers = httpContextAccessor.HttpContext.Request.Headers;
             if (headers.ContainsKey("Accept-Language"))
             {
-                StringValues lan = headers["Accept-Language"];
+                var lan = headers["Accept-Language"];
                 if (lan.ToString() == "en")
                     _currentLangaugeId = 1;
                 else
@@ -47,12 +46,13 @@ namespace Nop.Plugin.Api.Category.Translator
 
         public CategoryDto PrepareCategoryDTO(Core.Domain.Catalog.Category category)
         {
-            CategoryDto categoryDto = category.ToDto();
+            var categoryDto = category.ToDto();
             categoryDto.Name = _localizationService.GetLocalized(category, x => x.Name, _currentLangaugeId);
-            categoryDto.Description = _localizationService.GetLocalized(category, x => x.Description, _currentLangaugeId);
+            categoryDto.Description =
+                _localizationService.GetLocalized(category, x => x.Description, _currentLangaugeId);
 
-            Picture picture = _pictureService.GetPictureById(category.PictureId);
-            ImageDto imageDto = PrepareImageDto(picture);
+            var picture = _pictureService.GetPictureById(category.PictureId);
+            var imageDto = PrepareImageDto(picture);
 
             if (imageDto != null) categoryDto.Image = imageDto;
 

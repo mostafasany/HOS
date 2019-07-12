@@ -4,7 +4,6 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Dto
 {
     public class ProductAttributesCountRootObject
     {
-        [JsonProperty("count")]
-        public int Count { get; set; }
+        [JsonProperty("count")] public int Count { get; set; }
     }
 }

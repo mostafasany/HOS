@@ -25,9 +25,13 @@ namespace Nop.Plugin.Api.Common.Maps
 
         public Dictionary<string, Tuple<string, Type>> GetMap(Type type)
         {
-            if (!StaticCacheManager.IsSet(Configurations.JsonTypeMapsPattern)) StaticCacheManager.Set(Configurations.JsonTypeMapsPattern, new Dictionary<string, Dictionary<string, Tuple<string, Type>>>(), int.MaxValue);
+            if (!StaticCacheManager.IsSet(Configurations.JsonTypeMapsPattern))
+                StaticCacheManager.Set(Configurations.JsonTypeMapsPattern,
+                    new Dictionary<string, Dictionary<string, Tuple<string, Type>>>(), int.MaxValue);
 
-            var typeMaps = StaticCacheManager.Get<Dictionary<string, Dictionary<string, Tuple<string, Type>>>>(Configurations.JsonTypeMapsPattern, () => null, 0);
+            var typeMaps =
+                StaticCacheManager.Get<Dictionary<string, Dictionary<string, Tuple<string, Type>>>>(
+                    Configurations.JsonTypeMapsPattern, () => null, 0);
 
             if (!typeMaps.ContainsKey(type.Name)) Build(type);
 
@@ -37,13 +41,14 @@ namespace Nop.Plugin.Api.Common.Maps
         private void Build(Type type)
         {
             var typeMaps =
-                StaticCacheManager.Get<Dictionary<string, Dictionary<string, Tuple<string, Type>>>>(Configurations.JsonTypeMapsPattern, () => null, 0);
+                StaticCacheManager.Get<Dictionary<string, Dictionary<string, Tuple<string, Type>>>>(
+                    Configurations.JsonTypeMapsPattern, () => null, 0);
 
             var mapForCurrentType = new Dictionary<string, Tuple<string, Type>>();
 
-            PropertyInfo[] typeProps = type.GetProperties();
+            var typeProps = type.GetProperties();
 
-            foreach (PropertyInfo property in typeProps)
+            foreach (var property in typeProps)
             {
                 var jsonAttribute = property.GetCustomAttribute(typeof(JsonPropertyAttribute)) as JsonPropertyAttribute;
                 var doNotMapAttribute = property.GetCustomAttribute(typeof(DoNotMapAttribute)) as DoNotMapAttribute;

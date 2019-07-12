@@ -7,13 +7,21 @@ namespace Nop.Plugin.Api.Content.Modules.Topic.Dto
 {
     public class TopicsRootObject : ISerializableObject
     {
-        public TopicsRootObject() => Topics = new List<TopicDto>();
+        public TopicsRootObject()
+        {
+            Topics = new List<TopicDto>();
+        }
 
-        [JsonProperty("topics")]
-        public IList<TopicDto> Topics { get; set; }
+        [JsonProperty("topics")] public IList<TopicDto> Topics { get; set; }
 
-        public string GetPrimaryPropertyName() => "topics";
+        public string GetPrimaryPropertyName()
+        {
+            return "topics";
+        }
 
-        public Type GetPrimaryPropertyType() => typeof(TopicDto);
+        public Type GetPrimaryPropertyType()
+        {
+            return typeof(TopicDto);
+        }
     }
 }

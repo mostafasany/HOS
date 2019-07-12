@@ -49,7 +49,6 @@ namespace Nop.Plugin.Api.Content.Modules.Topic.Model
         [JsonProperty("fields")]
         public string Fields { get; set; }
 
-        [JsonProperty("published_status")]
-        public bool? PublishedStatus { get; set; }
+        [JsonProperty("published_status")] public bool? PublishedStatus { get; set; }
     }
 }

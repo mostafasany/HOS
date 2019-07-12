@@ -6,6 +6,9 @@ namespace Nop.Plugin.Api.Cart.Translator
 {
     public static class ShoppingCartItemDtoMappings
     {
-        public static ShoppingCartItemDto ToDto(this ShoppingCartItem shoppingCartItem) => shoppingCartItem.MapTo<ShoppingCartItem, ShoppingCartItemDto>();
+        public static ShoppingCartItemDto ToDto(this ShoppingCartItem shoppingCartItem)
+        {
+            return shoppingCartItem.MapTo<ShoppingCartItem, ShoppingCartItemDto>();
+        }
     }
 }

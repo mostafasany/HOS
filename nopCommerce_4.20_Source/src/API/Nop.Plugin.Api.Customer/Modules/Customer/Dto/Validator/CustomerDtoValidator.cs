@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Nop.Core.Domain.Customers;
 using Nop.Plugin.Api.Common.Helpers;
@@ -22,7 +21,9 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto.Validator
 
         #region Constructors
 
-        public CustomerDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper, Dictionary<string, object> requestJsonDictionary, ICustomerRolesHelper customerRolesHelper) : base(httpContextAccessor, jsonHelper, requestJsonDictionary)
+        public CustomerDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper,
+            Dictionary<string, object> requestJsonDictionary, ICustomerRolesHelper customerRolesHelper) : base(
+            httpContextAccessor, jsonHelper, requestJsonDictionary)
         {
             _customerRolesHelper = customerRolesHelper;
 
@@ -48,14 +49,14 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto.Validator
                 RuleForEach(c => c.Addresses)
                     .Custom((addressDto, validationContext) =>
                     {
-                        Dictionary<string, object> addressJsonDictionary = GetRequestJsonDictionaryCollectionItemDictionary(key, addressDto);
+                        var addressJsonDictionary = GetRequestJsonDictionaryCollectionItemDictionary(key, addressDto);
 
                         var validator = new AddressDtoValidator(HttpContextAccessor, JsonHelper, addressJsonDictionary);
 
                         //force create validation for new addresses
                         if (addressDto.Id == 0) validator.HttpMethod = HttpMethod.Post;
 
-                        ValidationResult validationResult = validator.Validate(addressDto);
+                        var validationResult = validator.Validate(addressDto);
 
                         MergeValidationResult(validationContext, validationResult);
                     });
@@ -64,13 +65,17 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto.Validator
         private void SetBillingAddressRule()
         {
             var key = "billing_address";
-            if (RequestJsonDictionary.ContainsKey(key)) RuleFor(c => c.BillingAddress).SetValidator(new AddressDtoValidator(HttpContextAccessor, JsonHelper, (Dictionary<string, object>) RequestJsonDictionary[key]));
+            if (RequestJsonDictionary.ContainsKey(key))
+                RuleFor(c => c.BillingAddress).SetValidator(new AddressDtoValidator(HttpContextAccessor, JsonHelper,
+                    (Dictionary<string, object>)RequestJsonDictionary[key]));
         }
 
         private void SetShippingAddressRule()
         {
             var key = "shipping_address";
-            if (RequestJsonDictionary.ContainsKey(key)) RuleFor(c => c.ShippingAddress).SetValidator(new AddressDtoValidator(HttpContextAccessor, JsonHelper, (Dictionary<string, object>) RequestJsonDictionary[key]));
+            if (RequestJsonDictionary.ContainsKey(key))
+                RuleFor(c => c.ShippingAddress).SetValidator(new AddressDtoValidator(HttpContextAccessor, JsonHelper,
+                    (Dictionary<string, object>)RequestJsonDictionary[key]));
         }
 
         private void SetEmailRule()
@@ -96,10 +101,11 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto.Validator
                     .DependentRules(() => RuleFor(dto => dto.RoleIds)
                         .Must(roleIds =>
                         {
-                            if (customerRoles == null) customerRoles = _customerRolesHelper.GetValidCustomerRoles(roleIds);
+                            if (customerRoles == null)
+                                customerRoles = _customerRolesHelper.GetValidCustomerRoles(roleIds);
 
-                            bool isInGuestAndRegisterRoles = _customerRolesHelper.IsInGuestsRole(customerRoles) &&
-                                                             _customerRolesHelper.IsInRegisteredRole(customerRoles);
+                            var isInGuestAndRegisterRoles = _customerRolesHelper.IsInGuestsRole(customerRoles) &&
+                                                            _customerRolesHelper.IsInRegisteredRole(customerRoles);
 
                             // Customer can not be in guest and register roles simultaneously
                             return !isInGuestAndRegisterRoles;
@@ -108,10 +114,11 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto.Validator
                         .DependentRules(() => RuleFor(dto => dto.RoleIds)
                             .Must(roleIds =>
                             {
-                                if (customerRoles == null) customerRoles = _customerRolesHelper.GetValidCustomerRoles(roleIds);
+                                if (customerRoles == null)
+                                    customerRoles = _customerRolesHelper.GetValidCustomerRoles(roleIds);
 
-                                bool isInGuestOrRegisterRoles = _customerRolesHelper.IsInGuestsRole(customerRoles) ||
-                                                                _customerRolesHelper.IsInRegisteredRole(customerRoles);
+                                var isInGuestOrRegisterRoles = _customerRolesHelper.IsInGuestsRole(customerRoles) ||
+                                                               _customerRolesHelper.IsInRegisteredRole(customerRoles);
 
                                 // Customer must be in either guest or register role.
                                 return isInGuestOrRegisterRoles;

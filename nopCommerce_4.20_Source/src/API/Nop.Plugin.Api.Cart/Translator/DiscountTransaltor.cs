@@ -1,27 +1,30 @@
-﻿using Nop.Plugin.Api.Cart.Modules.Discount.Dto;
+﻿using Nop.Core.Domain.Discounts;
+using Nop.Plugin.Api.Cart.Dto;
 
-
-namespace Nop.Plugin.Api.Cart.Modules.Discount.Translator
+namespace Nop.Plugin.Api.Cart.Translator
 {
     public class DiscountTransaltor : IDiscountTransaltor
     {
-        public DiscountDto PrepateDiscountDto(Core.Domain.Discounts.Discount discount) => new DiscountDto
+        public DiscountDto PrepateDiscountDto(Discount discount)
         {
-            CouponCode = discount.CouponCode,
-            Name = discount.Name,
-            Id = discount.Id,
-            DiscountLimitationId = discount.DiscountLimitationId,
-            DiscountPercentage = discount.DiscountPercentage,
-            DiscountTypeId = discount.DiscountTypeId,
-            IsCumulative = discount.IsCumulative,
-            LimitationTimes = discount.LimitationTimes,
-            MaximumDiscountAmount = discount.MaximumDiscountAmount,
-            MaximumDiscountedQuantity = discount.MaximumDiscountedQuantity,
-            RequiresCouponCode = discount.RequiresCouponCode,
-            UsePercentage = discount.UsePercentage,
-            DiscountAmount=discount.DiscountAmount,
-            EndDateUtc=discount.EndDateUtc,
-            StartDateUtc=discount.StartDateUtc,
-        };
+            return new DiscountDto
+            {
+                CouponCode = discount.CouponCode,
+                Name = discount.Name,
+                Id = discount.Id,
+                DiscountLimitationId = discount.DiscountLimitationId,
+                DiscountPercentage = discount.DiscountPercentage,
+                DiscountTypeId = discount.DiscountTypeId,
+                IsCumulative = discount.IsCumulative,
+                LimitationTimes = discount.LimitationTimes,
+                MaximumDiscountAmount = discount.MaximumDiscountAmount,
+                MaximumDiscountedQuantity = discount.MaximumDiscountedQuantity,
+                RequiresCouponCode = discount.RequiresCouponCode,
+                UsePercentage = discount.UsePercentage,
+                DiscountAmount = discount.DiscountAmount,
+                EndDateUtc = discount.EndDateUtc,
+                StartDateUtc = discount.StartDateUtc
+            };
+        }
     }
 }

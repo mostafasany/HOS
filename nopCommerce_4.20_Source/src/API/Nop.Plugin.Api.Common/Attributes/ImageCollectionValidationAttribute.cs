@@ -7,7 +7,10 @@ namespace Nop.Plugin.Api.Common.Attributes
     {
         private Dictionary<string, string> _errors = new Dictionary<string, string>();
 
-        public override Dictionary<string, string> GetErrors() => _errors;
+        public override Dictionary<string, string> GetErrors()
+        {
+            return _errors;
+        }
 
         public override void Validate(object instance)
         {
@@ -18,13 +21,13 @@ namespace Nop.Plugin.Api.Common.Attributes
 
             var imagesCollection = instance as ICollection<ImageMappingDto>;
 
-            foreach (ImageMappingDto image in imagesCollection)
+            foreach (var image in imagesCollection)
             {
                 var imageValidationAttribute = new ImageValidationAttribute();
 
                 imageValidationAttribute.Validate(image);
 
-                Dictionary<string, string> errorsForImage = imageValidationAttribute.GetErrors();
+                var errorsForImage = imageValidationAttribute.GetErrors();
 
                 if (errorsForImage.Count > 0)
                 {

@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Nop.Core.Domain.Localization;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Delta;
 using Nop.Plugin.Api.Common.Helpers;
@@ -21,13 +20,14 @@ namespace Nop.Plugin.Api.Common.ModelBinders
         private readonly int _languageId;
         private readonly ILocalizationService _localizationService;
 
-        public JsonModelBinder(IJsonHelper jsonHelper, ILocalizationService localizationService, ILanguageService languageService)
+        public JsonModelBinder(IJsonHelper jsonHelper, ILocalizationService localizationService,
+            ILanguageService languageService)
         {
             _jsonHelper = jsonHelper;
             _localizationService = localizationService;
 
             // Languages are ordered by display order so the first language will be with the smallest display order.
-            Language firstLanguage = languageService.GetAllLanguages().FirstOrDefault();
+            var firstLanguage = languageService.GetAllLanguages().FirstOrDefault();
             if (firstLanguage != null)
                 _languageId = firstLanguage.Id;
             else
@@ -36,7 +36,7 @@ namespace Nop.Plugin.Api.Common.ModelBinders
 
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
-            Dictionary<string, object> propertyValuePairs = GetPropertyValuePairs(bindingContext);
+            var propertyValuePairs = GetPropertyValuePairs(bindingContext);
             if (propertyValuePairs == null)
             {
                 bindingContext.Result = ModelBindingResult.Failed();
@@ -48,7 +48,7 @@ namespace Nop.Plugin.Api.Common.ModelBinders
                 // You will have id parameter passed in the model binder only when you have put request.
                 // because get and delete do not use the model binder.
                 // Here we insert the id in the property value pairs to be validated by the dto validator in a later point.
-                object routeDataId = GetRouteDataId(bindingContext.ActionContext);
+                var routeDataId = GetRouteDataId(bindingContext.ActionContext);
 
                 if (routeDataId != null) InsertIdInTheValuePaires(propertyValuePairs, routeDataId);
 
@@ -70,14 +70,10 @@ namespace Nop.Plugin.Api.Common.ModelBinders
                     bindingContext.Result = ModelBindingResult.Success(bindingContext.Model);
                 }
                 else
-                {
                     bindingContext.Result = ModelBindingResult.Failed();
-                }
             }
             else
-            {
                 bindingContext.Result = ModelBindingResult.Failed();
-            }
 
             return Task.CompletedTask;
         }
@@ -90,10 +86,11 @@ namespace Nop.Plugin.Api.Common.ModelBinders
                 try
                 {
                     //get the root dictionary and root property (these will throw exceptions if they fail)
-                    result = _jsonHelper.GetRequestJsonDictionaryFromStream(bindingContext.HttpContext.Request.Body, true);
-                    string rootPropertyName = _jsonHelper.GetRootPropertyName<T>();
+                    result = _jsonHelper.GetRequestJsonDictionaryFromStream(bindingContext.HttpContext.Request.Body,
+                        true);
+                    var rootPropertyName = _jsonHelper.GetRootPropertyName<T>();
 
-                    result = (Dictionary<string, object>) result[rootPropertyName];
+                    result = (Dictionary<string, object>)result[rootPropertyName];
                 }
                 catch (Exception ex)
                 {
@@ -120,33 +117,39 @@ namespace Nop.Plugin.Api.Common.ModelBinders
                 propertyValuePaires.Add("id", requestId);
         }
 
-        private void ValidateModel(ModelBindingContext bindingContext, Dictionary<string, object> propertyValuePaires, T dto)
+        private void ValidateModel(ModelBindingContext bindingContext, Dictionary<string, object> propertyValuePaires,
+            T dto)
         {
             // this method validates each property by checking if it has an attribute that inherits from BaseValidationAttribute
             // these attribtues are different than FluentValidation attributes, so they need to be validated manually
 
-            PropertyInfo[] dtoProperties = dto.GetType().GetProperties();
-            foreach (PropertyInfo property in dtoProperties)
+            var dtoProperties = dto.GetType().GetProperties();
+            foreach (var property in dtoProperties)
             {
                 // Check property type
-                var validationAttribute = property.PropertyType.GetCustomAttribute(typeof(BaseValidationAttribute)) as BaseValidationAttribute;
+                var validationAttribute =
+                    property.PropertyType.GetCustomAttribute(
+                        typeof(BaseValidationAttribute)) as BaseValidationAttribute;
 
                 // If not on property type, check the property itself.
-                if (validationAttribute == null) validationAttribute = property.GetCustomAttribute(typeof(BaseValidationAttribute)) as BaseValidationAttribute;
+                if (validationAttribute == null)
+                    validationAttribute =
+                        property.GetCustomAttribute(typeof(BaseValidationAttribute)) as BaseValidationAttribute;
 
                 if (validationAttribute != null)
                 {
                     validationAttribute.Validate(property.GetValue(dto));
-                    Dictionary<string, string> errors = validationAttribute.GetErrors();
+                    var errors = validationAttribute.GetErrors();
 
                     if (errors.Count > 0)
-                        foreach (KeyValuePair<string, string> error in errors)
+                        foreach (var error in errors)
                             bindingContext.ModelState.AddModelError(error.Key, error.Value);
                 }
             }
         }
 
-        private void ValidateValueTypes(ModelBindingContext bindingContext, Dictionary<string, object> propertyValuePaires)
+        private void ValidateValueTypes(ModelBindingContext bindingContext,
+            Dictionary<string, object> propertyValuePaires)
         {
             var errors = new Dictionary<string, string>();
 
@@ -154,15 +157,18 @@ namespace Nop.Plugin.Api.Common.ModelBinders
             var typeValidator = new TypeValidator<T>();
 
             if (!typeValidator.IsValid(propertyValuePaires))
-                foreach (string invalidProperty in typeValidator.InvalidProperties)
+                foreach (var invalidProperty in typeValidator.InvalidProperties)
                 {
-                    string key = string.Format(_localizationService.GetResource("Api.InvalidType", _languageId, false), invalidProperty);
+                    var key = string.Format(_localizationService.GetResource("Api.InvalidType", _languageId, false),
+                        invalidProperty);
 
-                    if (!errors.ContainsKey(key)) errors.Add(key, _localizationService.GetResource("Api.InvalidPropertyType", _languageId, false));
+                    if (!errors.ContainsKey(key))
+                        errors.Add(key,
+                            _localizationService.GetResource("Api.InvalidPropertyType", _languageId, false));
                 }
 
             if (errors.Count > 0)
-                foreach (KeyValuePair<string, string> error in errors)
+                foreach (var error in errors)
                     bindingContext.ModelState.AddModelError(error.Key, error.Value);
         }
     }

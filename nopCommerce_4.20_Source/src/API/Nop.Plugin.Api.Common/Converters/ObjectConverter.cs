@@ -8,22 +8,26 @@ namespace Nop.Plugin.Api.Common.Converters
     {
         private readonly IApiTypeConverter _apiTypeConverter;
 
-        public ObjectConverter(IApiTypeConverter apiTypeConverter) => _apiTypeConverter = apiTypeConverter;
+        public ObjectConverter(IApiTypeConverter apiTypeConverter)
+        {
+            _apiTypeConverter = apiTypeConverter;
+        }
 
         public T ToObject<T>(ICollection<KeyValuePair<string, string>> source)
             where T : class, new()
         {
             var someObject = new T();
-            Type someObjectType = someObject.GetType();
+            var someObjectType = someObject.GetType();
 
             if (source != null)
-                foreach (KeyValuePair<string, string> item in source)
+                foreach (var item in source)
                 {
-                    string itemKey = item.Key.Replace("_", string.Empty);
-                    PropertyInfo currentProperty = someObjectType.GetProperty(itemKey,
+                    var itemKey = item.Key.Replace("_", string.Empty);
+                    var currentProperty = someObjectType.GetProperty(itemKey,
                         BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 
-                    if (currentProperty != null) currentProperty.SetValue(someObject, To(item.Value, currentProperty.PropertyType), null);
+                    if (currentProperty != null)
+                        currentProperty.SetValue(someObject, To(item.Value, currentProperty.PropertyType), null);
                 }
 
             return someObject;
@@ -31,7 +35,7 @@ namespace Nop.Plugin.Api.Common.Converters
 
         private bool IsNullableEnum(Type t)
         {
-            Type u = Nullable.GetUnderlyingType(t);
+            var u = Nullable.GetUnderlyingType(t);
             return u != null && u.IsEnum;
         }
 

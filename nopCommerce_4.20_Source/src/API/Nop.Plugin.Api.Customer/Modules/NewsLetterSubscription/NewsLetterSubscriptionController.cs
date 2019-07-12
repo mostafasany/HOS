@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
-using Nop.Core.Domain.Messages;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
@@ -23,7 +21,7 @@ using Nop.Services.Messages;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules
+namespace Nop.Plugin.Api.Customer.Modules.NewsLetterSubscription
 {
     public class NewsLetterSubscriptionController : BaseApiController
     {
@@ -42,7 +40,9 @@ namespace Nop.Plugin.Api.Modules
             IPictureService pictureService,
             INewsLetterSubscriptionApiService newsLetterSubscriptionApiService,
             IStoreContext storeContext,
-            INewsLetterSubscriptionService newsLetterSubscriptionService) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService, storeService, discountService, customerActivityService, localizationService, pictureService)
+            INewsLetterSubscriptionService newsLetterSubscriptionService) : base(jsonFieldsSerializer, aclService,
+            customerService, storeMappingService, storeService, discountService, customerActivityService,
+            localizationService, pictureService)
         {
             _newsLetterSubscriptionApiService = newsLetterSubscriptionApiService;
             _storeContext = storeContext;
@@ -57,16 +57,21 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpPost]
         [Route("/api/news_letter_subscriptions/{email}/deactivate")]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorsRootObject), 422)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         public IActionResult DeactivateNewsLetterSubscription(string email)
         {
-            if (string.IsNullOrEmpty(email)) return Error(HttpStatusCode.BadRequest, "The email parameter could not be empty.");
+            if (string.IsNullOrEmpty(email))
+                return Error(HttpStatusCode.BadRequest, "The email parameter could not be empty.");
 
-            NewsLetterSubscription existingSubscription = _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreId(email, _storeContext.CurrentStore.Id);
+            var existingSubscription =
+                _newsLetterSubscriptionService.GetNewsLetterSubscriptionByEmailAndStoreId(email,
+                    _storeContext.CurrentStore.Id);
 
-            if (existingSubscription == null) return Error(HttpStatusCode.BadRequest, "There is no news letter subscription with the specified email.");
+            if (existingSubscription == null)
+                return Error(HttpStatusCode.BadRequest,
+                    "There is no news letter subscription with the specified email.");
 
             existingSubscription.Active = false;
 
@@ -83,27 +88,30 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/news_letter_subscriptions")]
-        [ProducesResponseType(typeof(NewsLetterSubscriptionsRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(NewsLetterSubscriptionsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetNewsLetterSubscriptions(NewsLetterSubscriptionsParametersModel parameters)
         {
-            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit) return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+                return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
 
-            if (parameters.Page < Configurations.DefaultPageValue) return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
+            if (parameters.Page < Configurations.DefaultPageValue)
+                return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
 
-            List<NewsLetterSubscription> newsLetterSubscriptions = _newsLetterSubscriptionApiService.GetNewsLetterSubscriptions(parameters.CreatedAtMin, parameters.CreatedAtMax,
+            var newsLetterSubscriptions = _newsLetterSubscriptionApiService.GetNewsLetterSubscriptions(
+                parameters.CreatedAtMin, parameters.CreatedAtMax,
                 parameters.Limit, parameters.Page, parameters.SinceId,
                 parameters.OnlyActive);
 
-            List<NewsLetterSubscriptionDto> newsLetterSubscriptionsDtos = newsLetterSubscriptions.Select(nls => nls.ToDto()).ToList();
+            var newsLetterSubscriptionsDtos = newsLetterSubscriptions.Select(nls => nls.ToDto()).ToList();
 
             var newsLetterSubscriptionsRootObject = new NewsLetterSubscriptionsRootObject
             {
                 NewsLetterSubscriptions = newsLetterSubscriptionsDtos
             };
 
-            string json = JsonFieldsSerializer.Serialize(newsLetterSubscriptionsRootObject, parameters.Fields);
+            var json = JsonFieldsSerializer.Serialize(newsLetterSubscriptionsRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }

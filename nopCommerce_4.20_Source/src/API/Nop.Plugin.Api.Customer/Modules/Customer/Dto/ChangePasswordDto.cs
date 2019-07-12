@@ -8,11 +8,9 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
         //[JsonProperty("email")]
         //public string Email { get; set; }
 
-        [JsonProperty("oldPassword")]
-        public string OldPassword { get; set; }
+        [JsonProperty("oldPassword")] public string OldPassword { get; set; }
 
 
-        [JsonProperty("newPassword")]
-        public string NewPassword { get; set; }
+        [JsonProperty("newPassword")] public string NewPassword { get; set; }
     }
 }

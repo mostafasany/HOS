@@ -6,6 +6,9 @@ namespace Nop.Plugin.Api.Product.Modules.SpecificationAttributes.Translator
 {
     public class SpecificationAttributesTransaltor : ISpecificationAttributesTransaltor
     {
-        public SpecificationAttributeDto PrepareSpecificationAttributeDto(SpecificationAttribute specificationAttribute) => specificationAttribute.ToDto();
+        public SpecificationAttributeDto PrepareSpecificationAttributeDto(SpecificationAttribute specificationAttribute)
+        {
+            return specificationAttribute.ToDto();
+        }
     }
 }

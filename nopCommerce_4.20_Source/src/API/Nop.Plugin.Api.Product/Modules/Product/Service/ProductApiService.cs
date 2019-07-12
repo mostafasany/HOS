@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Nop.Core.Data;
 using Nop.Core.Domain.Catalog;
-using Nop.Core.Domain.Seo;
 using Nop.Core.Domain.Vendors;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.DataStructures;
@@ -19,8 +18,8 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Service
         private readonly IRepository<Manufacturer> _manufacturerRepository;
         private readonly IRepository<ProductCategory> _productCategoryMappingRepository;
         private readonly IRepository<Core.Domain.Catalog.Product> _productRepository;
-        private readonly IRepository<RelatedProduct> _relatedProductRepository;
         private readonly IRepository<ProductReview> _productReviewRepository;
+        private readonly IRepository<RelatedProduct> _relatedProductRepository;
         private readonly IStoreMappingService _storeMappingService;
         private readonly IUrlRecordService _urlRecordService;
         private readonly IRepository<Vendor> _vendorRepository;
@@ -29,7 +28,8 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Service
             IRepository<ProductCategory> productCategoryMappingRepository,
             IRepository<Vendor> vendorRepository, IRepository<ProductReview> productReviewRepository,
             IStoreMappingService storeMappingService, IRepository<RelatedProduct> relatedProductRepository
-            , IUrlRecordService urlRecordService, IRepository<Manufacturer> manufacturerRepository, IRepository<Category> categoryRepository)
+            , IUrlRecordService urlRecordService, IRepository<Manufacturer> manufacturerRepository,
+            IRepository<Category> categoryRepository)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
@@ -59,23 +59,30 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Service
         }
 
         public Tuple<IList<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>> GetProducts(IList<int> ids = null,
-            DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
-            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
-            int? categoryId = null, string categorySlug = null, string vendorName = null, string manufacturerName = null, int? manufacturerId = null, string keyword = null, bool? publishedStatus = null)
+            DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null,
+            DateTime? updatedAtMax = null,
+            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue,
+            int sinceId = Configurations.DefaultSinceId,
+            int? categoryId = null, string categorySlug = null, string vendorName = null,
+            string manufacturerName = null, int? manufacturerId = null, string keyword = null,
+            bool? publishedStatus = null)
         {
-            Tuple<IQueryable<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>> tuple = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName, manufacturerName, manufacturerId, keyword, publishedStatus, ids, categoryId, categorySlug);
+            var tuple = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName,
+                manufacturerName, manufacturerId, keyword, publishedStatus, ids, categoryId, categorySlug);
 
-            IQueryable<Core.Domain.Catalog.Product> query = tuple.Item1;
+            var query = tuple.Item1;
             if (sinceId > 0) query = tuple.Item1.Where(c => c.Id > sinceId);
 
-            return new Tuple<IList<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>>(new ApiList<Core.Domain.Catalog.Product>(query, page - 1, limit), tuple.Item2);
+            return new Tuple<IList<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>>(
+                new ApiList<Core.Domain.Catalog.Product>(query, page - 1, limit), tuple.Item2);
         }
 
         public int GetProductsCount(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
-            DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, bool? publishedStatus = null, string vendorName = null, string keyword = null,
+            DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, bool? publishedStatus = null,
+            string vendorName = null, string keyword = null,
             int? categoryId = null)
         {
-            Tuple<IQueryable<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>> tuple = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName, keyword,
+            var tuple = GetProductsQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, vendorName, keyword,
                 publishedStatus: publishedStatus, categoryId: categoryId);
 
             return tuple.Item1.Count(p => _storeMappingService.Authorize(p));
@@ -84,32 +91,60 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Service
 
         public List<Core.Domain.Catalog.Product> GetRelatedProducts(int productId1, bool showHidden = false)
         {
-            IQueryable<RelatedProduct> query = from rp in _relatedProductRepository.Table
+            var query = from rp in _relatedProductRepository.Table
                 join p in _productRepository.Table on rp.ProductId2 equals p.Id
                 where rp.ProductId1 == productId1 &&
                       !p.Deleted &&
                       (showHidden || p.Published)
                 orderby rp.DisplayOrder, rp.Id
                 select rp;
-            List<RelatedProduct> relatedProducts = query.ToList();
+            var relatedProducts = query.ToList();
 
             var products = new List<Core.Domain.Catalog.Product>();
-            foreach (RelatedProduct relatedProduct in relatedProducts)
+            foreach (var relatedProduct in relatedProducts)
             {
-                Core.Domain.Catalog.Product product = GetProductById(relatedProduct.ProductId2);
+                var product = GetProductById(relatedProduct.ProductId2);
                 products.Add(product);
             }
 
             return products;
         }
 
-        private Tuple<IQueryable<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>> GetProductsQuery(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
-            DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, string vendorName = null, string manufacturerName = null, int? manufacturerId = null,
-            string keyword = null,bool? publishedStatus = null, IList<int> ids = null, int? categoryId = null, string categorySlug = null)
+
+        public bool RateProduct(int productId, int customerId,
+            int rating, int storeId, string reviewText, string title)
+        {
+            try
+            {
+                _productReviewRepository.Insert(new ProductReview
+                {
+                    CustomerId = customerId,
+                    ProductId = productId,
+                    Rating = rating,
+                    StoreId = storeId,
+                    CreatedOnUtc = DateTime.Now,
+                    Title = title,
+                    ReviewText = reviewText
+                });
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private Tuple<IQueryable<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>> GetProductsQuery(
+            DateTime? createdAtMin = null, DateTime? createdAtMax = null,
+            DateTime? updatedAtMin = null, DateTime? updatedAtMax = null, string vendorName = null,
+            string manufacturerName = null, int? manufacturerId = null,
+            string keyword = null, bool? publishedStatus = null, IList<int> ids = null, int? categoryId = null,
+            string categorySlug = null)
 
         {
             var filters = new List<ProductsFiltersDto>();
-            IQueryable<Core.Domain.Catalog.Product> query = _productRepository.Table;
+            var query = _productRepository.Table;
 
             if (ids != null && ids.Count > 0) query = query.Where(c => ids.Contains(c.Id));
 
@@ -143,7 +178,8 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Service
 
             if (!string.IsNullOrEmpty(manufacturerName))
             {
-                Manufacturer manufacturerTable = _manufacturerRepository.Table.FirstOrDefault(a => a.Name.ToLower() == manufacturerName.ToLower());
+                var manufacturerTable =
+                    _manufacturerRepository.Table.FirstOrDefault(a => a.Name.ToLower() == manufacturerName.ToLower());
                 if (manufacturerTable != null && !manufacturerTable.Deleted)
                 {
                     query = from product in _productRepository.Table
@@ -153,14 +189,15 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Service
                     filters.Add(new ProductsFiltersDto("Manufacturer", manufacturerName));
                 }
             }
-            if (manufacturerId!=null && manufacturerId>0)
+
+            if (manufacturerId != null && manufacturerId > 0)
             {
-                Manufacturer manufacturerTable = _manufacturerRepository.Table.FirstOrDefault(a => a.Id == manufacturerId);
+                var manufacturerTable = _manufacturerRepository.Table.FirstOrDefault(a => a.Id == manufacturerId);
                 if (manufacturerTable != null && !manufacturerTable.Deleted)
                 {
                     query = from product in _productRepository.Table
-                            where product.ProductManufacturers.Select(a => a.ManufacturerId).Contains(manufacturerTable.Id)
-                            select product;
+                        where product.ProductManufacturers.Select(a => a.ManufacturerId).Contains(manufacturerTable.Id)
+                        select product;
 
                     filters.Add(new ProductsFiltersDto("Manufacturer", manufacturerTable.Name));
                 }
@@ -168,56 +205,30 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Service
 
             if (categoryId == null && categorySlug != null)
             {
-                UrlRecord urlRecord = _urlRecordService.GetBySlug(categorySlug);
+                var urlRecord = _urlRecordService.GetBySlug(categorySlug);
                 categoryId = urlRecord.EntityId;
             }
 
             if (categoryId != null)
             {
-                IQueryable<ProductCategory> categoryMappingsForProduct = from productCategoryMapping in _productCategoryMappingRepository.Table
+                var categoryMappingsForProduct = from productCategoryMapping in _productCategoryMappingRepository.Table
                     where productCategoryMapping.CategoryId == categoryId
                     select productCategoryMapping;
 
                 query = from product in query
-                    join productCategoryMapping in categoryMappingsForProduct on product.Id equals productCategoryMapping.ProductId
+                    join productCategoryMapping in categoryMappingsForProduct on product.Id equals
+                        productCategoryMapping.ProductId
                     orderby productCategoryMapping.DisplayOrder descending
                     select product;
 
-                Category category = _categoryRepository.Table.FirstOrDefault(a => a.Id == categoryId);
+                var category = _categoryRepository.Table.FirstOrDefault(a => a.Id == categoryId);
                 filters.Add(new ProductsFiltersDto("Category", category.Name));
             }
             else
-            {
                 query = query.OrderByDescending(product => product.DisplayOrder);
-            }
 
 
             return new Tuple<IQueryable<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>>(query, filters);
-        }
-
-
-        public bool RateProduct(int productId,int customerId,
-            int rating,int storeId,string reviewText,string title)
-        {
-            try
-            {
-                _productReviewRepository.Insert(new ProductReview
-                {
-                    CustomerId = customerId,
-                    ProductId = productId,
-                    Rating = rating,
-                    StoreId = storeId,
-                    CreatedOnUtc=DateTime.Now,
-                    Title=title,
-                    ReviewText=reviewText,
-                });
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
         }
     }
 }

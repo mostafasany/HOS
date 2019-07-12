@@ -33,7 +33,7 @@ namespace Nop.Plugin.Api.Product.Modules
         public int Order => 0;
 
 
-        private new static void CreateMap<TSource, TDestination>()
+        private static new void CreateMap<TSource, TDestination>()
         {
             AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<TSource, TDestination>()
                 .IgnoreAllNonExisting();
@@ -42,7 +42,8 @@ namespace Nop.Plugin.Api.Product.Modules
 
         private void CreateProductMap()
         {
-            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<Core.Domain.Catalog.Product, ProductDto>()
+            AutoMapperApiConfiguration.MapperConfigurationExpression
+                .CreateMap<Core.Domain.Catalog.Product, ProductDto>()
                 .IgnoreAllNonExisting()
                 .ForMember(x => x.ProductAttributeMappings, y => y.Ignore())
                 .ForMember(x => x.FullDescription, y => y.MapFrom(src => WebUtility.HtmlEncode(src.FullDescription)))

@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Nop.Core;
-using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Security;
 using Nop.Core.Domain.Stores;
 using Nop.Plugin.Api.Common.DTOs.Errors;
@@ -55,32 +51,28 @@ namespace Nop.Plugin.Api.Common.Controllers
             PictureService = pictureService;
         }
 
-        protected IActionResult Error(HttpStatusCode statusCode = (HttpStatusCode)422, string propertyKey = "", string errorMessage = "")
+        protected IActionResult Error(HttpStatusCode statusCode = (HttpStatusCode)422, string propertyKey = "",
+            string errorMessage = "")
         {
             var errors2 = new List<ErrorObject>();
             if (!string.IsNullOrEmpty(errorMessage) && !string.IsNullOrEmpty(propertyKey))
-            {
-                errors2.Add(new ErrorObject { Cause = propertyKey, Details = new List<string> { errorMessage } });
-            }
+                errors2.Add(new ErrorObject {Cause = propertyKey, Details = new List<string> {errorMessage}});
 
-            foreach (KeyValuePair<string, ModelStateEntry> item in ModelState)
+            foreach (var item in ModelState)
             {
-                IEnumerable<string> errorMessages = item.Value.Errors.Select(x => x.ErrorMessage);
+                var errorMessages = item.Value.Errors.Select(x => x.ErrorMessage);
 
                 var validErrorMessages = new List<string>();
 
                 validErrorMessages.AddRange(errorMessages.Where(message => !string.IsNullOrEmpty(message)));
 
                 if (validErrorMessages.Count > 0)
-                    errors2.Add(new ErrorObject { Cause = item.Key, Details = validErrorMessages });
+                    errors2.Add(new ErrorObject {Cause = item.Key, Details = validErrorMessages});
             }
 
-            var errorsRootObject = new ErrorsRootObject
-            {
-                Errors=errors2,
-            };
+            var errorsRootObject = new ErrorsRootObject {Errors = errors2};
 
-            string errorsJson = JsonFieldsSerializer.Serialize(errorsRootObject, null);
+            var errorsJson = JsonFieldsSerializer.Serialize(errorsRootObject, null);
 
             return new ErrorActionResult(errorsJson, statusCode);
         }
@@ -88,42 +80,38 @@ namespace Nop.Plugin.Api.Common.Controllers
         protected IActionResult Error(HttpStatusCode statusCode, string propertyKey, List<string> errorMessages)
         {
             var errors = new List<ErrorObject>();
-            if (errorMessages!=null && !string.IsNullOrEmpty(propertyKey))
-            {
-                errors.Add(new ErrorObject { Cause = propertyKey, Details = errorMessages });
-            }
+            if (errorMessages != null && !string.IsNullOrEmpty(propertyKey))
+                errors.Add(new ErrorObject {Cause = propertyKey, Details = errorMessages});
 
-            foreach (KeyValuePair<string, ModelStateEntry> item in ModelState)
+            foreach (var item in ModelState)
             {
-                IEnumerable<string> errorsMessages = item.Value.Errors.Select(x => x.ErrorMessage);
+                var errorsMessages = item.Value.Errors.Select(x => x.ErrorMessage);
 
                 var validErrorMessages = new List<string>();
 
                 validErrorMessages.AddRange(errorsMessages.Where(message => !string.IsNullOrEmpty(message)));
 
                 if (validErrorMessages.Count > 0)
-                    errors.Add(new ErrorObject { Cause = item.Key, Details = validErrorMessages });
+                    errors.Add(new ErrorObject {Cause = item.Key, Details = validErrorMessages});
             }
 
-            var errorsRootObject = new ErrorsRootObject
-            {
-                Errors = errors,
-            };
+            var errorsRootObject = new ErrorsRootObject {Errors = errors};
 
-            string errorsJson = JsonFieldsSerializer.Serialize(errorsRootObject, null);
+            var errorsJson = JsonFieldsSerializer.Serialize(errorsRootObject, null);
 
             return new ErrorActionResult(errorsJson, statusCode);
         }
 
-        protected void UpdateAclRoles<TEntity>(TEntity entity, List<int> passedRoleIds) where TEntity : BaseEntity, IAclSupported
+        protected void UpdateAclRoles<TEntity>(TEntity entity, List<int> passedRoleIds)
+            where TEntity : BaseEntity, IAclSupported
         {
             if (passedRoleIds == null) return;
 
             entity.SubjectToAcl = passedRoleIds.Any();
 
-            IList<AclRecord> existingAclRecords = AclService.GetAclRecords(entity);
-            IList<CustomerRole> allCustomerRoles = CustomerService.GetAllCustomerRoles(true);
-            foreach (CustomerRole customerRole in allCustomerRoles)
+            var existingAclRecords = AclService.GetAclRecords(entity);
+            var allCustomerRoles = CustomerService.GetAllCustomerRoles(true);
+            foreach (var customerRole in allCustomerRoles)
                 if (passedRoleIds.Contains(customerRole.Id))
                 {
                     //new role
@@ -133,22 +121,24 @@ namespace Nop.Plugin.Api.Common.Controllers
                 else
                 {
                     //remove role
-                    AclRecord aclRecordToDelete = existingAclRecords.FirstOrDefault(acl => acl.CustomerRoleId == customerRole.Id);
+                    var aclRecordToDelete =
+                        existingAclRecords.FirstOrDefault(acl => acl.CustomerRoleId == customerRole.Id);
                     if (aclRecordToDelete != null)
                         AclService.DeleteAclRecord(aclRecordToDelete);
                 }
         }
 
-        protected void UpdateStoreMappings<TEntity>(TEntity entity, List<int> passedStoreIds) where TEntity : BaseEntity, IStoreMappingSupported
+        protected void UpdateStoreMappings<TEntity>(TEntity entity, List<int> passedStoreIds)
+            where TEntity : BaseEntity, IStoreMappingSupported
         {
             if (passedStoreIds == null)
                 return;
 
             entity.LimitedToStores = passedStoreIds.Any();
 
-            IList<StoreMapping> existingStoreMappings = StoreMappingService.GetStoreMappings(entity);
-            IList<Store> allStores = StoreService.GetAllStores();
-            foreach (Store store in allStores)
+            var existingStoreMappings = StoreMappingService.GetStoreMappings(entity);
+            var allStores = StoreService.GetAllStores();
+            foreach (var store in allStores)
                 if (passedStoreIds.Contains(store.Id))
                 {
                     //new store
@@ -158,7 +148,7 @@ namespace Nop.Plugin.Api.Common.Controllers
                 else
                 {
                     //remove store
-                    StoreMapping storeMappingToDelete = existingStoreMappings.FirstOrDefault(sm => sm.StoreId == store.Id);
+                    var storeMappingToDelete = existingStoreMappings.FirstOrDefault(sm => sm.StoreId == store.Id);
                     if (storeMappingToDelete != null)
                         StoreMappingService.DeleteStoreMapping(storeMappingToDelete);
                 }

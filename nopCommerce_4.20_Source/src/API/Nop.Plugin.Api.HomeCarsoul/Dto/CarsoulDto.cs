@@ -5,10 +5,8 @@ namespace Nop.Plugin.Api.HomeCarsoul.Dto
 {
     public class CarsoulDto : BaseDto
     {
-        [JsonProperty("image")]
-        public string Image { get; set; }
+        [JsonProperty("image")] public string Image { get; set; }
 
-        [JsonProperty("topicId")]
-        public int Topic { get; set; }
+        [JsonProperty("topicId")] public int Topic { get; set; }
     }
 }

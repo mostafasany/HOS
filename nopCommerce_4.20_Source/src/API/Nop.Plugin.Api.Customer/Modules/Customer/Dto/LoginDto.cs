@@ -5,11 +5,9 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
     [JsonObject(Title = "login")]
     public class LoginDto
     {
-        [JsonProperty("userNameOrEmail")]
-        public string UserNameOrEmail { get; set; }
+        [JsonProperty("userNameOrEmail")] public string UserNameOrEmail { get; set; }
 
 
-        [JsonProperty("password")]
-        public string Password { get; set; }
+        [JsonProperty("password")] public string Password { get; set; }
     }
 }

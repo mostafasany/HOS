@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Nop.Core.Domain.Discounts;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
@@ -20,7 +19,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules
+namespace Nop.Plugin.Api.Product.Modules.Discount
 {
     public class DiscountsController : BaseApiController
     {
@@ -54,22 +53,19 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/discounts")]
-        [ProducesResponseType(typeof(DiscountsRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(DiscountsRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetDiscounts(DiscountsParametersModel parameters)
         {
-            IEnumerable<Discount> allDiscounts = _discountApiService.GetDiscounts(parameters.Ids);
+            IEnumerable<Core.Domain.Discounts.Discount> allDiscounts = _discountApiService.GetDiscounts(parameters.Ids);
 
             IList<DiscountDto> discountsAsDtos = allDiscounts.Select(discount =>
                 _dtoHelper.PrepateDiscountDto(discount)).ToList();
 
-            var discountsRootObject = new DiscountsRootObject
-            {
-                Discounts = discountsAsDtos
-            };
+            var discountsRootObject = new DiscountsRootObject {Discounts = discountsAsDtos};
 
-            string json = JsonFieldsSerializer.Serialize(discountsRootObject, parameters.Fields);
+            var json = JsonFieldsSerializer.Serialize(discountsRootObject, parameters.Fields);
 
             return new RawJsonActionResult(json);
         }

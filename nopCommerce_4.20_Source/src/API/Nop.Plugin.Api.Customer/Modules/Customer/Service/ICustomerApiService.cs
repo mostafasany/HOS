@@ -13,7 +13,8 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
         int GetCustomersCount();
 
         IList<CustomerDto> GetCustomersDtos(DateTime? createdAtMin = null, DateTime? createdAtMax = null,
-            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId);
+            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue,
+            int sinceId = Configurations.DefaultSinceId);
 
         Dictionary<string, string> GetFirstAndLastNameByCustomerId(int customerId);
 
