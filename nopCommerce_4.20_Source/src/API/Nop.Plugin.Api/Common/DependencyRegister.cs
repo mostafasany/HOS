@@ -12,6 +12,7 @@ using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.Maps;
 using Nop.Plugin.Api.Common.ModelBinders;
 using Nop.Plugin.Api.Common.Validators;
+using Nop.Plugin.Api.IdentityServer;
 
 namespace Nop.Plugin.Api.Common
 {
@@ -53,6 +54,8 @@ namespace Nop.Plugin.Api.Common
             builder.RegisterType<JsonPropertyMapper>().As<IJsonPropertyMapper>().InstancePerLifetimeScope();
 
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
+
+            builder.RegisterType<CookiesService>().As<ICookiesService>().SingleInstance();
 
             builder.RegisterType<Dictionary<string, object>>().SingleInstance();
         }
