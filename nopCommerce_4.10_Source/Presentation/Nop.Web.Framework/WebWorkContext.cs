@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Nop.Core;
 using Nop.Core.Domain.Customers;
@@ -19,6 +17,8 @@ using Nop.Services.Stores;
 using Nop.Services.Tasks;
 using Nop.Services.Vendors;
 using Nop.Web.Framework.Localization;
+using System;
+using System.Linq;
 
 namespace Nop.Web.Framework
 {
@@ -119,12 +119,23 @@ namespace Nop.Web.Framework
                 cookieExpiresDate = DateTime.Now.AddMonths(-1);
 
             //set new cookie value
+            //var options = new CookieOptions
+            //{
+            //    //HttpOnly = true,
+            //    // Expires = cookieExpiresDate,
+            //    SameSite = SameSiteMode.None,
+            //    Domain = "hosapp.azurewebsites.net"
+            //};
             var options = new CookieOptions
             {
                 HttpOnly = true,
-                Expires = cookieExpiresDate
+                Secure = false,
+                Expires = cookieExpiresDate,
+                SameSite = SameSiteMode.None,
             };
             _httpContextAccessor.HttpContext.Response.Cookies.Append(cookieName, customerGuid.ToString(), options);
+            _httpContextAccessor.HttpContext.Response.Headers.Remove(cookieName);
+            _httpContextAccessor.HttpContext.Response.Headers.Add(cookieName, customerGuid.ToString());
         }
 
         /// <summary>
@@ -190,9 +201,14 @@ namespace Nop.Web.Framework
 
                 Customer customer = null;
 
+                if (_httpContextAccessor?.HttpContext?.Request.Method.ToUpper() == "OPTIONS")
+                {
+                    return new Customer { CustomerGuid = Guid.Empty };
+                }
+
                 //check whether request is made by a background (schedule) task
-                if (_httpContextAccessor.HttpContext == null ||
-                    _httpContextAccessor.HttpContext.Request.Path.Equals(new PathString($"/{NopTaskDefaults.ScheduleTaskPath}"), StringComparison.InvariantCultureIgnoreCase))
+                if (_httpContextAccessor?.HttpContext == null ||
+                _httpContextAccessor.HttpContext.Request.Path.Equals(new PathString($"/{NopTaskDefaults.ScheduleTaskPath}"), StringComparison.InvariantCultureIgnoreCase))
                 {
                     //in this case return built-in customer record for background task
                     customer = _customerService.GetCustomerBySystemName(NopCustomerDefaults.BackgroundTaskCustomerName);
@@ -238,7 +254,8 @@ namespace Nop.Web.Framework
                         {
                             //get customer from cookie (should not be registered)
                             var customerByCookie = _customerService.GetCustomerByGuid(customerGuid);
-                            if (customerByCookie != null && !customerByCookie.IsRegistered())
+                            //if (customerByCookie != null && !customerByCookie.IsRegistered())
+                            if (customerByCookie != null)
                                 customer = customerByCookie;
                         }
                     }

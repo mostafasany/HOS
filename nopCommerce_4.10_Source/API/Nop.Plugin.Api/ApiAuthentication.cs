@@ -1,17 +1,14 @@
-﻿namespace Nop.Plugin.Api
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Security.Cryptography.X509Certificates;
-    using IdentityModel;
-    using Microsoft.AspNetCore.Authentication;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.IdentityModel.Tokens;
-    using Nop.Plugin.Api.Helpers;
-    using Nop.Services.Authentication.External;
-    using Org.BouncyCastle.Asn1.X509.Qualified;
+﻿using System.Collections.Generic;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Nop.Plugin.Api.Common.Helpers;
+using Nop.Services.Authentication.External;
 
+namespace Nop.Plugin.Api
+{
     public class ApiAuthentication : IExternalAuthenticationRegistrar
     {
         public void Configure(AuthenticationBuilder builder)
@@ -19,21 +16,20 @@
             RsaSecurityKey signingKey = CryptoHelper.CreateRsaSecurityKey();
 
             builder.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwt =>
+            {
+                jwt.Audience = "nop_api";
+                jwt.TokenValidationParameters = new TokenValidationParameters
                 {
-                    jwt.Audience = "nop_api";
-                    jwt.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateActor = false,
-                        ValidateIssuer = false,
-                        NameClaimType = JwtClaimTypes.Name,
-                        RoleClaimType = JwtClaimTypes.Role,
-                        // Uncomment this if you are using an certificate to sign your tokens.
-                        // IssuerSigningKey = new X509SecurityKey(cert),
-                        IssuerSigningKeyResolver = (string token, SecurityToken securityToken, string kid,
-                                TokenValidationParameters validationParameters) =>
-                               new List<RsaSecurityKey> { signingKey }
-                    };
-                });
+                    ValidateActor = false,
+                    ValidateIssuer = false,
+                    NameClaimType = JwtClaimTypes.Name,
+                    RoleClaimType = JwtClaimTypes.Role,
+                    // Uncomment this if you are using an certificate to sign your tokens.
+                    // IssuerSigningKey = new X509SecurityKey(cert),
+                    IssuerSigningKeyResolver = (token, securityToken, kid, validationParameters) =>
+                        new List<RsaSecurityKey> {signingKey}
+                };
+            });
         }
     }
 }

@@ -7,7 +7,6 @@ namespace Nop.Plugin.Api
     {
         public void RegisterRoutes(IRouteBuilder routeBuilder)
         {
-            
         }
 
         public int Priority => -1;

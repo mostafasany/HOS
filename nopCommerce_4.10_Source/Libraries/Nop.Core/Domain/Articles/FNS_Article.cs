@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Nop.Core.Domain.Localization;
+using Nop.Core.Domain.Seo;
 
 namespace Nop.Core.Domain.Articles
 {
-   public class Article : BaseEntity, ILocalizedEntity
+   public class Article : BaseEntity, ILocalizedEntity, ISlugSupported
     {
         private ICollection<FNS_ArticleGroup_Mapping> _articleGroups;
         private ICollection<FNS_ArticleCategory> _articleCategories;

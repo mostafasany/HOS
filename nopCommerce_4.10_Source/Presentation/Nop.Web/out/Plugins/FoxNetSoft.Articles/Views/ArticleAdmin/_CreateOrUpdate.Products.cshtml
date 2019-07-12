@@ -1,0 +1,135 @@
+@model FoxNetSoft.Plugin.Misc.Articles.Models.Admin.ArticleModel
+@inject AdminAreaSettings adminAreaSettings
+@using Nop.Core.Domain.Common
+@using Microsoft.AspNetCore.Routing
+@using System.Text.Encodings.Web
+
+<div class="panel-group">
+    @if (Model.Id > 0)
+    {
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @{
+                    var defaultGridPageSize = adminAreaSettings.DefaultGridPageSize;
+                    var gridPageSizes = adminAreaSettings.GridPageSizes;
+                }
+
+                <div id="products-grid"></div>
+                <script>
+                        $(document).ready(function () {
+                            $("#products-grid").kendoGrid({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: "@Html.Raw(Url.Action("ProductList", "ArticleAdmin", new RouteValueDictionary { {"articleId" , Model.Id} }))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        },
+                                        update: {
+                                            url:"@Html.Raw(Url.Action("ProductUpdate", "ArticleAdmin"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        },
+                                        destroy: {
+                                            url: "@Html.Raw(Url.Action("ProductDelete", "ArticleAdmin"))",
+                                            type: "POST",
+                                            dataType: "json",
+                                            data: addAntiForgeryToken
+                                        }
+                                    },
+                                    schema: {
+                                        data: "Data",
+                                        total: "Total",
+                                        errors: "Errors",
+                                        model: {
+                                            id: "Id",
+                                            fields: {
+                                                ProductName: {editable: false, type: "string" },
+                                                DisplayOrder1: {editable: true, type: "number" },
+                                                ProductId: {editable: false, type: "number" }
+                                            }
+                                        }
+                                    },
+                                    requestEnd: function(e) {
+                                        if(e.type=="update") {
+                                            this.read();
+                                        }
+                                    },
+                                    error: function(e) {
+                                        display_kendoui_grid_error(e);
+                                        // Cancel the changes
+                                        this.cancelChanges();
+                                    },
+                                    pageSize: @(defaultGridPageSize),
+                                    serverPaging: true,
+                                    serverFiltering: true,
+                                    serverSorting: true
+                                },
+                                pageable: {
+                                    refresh: true,
+                                    pageSizes: [@(gridPageSizes)]
+                                },
+                                editable: {
+                                    confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                    mode: "inline"
+                                },
+                                scrollable: false,
+                                columns: [{
+                                    field: "ProductName",
+                                    title: "@T("Admin.Catalog.Categories.Products.Fields.Product")",
+                                    template: '<a href="@Url.Content("~/Admin/Product/Edit/")#=ProductId#">#=ProductName#</a>'
+                                }, {
+                                    field: "DisplayOrder1",
+                                    title: "@T("Admin.Catalog.Categories.Products.Fields.DisplayOrder")",
+                                    //integer format
+                                    format: "{0:0}",
+                                    width: 150
+                                }, {
+                                    command: [{
+                                        name: "edit",
+                                        text: "@T("Admin.Common.Edit")"
+                                    }, {
+                                        name: "destroy",
+                                        text: "@T("Admin.Common.Delete")"
+                                    }],
+                                    width: 200
+                                }]
+                            });
+                        });
+                </script>
+            </div>
+
+            <div class="panel-footer">
+                <button type="submit" id="btnAddNewProduct"
+                        onclick="javascript:OpenWindow('@(Url.Action("ProductAddPopup", "ArticleAdmin" , new {articleId=Model.Id, btnId="btnRefreshProducts" , formId="article-form" , area="Admin" }))', 800, 800, true); return false;"
+                        class="btn btn-primary">
+                    @T("Admin.Catalog.Categories.Products.AddNew")
+                </button>
+                <input type="submit" id="btnRefreshProducts" style="display: none" />
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#btnRefreshProducts').click(function () {
+                            //refresh grid
+                            var grid = $("#products-grid").data('kendoGrid');
+                            grid.dataSource.read();
+
+                            //return false to don't reload a page
+                            return false;
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+                    }
+                    else
+                    {
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                @T("Admin.FoxNetSoft.Plugin.Misc.Articles.Products.SaveBeforeEdit")
+                            </div>
+                        </div>
+                    }
+</div>

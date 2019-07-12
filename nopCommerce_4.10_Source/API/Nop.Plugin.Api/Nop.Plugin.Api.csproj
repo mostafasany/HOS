@@ -17,18 +17,22 @@
     <OutDir>$(OutputPath)</OutDir>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Common\IdentityServer\**" />
+    <Compile Remove="Modules\Category\**" />
+    <Compile Remove="Modules\Picture\**" />
+    <EmbeddedResource Remove="Common\IdentityServer\**" />
+    <EmbeddedResource Remove="Modules\Category\**" />
+    <EmbeddedResource Remove="Modules\Picture\**" />
+    <None Remove="Common\IdentityServer\**" />
+    <None Remove="Modules\Category\**" />
+    <None Remove="Modules\Picture\**" />
+  </ItemGroup>
   
   <ItemGroup>
     <None Remove="logo.jpg" />
     <None Remove="plugin.json" />
-    <None Remove="Views\Clients\ClientSettings.cshtml" />
-    <None Remove="Views\Clients\Create.cshtml" />
-    <None Remove="Views\Clients\CreateOrUpdate.cshtml" />
-    <None Remove="Views\Clients\Edit.cshtml" />
-    <None Remove="Views\Clients\List.cshtml" />
-    <None Remove="Views\Clients\_ViewStart.cshtml" />
-    <None Remove="Views\Settings.cshtml" />
-    <None Remove="Views\_ViewImports.cshtml" />
   </ItemGroup> 
   <ItemGroup>
     <Content Include="logo.jpg">
@@ -37,42 +41,26 @@
     <Content Include="plugin.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Clients\ClientSettings.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Clients\Create.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Clients\CreateOrUpdate.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Clients\Edit.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Clients\List.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Settings.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\_ViewImports.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup> 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="IdentityServer4" Version="2.0.3" />
-    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.0.2" />
-    <PackageReference Include="IdentityServer4.EntityFramework" Version="2.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Rewrite" Version="2.1.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj" />
     <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Articles\Nop.Plugin.Api.Article.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Cart\Nop.Plugin.Api.Cart.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Category\Nop.Plugin.Api.Category.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Client\Nop.Plugin.Api.Admin.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Content\Nop.Plugin.Api.Content.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Customer\Nop.Plugin.Api.Customer.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.HomeCarsoul\Nop.Plugin.Api.HomeCarsoul.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Product\Nop.Plugin.Api.Product.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.WebHooks\Nop.Plugin.Api.WebHooks.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Custom\" />
+    <Folder Include="Modules\Menu\Dto\Validator\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web.Http">

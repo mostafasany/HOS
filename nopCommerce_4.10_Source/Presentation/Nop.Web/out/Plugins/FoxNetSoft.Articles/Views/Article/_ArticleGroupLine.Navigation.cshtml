@@ -1,0 +1,72 @@
+﻿@model FoxNetSoft.Plugin.Misc.Articles.Models.ArticleGroupNavigationModel.ArticleGroupLineModel
+@using FoxNetSoft.Plugin.Misc.Articles.Models
+@using FoxNetSoft.Plugin.Misc.Articles.Helpers
+@functions{
+    public bool BreadCrumbContainsCurrentCategoryId(ArticleGroupSimpleModel articleGroup)
+    {
+        if (Model.CurrentArtcileGroupId == 0)
+            return false;
+
+        if (articleGroup.Id == Model.CurrentArtcileGroupId)
+            return true;
+
+        foreach (var subCategory in articleGroup.SubArticleGroups)
+        {
+            if (BreadCrumbContainsCurrentCategoryId(subCategory))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+
+@{
+    var active = Model.ArticleGroup.Id == Model.CurrentArtcileGroupId || Model.ArticleGroup.SubArticleGroups.Count(BreadCrumbContainsCurrentCategoryId) > 0;
+    var last = Model.ArticleGroup.Id == Model.CurrentArtcileGroupId;
+    var liClass = active ? "active" : "inactive";
+    if (last)
+    {
+        liClass += " last";
+    }
+}
+@{
+    var articleGroup = Model.ArticleGroup;
+    if (articleGroup.IsGroup)
+    {
+        <li class="articlegroupline @liClass">
+            <a href="@Url.RouteUrl("ArticleGroupPost", new { SeName = articleGroup.SeName })">
+                @articleGroup.Name
+                @if (articleGroup.NumberOfArticles.HasValue && articleGroup.NumberOfArticles > 0)
+                {
+                    <text> (@(articleGroup.NumberOfArticles.Value))</text>
+                }
+            </a>
+            @if ((Model.ArticleGroup.Id == Model.CurrentArtcileGroupId ||
+                    Model.ArticleGroup.SubArticleGroups.Count(BreadCrumbContainsCurrentCategoryId) > 0)
+                    && Model.ArticleGroup.SubArticleGroups.Any())
+             {
+                  <ul class="sublist">
+                  @foreach (var subCategory in Model.ArticleGroup.SubArticleGroups)
+                  {
+                      var articleGroupLineModel = new ArticleGroupNavigationModel.ArticleGroupLineModel
+                      {
+                           CurrentArtcileGroupId = Model.CurrentArtcileGroupId,
+                           CurrentArtcileId = Model.CurrentArtcileId,
+                           ArticleGroup = subCategory
+                      };
+                      @await Html.PartialAsync(ResolveViewPathHelper.GetViewPath("Article/_ArticleGroupLine.Navigation"), articleGroupLineModel)
+                   }
+                  </ul>
+             }
+        </li>
+     }
+     else
+     {
+        <li class="articleline @(articleGroup.Id == Model.CurrentArtcileId ? "active" : "inactive")">
+             <a href="@Url.RouteUrl("ArticlePost", new { SeName = articleGroup.SeName })">@articleGroup.Name</a>
+        </li>
+     }
+}

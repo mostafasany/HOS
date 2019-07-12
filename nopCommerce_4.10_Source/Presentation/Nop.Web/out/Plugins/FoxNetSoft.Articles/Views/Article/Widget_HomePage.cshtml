@@ -1,0 +1,115 @@
+﻿@model IList<FoxNetSoft.Plugin.Misc.Articles.Models.ArticleOverviewModel>
+@inject IWorkContext workContext
+@using Nop.Web.Framework.UI
+@using Nop.Core
+@using Nop.Web.Extensions
+@using FoxNetSoft.Plugin.Misc.Articles.Models
+@using System.Text.Encodings.Web
+@using FoxNetSoft.Plugin.Misc.Articles.Helpers
+@{
+    Html.AddCssFileParts(ResolveViewPathHelper.GetThemesCSSPath("styles.css"));
+    var supportRtl = workContext.WorkingLanguage.Rtl;
+    if (supportRtl)
+    {
+        Html.AddCssFileParts(ResolveViewPathHelper.GetThemesCSSPath("styles.rtl.css"));
+    }
+}
+<div class="page article-page">
+    <div class="page-body">
+        <div class="page-title">
+            <h2>
+               @T("FoxNetSoft.Plugin.Misc.Articles.PageTitle.Article")
+            </h2>
+        </div>
+        @await Html.PartialAsync(ResolveViewPathHelper.GetThemesPath("Article/_ArticlesBlock.cshtml"), Model)
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        fns_articles_replace_event_pager();
+        fns_articles_initialize_filers();
+    });
+
+    function fns_articles_replace_event_pager() {
+        $(".article-list .pager li a").on("click", function () {
+            var selectedvalue = $(this).attr("href");
+            if (selectedvalue.length > 0) {
+                var pagenumberForArticles = 0;
+                var n = selectedvalue.indexOf("pagenumber=");
+                if (n != -1) {
+                    pagenumberForArticles = selectedvalue.substring(n + 11);
+                }
+                var n = selectedvalue.indexOf("page=");
+                if (n != -1) {
+                    pagenumberForArticles = selectedvalue.substring(n + 5);
+                }
+                fns_articles_set_filter(pagenumberForArticles);
+            }
+            return false;
+        });
+    }
+
+    //get parameters block from url
+    function fns_articles_getblock_from_url(url, nameblock) {
+        var posblock = -1
+        var strblock = "";
+        posblock = url.indexOf(nameblock + "=");
+        if (posblock != -1) {
+            var strblock = url.substring(posblock + nameblock.length + 1);
+            posblock = strblock.indexOf("&");
+            if (posblock != -1) {
+                strblock = strblock.substring(0, posblock);
+            }
+        }
+        return strblock;
+    }
+
+    function fns_articles_initialize_filers() {
+        var strblock = "";
+        var url = window.location.href;
+        var pagenumberForArticles = 1
+        //articlepagenumber
+        //articlepagenumber=6&
+        strblock = fns_articles_getblock_from_url(url, "articlepagenumber");
+        if (strblock.length > 0) {
+            var id = parseInt(strblock);
+            if (id > 0) {
+                pagenumberForArticles = id;
+            }
+        }
+        //veryfy url for filters block
+        if (window.location.hash.length > 2) {
+            fns_articles_set_filter(pagenumberForArticles);
+        }
+    }
+
+    function fns_articles_set_filter(pagenumberForArticles) {
+        $.ajax({
+            cache: false,
+            url: "@Url.Action("HomePage_Ajax", "ArticleRead")",
+                    data: { "pagenomer": pagenumberForArticles },
+                    type: 'POST',
+                    success: function (response) {
+                        if (response.success) {
+                            if (response.updatearticlelisthtml != undefined && response.updatearticlelisthtml.length > 0) {
+                                $(".article-list").replaceWith(response.updatearticlelisthtml);
+                                fns_articles_replace_event_pager();
+                            }
+                            if (response.urlparam != undefined) {
+                                if (response.urlparam.length > 0) {
+                                    window.location.hash = response.urlparam;
+                                }
+                                else {
+                                    if (window.location.hash.length > 1) {
+                                        window.location.hash = "";
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('@Html.Raw(JavaScriptEncoder.Default.Encode(T("FoxNetSoft.Plugin.Misc.Articles.FailedToLoad").Text))');
+                    }
+                        });
+    }
+</script>
