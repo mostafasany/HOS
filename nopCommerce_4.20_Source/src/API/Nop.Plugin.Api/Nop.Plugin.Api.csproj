@@ -26,13 +26,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Remove="logo.jpg" />
     <None Remove="plugin.json" />
   </ItemGroup> 
   <ItemGroup>
-    <Content Include="logo.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="plugin.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -40,10 +36,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj" />
     <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
-    <ProjectReference Include="..\Nop.Plugin.Api.Authentication\Nop.Plugin.Api.Authentication.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Cart\Nop.Plugin.Api.Cart.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Category\Nop.Plugin.Api.Category.csproj" />
-    <ProjectReference Include="..\Nop.Plugin.Api.Client\Nop.Plugin.Api.Admin.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Content\Nop.Plugin.Api.Content.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Customer\Nop.Plugin.Api.Customer.csproj" />

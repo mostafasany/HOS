@@ -23,6 +23,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Plugins\ExchangeRate.EcbExchange\plugin.json" />
+    <Content Remove="Plugins\ExchangeRate.EcbExchange\logo.jpg" />
+    <Content Remove="Plugins\ExchangeRate.EcbExchange\Nop.Plugin.ExchangeRate.EcbExchange.deps.json" />
+    <Content Remove="Plugins\ExchangeRate.EcbExchange\Nop.Plugin.ExchangeRate.EcbExchange.dll" />
+    <Content Remove="Plugins\ExchangeRate.EcbExchange\Nop.Plugin.ExchangeRate.EcbExchange.pdb" />
+  </ItemGroup>
+  <ItemGroup>
     <!-- We copy the entire \App_Data directory. But we ignore JSON files and data protection keys  -->
     <Content Include="App_Data\**" CopyToPublishDirectory="PreserveNewest" Exclude="App_Data\*.json" />
     <Content Update="App_Data\*.json" CopyToPublishDirectory="Never" />
