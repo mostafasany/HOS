@@ -6,15 +6,12 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
-using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using IdentityServer4.Hosting;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -32,214 +29,15 @@ using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Data;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.IdentityServer;
-using Nop.Services.Authentication.External;
 using Nop.Web.Framework.Infrastructure;
 using Nop.Web.Framework.Infrastructure.Extensions;
-
-//namespace Nop.Plugin.Api.Infrastructure
-//{
-//    public class ApiStartup : INopStartup
-//    {
-//        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
-//        public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
-//        {
-//            services.AddCors(options =>
-//               options.AddPolicy(MyAllowSpecificOrigins, builder =>
-//               {
-//                   builder.WithOrigins("http://localhost:4200", "https://hosweb-dev.azurewebsites.net",
-//                            "https://hosweb.azurewebsites.net")
-//                        .AllowAnyMethod()
-//                        .AllowCredentials()
-//                        .AllowAnyHeader()
-//                        .WithExposedHeaders(".Nop.Customer")
-//                        .AllowAnyOrigin();
-//               }));
-
-//            var configManagerHelper = new NopConfigManagerHelper();
-//            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
-
-//            AddTokenGenerationPipeline(services);
-
-
-//            var apiConfigSection = configuration.GetSection("Api");
-
-//            if (apiConfigSection != null)
-//            {
-//                var apiConfig = services.ConfigureStartupConfig<ApiConfiguration>(apiConfigSection);
-
-//                if (!string.IsNullOrEmpty(apiConfig.SecurityKey))
-//                {
-//                    //services.AddAuthentication(options =>
-//                    //        {
-//                    //            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//                    //            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//                    //        })
-//                    //        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
-//                    //        {
-//                    //            jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
-//                    //            {
-//                    //                ValidateIssuerSigningKey = true,
-//                    //                IssuerSigningKey =
-//                    //                                                                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(apiConfig.SecurityKey)),
-//                    //                ValidateIssuer = false, // ValidIssuer = "The name of the issuer",
-//                    //                ValidateAudience = false, // ValidAudience = "The name of the audience",
-//                    //                ValidateLifetime =
-//                    //                                                                 true, // validate the expiration and not before values in the token
-//                    //                ClockSkew = TimeSpan.FromMinutes(apiConfig.AllowedClockSkewInMinutes)
-//                    //            };
-//                    //        });
-
-//                    //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-//                    AddAuthorizationPipeline(services);
-//                }
-//            }
-//        }
-
-//        public void Configure(IApplicationBuilder app)
-//        {
-//            //var rewriteOptions = new RewriteOptions()
-//            //    .AddRewrite("api/token", "/token", true);
-
-//            //app.UseRewriter(rewriteOptions);
-
-//            //app.UseCors(x => x
-//            //                 .AllowAnyOrigin()
-//            //                 .AllowAnyMethod()
-//            //                 .AllowAnyHeader());
-
-//            app.UseCors(MyAllowSpecificOrigins);
-
-//            // Need to enable rewind so we can read the request body multiple times
-//            // This should eventually be refactored, but both JsonModelBinder and all of the DTO validators need to read this stream.
-//            //app.UseWhen(x => x.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase),
-//            //            builder =>
-//            //            {
-//            //                builder.Use(async (context, next) =>
-//            //                {
-//            //                    context.Request.EnableBuffering();
-//            //                    await next();
-//            //                });
-//            //            });
-
-
-//            RewriteOptions rewriteOptions = new RewriteOptions()
-//                .AddRewrite("oauth/(.*)", "connect/$1", true)
-//                .AddRewrite("api/token", "connect/token", true);
-
-//            app.UseRewriter(rewriteOptions);
-
-//            app.UseMiddleware<BaseUrlMiddleware>();
-//            app.ConfigureCors();
-//            //app.UseAuthentication();
-//            app.UseMiddleware<IdentityServerMiddleware>();
-
-//            app.Use(async (context, next) =>
-//            {
-//                context.Request.EnableBuffering();
-//                await next();
-//            });
-//        }
-
-//        public int Order => new AuthenticationStartup().Order + 1;
-
-//        private static void AddAuthorizationPipeline(IServiceCollection services)
-//        {
-
-//            services.AddAuthorization(options =>
-//            {
-//                options.AddPolicy(JwtBearerDefaults.AuthenticationScheme,
-//                                  policy =>
-//                                  {
-//                                      policy.Requirements.Add(new ActiveApiPluginRequirement());
-//                                      policy.Requirements.Add(new AuthorizationSchemeRequirement());
-//                                      policy.Requirements.Add(new CustomerRoleRequirement());
-//                                      policy.RequireAuthenticatedUser();
-//                                  });
-//                //options.AddPolicy("Admin",
-//                //                 policy =>
-//                //                 {
-//                //                     policy.RequireRole(Constants.Roles.AdminRoleName, Constants.Roles.ForumModeratorsRoleName,
-//                //                         Constants.Roles.RegisteredRoleName, Constants.Roles.GuestsRoleName, Constants.Roles.VendorsRoleName);
-//                //                     policy.Requirements.Add(new ActiveApiPluginRequirement());
-//                //                     policy.Requirements.Add(new AuthorizationSchemeRequirement());
-//                //                     policy.Requirements.Add(new CustomerRoleRequirement());
-//                //                     policy.RequireAuthenticatedUser();
-//                //                 });
-
-//                //options.AddPolicy("Guest",
-//                //                policy =>
-//                //                {
-//                //                    policy.RequireRole(Constants.Roles.GuestsRoleName);
-//                //                    policy.Requirements.Add(new ActiveApiPluginRequirement());
-//                //                    policy.Requirements.Add(new AuthorizationSchemeRequirement());
-//                //                    policy.Requirements.Add(new CustomerRoleRequirement());
-//                //                    policy.RequireAuthenticatedUser();
-//                //                });
-//                //options.AddPolicy("Registered",
-//                //              policy =>
-//                //              {
-//                //                  policy.RequireRole(Constants.Roles.RegisteredRoleName,Constants.Roles.GuestsRoleName);
-//                //                  policy.Requirements.Add(new ActiveApiPluginRequirement());
-//                //                  policy.Requirements.Add(new AuthorizationSchemeRequirement());
-//                //                  policy.Requirements.Add(new CustomerRoleRequirement());
-//                //                  policy.RequireAuthenticatedUser();
-//                //              });
-//            });
-
-//            services.AddSingleton<IAuthorizationHandler, ActiveApiPluginAuthorizationPolicy>();
-//            services.AddSingleton<IAuthorizationHandler, ValidSchemeAuthorizationPolicy>();
-//            services.AddSingleton<IAuthorizationHandler, CustomerRoleAuthorizationPolicy>();
-//        }
-
-//        private void AddTokenGenerationPipeline(IServiceCollection services)
-//        {
-//            RsaSecurityKey signingKey = CryptoHelper.CreateRsaSecurityKey();
-
-//            DataSettings dataSettings = DataSettingsManager.LoadSettings();
-//            if (!dataSettings?.IsValid ?? true)
-//                return;
-
-//            //string connectionStringFromNop = dataSettings.DataConnectionString;
-
-//            //string migrationsAssembly = typeof(ApiStartup).GetTypeInfo().Assembly.GetName().Name;
-
-//            IIdentityServerBuilder identityServerConfig = services.AddIdentityServer()
-//                .AddSigningCredential(signingKey)
-//                //.AddConfigurationStore(options =>
-//                //{
-//                //    options.ConfigureDbContext = builder =>
-//                //        builder.UseSqlServer(connectionStringFromNop,
-//                //            sql => sql.MigrationsAssembly(migrationsAssembly));
-//                //})
-//                //.AddOperationalStore(options =>
-//                //{
-//                //    options.ConfigureDbContext = builder =>
-//                //        builder.UseSqlServer(connectionStringFromNop,
-//                //            sql => sql.MigrationsAssembly(migrationsAssembly));
-//                // )
-//                ;
-
-
-//            identityServerConfig.Services.AddTransient<IResourceOwnerPasswordValidator, PasswordValidator>();
-//            identityServerConfig.Services.AddTransient<IProfileService, ProfileService>();
-//            identityServerConfig.AddExtensionGrantValidator<DelegationGrantValidator>();
-
-//        }
-//    }
-
-
-//}
-
 
 namespace Nop.Plugin.Api.Infrastructure
 {
     public class ApiStartup : INopStartup
     {
-        private const string ObjectContextName = "nop_object_context_web_api";
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-        // TODO: extract all methods into extensions.
+        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddCors(options =>
@@ -262,7 +60,7 @@ namespace Nop.Plugin.Api.Infrastructure
 
             AddRequiredConfiguration();
 
-            AddBindingRedirectsFallbacks();
+           // AddBindingRedirectsFallbacks();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -280,22 +78,6 @@ namespace Nop.Plugin.Api.Infrastructure
             DataSettings dataSettings = DataSettingsManager.LoadSettings();
             if (!dataSettings?.IsValid ?? true)
                 return;
-            //https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-2.1&tabs=visual-studio%2Cvisual-studio-xml
-            // The default route templates for the Swagger docs and swagger - ui are "swagger/docs/{apiVersion}" and "swagger/ui/index#/{assetPath}" respectively.
-            //app.UseSwagger();
-            //app.UseSwaggerUI(options =>
-            //    {
-            //        //var currentAssembly = Assembly.GetAssembly(this.GetType());
-            //        //var currentAssemblyName = currentAssembly.GetName().Name;
-
-            //        //Needeed for removing the "Try It Out" button from the post and put methods.
-            //        //http://stackoverflow.com/questions/36772032/swagger-5-2-3-supportedsubmitmethods-removed/36780806#36780806
-
-            //        //options.InjectOnCompleteJavaScript($"{currentAssemblyName}.Scripts.swaggerPostPutTryItOutButtonsRemoval.js");
-
-            //        options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            //    }
-            //);
 
             // This needs to be called here because in the plugin install method identity server is not yet registered.
             ApplyIdentityServerMigrations(app);
@@ -309,10 +91,8 @@ namespace Nop.Plugin.Api.Infrastructure
 
             app.UseRewriter(rewriteOptions);
 
-            //app.UseMiddleware<IdentityServerScopeParameterMiddleware>();
 
-            ////uncomment only if the client is an angular application that directly calls the oauth endpoint
-            //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+       
             UseIdentityServer(app);
 
             //need to enable rewind so we can read the request body multiple times (this should eventually be refactored, but both JsonModelBinder and all of the DTO validators need to read this stream)
@@ -325,40 +105,37 @@ namespace Nop.Plugin.Api.Infrastructure
 
         public int Order => new AuthenticationStartup().Order + 1;
 
-        public void AddBindingRedirectsFallbacks()
-        {
-            // If no binding redirects are present in the config file then this will perform the binding redirect
-            RedirectAssembly("Microsoft.AspNetCore.DataProtection.Abstractions", new Version(2, 0, 0, 0), "adb9793829ddae60");
-            //RedirectAssembly("Autofac", new Version(4,9, 2, 0), "17863af14b0044da");
-         
+        //public void AddBindingRedirectsFallbacks()
+        //{
+        //    // If no binding redirects are present in the config file then this will perform the binding redirect
+        //    RedirectAssembly("Microsoft.AspNetCore.DataProtection.Abstractions", new Version(2, 0, 0, 0), "adb9793829ddae60");
+        //}
 
-        }
+        ///// <summary>
+        /////     Adds an AssemblyResolve handler to redirect all attempts to load a specific assembly name to the specified
+        /////     version.
+        ///// </summary>
+        //public static void RedirectAssembly(string shortName, Version targetVersion, string publicKeyToken)
+        //{
+        //    ResolveEventHandler handler = null;
 
-        /// <summary>
-        ///     Adds an AssemblyResolve handler to redirect all attempts to load a specific assembly name to the specified
-        ///     version.
-        /// </summary>
-        public static void RedirectAssembly(string shortName, Version targetVersion, string publicKeyToken)
-        {
-            ResolveEventHandler handler = null;
+        //    handler = (sender, args) =>
+        //    {
+        //        // Use latest strong name & version when trying to load SDK assemblies
+        //        var requestedAssembly = new AssemblyName(args.Name);
+        //        if (requestedAssembly.Name != shortName)
+        //            return null;
 
-            handler = (sender, args) =>
-            {
-                // Use latest strong name & version when trying to load SDK assemblies
-                var requestedAssembly = new AssemblyName(args.Name);
-                if (requestedAssembly.Name != shortName)
-                    return null;
+        //        requestedAssembly.Version = targetVersion;
+        //        requestedAssembly.SetPublicKeyToken(new AssemblyName("x, PublicKeyToken=" + publicKeyToken).GetPublicKeyToken());
+        //        requestedAssembly.CultureInfo = CultureInfo.InvariantCulture;
 
-                requestedAssembly.Version = targetVersion;
-                requestedAssembly.SetPublicKeyToken(new AssemblyName("x, PublicKeyToken=" + publicKeyToken).GetPublicKeyToken());
-                requestedAssembly.CultureInfo = CultureInfo.InvariantCulture;
+        //        AppDomain.CurrentDomain.AssemblyResolve -= handler;
 
-                AppDomain.CurrentDomain.AssemblyResolve -= handler;
-
-                return Assembly.Load(requestedAssembly);
-            };
-            AppDomain.CurrentDomain.AssemblyResolve += handler;
-        }
+        //        return Assembly.Load(requestedAssembly);
+        //    };
+        //    AppDomain.CurrentDomain.AssemblyResolve += handler;
+        //}
 
         private void AddAuthorizationPipeline(IServiceCollection services)
         {
@@ -383,22 +160,6 @@ namespace Nop.Plugin.Api.Infrastructure
 
         private void AddRequiredConfiguration()
         {
-            var configManagerHelper = new NopConfigManagerHelper();
-
-            // some of third party libaries that we use for WebHooks and Swagger use older versions
-            // of certain assemblies so we need to redirect them to the once that nopCommerce uses
-            //TODO: Upgrade 4.10 check this!
-            //configManagerHelper.AddBindingRedirects();
-
-            // required by the WebHooks support
-            //TODO: Upgrade 4.10 check this!
-            //configManagerHelper.AddConnectionString();           
-
-            // This is required only in development.
-            // It it is required only when you want to send a web hook to an https address with an invalid SSL certificate. (self-signed)
-            // The code marks all certificates as valid.
-            // We may want to extract this as a setting in the future.
-
             // NOTE: If this code is commented the certificates will be validated.
             ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
         }
@@ -430,20 +191,11 @@ namespace Nop.Plugin.Api.Infrastructure
                             sql => sql.MigrationsAssembly(migrationsAssembly));
                 })
                 ;
-            //.AddAuthorizeInteractionResponseGenerator<NopApiAuthorizeInteractionResponseGenerator>()
-            //.AddEndpoint<AuthorizeCallbackEndpoint>("Authorize", "/oauth/authorize/callback")
-            //.AddEndpoint<AuthorizeEndpoint>("Authorize", "/oauth/authorize")
-            //.AddEndpoint<TokenEndpoint>("Token", "/oauth/token");
 
             identityServerConfig.Services.AddTransient<IResourceOwnerPasswordValidator, PasswordValidator>();
             identityServerConfig.Services.AddTransient<IProfileService, ProfileService>();
             identityServerConfig.AddExtensionGrantValidator<DelegationGrantValidator>();
-            //identityServerConfig.Services.AddAuthentication().AddFacebook("Facebook", options =>
-            //{
-            //    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-            //    options.AppId = "349528745853190";
-            //    options.AppSecret = "2883a27c2bb44630641e7c4bb1117147";
-            //});
+          
         }
 
         private void ApplyIdentityServerMigrations(IApplicationBuilder app)
@@ -457,15 +209,6 @@ namespace Nop.Plugin.Api.Infrastructure
                 var configurationContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
                 configurationContext.Database.Migrate();
             }
-        }
-
-        private string LoadUpgradeScript()
-        {
-            var fileProvider = EngineContext.Current.Resolve<INopFileProvider>();
-            string path = fileProvider.MapPath("~/Plugins/Nop.Plugin.Api/upgrade_script.sql");
-            string script = File.ReadAllText(path);
-
-            return script;
         }
 
         private void SeedData(IApplicationBuilder app)
@@ -488,6 +231,10 @@ namespace Nop.Plugin.Api.Infrastructure
                                 DisplayName = "nop_api"
                             }
                         },
+                        Created=DateTime.Now,
+                        Updated=DateTime.Now,
+                        LastAccessed=DateTime.Now,
+                
                         Name = "nop_api"
                     });
 
@@ -502,10 +249,6 @@ namespace Nop.Plugin.Api.Infrastructure
         {
             try
             {
-                // If there are no api resources we can assume that this is the first start after the upgrade and run the upgrade script.
-                string upgradeScript = LoadUpgradeScript();
-                configurationContext.Database.ExecuteSqlCommand(upgradeScript);
-
                 // All client secrets must be hashed otherwise the identity server validation will fail.
                 List<IdentityServer4.EntityFramework.Entities.Client> allClients =
                     configurationContext.Clients.Include(client => client.ClientSecrets).ToList();
@@ -528,40 +271,11 @@ namespace Nop.Plugin.Api.Infrastructure
 
         private void UseIdentityServer(IApplicationBuilder app)
         {
-            // The code below is a copy of app.UseIdentityServer();
-            // but the nopCommerce AuthenticationMiddleware is added by nopCommmerce and
-            // it has a try catch for the non-configured properly external authentication providers i.e Facebook
-            // So there is no need to call UseAuthentication again and thus not being able to catch exceptions thrown by Facebook
-
-            //app.Validate();
             app.UseMiddleware<BaseUrlMiddleware>();
             app.ConfigureCors();
-            //app.UseAuthentication();
             app.UseMiddleware<IdentityServerMiddleware>();
         }
     }
 
-    public class ApiAuthentication : IExternalAuthenticationRegistrar
-    {
-        public void Configure(AuthenticationBuilder builder)
-        {
-            RsaSecurityKey signingKey = CryptoHelper.CreateRsaSecurityKey();
-
-            builder.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwt =>
-            {
-                jwt.Audience = "nop_api";
-                jwt.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateActor = false,
-                    ValidateIssuer = false,
-                    NameClaimType = JwtClaimTypes.Name,
-                    RoleClaimType = JwtClaimTypes.Role,
-                    // Uncomment this if you are using an certificate to sign your tokens.
-                    // IssuerSigningKey = new X509SecurityKey(cert),
-                    IssuerSigningKeyResolver = (token, securityToken, kid, validationParameters) =>
-                        new List<RsaSecurityKey> { signingKey }
-                };
-            });
-        }
-    }
+   
 }
