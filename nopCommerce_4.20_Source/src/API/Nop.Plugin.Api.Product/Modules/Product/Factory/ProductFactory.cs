@@ -42,10 +42,6 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Factory
             };
 
 
-
-
-
-
             return defaultProduct;
         }
     }

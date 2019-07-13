@@ -67,9 +67,11 @@ namespace Nop.Plugin.Api.Common.Helpers
                 // Every element in collection, that is not System type should have an id.
                 var id = int.Parse(newProperties["Id"].ToString());
 
-                object itemToBeUpdated = collection.Cast<object>()
+                var itemToBeUpdated = collection.Cast<object>()
                     .FirstOrDefault(item => int.Parse(item.GetType()
-                                                .GetProperty("Id", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)
+                                                .GetProperty("Id",
+                                                    BindingFlags.IgnoreCase | BindingFlags.Public |
+                                                    BindingFlags.Instance)
                                                 .GetValue(item)
                                                 .ToString()) == id);
 

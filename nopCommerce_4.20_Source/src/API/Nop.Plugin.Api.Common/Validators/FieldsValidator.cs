@@ -17,7 +17,12 @@ namespace Nop.Plugin.Api.Common.Validators
 
             var fieldsAsList = GetPropertiesIntoList(fields);
 
-            return (from field in fieldsAsList let propertyExists = type.GetProperty(field, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) != null where propertyExists select field).ToDictionary(field => field, field => true);
+            return (from field in fieldsAsList
+                let propertyExists =
+                    type.GetProperty(field, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) !=
+                    null
+                where propertyExists
+                select field).ToDictionary(field => field, field => true);
         }
 
         private static IEnumerable<string> GetPropertiesIntoList(string fields)

@@ -10,7 +10,8 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Translator
         private readonly int _currentLanguageId;
         private readonly ILocalizationService _localizationService;
 
-        public ProductAttributesTranslator(ILocalizationService localizationService, IHttpContextAccessor httpContextAccessor)
+        public ProductAttributesTranslator(ILocalizationService localizationService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _localizationService = localizationService;
             var headers = httpContextAccessor.HttpContext.Request.Headers;

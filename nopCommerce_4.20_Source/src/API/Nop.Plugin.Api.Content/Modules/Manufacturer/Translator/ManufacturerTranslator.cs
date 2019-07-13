@@ -2,13 +2,12 @@
 using Nop.Plugin.Api.Content.Modules.Manufacturer.Dto;
 using Nop.Services.Media;
 
-
 namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Translator
 {
     public class ManufacturerTranslator : IManufacturerTranslator
     {
         private readonly IPictureService _pictureService;
-     
+
         public ManufacturerTranslator(IPictureService pictureService)
         {
             _pictureService = pictureService;

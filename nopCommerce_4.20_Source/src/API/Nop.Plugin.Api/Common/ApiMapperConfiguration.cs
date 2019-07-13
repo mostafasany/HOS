@@ -43,7 +43,7 @@ namespace Nop.Plugin.Api.Common
                     y => y.MapFrom(src => src.StateProvince.GetWithDefault(x => x, new StateProvince()).Name));
         }
 
-        private new static void CreateMap<TSource, TDestination>()
+        private static new void CreateMap<TSource, TDestination>()
         {
             AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<TSource, TDestination>()
                 .IgnoreAllNonExisting();

@@ -44,12 +44,16 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Service
 
         public Core.Domain.Catalog.Product GetProductById(int productId)
         {
-            return productId == 0 ? null : _productRepository.Table.FirstOrDefault(product => product.Id == productId && !product.Deleted);
+            return productId == 0
+                ? null
+                : _productRepository.Table.FirstOrDefault(product => product.Id == productId && !product.Deleted);
         }
 
         public Core.Domain.Catalog.Product GetProductByIdNoTracking(int productId)
         {
-            return productId == 0 ? null : _productRepository.Table.FirstOrDefault(product => product.Id == productId && !product.Deleted);
+            return productId == 0
+                ? null
+                : _productRepository.Table.FirstOrDefault(product => product.Id == productId && !product.Deleted);
         }
 
         public Tuple<IList<Core.Domain.Catalog.Product>, List<ProductsFiltersDto>> GetProducts(IList<int> ids = null,

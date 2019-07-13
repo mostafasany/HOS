@@ -45,7 +45,8 @@ namespace Nop.Plugin.Api.Common.Validators
                     case Dictionary<string, object> objects:
                         isCurrentPropertyValid = ValidateNestedProperty(propertyType, objects);
                         break;
-                    case ICollection<object> propertyValueAsCollection when propertyType.GetInterface("IEnumerable") != null:
+                    case ICollection<object> propertyValueAsCollection
+                        when propertyType.GetInterface("IEnumerable") != null:
                     {
                         var elementsType = ReflectionHelper.GetGenericElementType(propertyType);
 

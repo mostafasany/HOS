@@ -10,14 +10,13 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
     public class CustomerDto : BaseCustomerDto
     {
         private ICollection<AddressDto> _addresses;
-       
+
         [JsonIgnore]
         [JsonProperty("password")]
         public string Password { get; set; }
 
         #region Navigation properties
 
-     
         /// <summary>
         ///     Default billing address
         /// </summary>

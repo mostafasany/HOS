@@ -16,7 +16,8 @@ namespace Nop.Plugin.Api.Common.DTOs.Product.Validator
             _errors = new Dictionary<string, string>();
         }
 
-        private IVendorService VendorService => _vendorService ?? (_vendorService = EngineContext.Current.Resolve<IVendorService>());
+        private IVendorService VendorService =>
+            _vendorService ?? (_vendorService = EngineContext.Current.Resolve<IVendorService>());
 
         public override Dictionary<string, string> GetErrors()
         {

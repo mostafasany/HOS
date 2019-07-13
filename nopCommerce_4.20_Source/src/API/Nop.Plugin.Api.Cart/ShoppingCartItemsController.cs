@@ -101,7 +101,8 @@ namespace Nop.Plugin.Api.Cart
             // Here we display the errors if the validation has failed at some point.
             if (!ModelState.IsValid) return Error();
 
-            var newShoppingCartItem =   new ShoppingCartItem {CreatedOnUtc = DateTime.UtcNow, UpdatedOnUtc = DateTime.UtcNow};
+            var newShoppingCartItem =
+                new ShoppingCartItem {CreatedOnUtc = DateTime.UtcNow, UpdatedOnUtc = DateTime.UtcNow};
             shoppingCartItemDelta.Merge(newShoppingCartItem);
 
             // We know that the product id and customer id will be provided because they are required by the validator.
@@ -331,7 +332,8 @@ namespace Nop.Plugin.Api.Cart
                 CountryId = parameters.CountryId,
                 StateProvinceId = parameters.StateProvinceId
             };
-            var packageItems = shoppingCartItems.Select(shoppingCart => new GetShippingOptionRequest.PackageItem(shoppingCart)).ToList();
+            var packageItems = shoppingCartItems
+                .Select(shoppingCart => new GetShippingOptionRequest.PackageItem(shoppingCart)).ToList();
 
             // optionsRequest.Items = items;
 
@@ -339,7 +341,8 @@ namespace Nop.Plugin.Api.Cart
                 _workContext.CurrentCustomer, storeId: _storeContext.CurrentStore.Id);
             //  GetShippingOptionResponse shippingOptionResponse = n.GetShippingOptions(optionsRequest);
 
-            var shippingOptionDto = shippingOptionResponse.ShippingOptions.Select(shoppingCartItem => _dtoHelper.PrepareShippingOptionItemDto(shoppingCartItem)).ToList();
+            var shippingOptionDto = shippingOptionResponse.ShippingOptions
+                .Select(shoppingCartItem => _dtoHelper.PrepareShippingOptionItemDto(shoppingCartItem)).ToList();
 
             var shippingOptionRootObject = new ShippingOptionRootObject {ShippingOptions = shippingOptionDto};
 
@@ -376,7 +379,8 @@ namespace Nop.Plugin.Api.Cart
                 parameters.Limit,
                 parameters.Page);
 
-            var shoppingCartItemsDto = shoppingCartItems.Select(shoppingCartItem => _dtoHelper.PrepareShoppingCartItemDto(shoppingCartItem)).ToList();
+            var shoppingCartItemsDto = shoppingCartItems
+                .Select(shoppingCartItem => _dtoHelper.PrepareShoppingCartItemDto(shoppingCartItem)).ToList();
 
             var shoppingCartsRootObject = new ShoppingCartItemsRootObject {ShoppingCartItems = shoppingCartItemsDto};
 

@@ -299,7 +299,8 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
             // Get the default language id for the current store.
             var defaultLanguageId = GetDefaultStoreLangaugeId();
 
-            var customerDtos = customerAttributeGroupsList.Select(@group => @group.Select(x => x).ToList()).Select(mappingsForMerge => Merge(mappingsForMerge, defaultLanguageId)).ToList();
+            var customerDtos = customerAttributeGroupsList.Select(group => group.Select(x => x).ToList())
+                .Select(mappingsForMerge => Merge(mappingsForMerge, defaultLanguageId)).ToList();
 
             // Needed so we can apply the order parameter
             return customerDtos.AsQueryable().OrderBy(order).ToList();

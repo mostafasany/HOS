@@ -635,7 +635,11 @@ namespace Nop.Plugin.Api.Product.Modules.Product
             //Copied from UpdateProductTags method of ProductTagService
             //product tags
             var existingProductTags = _productTagService.GetAllProductTagsByProductId(product.Id);
-            var productTagsToRemove = (from existingProductTag in existingProductTags let found = productTags.Any(newProductTag => existingProductTag.Name.Equals(newProductTag, StringComparison.InvariantCultureIgnoreCase)) where !found select existingProductTag).ToList();
+            var productTagsToRemove = (from existingProductTag in existingProductTags
+                let found = productTags.Any(newProductTag =>
+                    existingProductTag.Name.Equals(newProductTag, StringComparison.InvariantCultureIgnoreCase))
+                where !found
+                select existingProductTag).ToList();
 
             foreach (var productTag in productTagsToRemove)
             {

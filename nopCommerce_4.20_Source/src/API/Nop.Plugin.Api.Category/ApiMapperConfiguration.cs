@@ -17,7 +17,7 @@ namespace Nop.Plugin.Api.Category
         public int Order => 0;
 
 
-        private new static void CreateMap<TSource, TDestination>()
+        private static new void CreateMap<TSource, TDestination>()
         {
             AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<TSource, TDestination>()
                 .IgnoreAllNonExisting();

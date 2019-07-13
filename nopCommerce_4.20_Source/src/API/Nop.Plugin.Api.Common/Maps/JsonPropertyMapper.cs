@@ -13,7 +13,8 @@ namespace Nop.Plugin.Api.Common.Maps
     {
         private IStaticCacheManager _cacheManager;
 
-        private IStaticCacheManager StaticCacheManager => _cacheManager ?? (_cacheManager = EngineContext.Current.Resolve<IStaticCacheManager>());
+        private IStaticCacheManager StaticCacheManager =>
+            _cacheManager ?? (_cacheManager = EngineContext.Current.Resolve<IStaticCacheManager>());
 
         public Dictionary<string, Tuple<string, Type>> GetMap(Type type)
         {
@@ -41,15 +42,14 @@ namespace Nop.Plugin.Api.Common.Maps
             var typeProps = type.GetProperties();
 
             foreach (var property in typeProps)
-            {
                 // If it has json attribute set and is not marked as doNotMap
-                if (property.GetCustomAttribute(typeof(JsonPropertyAttribute)) is JsonPropertyAttribute jsonAttribute && !(property.GetCustomAttribute(typeof(DoNotMapAttribute)) is DoNotMapAttribute doNotMapAttribute))
+                if (property.GetCustomAttribute(typeof(JsonPropertyAttribute)) is JsonPropertyAttribute jsonAttribute &&
+                    !(property.GetCustomAttribute(typeof(DoNotMapAttribute)) is DoNotMapAttribute doNotMapAttribute))
                     if (!mapForCurrentType.ContainsKey(jsonAttribute.PropertyName))
                     {
                         var value = new Tuple<string, Type>(property.Name, property.PropertyType);
                         mapForCurrentType.Add(jsonAttribute.PropertyName, value);
                     }
-            }
 
             if (!typeMaps.ContainsKey(type.Name)) typeMaps.Add(type.Name, mapForCurrentType);
         }

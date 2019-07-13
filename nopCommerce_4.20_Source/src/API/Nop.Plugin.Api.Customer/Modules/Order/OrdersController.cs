@@ -93,7 +93,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
             _shoppingCartItemsRepository = shoppingCartItemApiService;
             _workContext = workContext;
         }
-        
+
 
         [HttpPost]
         [Route("/api/orders")]
@@ -460,7 +460,8 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
                 }).ToList();
         }
 
-        private List<ShoppingCartItem> BuildShoppingCartItemsFromOrderItems(IEnumerable<OrderItem> orderItems, int customerId,
+        private List<ShoppingCartItem> BuildShoppingCartItemsFromOrderItems(IEnumerable<OrderItem> orderItems,
+            int customerId,
             int storeId)
         {
             return orderItems.Select(orderItem => new ShoppingCartItem
@@ -479,7 +480,10 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
 
         private bool IsShippingAddressRequired(IEnumerable<OrderItemDto> orderItems)
         {
-            return (from orderItem in orderItems where orderItem.ProductId != null select _productService.GetProductById(orderItem.ProductId.Value)).Aggregate(false, (current, product) => current | product.IsShipEnabled);
+            return (from orderItem in orderItems
+                    where orderItem.ProductId != null
+                    select _productService.GetProductById(orderItem.ProductId.Value))
+                .Aggregate(false, (current, product) => current | product.IsShipEnabled);
         }
 
         private PlaceOrderResult PlaceOrder(Core.Domain.Orders.Order newOrder, Core.Domain.Customers.Customer customer)

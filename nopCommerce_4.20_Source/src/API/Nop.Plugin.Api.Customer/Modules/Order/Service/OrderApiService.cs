@@ -53,7 +53,9 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Service
 
         public Core.Domain.Orders.Order GetOrderById(int orderId)
         {
-            return orderId <= 0 ? null : _orderRepository.Table.FirstOrDefault(order => order.Id == orderId && !order.Deleted);
+            return orderId <= 0
+                ? null
+                : _orderRepository.Table.FirstOrDefault(order => order.Id == orderId && !order.Deleted);
         }
 
         public int GetOrdersCount(DateTime? createdAtMin = null, DateTime? createdAtMax = null,

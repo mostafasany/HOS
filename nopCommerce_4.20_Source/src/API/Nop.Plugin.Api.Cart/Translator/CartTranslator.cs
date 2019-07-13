@@ -121,7 +121,7 @@ namespace Nop.Plugin.Api.Cart.Translator
                 _productService.GetAssociatedProducts(product.Id, showHidden: true)
                     .Select(associatedProduct => associatedProduct.Id)
                     .ToList();
-            
+
             return productDto;
         }
 

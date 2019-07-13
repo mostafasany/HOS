@@ -29,7 +29,8 @@ namespace Nop.Plugin.Api.Customer.Helpers
 
             var allCustomerRoles = _customerService.GetAllCustomerRoles(true);
 
-            return allCustomerRoles.Where(customerRole => roleIds != null && roleIds.Contains(customerRole.Id)).ToList();
+            return allCustomerRoles.Where(customerRole => roleIds != null && roleIds.Contains(customerRole.Id))
+                .ToList();
         }
 
         public bool IsInGuestsRole(IList<CustomerRole> customerRoles)

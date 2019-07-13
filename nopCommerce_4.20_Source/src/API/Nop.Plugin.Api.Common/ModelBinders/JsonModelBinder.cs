@@ -126,7 +126,8 @@ namespace Nop.Plugin.Api.Common.ModelBinders
                 // Check property type
                 var validationAttribute =
                     property.PropertyType.GetCustomAttribute(
-                        typeof(BaseValidationAttribute)) as BaseValidationAttribute ?? property.GetCustomAttribute(typeof(BaseValidationAttribute)) as BaseValidationAttribute;
+                        typeof(BaseValidationAttribute)) as BaseValidationAttribute ??
+                    property.GetCustomAttribute(typeof(BaseValidationAttribute)) as BaseValidationAttribute;
 
                 // If not on property type, check the property itself.
 

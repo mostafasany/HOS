@@ -51,7 +51,9 @@ namespace Nop.Plugin.Api.Common.Converters
                 return _apiTypeConverter.ToListOfInts(value);
             if (type == typeof(bool?))
                 return _apiTypeConverter.ToStatus(value);
-            return IsNullableEnum(type) ? _apiTypeConverter.ToEnumNullable(value, type) : Convert.ChangeType(value, type);
+            return IsNullableEnum(type)
+                ? _apiTypeConverter.ToEnumNullable(value, type)
+                : Convert.ChangeType(value, type);
 
             // It should be the last resort, because it is not exception safe.
         }

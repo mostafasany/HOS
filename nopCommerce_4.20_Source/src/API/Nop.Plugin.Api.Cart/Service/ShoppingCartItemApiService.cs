@@ -535,7 +535,7 @@ namespace Nop.Plugin.Api.Cart.Service
 
             //picture
             if (_shoppingCartSettings.ShowProductImagesOnShoppingCart)
-                cartItemModel.Picture= new PictureModel();
+                cartItemModel.Picture = new PictureModel();
 
             //item warnings
             var itemWarnings = _shoppingCartService.GetShoppingCartItemWarnings(

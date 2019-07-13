@@ -5,7 +5,8 @@ using Nop.Services.Stores;
 namespace Nop.Plugin.Api.Content.Modules.Language.Translator
 {
     public class LanguageTranslator : ILanguageTranslator
-    { private readonly IStoreMappingService _storeMappingService;
+    {
+        private readonly IStoreMappingService _storeMappingService;
         private readonly IStoreService _storeService;
 
         public LanguageTranslator(IStoreMappingService storeMappingService,

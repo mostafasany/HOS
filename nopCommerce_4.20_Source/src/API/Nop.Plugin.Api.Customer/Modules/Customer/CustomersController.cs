@@ -136,7 +136,9 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer
                 Message = _localizationService.GetResource("Account.ChangePassword.Success")
             };
             var json = JsonFieldsSerializer.Serialize(dynamicVariable, string.Empty);
-            return result.Success ? new RawJsonActionResult(json) : Error(HttpStatusCode.BadRequest, "Password In Correct", result.Errors.ToList());
+            return result.Success
+                ? new RawJsonActionResult(json)
+                : Error(HttpStatusCode.BadRequest, "Password In Correct", result.Errors.ToList());
         }
 
         /// <summary>
@@ -175,7 +177,8 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer
 
             //If the validation has passed the customerDelta object won't be null for sure so we don't need to check for this.
 
-            var existingCustomer = _customerService.GetCustomerByEmail(customerDelta.Dto.Email) ?? _customerService.GetCustomerByUsername(customerDelta.Dto.Username);
+            var existingCustomer = _customerService.GetCustomerByEmail(customerDelta.Dto.Email) ??
+                                   _customerService.GetCustomerByUsername(customerDelta.Dto.Username);
 
             if (existingCustomer != null)
                 return Error(HttpStatusCode.BadRequest, "Username/Email",

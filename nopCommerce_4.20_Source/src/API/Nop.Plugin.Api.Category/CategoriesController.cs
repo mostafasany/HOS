@@ -171,7 +171,8 @@ namespace Nop.Plugin.Api.Category
                     parameters.ProductId, parameters.ParentId, parameters.PublishedStatus)
                 .Where(c => StoreMappingService.Authorize(c));
 
-            IList<CategoryDto> categoriesAsDto = allCategories.Select(category => _dtoHelper.PrepareCategoryDto(category)).ToList();
+            IList<CategoryDto> categoriesAsDto =
+                allCategories.Select(category => _dtoHelper.PrepareCategoryDto(category)).ToList();
 
             var categoriesRootObject = new CategoriesRootObject {Categories = categoriesAsDto};
 
