@@ -35,7 +35,7 @@ namespace Nop.Plugin.Api.Category
     {
         private readonly ICategoryApiService _categoryApiService;
         private readonly ICategoryService _categoryService;
-        private readonly ICategoryTransaltor _dtoHelper;
+        private readonly ICategoryTranslator _dtoHelper;
         private readonly IFactory<Core.Domain.Catalog.Category> _factory;
         private readonly IUrlRecordService _urlRecordService;
 
@@ -52,7 +52,7 @@ namespace Nop.Plugin.Api.Category
             IAclService aclService,
             ICustomerService customerService,
             IFactory<Core.Domain.Catalog.Category> factory,
-            ICategoryTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            ICategoryTranslator dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService, localizationService,
             pictureService)
         {
@@ -80,7 +80,7 @@ namespace Nop.Plugin.Api.Category
             Picture insertedPicture = null;
 
             // We need to insert the picture before the category so we can obtain the picture id and map it to the category.
-            if (categoryDelta.Dto.Image != null && categoryDelta.Dto.Image.Binary != null)
+            if (categoryDelta.Dto.Image?.Binary != null)
                 insertedPicture = PictureService.InsertPicture(categoryDelta.Dto.Image.Binary,
                     categoryDelta.Dto.Image.MimeType, string.Empty);
 
@@ -110,7 +110,7 @@ namespace Nop.Plugin.Api.Category
                 LocalizationService.GetResource("ActivityLog.AddNewCategory"), category);
 
             // Preparing the result dto of the new category
-            var newCategoryDto = _dtoHelper.PrepareCategoryDTO(category);
+            var newCategoryDto = _dtoHelper.PrepareCategoryDto(category);
 
             var categoriesRootObject = new CategoriesRootObject();
 
@@ -171,12 +171,9 @@ namespace Nop.Plugin.Api.Category
                     parameters.ProductId, parameters.ParentId, parameters.PublishedStatus)
                 .Where(c => StoreMappingService.Authorize(c));
 
-            IList<CategoryDto> categoriesAsDtos = allCategories.Select(category =>
-            {
-                return _dtoHelper.PrepareCategoryDTO(category);
-            }).ToList();
+            IList<CategoryDto> categoriesAsDto = allCategories.Select(category => _dtoHelper.PrepareCategoryDto(category)).ToList();
 
-            var categoriesRootObject = new CategoriesRootObject {Categories = categoriesAsDtos};
+            var categoriesRootObject = new CategoriesRootObject {Categories = categoriesAsDto};
 
             var json = JsonFieldsSerializer.Serialize(categoriesRootObject, parameters.Fields);
 
@@ -207,7 +204,7 @@ namespace Nop.Plugin.Api.Category
         }
 
         /// <summary>
-        ///     Retrieve category by spcified id
+        ///     Retrieve category by specified id
         /// </summary>
         /// <param name="id">Id of the category</param>
         /// <param name="fields">Fields from the category you want your json to contain</param>
@@ -228,7 +225,7 @@ namespace Nop.Plugin.Api.Category
 
             if (category == null) return Error(HttpStatusCode.NotFound, "category", "category not found");
 
-            var categoryDto = _dtoHelper.PrepareCategoryDTO(category);
+            var categoryDto = _dtoHelper.PrepareCategoryDto(category);
 
             var categoriesRootObject = new CategoriesRootObject();
 
@@ -283,7 +280,7 @@ namespace Nop.Plugin.Api.Category
             CustomerActivityService.InsertActivity("UpdateCategory",
                 LocalizationService.GetResource("ActivityLog.UpdateCategory"), category);
 
-            var categoryDto = _dtoHelper.PrepareCategoryDTO(category);
+            var categoryDto = _dtoHelper.PrepareCategoryDto(category);
 
             var categoriesRootObject = new CategoriesRootObject();
 
@@ -294,7 +291,7 @@ namespace Nop.Plugin.Api.Category
             return new RawJsonActionResult(json);
         }
 
-        private void UpdateDiscounts(Core.Domain.Catalog.Category category, List<int> passedDiscountIds)
+        private void UpdateDiscounts(Core.Domain.Catalog.Category category, ICollection<int> passedDiscountIds)
         {
             if (passedDiscountIds == null)
                 return;
@@ -343,11 +340,9 @@ namespace Nop.Plugin.Api.Category
             // when there isn't a picture set for the category
             else
             {
-                if (imageDto.Binary != null)
-                {
-                    updatedPicture = PictureService.InsertPicture(imageDto.Binary, imageDto.MimeType, string.Empty);
-                    categoryEntityToUpdate.PictureId = updatedPicture.Id;
-                }
+                if (imageDto.Binary == null) return;
+                updatedPicture = PictureService.InsertPicture(imageDto.Binary, imageDto.MimeType, string.Empty);
+                categoryEntityToUpdate.PictureId = updatedPicture.Id;
             }
         }
     }

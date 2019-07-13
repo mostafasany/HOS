@@ -3,8 +3,8 @@ using Nop.Plugin.Api.Cart.Dto;
 
 namespace Nop.Plugin.Api.Cart.Translator
 {
-    public interface IDiscountTransaltor
+    public interface IDiscountTranslator
     {
-        DiscountDto PrepateDiscountDto(Discount discount);
+        DiscountDto ToDiscountDto(Discount discount);
     }
 }

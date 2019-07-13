@@ -75,7 +75,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Api.Content", "A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.Customer", "API\Nop.Plugin.Api.Customer\Nop.Plugin.Api.Customer.csproj", "{4FD23EEF-5519-46CC-9A62-44B2F6049D21}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.HomeCarsoul", "API\Nop.Plugin.Api.HomeCarsoul\Nop.Plugin.Api.HomeCarsoul.csproj", "{E330722A-8DAD-4CB0-A12F-222570E6F80E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.HomeCarousel", "API\Nop.Plugin.Api.HomeCarousel\Nop.Plugin.Api.HomeCarousel.csproj", "{E330722A-8DAD-4CB0-A12F-222570E6F80E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.Product", "API\Nop.Plugin.Api.Product\Nop.Plugin.Api.Product.csproj", "{23523CB0-5CEA-4CF4-9125-873FC3D444AE}"
 EndProject

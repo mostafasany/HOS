@@ -23,8 +23,8 @@ namespace Nop.Plugin.Api.IdentityServer
             _httpContextAccessor.HttpContext.Response.Cookies.Delete(cookieName);
 
             //get date of cookie expiration
-            var cookieExpires = 24 * 365; //TODO make configurable
-            var cookieExpiresDate = DateTime.Now.AddHours(cookieExpires);
+            const int regCookieExpires = 24 * 365; //TODO make configurable
+            var cookieExpiresDate = DateTime.Now.AddHours(regCookieExpires);
 
             //if passed guid is empty set cookie as expired
             if (customerGuid == Guid.Empty)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
@@ -21,7 +22,7 @@ namespace Nop.Plugin.Api.Content.Modules.Store
 {
     public class StoreController : BaseApiController
     {
-        private readonly IStoreTransaltor _dtoHelper;
+        private readonly IStoreTranslator _dtoHelper;
         private readonly IStoreContext _storeContext;
 
         public StoreController(IJsonFieldsSerializer jsonFieldsSerializer,
@@ -34,7 +35,7 @@ namespace Nop.Plugin.Api.Content.Modules.Store
             ILocalizationService localizationService,
             IPictureService pictureService,
             IStoreContext storeContext,
-            IStoreTransaltor dtoHelper)
+            IStoreTranslator dtoHelper)
             : base(jsonFieldsSerializer,
                 aclService,
                 customerService,
@@ -65,14 +66,7 @@ namespace Nop.Plugin.Api.Content.Modules.Store
         {
             var allStores = StoreService.GetAllStores();
 
-            IList<StoreDto> storesAsDto = new List<StoreDto>();
-
-            foreach (var store in allStores)
-            {
-                var storeDto = _dtoHelper.PrepareStoreDTO(store);
-
-                storesAsDto.Add(storeDto);
-            }
+            IList<StoreDto> storesAsDto = allStores.Select(store => _dtoHelper.ToDto(store)).ToList();
 
             var storesRootObject = new StoresRootObject {Stores = storesAsDto};
 
@@ -82,7 +76,7 @@ namespace Nop.Plugin.Api.Content.Modules.Store
         }
 
         /// <summary>
-        ///     Retrieve category by spcified id
+        ///     Retrieve category by specified id
         /// </summary>
         /// <param name="fields">Fields from the category you want your json to contain</param>
         /// <response code="200">OK</response>
@@ -101,7 +95,7 @@ namespace Nop.Plugin.Api.Content.Modules.Store
 
             if (store == null) return Error(HttpStatusCode.NotFound, "store", "store not found");
 
-            var storeDto = _dtoHelper.PrepareStoreDTO(store);
+            var storeDto = _dtoHelper.ToDto(store);
 
             var storesRootObject = new StoresRootObject();
 

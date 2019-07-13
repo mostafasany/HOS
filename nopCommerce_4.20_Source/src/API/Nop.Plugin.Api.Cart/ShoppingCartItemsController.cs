@@ -17,7 +17,6 @@ using Nop.Plugin.Api.Common.Converters;
 using Nop.Plugin.Api.Common.Delta;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.DTOs.Product;
-using Nop.Plugin.Api.Common.Factories;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.ModelBinders;
@@ -38,9 +37,8 @@ namespace Nop.Plugin.Api.Cart
     {
         private readonly ICustomerService _customerService;
         private readonly IDiscountService _discountService;
-        private readonly IDiscountTransaltor _discountTransaltor;
-        private readonly ICartTransaltor _dtoHelper;
-        private readonly IFactory<ShoppingCartItem> _factory;
+        private readonly IDiscountTranslator _discountTranslator;
+        private readonly ICartTranslator _dtoHelper;
         private readonly IProductAttributeConverter _productAttributeConverter;
         private readonly IProductService _productService;
         private readonly IShippingService _shippingService;
@@ -61,12 +59,11 @@ namespace Nop.Plugin.Api.Cart
             ILocalizationService localizationService,
             IShoppingCartService shoppingCartService,
             IProductService productService,
-            IFactory<ShoppingCartItem> factory,
             IPictureService pictureService,
             IProductAttributeConverter productAttributeConverter,
-            ICartTransaltor dtoHelper,
+            ICartTranslator dtoHelper,
             IStoreContext storeContext,
-            IDiscountTransaltor discountTransaltor,
+            IDiscountTranslator discountTranslator,
             IWorkContext workContext)
             : base(jsonFieldsSerializer,
                 aclService,
@@ -81,7 +78,6 @@ namespace Nop.Plugin.Api.Cart
             _shoppingCartItemApiService = shoppingCartItemApiService;
             _shoppingCartService = shoppingCartService;
             _productService = productService;
-            _factory = factory;
             _productAttributeConverter = productAttributeConverter;
             _dtoHelper = dtoHelper;
             _storeContext = storeContext;
@@ -89,7 +85,7 @@ namespace Nop.Plugin.Api.Cart
             _workContext = workContext;
             _customerService = customerService;
             _discountService = discountService;
-            _discountTransaltor = discountTransaltor;
+            _discountTranslator = discountTranslator;
         }
 
         [HttpPost]
@@ -105,7 +101,7 @@ namespace Nop.Plugin.Api.Cart
             // Here we display the errors if the validation has failed at some point.
             if (!ModelState.IsValid) return Error();
 
-            var newShoppingCartItem = _factory.Initialize();
+            var newShoppingCartItem =   new ShoppingCartItem {CreatedOnUtc = DateTime.UtcNow, UpdatedOnUtc = DateTime.UtcNow};
             shoppingCartItemDelta.Merge(newShoppingCartItem);
 
             // We know that the product id and customer id will be provided because they are required by the validator.
@@ -149,7 +145,7 @@ namespace Nop.Plugin.Api.Cart
             newShoppingCartItem = customer.ShoppingCartItems.LastOrDefault();
 
             // Preparing the result dto of the new product category mapping
-            var newShoppingCartItemDto = _dtoHelper.PrepareShoppingCartItemDTO(newShoppingCartItem);
+            var newShoppingCartItemDto = _dtoHelper.PrepareShoppingCartItemDto(newShoppingCartItem);
 
             var shoppingCartsRootObject = new ShoppingCartItemsRootObject();
 
@@ -205,7 +201,7 @@ namespace Nop.Plugin.Api.Cart
                 .Where(p => StoreMappingService.Authorize(p));
 
             IList<ProductDto> productsAsDtos =
-                allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
+                allProducts.Select(product => _dtoHelper.PrepareProductDto(product)).ToList();
 
             var productsRootObject = new ProductsRootObjectDto {Products = productsAsDtos};
 
@@ -335,9 +331,7 @@ namespace Nop.Plugin.Api.Cart
                 CountryId = parameters.CountryId,
                 StateProvinceId = parameters.StateProvinceId
             };
-            var items = new List<GetShippingOptionRequest.PackageItem>();
-            foreach (var shoppingCart in shoppingCartItems)
-                items.Add(new GetShippingOptionRequest.PackageItem(shoppingCart));
+            var packageItems = shoppingCartItems.Select(shoppingCart => new GetShippingOptionRequest.PackageItem(shoppingCart)).ToList();
 
             // optionsRequest.Items = items;
 
@@ -345,10 +339,7 @@ namespace Nop.Plugin.Api.Cart
                 _workContext.CurrentCustomer, storeId: _storeContext.CurrentStore.Id);
             //  GetShippingOptionResponse shippingOptionResponse = n.GetShippingOptions(optionsRequest);
 
-            var shippingOptionDto = shippingOptionResponse.ShippingOptions.Select(shoppingCartItem =>
-            {
-                return _dtoHelper.PrepareShippingOptionItemDTO(shoppingCartItem);
-            }).ToList();
+            var shippingOptionDto = shippingOptionResponse.ShippingOptions.Select(shoppingCartItem => _dtoHelper.PrepareShippingOptionItemDto(shoppingCartItem)).ToList();
 
             var shippingOptionRootObject = new ShippingOptionRootObject {ShippingOptions = shippingOptionDto};
 
@@ -387,7 +378,7 @@ namespace Nop.Plugin.Api.Cart
 
             var shoppingCartItemsDtos = shoppingCartItems.Select(shoppingCartItem =>
             {
-                return _dtoHelper.PrepareShoppingCartItemDTO(shoppingCartItem);
+                return _dtoHelper.PrepareShoppingCartItemDto(shoppingCartItem);
             }).ToList();
 
             var shoppingCartsRootObject = new ShoppingCartItemsRootObject {ShoppingCartItems = shoppingCartItemsDtos};
@@ -434,7 +425,7 @@ namespace Nop.Plugin.Api.Cart
             if (shoppingCartItems == null) return Error(HttpStatusCode.NotFound, "shopping_cart_item", "not found");
 
             var shoppingCartItemsDtos = shoppingCartItems
-                .Select(shoppingCartItem => _dtoHelper.PrepareShoppingCartItemDTO(shoppingCartItem))
+                .Select(shoppingCartItem => _dtoHelper.PrepareShoppingCartItemDto(shoppingCartItem))
                 .ToList();
 
             var shoppingCartsRootObject = new ShoppingCartItemsRootObject {ShoppingCartItems = shoppingCartItemsDtos};
@@ -477,7 +468,7 @@ namespace Nop.Plugin.Api.Cart
 
             var shoppingCartItemsDtos = shoppingCartItems.Select(shoppingCartItem =>
             {
-                return _dtoHelper.PrepareShoppingCartItemDTO(shoppingCartItem);
+                return _dtoHelper.PrepareShoppingCartItemDto(shoppingCartItem);
             }).ToList();
 
             var shoppingCartsRootObject = new ShoppingCartItemsRootObject {ShoppingCartItems = shoppingCartItemsDtos};
@@ -537,7 +528,7 @@ namespace Nop.Plugin.Api.Cart
             shoppingCartItemForUpdate = _shoppingCartItemApiService.GetShoppingCartItem(shoppingCartItemForUpdate.Id);
 
             // Preparing the result dto of the new product category mapping
-            var newShoppingCartItemDto = _dtoHelper.PrepareShoppingCartItemDTO(shoppingCartItemForUpdate);
+            var newShoppingCartItemDto = _dtoHelper.PrepareShoppingCartItemDto(shoppingCartItemForUpdate);
 
             var shoppingCartsRootObject = new ShoppingCartItemsRootObject();
 
@@ -602,7 +593,7 @@ namespace Nop.Plugin.Api.Cart
             try
             {
                 var discount = _discountService.GetDiscountById(discountId);
-                var discountDTo = _discountTransaltor.PrepateDiscountDto(discount);
+                var discountDTo = _discountTranslator.ToDiscountDto(discount);
                 var discountsRootObject = new DiscountsRootObject {Discounts = new List<DiscountDto>()};
                 discountsRootObject.Discounts.Add(discountDTo);
                 var json = JsonFieldsSerializer.Serialize(discountsRootObject, string.Empty);

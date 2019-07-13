@@ -22,7 +22,7 @@ namespace Nop.Plugin.Api.Content.Modules.Country
 {
     public class CountriesController : BaseApiController
     {
-        private readonly ICountryTransaltor _dtoHelper;
+        private readonly ICountryTranslator _dtoHelper;
         private readonly IStateProvinceApiService _stateProvinceApiService;
 
         public CountriesController(IStateProvinceApiService stateProvinceApiService,
@@ -35,7 +35,7 @@ namespace Nop.Plugin.Api.Content.Modules.Country
             IDiscountService discountService,
             IAclService aclService,
             ICustomerService customerService,
-            ICountryTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            ICountryTranslator dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService)
         {
@@ -44,7 +44,7 @@ namespace Nop.Plugin.Api.Content.Modules.Country
         }
 
         /// <summary>
-        ///     Retrieve states by spcified id
+        ///     Retrieve states by specified id
         /// </summary>
         /// <param name="id">Id of the states</param>
         /// <param name="fields">Fields from the states you want your json to contain</param>
@@ -65,10 +65,10 @@ namespace Nop.Plugin.Api.Content.Modules.Country
 
             if (states == null) return Error(HttpStatusCode.NotFound, "states", "states not found");
 
-            IList<StateProvinceDto> statesAsDtos = states.Select(state =>
-                _dtoHelper.ConvertToDto(state)).ToList();
+            IList<StateProvinceDto> statesAsDto = states.Select(state =>
+                _dtoHelper.ToDto(state)).ToList();
 
-            var statesRootObject = new StateProvinceRootObject {States = statesAsDtos};
+            var statesRootObject = new StateProvinceRootObject {States = statesAsDto};
 
 
             var json = JsonFieldsSerializer.Serialize(statesRootObject, fields);

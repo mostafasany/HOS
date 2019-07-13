@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Microsoft.AspNetCore.Http;
 using Nop.Core.Domain.Directory;
 using Nop.Plugin.Api.Content.Modules.Store.Dto;
 using Nop.Services.Directory;
@@ -7,16 +6,16 @@ using Nop.Services.Localization;
 
 namespace Nop.Plugin.Api.Content.Modules.Store.Translator
 {
-    public class StoreTransaltor : IStoreTransaltor
+    public class StoreTranslator : IStoreTranslator
     {
         private readonly ICurrencyService _currencyService;
         private readonly CurrencySettings _currencySettings;
         private readonly ILanguageService _languageService;
 
-        public StoreTransaltor(
+        public StoreTranslator(
             ILanguageService languageService,
             ICurrencyService currencyService,
-            CurrencySettings currencySettings, IHttpContextAccessor httpContextAccessor)
+            CurrencySettings currencySettings)
         {
             _languageService = languageService;
             _currencyService = currencyService;
@@ -24,7 +23,7 @@ namespace Nop.Plugin.Api.Content.Modules.Store.Translator
         }
 
 
-        public StoreDto PrepareStoreDTO(Core.Domain.Stores.Store store)
+        public StoreDto ToDto(Core.Domain.Stores.Store store)
         {
             var storeDto = store.ToDto();
 

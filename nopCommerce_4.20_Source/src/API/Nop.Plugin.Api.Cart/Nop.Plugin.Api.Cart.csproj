@@ -8,4 +8,9 @@
     <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Dto\BaseNopEntityModel.cs" />
+    <Compile Remove="Dto\BaseNopModel.cs" />
+  </ItemGroup>
+
 </Project>

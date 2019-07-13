@@ -2,8 +2,8 @@
 
 namespace Nop.Plugin.Api.Content.Modules.Language.Translator
 {
-    public interface ILanguageTransaltor
+    public interface ILanguageTranslator
     {
-        LanguageDto PrepateLanguageDto(Core.Domain.Localization.Language language);
+        LanguageDto ToDto(Core.Domain.Localization.Language language);
     }
 }

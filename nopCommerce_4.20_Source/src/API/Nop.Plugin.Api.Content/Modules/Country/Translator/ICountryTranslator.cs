@@ -3,8 +3,8 @@ using Nop.Plugin.Api.Content.Modules.Country.Dto;
 
 namespace Nop.Plugin.Api.Content.Modules.Country.Translator
 {
-    public interface ICountryTransaltor
+    public interface ICountryTranslator
     {
-        StateProvinceDto ConvertToDto(StateProvince state);
+        StateProvinceDto ToDto(StateProvince state);
     }
 }

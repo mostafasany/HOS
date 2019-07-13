@@ -67,14 +67,11 @@ namespace Nop.Plugin.Api.Cart.Dto
             {
                 var shoppingCartTypeId = _shoppingCartTypeId;
 
-                if (shoppingCartTypeId != null) return ((ShoppingCartType)shoppingCartTypeId).ToString();
-
-                return null;
+                return shoppingCartTypeId != null ? ((ShoppingCartType)shoppingCartTypeId).ToString() : null;
             }
             set
             {
-                ShoppingCartType shoppingCartType;
-                if (Enum.TryParse(value, true, out shoppingCartType))
+                if (Enum.TryParse(value, true, out ShoppingCartType shoppingCartType))
                     _shoppingCartTypeId = (int)shoppingCartType;
                 else _shoppingCartTypeId = null;
             }

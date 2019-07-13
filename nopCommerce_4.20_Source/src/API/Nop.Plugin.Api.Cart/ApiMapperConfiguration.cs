@@ -16,7 +16,7 @@ namespace Nop.Plugin.Api.Cart
 
         public int Order => 0;
 
-        private static new void CreateMap<TSource, TDestination>()
+        private new static void CreateMap<TSource, TDestination>()
         {
             AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<TSource, TDestination>()
                 .IgnoreAllNonExisting();

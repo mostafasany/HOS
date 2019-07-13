@@ -7,7 +7,7 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Service
     {
         Core.Domain.Catalog.Manufacturer GetManufacturerById(int manufacturerId);
 
-        IList<Core.Domain.Catalog.Manufacturer> GetManufacturers(IList<int> ids = null,
+        IEnumerable<Core.Domain.Catalog.Manufacturer> GetManufacturers(IList<int> ids = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue,
             int sinceId = Configurations.DefaultSinceId,
             bool? publishedStatus = null);

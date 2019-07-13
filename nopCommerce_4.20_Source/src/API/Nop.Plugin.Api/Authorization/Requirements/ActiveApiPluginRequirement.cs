@@ -10,9 +10,7 @@ namespace Nop.Plugin.Api.Authorization.Requirements
         {
             var settings = EngineContext.Current.Resolve<ApiSettings>();
 
-            if (settings.EnableApi) return true;
-
-            return false;
+            return settings.EnableApi;
         }
     }
 }

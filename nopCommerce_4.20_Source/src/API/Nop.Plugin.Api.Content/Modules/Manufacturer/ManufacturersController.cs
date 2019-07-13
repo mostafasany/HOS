@@ -24,7 +24,7 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer
 {
     public class ManufacturersController : BaseApiController
     {
-        private readonly IManufacturerTransaltor _dtoHelper;
+        private readonly IManufacturerTranslator _dtoHelper;
         private readonly IManufacturerApiService _manufacturerApiService;
 
         public ManufacturersController(IManufacturerApiService manufacturerApiService,
@@ -37,7 +37,7 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer
             IDiscountService discountService,
             IAclService aclService,
             ICustomerService customerService,
-            IManufacturerTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            IManufacturerTranslator dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService)
         {
@@ -46,7 +46,7 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer
         }
 
         /// <summary>
-        ///     Retrieve manufacturer by spcified id
+        ///     Retrieve manufacturer by specified id
         /// </summary>
         /// <param name="id">Id of the manufacturer</param>
         /// <param name="fields">Fields from the manufacturer you want your json to contain</param>
@@ -67,7 +67,7 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer
 
             if (manufacturer == null) return Error(HttpStatusCode.NotFound, "manufacturer", "manufacturer not found");
 
-            var manufacturerDto = _dtoHelper.ConvertToDto(manufacturer);
+            var manufacturerDto = _dtoHelper.ToDto(manufacturer);
 
             var manufacturersRootObject = new ManufacturersRootObject();
 
@@ -89,7 +89,7 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer
         [ProducesResponseType(typeof(ManufacturersRootObject), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
-        public IActionResult GetManufacturers(ManufacturersParamatersModel parameters)
+        public IActionResult GetManufacturers(ManufacturersParametersModel parameters)
         {
             if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
                 return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
@@ -102,10 +102,10 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer
                     parameters.PublishedStatus)
                 .Where(c => StoreMappingService.Authorize(c));
 
-            IList<ManufacturerDto> manufacturersAsDtos = allManufacturers.Select(manufacturer =>
-                _dtoHelper.ConvertToDto(manufacturer)).ToList();
+            IList<ManufacturerDto> manufacturersAsDto = allManufacturers.Select(manufacturer =>
+                _dtoHelper.ToDto(manufacturer)).ToList();
 
-            var manufacturersRootObject = new ManufacturersRootObject {Manufacturers = manufacturersAsDtos};
+            var manufacturersRootObject = new ManufacturersRootObject {Manufacturers = manufacturersAsDto};
 
             var json = JsonFieldsSerializer.Serialize(manufacturersRootObject, parameters.Fields);
 
@@ -119,15 +119,15 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/manufacturers/count")]
-        [ProducesResponseType(typeof(ManufacturersCoutRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ManufacturersCountRootObject), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
-        public IActionResult GetManufacturersCount(ManufacturersParamatersModel parameters)
+        public IActionResult GetManufacturersCount(ManufacturersParametersModel parameters)
         {
-            var allmanufacturersCount = _manufacturerApiService.GetManufacturersCount(parameters.PublishedStatus);
+            var allManufacturersCount = _manufacturerApiService.GetManufacturersCount(parameters.PublishedStatus);
 
-            var manufacturersRootObject = new ManufacturersCoutRootObject {Count = allmanufacturersCount};
+            var manufacturersRootObject = new ManufacturersCountRootObject {Count = allManufacturersCount};
 
             return Ok(manufacturersRootObject);
         }

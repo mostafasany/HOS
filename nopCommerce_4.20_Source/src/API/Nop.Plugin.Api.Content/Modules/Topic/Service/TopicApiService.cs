@@ -19,7 +19,7 @@ namespace Nop.Plugin.Api.Content.Modules.Topic.Service
             _storeMappingService = storeMappingService;
         }
 
-        public IList<Core.Domain.Topics.Topic> GetTopics(IList<int> ids = null,
+        public IEnumerable<Core.Domain.Topics.Topic> GetTopics(IList<int> ids = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue,
             int sinceId = Configurations.DefaultSinceId,
             bool? publishedStatus = null)
@@ -51,7 +51,7 @@ namespace Nop.Plugin.Api.Content.Modules.Topic.Service
         }
 
         private IQueryable<Core.Domain.Topics.Topic> GetCategoriesQuery(bool? publishedStatus = null,
-            IList<int> ids = null)
+            ICollection<int> ids = null)
         {
             var query = _topicRepository.Table;
 

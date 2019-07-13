@@ -19,10 +19,10 @@ using Nop.Services.Stores;
 
 namespace Nop.Plugin.Api.Cart.Translator
 {
-    public class Cartransaltor : ICartTransaltor
+    public class CartTranslator : ICartTranslator
     {
         private readonly IAclService _aclService;
-        private readonly int _currentLangaugeId;
+        private readonly int _currentLanguageId;
         private readonly ILocalizationService _localizationService;
         private readonly IPictureService _pictureService;
         private readonly IProductAttributeConverter _productAttributeConverter;
@@ -32,7 +32,7 @@ namespace Nop.Plugin.Api.Cart.Translator
         private readonly IStoreMappingService _storeMappingService;
         private readonly IUrlRecordService _urlRecordService;
 
-        public Cartransaltor(IProductService productService,
+        public CartTranslator(IProductService productService,
             IAclService aclService,
             IStoreMappingService storeMappingService,
             IPictureService pictureService,
@@ -52,17 +52,15 @@ namespace Nop.Plugin.Api.Cart.Translator
             _urlRecordService = urlRecordService;
             _productTagService = productTagService;
             var headers = httpContextAccessor.HttpContext.Request.Headers;
-            if (headers.ContainsKey("Accept-Language"))
-            {
-                var lan = headers["Accept-Language"];
-                if (lan.ToString() == "en")
-                    _currentLangaugeId = 1;
-                else
-                    _currentLangaugeId = 2;
-            }
+            if (!headers.ContainsKey("Accept-Language")) return;
+            var lan = headers["Accept-Language"];
+            if (lan.ToString() == "en")
+                _currentLanguageId = 1;
+            else
+                _currentLanguageId = 2;
         }
 
-        public ShippingOptionDto PrepareShippingOptionItemDTO(ShippingOption shippingOption)
+        public ShippingOptionDto PrepareShippingOptionItemDto(ShippingOption shippingOption)
         {
             var options = new ShippingOptionDto
             {
@@ -82,30 +80,31 @@ namespace Nop.Plugin.Api.Cart.Translator
             }
             catch (Exception)
             {
+                // ignored
             }
 
             return options;
         }
 
 
-        public ShoppingCartItemDto PrepareShoppingCartItemDTO(ShoppingCartItem shoppingCartItem)
+        public ShoppingCartItemDto PrepareShoppingCartItemDto(ShoppingCartItem shoppingCartItem)
         {
             var dto = shoppingCartItem.ToDto();
-            dto.ProductDto = PrepareProductDTO(shoppingCartItem.Product);
+            dto.ProductDto = PrepareProductDto(shoppingCartItem.Product);
             dto.Attributes = _productAttributeConverter.Parse(shoppingCartItem.AttributesXml);
             return dto;
         }
 
 
-        public ProductDto PrepareProductDTO(Product product)
+        public ProductDto PrepareProductDto(Product product)
         {
             var productDto = product.ToDto();
 
-            productDto.Name = _localizationService.GetLocalized(product, x => x.Name, _currentLangaugeId);
+            productDto.Name = _localizationService.GetLocalized(product, x => x.Name, _currentLanguageId);
             productDto.ShortDescription =
-                _localizationService.GetLocalized(product, x => x.ShortDescription, _currentLangaugeId);
+                _localizationService.GetLocalized(product, x => x.ShortDescription, _currentLanguageId);
             productDto.FullDescription =
-                _localizationService.GetLocalized(product, x => x.FullDescription, _currentLangaugeId);
+                _localizationService.GetLocalized(product, x => x.FullDescription, _currentLanguageId);
 
             PrepareProductImages(product.ProductPictures, productDto);
             PrepareProductAttributes(product.ProductAttributeMappings, productDto);
@@ -125,35 +124,18 @@ namespace Nop.Plugin.Api.Cart.Translator
                 _productService.GetAssociatedProducts(product.Id, showHidden: true)
                     .Select(associatedProduct => associatedProduct.Id)
                     .ToList();
-
-            //IList<Language> allLanguages = _languageService.GetAllLanguages();
-
-            //productDto.LocalizedNames = new List<LocalizedNameDto>();
-
-            //foreach (Language language in allLanguages)
-            //{
-            //    var localizedNameDto = new LocalizedNameDto
-            //    {
-            //        LanguageId = language.Id,
-            //        LocalizedName = _localizationService.GetLocalized(product, x => x.Name, language.Id)
-            //    };
-
-            //    productDto.LocalizedNames.Add(localizedNameDto);
-            //}
-
-
-            // productDto.LocalizedNames.FirstOrDefault(a => a.LanguageId == _currentLangaugeId)?.LocalizedName;
+            
             return productDto;
         }
 
-        public ProductSpecificationAttributeDto PrepareProductSpecificationAttributeDto(
+        private ProductSpecificationAttributeDto PrepareProductSpecificationAttributeDto(
             ProductSpecificationAttribute productSpecificationAttribute)
         {
             return productSpecificationAttribute.ToDto();
         }
 
 
-        public void PrepareProductSpecificationAttributes(
+        private void PrepareProductSpecificationAttributes(
             IEnumerable<ProductSpecificationAttribute> productSpecificationAttributes, ProductDto productDto)
         {
             if (productDto.ProductSpecificationAttributes == null)
@@ -169,7 +151,7 @@ namespace Nop.Plugin.Api.Cart.Translator
             }
         }
 
-        protected ImageDto PrepareImageDto(Picture picture)
+        private ImageDto PrepareImageDto(Picture picture)
         {
             ImageDto image = null;
 
@@ -220,7 +202,7 @@ namespace Nop.Plugin.Api.Cart.Translator
                         .GetProductAttributeById(productAttributeMapping.ProductAttributeId).Name,
                     TextPrompt =
                         _localizationService.GetLocalized(productAttributeMapping, x => x.TextPrompt,
-                            _currentLangaugeId),
+                            _currentLanguageId),
                     DefaultValue = productAttributeMapping.DefaultValue,
                     AttributeControlTypeId = productAttributeMapping.AttributeControlTypeId,
                     DisplayOrder = productAttributeMapping.DisplayOrder,
@@ -258,13 +240,13 @@ namespace Nop.Plugin.Api.Cart.Translator
 
             foreach (var productAttributeCombination in productAttributeCombinations)
             {
-                var productAttributeComnatbionDto =
+                var productAttributeCombinationDto =
                     PrepareProductAttributeCombinationDto(productAttributeCombination);
-                var attributes = _productAttributeConverter.Parse(productAttributeComnatbionDto.AttributesXml);
+                var attributes = _productAttributeConverter.Parse(productAttributeCombinationDto.AttributesXml);
                 var attributeValue = attributes.FirstOrDefault(a => a.Id == 26);
                 if (attributeValue != null)
-                    productAttributeComnatbionDto.ProductAttributId = int.Parse(attributeValue.Value);
-                productDto.ProductAttributesCombinations.Add(productAttributeComnatbionDto);
+                    productAttributeCombinationDto.ProductAttributId = int.Parse(attributeValue.Value);
+                productDto.ProductAttributesCombinations.Add(productAttributeCombinationDto);
             }
         }
 
@@ -273,34 +255,28 @@ namespace Nop.Plugin.Api.Cart.Translator
         {
             ProductAttributeValueDto productAttributeValueDto = null;
 
-            if (productAttributeValue != null)
+            if (productAttributeValue == null) return productAttributeValueDto;
+            productAttributeValueDto = productAttributeValue.ToDto();
+
+            productAttributeValueDto.Name =
+                _localizationService.GetLocalized(productAttributeValue, x => x.Name, _currentLanguageId);
+            if (productAttributeValue.ImageSquaresPictureId > 0)
             {
-                productAttributeValueDto = productAttributeValue.ToDto();
-
-                productAttributeValueDto.Name =
-                    _localizationService.GetLocalized(productAttributeValue, x => x.Name, _currentLangaugeId);
-                if (productAttributeValue.ImageSquaresPictureId > 0)
-                {
-                    var imageSquaresPicture =
-                        _pictureService.GetPictureById(productAttributeValue.ImageSquaresPictureId);
-                    var imageDto = PrepareImageDto(imageSquaresPicture);
-                    productAttributeValueDto.ImageSquaresImage = imageDto;
-                }
-
-                if (productAttributeValue.PictureId > 0)
-                {
-                    // make sure that the picture is mapped to the product
-                    // This is needed since if you delete the product picture mapping from the nopCommerce administrationthe
-                    // then the attribute value is not updated and it will point to a picture that has been deleted
-                    var productPicture =
-                        product.ProductPictures.FirstOrDefault(pp => pp.PictureId == productAttributeValue.PictureId);
-                    if (productPicture != null)
-                    {
-                        productAttributeValueDto.ProductPictureId = productPicture.Id;
-                        productAttributeValueDto.PictureId = productPicture.PictureId;
-                    }
-                }
+                var imageSquaresPicture =
+                    _pictureService.GetPictureById(productAttributeValue.ImageSquaresPictureId);
+                var imageDto = PrepareImageDto(imageSquaresPicture);
+                productAttributeValueDto.ImageSquaresImage = imageDto;
             }
+
+            if (productAttributeValue.PictureId <= 0) return productAttributeValueDto;
+            // make sure that the picture is mapped to the product
+            // This is needed since if you delete the product picture mapping from the nopCommerce administration the
+            // then the attribute value is not updated and it will point to a picture that has been deleted
+            var productPicture =
+                product.ProductPictures.FirstOrDefault(pp => pp.PictureId == productAttributeValue.PictureId);
+            if (productPicture == null) return productAttributeValueDto;
+            productAttributeValueDto.ProductPictureId = productPicture.Id;
+            productAttributeValueDto.PictureId = productPicture.PictureId;
 
             return productAttributeValueDto;
         }
@@ -315,19 +291,17 @@ namespace Nop.Plugin.Api.Cart.Translator
             {
                 var imageDto = PrepareImageDto(productPicture.Picture);
 
-                if (imageDto != null)
+                if (imageDto == null) continue;
+                var productImageDto = new ImageMappingDto
                 {
-                    var productImageDto = new ImageMappingDto
-                    {
-                        Id = productPicture.Id,
-                        PictureId = productPicture.PictureId,
-                        Position = productPicture.DisplayOrder,
-                        Src = imageDto.Src,
-                        Attachment = imageDto.Attachment
-                    };
+                    Id = productPicture.Id,
+                    PictureId = productPicture.PictureId,
+                    Position = productPicture.DisplayOrder,
+                    Src = imageDto.Src,
+                    Attachment = imageDto.Attachment
+                };
 
-                    productDto.Images.Add(productImageDto);
-                }
+                productDto.Images.Add(productImageDto);
             }
         }
     }

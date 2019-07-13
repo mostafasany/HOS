@@ -4,13 +4,13 @@ using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.ModelBinders;
 
-namespace Nop.Plugin.Api.Content.Modules.Topic.Model
+namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Model
 {
     // JsonProperty is used only for swagger
-    [ModelBinder(typeof(ParametersModelBinder<TopicsParamatersModel>))]
-    public class TopicsParamatersModel
+    [ModelBinder(typeof(ParametersModelBinder<ManufacturersParametersModel>))]
+    public class ManufacturersParametersModel
     {
-        public TopicsParamatersModel()
+        public ManufacturersParametersModel()
         {
             Ids = null;
             Limit = Configurations.DefaultLimit;

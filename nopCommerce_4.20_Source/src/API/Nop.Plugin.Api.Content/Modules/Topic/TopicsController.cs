@@ -24,7 +24,7 @@ namespace Nop.Plugin.Api.Content.Modules.Topic
 {
     public class TopicsController : BaseApiController
     {
-        private readonly ITopicTransaltor _dtoHelper;
+        private readonly ITopicTranslator _dtoHelper;
         private readonly ITopicApiService _topicApiService;
 
         public TopicsController(ITopicApiService topicApiService,
@@ -37,7 +37,7 @@ namespace Nop.Plugin.Api.Content.Modules.Topic
             IDiscountService discountService,
             IAclService aclService,
             ICustomerService customerService,
-            ITopicTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            ITopicTranslator dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService)
         {
@@ -46,7 +46,7 @@ namespace Nop.Plugin.Api.Content.Modules.Topic
         }
 
         /// <summary>
-        ///     Retrieve topic by spcified id
+        ///     Retrieve topic by specified id
         /// </summary>
         /// <param name="id">Id of the topic</param>
         /// <param name="fields">Fields from the topic you want your json to contain</param>
@@ -67,7 +67,7 @@ namespace Nop.Plugin.Api.Content.Modules.Topic
 
             if (topic == null) return Error(HttpStatusCode.NotFound, "topic", "topic not found");
 
-            var topicDto = _dtoHelper.ConvertToDto(topic);
+            var topicDto = _dtoHelper.ToDto(topic);
 
             var topicsRootObject = new TopicsRootObject();
 
@@ -89,7 +89,7 @@ namespace Nop.Plugin.Api.Content.Modules.Topic
         [ProducesResponseType(typeof(TopicsRootObject), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
-        public IActionResult GetTopics(TopicsParamatersModel parameters)
+        public IActionResult GetTopics(TopicsParametersModel parameters)
         {
             if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
                 return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
@@ -102,10 +102,10 @@ namespace Nop.Plugin.Api.Content.Modules.Topic
                     parameters.PublishedStatus)
                 .Where(c => StoreMappingService.Authorize(c));
 
-            IList<TopicDto> topicsAsDtos = allTopics.Select(topic =>
-                _dtoHelper.ConvertToDto(topic)).ToList();
+            IList<TopicDto> topicsAsDto = allTopics.Select(topic =>
+                _dtoHelper.ToDto(topic)).ToList();
 
-            var topicsRootObject = new TopicsRootObject {Topics = topicsAsDtos};
+            var topicsRootObject = new TopicsRootObject {Topics = topicsAsDto};
 
             var json = JsonFieldsSerializer.Serialize(topicsRootObject, parameters.Fields);
 
@@ -123,7 +123,7 @@ namespace Nop.Plugin.Api.Content.Modules.Topic
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
-        public IActionResult GetTopicsCount(TopicsParamatersModel parameters)
+        public IActionResult GetTopicsCount(TopicsParametersModel parameters)
         {
             var allTopicCount = _topicApiService.GetTopicsCount(parameters.PublishedStatus);
 

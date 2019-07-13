@@ -34,7 +34,7 @@ namespace Nop.Plugin.Api.Infrastructure
 {
     public class ApiStartup : INopStartup
     {
-        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        private const string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
@@ -58,8 +58,6 @@ namespace Nop.Plugin.Api.Infrastructure
 
             AddRequiredConfiguration();
 
-            // AddBindingRedirectsFallbacks();
-
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             AddTokenGenerationPipeline(services);
@@ -71,7 +69,7 @@ namespace Nop.Plugin.Api.Infrastructure
         {
             app.UseCors(MyAllowSpecificOrigins);
 
-            // During a clean install we should not register any middlewares i.e IdentityServer as it won't be able to create its  
+            // During a clean install we should not register any middleware i.e IdentityServer as it won't be able to create its  
             // tables without a connection string and will throw an exception
             var dataSettings = DataSettingsManager.LoadSettings();
             if (!dataSettings?.IsValid ?? true)
@@ -102,37 +100,7 @@ namespace Nop.Plugin.Api.Infrastructure
 
         public int Order => new AuthenticationStartup().Order + 1;
 
-        //public void AddBindingRedirectsFallbacks()
-        //{
-        //    // If no binding redirects are present in the config file then this will perform the binding redirect
-        //    RedirectAssembly("Microsoft.AspNetCore.DataProtection.Abstractions", new Version(2, 0, 0, 0), "adb9793829ddae60");
-        //}
-
-        ///// <summary>
-        /////     Adds an AssemblyResolve handler to redirect all attempts to load a specific assembly name to the specified
-        /////     version.
-        ///// </summary>
-        //public static void RedirectAssembly(string shortName, Version targetVersion, string publicKeyToken)
-        //{
-        //    ResolveEventHandler handler = null;
-
-        //    handler = (sender, args) =>
-        //    {
-        //        // Use latest strong name & version when trying to load SDK assemblies
-        //        var requestedAssembly = new AssemblyName(args.Name);
-        //        if (requestedAssembly.Name != shortName)
-        //            return null;
-
-        //        requestedAssembly.Version = targetVersion;
-        //        requestedAssembly.SetPublicKeyToken(new AssemblyName("x, PublicKeyToken=" + publicKeyToken).GetPublicKeyToken());
-        //        requestedAssembly.CultureInfo = CultureInfo.InvariantCulture;
-
-        //        AppDomain.CurrentDomain.AssemblyResolve -= handler;
-
-        //        return Assembly.Load(requestedAssembly);
-        //    };
-        //    AppDomain.CurrentDomain.AssemblyResolve += handler;
-        //}
+      
 
         private void AddAuthorizationPipeline(IServiceCollection services)
         {
@@ -213,23 +181,22 @@ namespace Nop.Plugin.Api.Infrastructure
             {
                 var configurationContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
 
-                if (!configurationContext.ApiResources.Any())
+                if (configurationContext.ApiResources.Any()) return;
+                
+                // In the simple case an API has exactly one scope. But there are cases where you might want to sub-divide the functionality of an API, and give different clients access to different parts. 
+                configurationContext.ApiResources.Add(new ApiResource
                 {
-                    // In the simple case an API has exactly one scope. But there are cases where you might want to sub-divide the functionality of an API, and give different clients access to different parts. 
-                    configurationContext.ApiResources.Add(new ApiResource
-                    {
-                        Enabled = true,
-                        Scopes = new List<ApiScope> {new ApiScope {Name = "nop_api", DisplayName = "nop_api"}},
-                        Created = DateTime.Now,
-                        Updated = DateTime.Now,
-                        LastAccessed = DateTime.Now,
-                        Name = "nop_api"
-                    });
+                    Enabled = true,
+                    Scopes = new List<ApiScope> {new ApiScope {Name = "nop_api", DisplayName = "nop_api"}},
+                    Created = DateTime.Now,
+                    Updated = DateTime.Now,
+                    LastAccessed = DateTime.Now,
+                    Name = "nop_api"
+                });
 
-                    configurationContext.SaveChanges();
+                configurationContext.SaveChanges();
 
-                    TryRunUpgradeScript(configurationContext);
-                }
+                TryRunUpgradeScript(configurationContext);
             }
         }
 

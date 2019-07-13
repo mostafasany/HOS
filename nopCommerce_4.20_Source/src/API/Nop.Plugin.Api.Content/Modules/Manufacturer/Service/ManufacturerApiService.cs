@@ -19,7 +19,7 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Service
             _storeMappingService = storeMappingService;
         }
 
-        public IList<Core.Domain.Catalog.Manufacturer> GetManufacturers(IList<int> ids = null,
+        public IEnumerable<Core.Domain.Catalog.Manufacturer> GetManufacturers(IList<int> ids = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue,
             int sinceId = Configurations.DefaultSinceId,
             bool? publishedStatus = null)
@@ -51,7 +51,7 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Service
         }
 
         private IQueryable<Core.Domain.Catalog.Manufacturer> GetManufacturersQuery(bool? publishedStatus = null,
-            IList<int> ids = null)
+            ICollection<int> ids = null)
         {
             var query = _manufacturerRepository.Table;
 

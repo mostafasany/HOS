@@ -2,8 +2,8 @@
 
 namespace Nop.Plugin.Api.Content.Modules.Store.Translator
 {
-    public interface IStoreTransaltor
+    public interface IStoreTranslator
     {
-        StoreDto PrepareStoreDTO(Core.Domain.Stores.Store store);
+        StoreDto ToDto(Core.Domain.Stores.Store store);
     }
 }

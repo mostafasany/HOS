@@ -111,7 +111,7 @@ namespace Nop.Plugin.Api.IdentityServer
             await Task.FromResult(context.Result);
         }
 
-        private IEnumerable<Claim> CreateClaim(CustomerDto userInfo)
+        private IEnumerable<Claim> CreateClaim(BaseCustomerDto userInfo)
         {
             return new List<Claim>
             {

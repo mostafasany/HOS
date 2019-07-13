@@ -7,7 +7,7 @@ namespace Nop.Plugin.Api.Content.Modules.Topic.Service
     {
         Core.Domain.Topics.Topic GetTopicById(int topicId);
 
-        IList<Core.Domain.Topics.Topic> GetTopics(IList<int> ids = null,
+        IEnumerable<Core.Domain.Topics.Topic> GetTopics(IList<int> ids = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue,
             int sinceId = Configurations.DefaultSinceId,
             bool? publishedStatus = null);

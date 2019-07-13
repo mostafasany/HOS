@@ -24,16 +24,16 @@ namespace Nop.Plugin.Api.Category.Service
             _storeMappingService = storeMappingService;
         }
 
-        public IList<Core.Domain.Catalog.Category> GetCategories(IList<int> ids = null,
+        public IEnumerable<Core.Domain.Catalog.Category> GetCategories(IList<int> ids = null,
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null,
             DateTime? updatedAtMax = null,
             int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue,
             int sinceId = Configurations.DefaultSinceId,
-            int? productId = null, int? parenttId = null,
+            int? productId = null, int? parentId = null,
             bool? publishedStatus = null)
         {
             var query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, publishedStatus,
-                productId, parenttId, ids);
+                productId, parentId, ids);
 
 
             if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
@@ -64,7 +64,7 @@ namespace Nop.Plugin.Api.Category.Service
         private IQueryable<Core.Domain.Catalog.Category> GetCategoriesQuery(
             DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null,
             DateTime? updatedAtMax = null,
-            bool? publishedStatus = null, int? productId = null, int? parenttId = null, IList<int> ids = null)
+            bool? publishedStatus = null, int? productId = null, int? parentId = null, ICollection<int> ids = null)
         {
             var query = _categoryRepository.Table;
 
@@ -82,7 +82,7 @@ namespace Nop.Plugin.Api.Category.Service
 
             if (updatedAtMax != null) query = query.Where(c => c.UpdatedOnUtc < updatedAtMax.Value);
 
-            if (parenttId != null) query = query.Where(c => c.ParentCategoryId == parenttId);
+            if (parentId != null) query = query.Where(c => c.ParentCategoryId == parentId);
 
 
             if (productId != null)

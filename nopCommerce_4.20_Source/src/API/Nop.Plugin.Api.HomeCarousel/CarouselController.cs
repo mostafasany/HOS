@@ -5,7 +5,7 @@ using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
-using Nop.Plugin.Api.HomeCarsoul.Dto;
+using Nop.Plugin.Api.HomeCarousel.Dto;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -14,11 +14,11 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.HomeCarsoul
+namespace Nop.Plugin.Api.HomeCarousel
 {
-    public class CarsoulController : BaseApiController
+    public class CarouselController : BaseApiController
     {
-        public CarsoulController(
+        public CarouselController(
             IJsonFieldsSerializer jsonFieldsSerializer,
             ICustomerActivityService customerActivityService,
             ILocalizationService localizationService,
@@ -35,25 +35,25 @@ namespace Nop.Plugin.Api.HomeCarsoul
 
 
         /// <summary>
-        ///     Get carsoul
+        ///     Get Carousel
         /// </summary>
         /// <response code="200">OK</response>
         /// <response code="400">Bad Request</response>
         /// <response code="401">Unauthorized</response>
         [HttpGet]
-        [Route("/api/carsoul")]
-        [ProducesResponseType(typeof(CarsoulDto), (int)HttpStatusCode.OK)]
+        [Route("/api/carousel")]
+        [ProducesResponseType(typeof(CarouselDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
-        public IActionResult GetCarsoul()
+        public IActionResult GetCarousel()
         {
-            var carsoul = new CarsoulRootObject();
-            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner2.jpg", Topic = 17});
-            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner3.jpg", Topic = 18});
-            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner2.jpg", Topic = 19});
-            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner2.jpg", Topic = 20});
-            carsoul.Carsoul.Add(new CarsoulDto {Image = "assets/images/banner1.jpg", Topic = 21});
-            var json = JsonFieldsSerializer.Serialize(carsoul, string.Empty);
+            var carousel = new CarouselRootObject();
+            carousel.Carousel.Add(new CarouselDto {Image = "assets/images/banner2.jpg", Topic = 17});
+            carousel.Carousel.Add(new CarouselDto {Image = "assets/images/banner3.jpg", Topic = 18});
+            carousel.Carousel.Add(new CarouselDto {Image = "assets/images/banner2.jpg", Topic = 19});
+            carousel.Carousel.Add(new CarouselDto {Image = "assets/images/banner2.jpg", Topic = 20});
+            carousel.Carousel.Add(new CarouselDto {Image = "assets/images/banner1.jpg", Topic = 21});
+            var json = JsonFieldsSerializer.Serialize(carousel, string.Empty);
             return new RawJsonActionResult(json);
         }
     }

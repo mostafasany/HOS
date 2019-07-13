@@ -2,7 +2,7 @@
 
 namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Dto
 {
-    public class ManufacturersCoutRootObject
+    public class ManufacturersCountRootObject
     {
         [JsonProperty("count")] public int Count { get; set; }
     }

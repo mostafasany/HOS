@@ -136,7 +136,7 @@ namespace Nop.Plugin.Api.Infrastructure
             var settingsMenuName = _localizationService.GetResource("Plugins.Api.Admin.Menu.Settings.Title",
                 _workContext.WorkingLanguage.Id, defaultValue: "API");
 
-            const string adminUrlPart = "Admin/";
+            const string regAdminUrlPart = "Admin/";
 
             var pluginMainMenu = new SiteMapNode
             {
@@ -146,7 +146,7 @@ namespace Nop.Plugin.Api.Infrastructure
             pluginMainMenu.ChildNodes.Add(new SiteMapNode
             {
                 Title = settingsMenuName,
-                Url = _webHelper.GetStoreLocation() + adminUrlPart + "ApiAdmin/Settings",
+                Url = _webHelper.GetStoreLocation() + regAdminUrlPart + "ApiAdmin/Settings",
                 Visible = true,
                 SystemName = "Api-Settings-Menu",
                 IconClass = "fa-genderless"

@@ -59,8 +59,6 @@
           <e p="DependencyRegister.cs" t="Include" />
           <e p="Dto" t="Include">
             <e p="AddressModel.cs" t="Include" />
-            <e p="BaseNopEntityModel.cs" t="Include" />
-            <e p="BaseNopModel.cs" t="Include" />
             <e p="DiscountDto.cs" t="Include" />
             <e p="DiscountsRootObject.cs" t="Include" />
             <e p="ExtendedShoppingCartDto.cs" t="Include" />
@@ -76,9 +74,6 @@
             <e p="Validator" t="Include">
               <e p="ShoppingCartItemDtoValidator.cs" t="Include" />
             </e>
-          </e>
-          <e p="Factory" t="Include">
-            <e p="ShoppingCartItemFactory.cs" t="Include" />
           </e>
           <e p="Model" t="Include">
             <e p="BaseShoppingCartItemsParametersModel.cs" t="Include" />
@@ -101,10 +96,10 @@
           </e>
           <e p="ShoppingCartItemsController.cs" t="Include" />
           <e p="Translator" t="Include">
-            <e p="Cartransaltor.cs" t="Include" />
-            <e p="DiscountTransaltor.cs" t="Include" />
-            <e p="ICartTransaltor.cs" t="Include" />
-            <e p="IDiscountTransaltor.cs" t="Include" />
+            <e p="CartTranslator.cs" t="Include" />
+            <e p="DiscountTranslator.cs" t="Include" />
+            <e p="ICartTranslator.cs" t="Include" />
+            <e p="IDiscountTranslator.cs" t="Include" />
             <e p="ShoppingCartItemDtoMappings.cs" t="Include" />
           </e>
         </e>
@@ -143,8 +138,8 @@
           </e>
           <e p="Translator" t="Include">
             <e p="CategoryDtoMappings.cs" t="Include" />
-            <e p="CategoryTransaltor.cs" t="Include" />
-            <e p="ICategoryTransaltor.cs" t="Include" />
+            <e p="CategoryTranslator.cs" t="Include" />
+            <e p="ICategoryTranslator.cs" t="Include" />
           </e>
         </e>
         <e p="Nop.Plugin.Api.Common" t="IncludeRecursive">
@@ -299,8 +294,8 @@
                 <e p="StateProvinceApiService.cs" t="Include" />
               </e>
               <e p="Translator" t="Include">
-                <e p="CountryTransaltor.cs" t="Include" />
-                <e p="ICountryTransaltor.cs" t="Include" />
+                <e p="CountryTranslator.cs" t="Include" />
+                <e p="ICountryTranslator.cs" t="Include" />
               </e>
             </e>
             <e p="DependencyRegister.cs" t="Include" />
@@ -312,28 +307,28 @@
               </e>
               <e p="LanguagesController.cs" t="Include" />
               <e p="Translator" t="Include">
-                <e p="ILanguageTransaltor.cs" t="Include" />
+                <e p="ILanguageTranslator.cs" t="Include" />
                 <e p="LanguageDtoMappings.cs" t="Include" />
-                <e p="LanguageTransaltor.cs" t="Include" />
+                <e p="LanguageTranslator.cs" t="Include" />
               </e>
             </e>
             <e p="Manufacturer" t="Include">
               <e p="Dto" t="Include">
                 <e p="ManufacturerDto.cs" t="Include" />
-                <e p="ManufacturersCoutRootObject.cs" t="Include" />
+                <e p="ManufacturersCountRootObject.cs" t="Include" />
                 <e p="ManufacturersRootObject.cs" t="Include" />
               </e>
               <e p="ManufacturersController.cs" t="Include" />
               <e p="Model" t="Include">
-                <e p="ManufacturersParamatersModel.cs" t="Include" />
+                <e p="ManufacturersParametersModel.cs" t="Include" />
               </e>
               <e p="Service" t="Include">
                 <e p="IManufacturerApiService.cs" t="Include" />
                 <e p="ManufacturerApiService.cs" t="Include" />
               </e>
               <e p="Translator" t="Include">
-                <e p="IManufacturerTransaltor.cs" t="Include" />
-                <e p="ManufacturerTransaltor.cs" t="Include" />
+                <e p="IManufacturerTranslator.cs" t="Include" />
+                <e p="ManufacturerTranslator.cs" t="Include" />
               </e>
             </e>
             <e p="Picture" t="Include">
@@ -350,9 +345,9 @@
               </e>
               <e p="StoreController.cs" t="Include" />
               <e p="Translator" t="Include">
-                <e p="IStoreTransaltor.cs" t="Include" />
+                <e p="IStoreTranslator.cs" t="Include" />
                 <e p="StoreDtoMappings.cs" t="Include" />
-                <e p="StoreTransaltor.cs" t="Include" />
+                <e p="StoreTranslator.cs" t="Include" />
               </e>
             </e>
             <e p="Topic" t="Include">
@@ -362,7 +357,7 @@
                 <e p="TopicsRootObject.cs" t="Include" />
               </e>
               <e p="Model" t="Include">
-                <e p="TopicsParamatersModel.cs" t="Include" />
+                <e p="TopicsParametersModel.cs" t="Include" />
               </e>
               <e p="Service" t="Include">
                 <e p="ITopicApiService.cs" t="Include" />
@@ -370,8 +365,8 @@
               </e>
               <e p="TopicsController.cs" t="Include" />
               <e p="Translator" t="Include">
-                <e p="ITopicTransaltor.cs" t="Include" />
-                <e p="TopicTransaltor.cs" t="Include" />
+                <e p="ITopicTranslator.cs" t="Include" />
+                <e p="TopicTranslator.cs" t="Include" />
               </e>
             </e>
           </e>
@@ -506,18 +501,18 @@
             </e>
           </e>
         </e>
-        <e p="Nop.Plugin.Api.HomeCarsoul" t="IncludeRecursive">
+        <e p="Nop.Plugin.Api.HomeCarousel" t="IncludeRecursive">
           <e p="bin" t="ExcludeRecursive" />
-          <e p="CarsoulController.cs" t="Include" />
+          <e p="CarouselController.cs" t="Include" />
           <e p="Dto" t="Include">
-            <e p="CarsoulDto.cs" t="Include" />
-            <e p="CarsoulRootObject.cs" t="Include" />
+            <e p="CarouselDto.cs" t="Include" />
+            <e p="CarouselRootObject.cs" t="Include" />
           </e>
-          <e p="Nop.Plugin.Api.HomeCarsoul.csproj" t="IncludeRecursive" />
+          <e p="Nop.Plugin.Api.HomeCarousel.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
             <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
-                <e p="Nop.Plugin.Api.HomeCarsoul.AssemblyInfo.cs" t="Include" />
+                <e p="Nop.Plugin.Api.HomeCarousel.AssemblyInfo.cs" t="Include" />
               </e>
             </e>
           </e>
@@ -4462,6 +4457,7 @@
               <e p="Nop.Plugin.Api.Content.dll" t="Include" />
               <e p="Nop.Plugin.Api.Customer.dll" t="Include" />
               <e p="Nop.Plugin.Api.dll" t="Include" />
+              <e p="Nop.Plugin.Api.HomeCarousel.dll" t="Include" />
               <e p="Nop.Plugin.Api.HomeCarsoul.dll" t="Include" />
               <e p="Nop.Plugin.Api.Product.dll" t="Include" />
               <e p="Nop.Plugin.DiscountRules.CustomerRoles.dll" t="Include" />
@@ -4551,6 +4547,8 @@
               <e p="Nop.Plugin.Api.Customer.pdb" t="Include" />
               <e p="Nop.Plugin.Api.deps.json" t="Include" />
               <e p="Nop.Plugin.Api.dll" t="Include" />
+              <e p="Nop.Plugin.Api.HomeCarousel.dll" t="Include" />
+              <e p="Nop.Plugin.Api.HomeCarousel.pdb" t="Include" />
               <e p="Nop.Plugin.Api.HomeCarsoul.dll" t="Include" />
               <e p="Nop.Plugin.Api.HomeCarsoul.pdb" t="Include" />
               <e p="Nop.Plugin.Api.pdb" t="Include" />
@@ -5712,14 +5710,20 @@
                 <e p="0000075_50-physical-gift-card.jpeg" t="Include" />
                 <e p="0000076_100-physical-gift-card.jpeg" t="Include" />
                 <e p="0000079_banner_1.jpg" t="Include" />
+                <e p="0000079_banner_1_100.jpg" t="Include" />
                 <e p="0000080_banner_2.jpg" t="Include" />
+                <e p="0000080_banner_2_100.jpg" t="Include" />
                 <e p="0000081.jpeg" t="Include" />
+                <e p="0000081_100.jpeg" t="Include" />
                 <e p="0000082.jpeg" t="Include" />
+                <e p="0000082_100.jpeg" t="Include" />
                 <e p="0000083.jpeg" t="Include" />
+                <e p="0000083_100.jpeg" t="Include" />
                 <e p="0000100_product-featured-1.png" t="Include" />
                 <e p="0000105_bracelet.png" t="Include" />
                 <e p="0000110_product-featured-3.png" t="Include" />
                 <e p="0000111_product-featured-1.png" t="Include" />
+                <e p="default-image_100.png" t="Include" />
                 <e p="default-image_450.png" t="Include" />
                 <e p="placeholder.txt" t="Include" />
               </e>

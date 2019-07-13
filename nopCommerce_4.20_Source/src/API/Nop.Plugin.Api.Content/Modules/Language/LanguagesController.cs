@@ -21,7 +21,7 @@ namespace Nop.Plugin.Api.Content.Modules.Language
 {
     public class LanguagesController : BaseApiController
     {
-        private readonly ILanguageTransaltor _dtoHelper;
+        private readonly ILanguageTranslator _dtoHelper;
         private readonly ILanguageService _languageService;
 
         public LanguagesController(IJsonFieldsSerializer jsonFieldsSerializer,
@@ -34,7 +34,7 @@ namespace Nop.Plugin.Api.Content.Modules.Language
             ILocalizationService localizationService,
             IPictureService pictureService,
             ILanguageService languageService,
-            ILanguageTransaltor dtoHelper)
+            ILanguageTranslator dtoHelper)
             : base(jsonFieldsSerializer,
                 aclService,
                 customerService,
@@ -66,7 +66,7 @@ namespace Nop.Plugin.Api.Content.Modules.Language
             var allLanguages = _languageService.GetAllLanguages();
 
             IList<LanguageDto> languagesAsDto =
-                allLanguages.Select(language => _dtoHelper.PrepateLanguageDto(language)).ToList();
+                allLanguages.Select(language => _dtoHelper.ToDto(language)).ToList();
 
             var languagesRootObject = new LanguagesRootObject {Languages = languagesAsDto};
 

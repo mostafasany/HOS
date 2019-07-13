@@ -40,7 +40,7 @@ namespace Nop.Plugin.Api.Cart.Service
         private readonly ICurrencyService _currencyService;
         private readonly ICustomerService _customerService;
         private readonly IDiscountService _discountService;
-        private readonly ICartTransaltor _dtoHelper;
+        private readonly ICartTranslator _dtoHelper;
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILocalizationService _localizationService;
@@ -94,7 +94,7 @@ namespace Nop.Plugin.Api.Cart.Service
             ShippingSettings shippingSettings,
             ShoppingCartSettings shoppingCartSettings,
             VendorSettings vendorSettings,
-            ICartTransaltor dtoHelper,
+            ICartTranslator dtoHelper,
             IPaymentPluginManager paymentPluginManager,
             IProductAttributeConverter productAttributeConverter)
         {
@@ -298,12 +298,6 @@ namespace Nop.Plugin.Api.Cart.Service
             return query;
         }
 
-        private PictureModel PrepareCartItemPictureModel(ShoppingCartItem sci, int pictureSize, bool showDefaultPicture,
-            string productName)
-        {
-            return new PictureModel();
-        }
-
         /// <summary>
         ///     Prepare the order review data model
         /// </summary>
@@ -348,9 +342,12 @@ namespace Nop.Plugin.Api.Cart.Service
                 }
                 else
                 {
-                    var country = _countryService.GetCountryByTwoLetterIsoCode(pickupPoint.CountryCode);
-                    var state = _stateProvinceService.GetStateProvinceByAbbreviation(pickupPoint.StateAbbreviation,
-                        country?.Id);
+                    if (pickupPoint != null)
+                    {
+                        var country = _countryService.GetCountryByTwoLetterIsoCode(pickupPoint.CountryCode);
+                        var state = _stateProvinceService.GetStateProvinceByAbbreviation(pickupPoint.StateAbbreviation,
+                            country?.Id);
+                    }
 
                     model.PickupAddress = new AddressModel();
                 }
@@ -388,9 +385,10 @@ namespace Nop.Plugin.Api.Cart.Service
         /// </summary>
         /// <param name="cart">List of the shopping cart item</param>
         /// <param name="sci">Shopping cart item</param>
+        /// <param name="vendors"></param>
         /// <returns>Shopping cart item model</returns>
         private ShoppingCartModel.ShoppingCartItemModel PrepareShoppingCartItemModel(IList<ShoppingCartItem> cart,
-            ShoppingCartItem sci, IList<Vendor> vendors)
+            ShoppingCartItem sci, IEnumerable<Vendor> vendors)
         {
             if (cart == null)
                 throw new ArgumentNullException(nameof(cart));
@@ -402,7 +400,7 @@ namespace Nop.Plugin.Api.Cart.Service
                 Id = sci.Id,
                 Sku = _productService.FormatSku(sci.Product, sci.AttributesXml),
                 VendorName = vendors.FirstOrDefault(v => v.Id == sci.Product.VendorId)?.Name ?? string.Empty,
-                Product = _dtoHelper.PrepareProductDTO(sci.Product),
+                Product = _dtoHelper.PrepareProductDto(sci.Product),
                 ProductId = sci.Product.Id,
                 ProductName = _localizationService.GetLocalized(sci.Product, x => x.Name),
                 ProductSeName = _urlRecordService.GetSeName(sci.Product),
@@ -518,7 +516,7 @@ namespace Nop.Plugin.Api.Cart.Service
                 //sub total
                 var shoppingCartItemSubTotalWithDiscountBase = _taxService.GetProductPrice(sci.Product,
                     _priceCalculationService.GetSubTotal(sci, true, out var shoppingCartItemDiscountBase, out _,
-                        out var maximumDiscountQty), out var taxRate);
+                        out var maximumDiscountQty), out _);
                 var shoppingCartItemSubTotalWithDiscount =
                     _currencyService.ConvertFromPrimaryStoreCurrency(shoppingCartItemSubTotalWithDiscountBase,
                         _workContext.WorkingCurrency);
@@ -530,7 +528,7 @@ namespace Nop.Plugin.Api.Cart.Service
                 if (shoppingCartItemDiscountBase > decimal.Zero)
                 {
                     shoppingCartItemDiscountBase =
-                        _taxService.GetProductPrice(sci.Product, shoppingCartItemDiscountBase, out taxRate);
+                        _taxService.GetProductPrice(sci.Product, shoppingCartItemDiscountBase, out _);
                     if (shoppingCartItemDiscountBase > decimal.Zero)
                     {
                         var shoppingCartItemDiscount =
@@ -544,8 +542,7 @@ namespace Nop.Plugin.Api.Cart.Service
 
             //picture
             if (_shoppingCartSettings.ShowProductImagesOnShoppingCart)
-                cartItemModel.Picture = PrepareCartItemPictureModel(sci,
-                    _mediaSettings.CartThumbPictureSize, true, cartItemModel.ProductName);
+                cartItemModel.Picture= new PictureModel();
 
             //item warnings
             var itemWarnings = _shoppingCartService.GetShoppingCartItemWarnings(

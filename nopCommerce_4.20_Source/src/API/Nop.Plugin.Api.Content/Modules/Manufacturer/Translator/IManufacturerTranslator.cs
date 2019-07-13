@@ -2,8 +2,8 @@
 
 namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Translator
 {
-    public interface IManufacturerTransaltor
+    public interface IManufacturerTranslator
     {
-        ManufacturerDto ConvertToDto(Core.Domain.Catalog.Manufacturer topic);
+        ManufacturerDto ToDto(Core.Domain.Catalog.Manufacturer topic);
     }
 }

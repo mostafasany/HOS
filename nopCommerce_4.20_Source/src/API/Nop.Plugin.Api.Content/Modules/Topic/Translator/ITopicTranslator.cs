@@ -2,8 +2,8 @@
 
 namespace Nop.Plugin.Api.Content.Modules.Topic.Translator
 {
-    public interface ITopicTransaltor
+    public interface ITopicTranslator
     {
-        TopicDto ConvertToDto(Core.Domain.Topics.Topic topic);
+        TopicDto ToDto(Core.Domain.Topics.Topic topic);
     }
 }

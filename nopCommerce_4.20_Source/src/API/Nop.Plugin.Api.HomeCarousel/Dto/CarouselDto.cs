@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs.Base;
 
-namespace Nop.Plugin.Api.HomeCarsoul.Dto
+namespace Nop.Plugin.Api.HomeCarousel.Dto
 {
-    public class CarsoulDto : BaseDto
+    public class CarouselDto : BaseDto
     {
         [JsonProperty("image")] public string Image { get; set; }
 
