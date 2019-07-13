@@ -27,26 +27,11 @@ namespace Nop.Plugin.Api.Common.Delta
             _mappingHelper.SetValues(PropertyValuePairs, Dto, typeof(TDto), ObjectPropertyNameValuePairs, true);
         }
 
-        private Dictionary<string, object> PropertyValuePairs
-        {
-            get
-            {
-                if (_propertyValuePairs == null)
-                    _propertyValuePairs = GetPropertyValuePairs(typeof(TDto), _changedJsonPropertyNames);
+        private Dictionary<string, object> PropertyValuePairs =>
+            _propertyValuePairs ??
+            (_propertyValuePairs = GetPropertyValuePairs(typeof(TDto), _changedJsonPropertyNames));
 
-                return _propertyValuePairs;
-            }
-        }
-
-        public TDto Dto
-        {
-            get
-            {
-                if (_dto == null) _dto = new TDto();
-
-                return _dto;
-            }
-        }
+        public TDto Dto => _dto ?? (_dto = new TDto());
 
         public void Merge<TEntity>(TEntity entity, bool mergeComplexTypeCollections = true)
         {
@@ -101,19 +86,20 @@ namespace Nop.Plugin.Api.Common.Delta
                         var collectionElementsType = propertyType.GetGenericArguments()[0];
                         var resultCollection = new List<object>();
 
-                        foreach (var item in collection)
-                            // Simple types in collection
-                            if (collectionElementsType.Namespace == "System")
-                                resultCollection.Add(item);
-                            // Complex types in collection
-                            else
-                            {
-                                // the complex type could be null so we try a defensive cast
-                                var itemDictionary =
-                                    item as Dictionary<string, object>;
+                        if (collection != null)
+                            foreach (var item in collection)
+                                // Simple types in collection
+                                if (collectionElementsType.Namespace == "System")
+                                    resultCollection.Add(item);
+                                // Complex types in collection
+                                else
+                                {
+                                    // the complex type could be null so we try a defensive cast
+                                    var itemDictionary =
+                                        item as Dictionary<string, object>;
 
-                                resultCollection.Add(GetPropertyValuePairs(collectionElementsType, itemDictionary));
-                            }
+                                    resultCollection.Add(GetPropertyValuePairs(collectionElementsType, itemDictionary));
+                                }
 
                         propertyValuePairs.Add(propertyName, resultCollection);
                     }

@@ -28,7 +28,7 @@ namespace Nop.Plugin.Api.Product.Modules.SpecificationAttributes
 {
     public class SpecificationAttributesController : BaseApiController
     {
-        private readonly ISpecificationAttributesTransaltor _dtoHelper;
+        private readonly ISpecificationAttributesTranslator _dtoHelper;
         private readonly ISpecificationAttributeApiService _specificationAttributeApiService;
         private readonly ISpecificationAttributeService _specificationAttributeService;
 
@@ -43,7 +43,7 @@ namespace Nop.Plugin.Api.Product.Modules.SpecificationAttributes
             IPictureService pictureService,
             ISpecificationAttributeService specificationAttributeService,
             ISpecificationAttributeApiService specificationAttributesApiService,
-            ISpecificationAttributesTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            ISpecificationAttributesTranslator dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService, localizationService,
             pictureService)
         {
@@ -194,7 +194,7 @@ namespace Nop.Plugin.Api.Product.Modules.SpecificationAttributes
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetSpecificationAttributesCount(SpecifcationAttributesCountParametersModel parameters)
         {
-            var specificationAttributesCount = _specificationAttributeService.GetSpecificationAttributes().Count();
+            var specificationAttributesCount = _specificationAttributeService.GetSpecificationAttributes().Count;
 
             var specificationAttributesCountRootObject = new SpecificationAttributesCountRootObject
             {

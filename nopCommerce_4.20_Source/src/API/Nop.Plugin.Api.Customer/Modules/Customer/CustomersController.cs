@@ -136,10 +136,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer
                 Message = _localizationService.GetResource("Account.ChangePassword.Success")
             };
             var json = JsonFieldsSerializer.Serialize(dynamicVariable, string.Empty);
-            if (result.Success)
-                return new RawJsonActionResult(json);
-
-            return Error(HttpStatusCode.BadRequest, "Password In Correct", result.Errors.ToList());
+            return result.Success ? new RawJsonActionResult(json) : Error(HttpStatusCode.BadRequest, "Password In Correct", result.Errors.ToList());
         }
 
         /// <summary>
@@ -178,9 +175,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer
 
             //If the validation has passed the customerDelta object won't be null for sure so we don't need to check for this.
 
-            var existingCustomer = _customerService.GetCustomerByEmail(customerDelta.Dto.Email);
-            if (existingCustomer == null)
-                existingCustomer = _customerService.GetCustomerByUsername(customerDelta.Dto.Username);
+            var existingCustomer = _customerService.GetCustomerByEmail(customerDelta.Dto.Email) ?? _customerService.GetCustomerByUsername(customerDelta.Dto.Username);
 
             if (existingCustomer != null)
                 return Error(HttpStatusCode.BadRequest, "Username/Email",
@@ -645,6 +640,8 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer
                         _customerSettings.HashedPasswordFormat);
                 }
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             CustomerService.InsertCustomerPassword(customerPassword);
@@ -710,11 +707,9 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer
 
         private void SetCountryName(AddressDto address)
         {
-            if (string.IsNullOrEmpty(address.CountryName) && address.CountryId.HasValue)
-            {
-                var country = _countryService.GetCountryById(address.CountryId.Value);
-                address.CountryName = country.Name;
-            }
+            if (!string.IsNullOrEmpty(address.CountryName) || !address.CountryId.HasValue) return;
+            var country = _countryService.GetCountryById(address.CountryId.Value);
+            address.CountryName = country.Name;
         }
     }
 }

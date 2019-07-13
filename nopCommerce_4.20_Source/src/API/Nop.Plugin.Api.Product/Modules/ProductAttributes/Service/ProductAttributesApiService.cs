@@ -31,10 +31,7 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Service
 
         ProductAttribute IProductAttributesApiService.GetById(int id)
         {
-            if (id <= 0)
-                return null;
-
-            return _productAttributesRepository.GetById(id);
+            return id <= 0 ? null : _productAttributesRepository.GetById(id);
         }
 
         private IQueryable<ProductAttribute> GetProductAttributesQuery(int sinceId = Configurations.DefaultSinceId)

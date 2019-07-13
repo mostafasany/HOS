@@ -70,12 +70,9 @@ namespace Nop.Plugin.Api.Common.Attributes
 
         private void CheckIfBothImageSourceTypesAreSet(bool imageSrcSet, bool imageAttachmentSet)
         {
-            if (imageSrcSet &&
-                imageAttachmentSet)
-            {
-                var key = string.Format("{0} type", "image");
-                _errors.Add(key, "Image src and Attachment are both set");
-            }
+            if (!imageSrcSet || !imageAttachmentSet) return;
+            var key = string.Format("{0} type", "image");
+            _errors.Add(key, "Image src and Attachment are both set");
         }
 
         private void ConvertAttachmentToByteArray(string attachment, ref byte[] imageBytes, ref string mimeType)

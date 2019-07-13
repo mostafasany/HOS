@@ -28,7 +28,7 @@ namespace Nop.Plugin.Api.Customer.Modules
             builder.RegisterType<CustomerFactory>().As<IFactory<Core.Domain.Customers.Customer>>()
                 .InstancePerLifetimeScope();
             builder.RegisterType<OrderFactory>().As<IFactory<Core.Domain.Orders.Order>>().InstancePerLifetimeScope();
-            builder.RegisterType<OrderTransaltor>().As<IOrderTransaltor>().InstancePerLifetimeScope();
+            builder.RegisterType<OrderTranslator>().As<IOrderTranslator>().InstancePerLifetimeScope();
         }
     }
 }

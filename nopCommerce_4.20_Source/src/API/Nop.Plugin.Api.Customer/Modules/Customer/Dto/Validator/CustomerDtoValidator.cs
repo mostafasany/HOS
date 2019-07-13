@@ -90,43 +90,41 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto.Validator
 
         private void SetRolesRule()
         {
-            if (HttpMethod == HttpMethod.Post || RequestJsonDictionary.ContainsKey("role_ids"))
-            {
-                IList<CustomerRole> customerRoles = null;
+            if (HttpMethod != HttpMethod.Post && !RequestJsonDictionary.ContainsKey("role_ids")) return;
+            IList<CustomerRole> customerRoles = null;
 
-                RuleFor(x => x.RoleIds)
-                    .NotNull()
-                    .Must(roles => roles.Count > 0)
-                    .WithMessage("role_ids required")
+            RuleFor(x => x.RoleIds)
+                .NotNull()
+                .Must(roles => roles.Count > 0)
+                .WithMessage("role_ids required")
+                .DependentRules(() => RuleFor(dto => dto.RoleIds)
+                    .Must(roleIds =>
+                    {
+                        if (customerRoles == null)
+                            customerRoles = _customerRolesHelper.GetValidCustomerRoles(roleIds);
+
+                        var isInGuestAndRegisterRoles = _customerRolesHelper.IsInGuestsRole(customerRoles) &&
+                                                        _customerRolesHelper.IsInRegisteredRole(customerRoles);
+
+                        // Customer can not be in guest and register roles simultaneously
+                        return !isInGuestAndRegisterRoles;
+                    })
+                    .WithMessage("must not be in guest and register roles simultaneously")
                     .DependentRules(() => RuleFor(dto => dto.RoleIds)
                         .Must(roleIds =>
                         {
                             if (customerRoles == null)
                                 customerRoles = _customerRolesHelper.GetValidCustomerRoles(roleIds);
 
-                            var isInGuestAndRegisterRoles = _customerRolesHelper.IsInGuestsRole(customerRoles) &&
-                                                            _customerRolesHelper.IsInRegisteredRole(customerRoles);
+                            var isInGuestOrRegisterRoles = _customerRolesHelper.IsInGuestsRole(customerRoles) ||
+                                                           _customerRolesHelper.IsInRegisteredRole(customerRoles);
 
-                            // Customer can not be in guest and register roles simultaneously
-                            return !isInGuestAndRegisterRoles;
+                            // Customer must be in either guest or register role.
+                            return isInGuestOrRegisterRoles;
                         })
-                        .WithMessage("must not be in guest and register roles simultaneously")
-                        .DependentRules(() => RuleFor(dto => dto.RoleIds)
-                            .Must(roleIds =>
-                            {
-                                if (customerRoles == null)
-                                    customerRoles = _customerRolesHelper.GetValidCustomerRoles(roleIds);
-
-                                var isInGuestOrRegisterRoles = _customerRolesHelper.IsInGuestsRole(customerRoles) ||
-                                                               _customerRolesHelper.IsInRegisteredRole(customerRoles);
-
-                                // Customer must be in either guest or register role.
-                                return isInGuestOrRegisterRoles;
-                            })
-                            .WithMessage("must be in guest or register role")
-                        )
-                    );
-            }
+                        .WithMessage("must be in guest or register role")
+                    )
+                );
         }
 
         //private void SetShoppingCartItemsRule()

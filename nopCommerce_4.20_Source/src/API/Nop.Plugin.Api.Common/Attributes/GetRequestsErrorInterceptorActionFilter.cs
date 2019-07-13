@@ -60,9 +60,8 @@ namespace Nop.Plugin.Api.Common.Attributes
 
         private void SetError(ActionExecutedContext actionExecutedContext, KeyValuePair<string, List<string>> error)
         {
-            // var bindingError = new Dictionary<string, List<string>> { { error.Key, error.Value } };
-            var bindingError = new List<ErrorObject>();
-            bindingError.Add(new ErrorObject {Cause = error.Key, Details = error.Value});
+            var (key, value) = error;
+            var bindingError = new List<ErrorObject> {new ErrorObject {Cause = key, Details = value}};
             var errorsRootObject = new ErrorsRootObject {Errors = bindingError};
 
             var errorJson = _jsonFieldsSerializer.Serialize(errorsRootObject, null);

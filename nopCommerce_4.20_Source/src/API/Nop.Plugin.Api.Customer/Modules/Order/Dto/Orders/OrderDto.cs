@@ -253,12 +253,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders
         [JsonProperty("order_items")]
         public ICollection<OrderItemDto> OrderItems
         {
-            get
-            {
-                if (_orderItems == null) _orderItems = new List<OrderItemDto>();
-
-                return _orderItems;
-            }
+            get => _orderItems ?? (_orderItems = new List<OrderItemDto>());
             set => _orderItems = value;
         }
 

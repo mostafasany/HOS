@@ -3,7 +3,7 @@ using Nop.Plugin.Api.Common.DTOs.Product;
 
 namespace Nop.Plugin.Api.Product.Modules.SpecificationAttributes.Translator
 {
-    public interface ISpecificationAttributesTransaltor
+    public interface ISpecificationAttributesTranslator
     {
         SpecificationAttributeDto PrepareSpecificationAttributeDto(SpecificationAttribute specificationAttribute);
     }

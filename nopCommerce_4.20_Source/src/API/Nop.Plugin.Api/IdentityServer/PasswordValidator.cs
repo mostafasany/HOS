@@ -106,6 +106,20 @@ namespace Nop.Plugin.Api.IdentityServer
                         CreateClaim(customerDto), "local", dict);
                 }
                     break;
+                case CustomerLoginResults.CustomerNotExist:
+                    break;
+                case CustomerLoginResults.WrongPassword:
+                    break;
+                case CustomerLoginResults.NotActive:
+                    break;
+                case CustomerLoginResults.Deleted:
+                    break;
+                case CustomerLoginResults.NotRegistered:
+                    break;
+                case CustomerLoginResults.LockedOut:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             await Task.FromResult(context.Result);

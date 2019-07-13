@@ -32,7 +32,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
 {
     public class OrderItemsController : BaseApiController
     {
-        private readonly IOrderTransaltor _dtoHelper;
+        private readonly IOrderTranslator _dtoHelper;
         private readonly IOrderApiService _orderApiService;
         private readonly IOrderItemApiService _orderItemApiService;
         private readonly IOrderService _orderService;
@@ -54,7 +54,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
             IProductService productApiService,
             IPriceCalculationService priceCalculationService,
             ITaxService taxService,
-            IPictureService pictureService, IOrderTransaltor dtoHelper)
+            IPictureService pictureService, IOrderTranslator dtoHelper)
             : base(jsonFieldsSerializer,
                 aclService,
                 customerService,
@@ -187,7 +187,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
 
             if (orderItem == null) return Error(HttpStatusCode.NotFound, "order_item", "not found");
 
-            var orderItemDtos = new List<OrderItemDto> {_dtoHelper.PrepareOrderItemDTO(orderItem)};
+            var orderItemDtos = new List<OrderItemDto> {_dtoHelper.ToOrderItemDto(orderItem)};
 
             var orderItemsRootObject = new OrderItemsRootObject {OrderItems = orderItemDtos};
 
@@ -221,7 +221,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
 
             var orderItemsRootObject = new OrderItemsRootObject
             {
-                OrderItems = allOrderItemsForOrder.Select(item => _dtoHelper.PrepareOrderItemDTO(item)).ToList()
+                OrderItems = allOrderItemsForOrder.Select(item => _dtoHelper.ToOrderItemDto(item)).ToList()
             };
 
             var json = JsonFieldsSerializer.Serialize(orderItemsRootObject, parameters.Fields);
@@ -300,12 +300,10 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
         {
             Product product = null;
 
-            if (productId.HasValue)
-            {
-                var id = productId.Value;
+            if (!productId.HasValue) return null;
+            var id = productId.Value;
 
-                product = _productApiService.GetProductById(id);
-            }
+            product = _productApiService.GetProductById(id);
 
             return product;
         }

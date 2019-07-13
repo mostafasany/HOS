@@ -4,9 +4,9 @@ using Nop.Plugin.Api.Product.Modules.Product.Dto;
 
 namespace Nop.Plugin.Api.Product.Modules.Product.Translator
 {
-    public interface IProductTransaltor
+    public interface IProductTranslator
     {
-        ProductDto PrepareProductDTO(Core.Domain.Catalog.Product product);
-        ProductReviewDto PrepareProductReviewDTO(ProductReview productReview);
+        ProductDto ToDto(Core.Domain.Catalog.Product product);
+        ProductReviewDto ToReviewDto(ProductReview productReview);
     }
 }

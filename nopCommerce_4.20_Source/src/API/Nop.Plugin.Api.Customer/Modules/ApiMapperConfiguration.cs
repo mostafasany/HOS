@@ -84,7 +84,7 @@ namespace Nop.Plugin.Api.Customer.Modules
                 .IgnoreAllNonExisting();
         }
 
-        private static new void CreateMap<TSource, TDestination>()
+        private new static void CreateMap<TSource, TDestination>()
         {
             AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<TSource, TDestination>()
                 .IgnoreAllNonExisting();

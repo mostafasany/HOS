@@ -63,7 +63,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
 
             var result = HandleCustomerGenericAttributes(null, query, limit, page);
 
-            SetNewsletterSubscribtionStatus(result);
+            SetNewsletterSubscriptionStatus(result);
 
             return result;
         }
@@ -84,23 +84,21 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
 
             var searchParams = EnsureSearchQueryIsValid(queryParams, ParseSearchQuery);
 
-            if (searchParams != null)
-            {
-                var query = _customerRepository.Table.Where(customer => !customer.Deleted);
+            if (searchParams == null) return result;
+            var query = _customerRepository.Table.Where(customer => !customer.Deleted);
 
-                foreach (var searchParam in searchParams)
-                    // Skip non existing properties.
-                    if (ReflectionHelper.HasProperty(searchParam.Key, typeof(Core.Domain.Customers.Customer)))
-                        query = query.Where(string.Format("{0} = @0 || {0}.Contains(@0)", searchParam.Key),
-                            searchParam.Value);
-                // The code bellow will search in customer addresses as well.
-                //else if (HasProperty(searchParam.Key, typeof(Address)))
-                //{
-                //    query = query.Where(string.Format("Addresses.Where({0} == @0).Any()", searchParam.Key), searchParam.Value);
-                //}
+            foreach (var searchParam in searchParams)
+                // Skip non existing properties.
+                if (ReflectionHelper.HasProperty(searchParam.Key, typeof(Core.Domain.Customers.Customer)))
+                    query = query.Where(string.Format("{0} = @0 || {0}.Contains(@0)", searchParam.Key),
+                        searchParam.Value);
+            // The code bellow will search in customer addresses as well.
+            //else if (HasProperty(searchParam.Key, typeof(Address)))
+            //{
+            //    query = query.Where(string.Format("Addresses.Where({0} == @0).Any()", searchParam.Key), searchParam.Value);
+            //}
 
-                result = HandleCustomerGenericAttributes(searchParams, query, limit, page, order);
-            }
+            result = HandleCustomerGenericAttributes(searchParams, query, limit, page, order);
 
             return result;
         }
@@ -198,7 +196,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
                         customerDto = currentCustomer.ToDto();
             }
 
-            SetNewsletterSubscribtionStatus(customerDto);
+            SetNewsletterSubscriptionStatus(customerDto);
 
             return customerDto;
         }
@@ -206,9 +204,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
         private Dictionary<string, string> EnsureSearchQueryIsValid(string query,
             Func<string, Dictionary<string, string>> parseSearchQuery)
         {
-            if (!string.IsNullOrEmpty(query)) return parseSearchQuery(query);
-
-            return null;
+            return !string.IsNullOrEmpty(query) ? parseSearchQuery(query) : null;
         }
 
         private IEnumerable<string> GetAllNewsletterCustomersEmails()
@@ -269,21 +265,19 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
             // Get the default language id for the current store.
             var defaultLanguageId = _storeContext.CurrentStore.DefaultLanguageId;
 
-            if (defaultLanguageId == 0)
-            {
-                var allLanguages = _languageService.GetAllLanguages();
+            if (defaultLanguageId != 0) return defaultLanguageId;
+            var allLanguages = _languageService.GetAllLanguages();
 
-                var storeLanguages = allLanguages.Where(l =>
-                    _storeMappingService.Authorize(l, _storeContext.CurrentStore.Id)).ToList();
+            var storeLanguages = allLanguages.Where(l =>
+                _storeMappingService.Authorize(l, _storeContext.CurrentStore.Id)).ToList();
 
-                // If there is no language mapped to the current store, get all of the languages,
-                // and use the one with the first display order. This is a default nopCommerce workflow.
-                if (storeLanguages.Count == 0) storeLanguages = allLanguages.ToList();
+            // If there is no language mapped to the current store, get all of the languages,
+            // and use the one with the first display order. This is a default nopCommerce workflow.
+            if (storeLanguages.Count == 0) storeLanguages = allLanguages.ToList();
 
-                var defaultLanguage = storeLanguages.OrderBy(l => l.DisplayOrder).First();
+            var defaultLanguage = storeLanguages.OrderBy(l => l.DisplayOrder).First();
 
-                defaultLanguageId = defaultLanguage.Id;
-            }
+            defaultLanguageId = defaultLanguage.Id;
 
             return defaultLanguageId;
         }
@@ -297,8 +291,6 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
             int page = Configurations.DefaultPageValue, int limit = Configurations.DefaultLimit,
             string order = Configurations.DefaultOrder)
         {
-            var customerDtos = new List<CustomerDto>();
-
             customerAttributesMappings = customerAttributesMappings.OrderBy(x => x.Key);
 
             IList<IGrouping<int, CustomerAttributeMappingDto>> customerAttributeGroupsList =
@@ -307,14 +299,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
             // Get the default language id for the current store.
             var defaultLanguageId = GetDefaultStoreLangaugeId();
 
-            foreach (var group in customerAttributeGroupsList)
-            {
-                IList<CustomerAttributeMappingDto> mappingsForMerge = group.Select(x => x).ToList();
-
-                var customerDto = Merge(mappingsForMerge, defaultLanguageId);
-
-                customerDtos.Add(customerDto);
-            }
+            var customerDtos = customerAttributeGroupsList.Select(@group => @group.Select(x => x).ToList()).Select(mappingsForMerge => Merge(mappingsForMerge, defaultLanguageId)).ToList();
 
             // Needed so we can apply the order parameter
             return customerDtos.AsQueryable().OrderBy(order).ToList();
@@ -442,28 +427,26 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
                 var field = fieldValueList[i];
                 var value = fieldValueList[i + 1];
 
-                if (!string.IsNullOrEmpty(field) && !string.IsNullOrEmpty(value))
-                {
-                    field = field.Replace("_", string.Empty);
-                    parsedQuery.Add(field.Trim(), value.Trim());
-                }
+                if (string.IsNullOrEmpty(field) || string.IsNullOrEmpty(value)) continue;
+                field = field.Replace("_", string.Empty);
+                parsedQuery.Add(field.Trim(), value.Trim());
             }
 
             return parsedQuery;
         }
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        private void SetNewsletterSubscribtionStatus(IList<CustomerDto> customerDtos)
+        private void SetNewsletterSubscriptionStatus(IList<CustomerDto> customerDto)
         {
-            if (customerDtos == null) return;
+            if (customerDto == null) return;
 
             var allNewsletterCustomerEmail = GetAllNewsletterCustomersEmails();
 
-            foreach (var customerDto in customerDtos)
-                SetNewsletterSubscribtionStatus(customerDto, allNewsletterCustomerEmail);
+            foreach (var dto in customerDto)
+                SetNewsletterSubscriptionStatus(dto, allNewsletterCustomerEmail);
         }
 
-        private void SetNewsletterSubscribtionStatus(BaseCustomerDto customerDto,
+        private void SetNewsletterSubscriptionStatus(BaseCustomerDto customerDto,
             IEnumerable<string> allNewsletterCustomerEmail = null)
         {
             if (customerDto == null || string.IsNullOrEmpty(customerDto.Email)) return;

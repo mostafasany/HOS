@@ -2,8 +2,8 @@
 
 namespace Nop.Plugin.Api.Product.Modules.Discount.Translator
 {
-    public interface IDiscountTransaltor
+    public interface IDiscountTranslator
     {
-        DiscountDto PrepateDiscountDto(Core.Domain.Discounts.Discount discount);
+        DiscountDto ToDiscountDto(Core.Domain.Discounts.Discount discount);
     }
 }

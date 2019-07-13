@@ -28,7 +28,7 @@ namespace Nop.Plugin.Api.Product.Modules.ProductSpecificationAttributes
 {
     public class ProductSpecificationAttributesController : BaseApiController
     {
-        private readonly IProductSpecificationAttributesTransaltor _dtoHelper;
+        private readonly IProductSpecificationAttributesTranslator _dtoHelper;
         private readonly ISpecificationAttributeApiService _specificationAttributeApiService;
         private readonly ISpecificationAttributeService _specificationAttributeService;
 
@@ -43,7 +43,7 @@ namespace Nop.Plugin.Api.Product.Modules.ProductSpecificationAttributes
             IPictureService pictureService,
             ISpecificationAttributeService specificationAttributeService,
             ISpecificationAttributeApiService specificationAttributesApiService,
-            IProductSpecificationAttributesTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService,
+            IProductSpecificationAttributesTranslator dtoHelper) : base(jsonFieldsSerializer, aclService,
             customerService, storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService)
         {

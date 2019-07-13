@@ -40,6 +40,7 @@ namespace Nop.Plugin.Api.Common.Data
         /// </summary>
         /// <typeparam name="TQuery">Query type</typeparam>
         /// <param name="sql">The raw SQL query</param>
+        /// <param name="parameters"></param>
         /// <returns>An IQueryable representing the raw SQL query</returns>
         public IQueryable<TQuery> QueryFromSql<TQuery>(string sql, params object[] parameters) where TQuery : class
         {

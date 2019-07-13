@@ -58,8 +58,7 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
             get => ((AttributeControlType)AttributeControlTypeId).ToString();
             set
             {
-                AttributeControlType attributeControlTypeId;
-                if (Enum.TryParse(value, out attributeControlTypeId))
+                if (Enum.TryParse(value, out AttributeControlType attributeControlTypeId))
                     AttributeControlTypeId = (int)attributeControlTypeId;
             }
         }

@@ -376,12 +376,9 @@ namespace Nop.Plugin.Api.Cart
                 parameters.Limit,
                 parameters.Page);
 
-            var shoppingCartItemsDtos = shoppingCartItems.Select(shoppingCartItem =>
-            {
-                return _dtoHelper.PrepareShoppingCartItemDto(shoppingCartItem);
-            }).ToList();
+            var shoppingCartItemsDto = shoppingCartItems.Select(shoppingCartItem => _dtoHelper.PrepareShoppingCartItemDto(shoppingCartItem)).ToList();
 
-            var shoppingCartsRootObject = new ShoppingCartItemsRootObject {ShoppingCartItems = shoppingCartItemsDtos};
+            var shoppingCartsRootObject = new ShoppingCartItemsRootObject {ShoppingCartItems = shoppingCartItemsDto};
 
             var json = JsonFieldsSerializer.Serialize(shoppingCartsRootObject, parameters.Fields);
 

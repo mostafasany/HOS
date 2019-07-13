@@ -48,18 +48,18 @@ namespace Nop.Plugin.Api.Product.Modules
             builder.RegisterType<ProductFactory>().As<IFactory<Core.Domain.Catalog.Product>>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductTransaltor>().As<IProductTransaltor>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductTranslator>().As<IProductTranslator>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductSpecificationAttributesTransaltor>()
-                .As<IProductSpecificationAttributesTransaltor>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductSpecificationAttributesTranslator>()
+                .As<IProductSpecificationAttributesTranslator>().InstancePerLifetimeScope();
 
-            builder.RegisterType<SpecificationAttributesTransaltor>().As<ISpecificationAttributesTransaltor>()
+            builder.RegisterType<SpecificationAttributesTranslator>().As<ISpecificationAttributesTranslator>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductAttributesTransaltor>().As<IProductAttributesTransaltor>()
+            builder.RegisterType<ProductAttributesTranslator>().As<IProductAttributesTranslator>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<DiscountTransaltor>().As<IDiscountTransaltor>().InstancePerLifetimeScope();
+            builder.RegisterType<DiscountTranslator>().As<IDiscountTranslator>().InstancePerLifetimeScope();
         }
     }
 }

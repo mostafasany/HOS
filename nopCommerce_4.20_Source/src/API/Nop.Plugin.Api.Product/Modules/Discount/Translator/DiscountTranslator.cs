@@ -2,9 +2,9 @@
 
 namespace Nop.Plugin.Api.Product.Modules.Discount.Translator
 {
-    public class DiscountTransaltor : IDiscountTransaltor
+    public class DiscountTranslator : IDiscountTranslator
     {
-        public DiscountDto PrepateDiscountDto(Core.Domain.Discounts.Discount discount)
+        public DiscountDto ToDiscountDto(Core.Domain.Discounts.Discount discount)
         {
             return new DiscountDto
             {

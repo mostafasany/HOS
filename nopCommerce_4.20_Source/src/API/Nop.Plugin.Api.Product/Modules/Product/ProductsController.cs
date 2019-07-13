@@ -36,7 +36,7 @@ namespace Nop.Plugin.Api.Product.Modules.Product
     public class ProductsController : BaseApiController
     {
         private readonly ICategoryService _categoryApiService;
-        private readonly IProductTransaltor _dtoHelper;
+        private readonly IProductTranslator _dtoHelper;
         private readonly IFactory<Core.Domain.Catalog.Product> _factory;
         private readonly ILocalizationService _localizationService;
         private readonly IManufacturerService _manufacturerService;
@@ -65,7 +65,7 @@ namespace Nop.Plugin.Api.Product.Modules.Product
             IProductTagService productTagService,
             IWorkContext workContext,
             IProductAttributeService productAttributeService,
-            IProductTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService,
+            IProductTranslator dtoHelper) : base(jsonFieldsSerializer, aclService, customerService, storeMappingService,
             storeService, discountService, customerActivityService, localizationService, pictureService)
         {
             _productApiService = productApiService;
@@ -122,7 +122,7 @@ namespace Nop.Plugin.Api.Product.Modules.Product
                 LocalizationService.GetResource("ActivityLog.AddNewProduct"), product);
 
             // Preparing the result dto of the new product
-            var productDto = _dtoHelper.PrepareProductDTO(product);
+            var productDto = _dtoHelper.ToDto(product);
 
             var productsRootObject = new ProductsRootObjectDto();
 
@@ -180,7 +180,7 @@ namespace Nop.Plugin.Api.Product.Modules.Product
 
             if (product == null) return Error(HttpStatusCode.NotFound, "product", "not found");
 
-            var productDto = _dtoHelper.PrepareProductDTO(product);
+            var productDto = _dtoHelper.ToDto(product);
 
             var productsRootObject = new ProductsRootObjectDto();
 
@@ -220,7 +220,7 @@ namespace Nop.Plugin.Api.Product.Modules.Product
             var allProducts = tuple.Item1.Where(p => StoreMappingService.Authorize(p));
 
             IList<ProductDto> productsAsDtos =
-                allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
+                allProducts.Select(product => _dtoHelper.ToDto(product)).ToList();
 
             var title = "";
             if (parameters.CategoryId.HasValue)
@@ -285,7 +285,7 @@ namespace Nop.Plugin.Api.Product.Modules.Product
                 .Where(p => StoreMappingService.Authorize(p));
 
             IList<ProductDto> productsAsDtos =
-                allProducts.Select(product => _dtoHelper.PrepareProductDTO(product)).ToList();
+                allProducts.Select(product => _dtoHelper.ToDto(product)).ToList();
 
             var productsRootObject = new ProductsRootObjectDto {Products = productsAsDtos};
 
@@ -312,10 +312,10 @@ namespace Nop.Plugin.Api.Product.Modules.Product
             IEnumerable<ProductReview> allProducts =
                 _productService.GetAllProductReviews(customerId, approved, pageIndex: pageIndex, pageSize: pageSize);
 
-            IList<ProductReviewDto> productsAsDtos =
-                allProducts.Select(product => _dtoHelper.PrepareProductReviewDTO(product)).ToList();
+            IList<ProductReviewDto> productsAsDto =
+                allProducts.Select(product => _dtoHelper.ToReviewDto(product)).ToList();
 
-            var productsRootObject = new ProductsReviewRootObjectDto {ProductsReview = productsAsDtos};
+            var productsRootObject = new ProductsReviewRootObjectDto {ProductsReview = productsAsDto};
 
             var json = JsonFieldsSerializer.Serialize(productsRootObject, "");
 
@@ -400,7 +400,7 @@ namespace Nop.Plugin.Api.Product.Modules.Product
                 LocalizationService.GetResource("ActivityLog.UpdateProduct"), product);
 
             // Preparing the result dto of the new product
-            var productDto = _dtoHelper.PrepareProductDTO(product);
+            var productDto = _dtoHelper.ToDto(product);
 
             var productsRootObject = new ProductsRootObjectDto();
 
@@ -502,14 +502,12 @@ namespace Nop.Plugin.Api.Product.Modules.Product
                     var productAttributeMappingToUpdate =
                         entityToUpdate.ProductAttributeMappings.FirstOrDefault(x =>
                             x.Id == productAttributeMappingDto.Id);
-                    if (productAttributeMappingToUpdate != null)
-                    {
-                        productDtoDelta.Merge(productAttributeMappingDto, productAttributeMappingToUpdate, false);
+                    if (productAttributeMappingToUpdate == null) continue;
+                    productDtoDelta.Merge(productAttributeMappingDto, productAttributeMappingToUpdate, false);
 
-                        _productAttributeService.UpdateProductAttributeMapping(productAttributeMappingToUpdate);
+                    _productAttributeService.UpdateProductAttributeMapping(productAttributeMappingToUpdate);
 
-                        UpdateProductAttributeValues(productAttributeMappingDto, productDtoDelta);
-                    }
+                    UpdateProductAttributeValues(productAttributeMappingDto, productDtoDelta);
                 }
                 else
                 {
@@ -546,12 +544,10 @@ namespace Nop.Plugin.Api.Product.Modules.Product
                     // update existing product attribute mapping
                     var productAttributeValueToUpdate =
                         _productAttributeService.GetProductAttributeValueById(productAttributeValueDto.Id);
-                    if (productAttributeValueToUpdate != null)
-                    {
-                        productDtoDelta.Merge(productAttributeValueDto, productAttributeValueToUpdate, false);
+                    if (productAttributeValueToUpdate == null) continue;
+                    productDtoDelta.Merge(productAttributeValueDto, productAttributeValueToUpdate, false);
 
-                        _productAttributeService.UpdateProductAttributeValue(productAttributeValueToUpdate);
-                    }
+                    _productAttributeService.UpdateProductAttributeValue(productAttributeValueToUpdate);
                 }
                 else
                 {
@@ -613,11 +609,9 @@ namespace Nop.Plugin.Api.Product.Modules.Product
                     // update existing product picture
                     var productPictureToUpdate =
                         entityToUpdate.ProductPictures.FirstOrDefault(x => x.Id == imageDto.Id);
-                    if (productPictureToUpdate != null && imageDto.Position > 0)
-                    {
-                        productPictureToUpdate.DisplayOrder = imageDto.Position;
-                        _productService.UpdateProductPicture(productPictureToUpdate);
-                    }
+                    if (productPictureToUpdate == null || imageDto.Position <= 0) continue;
+                    productPictureToUpdate.DisplayOrder = imageDto.Position;
+                    _productService.UpdateProductPicture(productPictureToUpdate);
                 }
                 else
                 {
@@ -641,21 +635,7 @@ namespace Nop.Plugin.Api.Product.Modules.Product
             //Copied from UpdateProductTags method of ProductTagService
             //product tags
             var existingProductTags = _productTagService.GetAllProductTagsByProductId(product.Id);
-            var productTagsToRemove = new List<ProductTag>();
-            foreach (var existingProductTag in existingProductTags)
-            {
-                var found = false;
-                foreach (var newProductTag in productTags)
-                {
-                    if (!existingProductTag.Name.Equals(newProductTag, StringComparison.InvariantCultureIgnoreCase))
-                        continue;
-
-                    found = true;
-                    break;
-                }
-
-                if (!found) productTagsToRemove.Add(existingProductTag);
-            }
+            var productTagsToRemove = (from existingProductTag in existingProductTags let found = productTags.Any(newProductTag => existingProductTag.Name.Equals(newProductTag, StringComparison.InvariantCultureIgnoreCase)) where !found select existingProductTag).ToList();
 
             foreach (var productTag in productTagsToRemove)
             {

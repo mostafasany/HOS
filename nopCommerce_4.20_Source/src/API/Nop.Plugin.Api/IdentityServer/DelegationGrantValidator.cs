@@ -170,7 +170,7 @@ namespace Nop.Plugin.Api.IdentityServer
             var allCustomerRoles = _customerService.GetAllCustomerRoles(true);
             var customerRole = allCustomerRoles.FirstOrDefault(a => a.Id == roleId);
             if (currentCustomer.CustomerCustomerRoleMappings.Count(mapping =>
-                    mapping.CustomerRoleId == customerRole.Id) == 0)
+                    customerRole != null && mapping.CustomerRoleId == customerRole.Id) == 0)
                 currentCustomer.CustomerCustomerRoleMappings.Add(
                     new CustomerCustomerRoleMapping {CustomerRole = customerRole});
         }

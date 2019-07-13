@@ -54,10 +54,7 @@ namespace Nop.Plugin.Api.Cart.Translator
             var headers = httpContextAccessor.HttpContext.Request.Headers;
             if (!headers.ContainsKey("Accept-Language")) return;
             var lan = headers["Accept-Language"];
-            if (lan.ToString() == "en")
-                _currentLanguageId = 1;
-            else
-                _currentLanguageId = 2;
+            _currentLanguageId = lan.ToString() == "en" ? 1 : 2;
         }
 
         public ShippingOptionDto PrepareShippingOptionItemDto(ShippingOption shippingOption)

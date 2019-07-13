@@ -100,8 +100,7 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
             get => ((AttributeValueType)AttributeValueTypeId).ToString();
             set
             {
-                AttributeValueType attributeValueTypeId;
-                if (Enum.TryParse(value, out attributeValueTypeId)) AttributeValueTypeId = (int)attributeValueTypeId;
+                if (Enum.TryParse(value, out AttributeValueType attributeValueTypeId)) AttributeValueTypeId = (int)attributeValueTypeId;
             }
         }
     }

@@ -515,14 +515,11 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
             get
             {
                 var productTypeId = _productTypeId;
-                if (productTypeId != null) return ((ProductType)productTypeId).ToString();
-
-                return null;
+                return productTypeId != null ? ((ProductType)productTypeId).ToString() : null;
             }
             set
             {
-                ProductType productTypeId;
-                if (Enum.TryParse(value, out productTypeId))
+                if (Enum.TryParse(value, out ProductType productTypeId))
                     _productTypeId = (int)productTypeId;
                 else _productTypeId = null;
             }

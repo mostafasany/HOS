@@ -67,18 +67,13 @@ namespace Nop.Plugin.Api.Common.Helpers
                 // Every element in collection, that is not System type should have an id.
                 var id = int.Parse(newProperties["Id"].ToString());
 
-                object itemToBeUpdated = null;
+                object itemToBeUpdated = collection.Cast<object>()
+                    .FirstOrDefault(item => int.Parse(item.GetType()
+                                                .GetProperty("Id", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)
+                                                .GetValue(item)
+                                                .ToString()) == id);
 
                 // Check if there is already an item with this id in the collection.
-                foreach (var item in collection)
-                    if (int.Parse(item.GetType()
-                            .GetProperty("Id", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)
-                            .GetValue(item)
-                            .ToString()) == id)
-                    {
-                        itemToBeUpdated = item;
-                        break;
-                    }
 
                 if (itemToBeUpdated == null)
                     AddNewItemInCollection(newProperties, collection, collectionElementsType,
@@ -101,12 +96,10 @@ namespace Nop.Plugin.Api.Common.Helpers
 
             var propertyValueAsString = string.Format(CultureInfo.InvariantCulture, "{0}", propertyValue);
 
-            if (converter.IsValid(propertyValueAsString))
-            {
-                var convertedValue = converter.ConvertFromInvariantString(propertyValueAsString);
+            if (!converter.IsValid(propertyValueAsString)) return;
+            var convertedValue = converter.ConvertFromInvariantString(propertyValueAsString);
 
-                objectProperty.SetValue(objectToBeUpdated, convertedValue);
-            }
+            objectProperty.SetValue(objectToBeUpdated, convertedValue);
         }
 
         private IList CreateEmptyList(Type listItemType)
@@ -148,89 +141,91 @@ namespace Nop.Plugin.Api.Common.Helpers
             var propertyToUpdate = objectToBeUpdated.GetType().GetProperty(propertyName,
                 BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 
-            if (propertyToUpdate != null)
+            if (propertyToUpdate == null) return;
+            // This case handles nested properties.
+            if (propertyValue is Dictionary<string, object> value)
             {
-                // This case handles nested properties.
-                if (propertyValue != null && propertyValue is Dictionary<string, object>)
+                var valueToUpdate = propertyToUpdate.GetValue(objectToBeUpdated);
+
+                if (valueToUpdate == null)
                 {
-                    var valueToUpdate = propertyToUpdate.GetValue(objectToBeUpdated);
+                    // Check if there is registered factory for this type.
+                    var factoryType = typeof(IFactory<>);
+                    var factoryTypeForCurrentProperty = factoryType.MakeGenericType(propertyToUpdate.PropertyType);
+                    var initializerFactory =
+                        ((NopEngine)EngineContext.Current).ServiceProvider
+                        .GetService(factoryTypeForCurrentProperty);
 
-                    if (valueToUpdate == null)
+                    if (initializerFactory != null)
                     {
-                        // Check if there is registered factory for this type.
-                        var factoryType = typeof(IFactory<>);
-                        var factoryTypeForCurrentProperty = factoryType.MakeGenericType(propertyToUpdate.PropertyType);
-                        var initializerFactory =
-                            ((NopEngine)EngineContext.Current).ServiceProvider
-                            .GetService(factoryTypeForCurrentProperty);
+                        var initializeMethod = factoryTypeForCurrentProperty.GetMethod("Initialize");
 
-                        if (initializerFactory != null)
-                        {
-                            var initializeMethod = factoryTypeForCurrentProperty.GetMethod("Initialize");
-
-                            valueToUpdate = initializeMethod.Invoke(initializerFactory, null);
-                        }
-                        else
-                            valueToUpdate = Activator.CreateInstance(propertyToUpdate.PropertyType);
-
-                        propertyToUpdate.SetValue(objectToBeUpdated, valueToUpdate);
+                        valueToUpdate = initializeMethod.Invoke(initializerFactory, null);
                     }
+                    else
+                        valueToUpdate = Activator.CreateInstance(propertyToUpdate.PropertyType);
 
-                    // We need to use GetValue method to get the actual instance of the jsonProperty. objectProperty is the jsonProperty info.
-                    SetValues((Dictionary<string, object>)propertyValue, valueToUpdate,
-                        propertyToUpdate.PropertyType, objectPropertyNameValuePairs);
-                    // We expect the nested properties to be classes which are refrence types.
-                    return;
-                }
-                // This case hadles collections.
-
-                if (propertyValue != null && propertyValue is ICollection<object>)
-                {
-                    var propertyValueAsCollection = propertyValue as ICollection<object>;
-
-                    var collectionElementsType = propertyToUpdate.PropertyType.GetGenericArguments()[0];
-                    var collection = propertyToUpdate.GetValue(objectToBeUpdated);
-
-                    if (collection == null)
-                    {
-                        collection = CreateEmptyList(collectionElementsType);
-                        propertyToUpdate.SetValue(objectToBeUpdated, collection);
-                    }
-
-                    //this is a hack to fix a bug when "collection" cannot be cast to IList (ex:  it's a HashSet for Order.OrderItems)
-                    var collectionAsList = collection as IList;
-                    if (collectionAsList == null)
-                    {
-                        collectionAsList = CreateEmptyList(collectionElementsType);
-
-                        var collectionAsEnumerable = collection as IEnumerable;
-                        foreach (var collectionItem in collectionAsEnumerable) collectionAsList.Add(collectionItem);
-
-                        collection = collectionAsList;
-                        propertyToUpdate.SetValue(objectToBeUpdated, collection);
-                    }
-
-                    foreach (var item in propertyValueAsCollection)
-                        if (collectionElementsType.Namespace != "System")
-                        {
-                            if (handleComplexTypeCollections)
-                                AddOrUpdateComplexItemInCollection(item as Dictionary<string, object>,
-                                    collection as IList,
-                                    collectionElementsType, objectPropertyNameValuePairs, handleComplexTypeCollections);
-                        }
-                        else
-                            AddBaseItemInCollection(item, collection as IList, collectionElementsType);
-
-                    return;
+                    propertyToUpdate.SetValue(objectToBeUpdated, valueToUpdate);
                 }
 
-                // This is where the new value is beeing set to the object jsonProperty using the SetValue function part of System.Reflection.
-                if (propertyValue == null)
+                // We need to use GetValue method to get the actual instance of the jsonProperty. objectProperty is the jsonProperty info.
+                SetValues(value, valueToUpdate,
+                    propertyToUpdate.PropertyType, objectPropertyNameValuePairs);
+                // We expect the nested properties to be classes which are reference types.
+                return;
+            }
+            // This case handles collections.
+
+            if (propertyValue != null && propertyValue is ICollection<object> propertyValueAsCollection)
+            {
+                var collectionElementsType = propertyToUpdate.PropertyType.GetGenericArguments()[0];
+                var collection = propertyToUpdate.GetValue(objectToBeUpdated);
+
+                if (collection == null)
+                {
+                    collection = CreateEmptyList(collectionElementsType);
+                    propertyToUpdate.SetValue(objectToBeUpdated, collection);
+                }
+
+                //this is a hack to fix a bug when "collection" cannot be cast to IList (ex:  it's a HashSet for Order.OrderItems)
+                if (!(collection is IList collectionAsList))
+                {
+                    collectionAsList = CreateEmptyList(collectionElementsType);
+
+                    if (collection is IEnumerable collectionAsEnumerable)
+                        foreach (var collectionItem in collectionAsEnumerable)
+                            collectionAsList.Add(collectionItem);
+
+                    collection = collectionAsList;
+                    propertyToUpdate.SetValue(objectToBeUpdated, collection);
+                }
+
+                foreach (var item in propertyValueAsCollection)
+                    if (collectionElementsType.Namespace != "System")
+                    {
+                        if (handleComplexTypeCollections)
+                            AddOrUpdateComplexItemInCollection(item as Dictionary<string, object>,
+                                collection as IList,
+                                collectionElementsType, objectPropertyNameValuePairs, handleComplexTypeCollections);
+                    }
+                    else
+                        AddBaseItemInCollection(item, collection as IList, collectionElementsType);
+
+                return;
+            }
+
+            switch (propertyValue)
+            {
+                // This is where the new value is being set to the object jsonProperty using the SetValue function part of System.Reflection.
+                case null:
                     propertyToUpdate.SetValue(objectToBeUpdated, null);
-                else if (propertyValue is IConvertible)
+                    break;
+                case IConvertible _:
                     ConvertAndSetValueIfValid(objectToBeUpdated, propertyToUpdate, propertyValue);
-                else
+                    break;
+                default:
                     propertyToUpdate.SetValue(objectToBeUpdated, propertyValue);
+                    break;
             }
         }
     }

@@ -22,7 +22,7 @@ namespace Nop.Plugin.Api.Common.Validators
 
         #region Constructors
 
-        public BaseDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper,
+        protected BaseDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper,
             Dictionary<string, object> requestJsonDictionary)
         {
             HttpContextAccessor = httpContextAccessor;
@@ -58,16 +58,9 @@ namespace Nop.Plugin.Api.Common.Validators
 
         protected IHttpContextAccessor HttpContextAccessor { get; }
 
-        protected Dictionary<string, object> RequestJsonDictionary
-        {
-            get
-            {
-                if (_requestValuesDictionary == null)
-                    _requestValuesDictionary = GetRequestJsonDictionaryDictionaryFromHttpContext();
-
-                return _requestValuesDictionary;
-            }
-        }
+        protected Dictionary<string, object> RequestJsonDictionary =>
+            _requestValuesDictionary ??
+            (_requestValuesDictionary = GetRequestJsonDictionaryDictionaryFromHttpContext());
 
         protected IJsonHelper JsonHelper { get; }
 
@@ -77,9 +70,9 @@ namespace Nop.Plugin.Api.Common.Validators
 
         protected void MergeValidationResult(CustomContext validationContext, ValidationResult validationResult)
         {
-            if (!validationResult.IsValid)
-                foreach (var validationFailure in validationResult.Errors)
-                    validationContext.AddFailure(validationFailure);
+            if (validationResult.IsValid) return;
+            foreach (var validationFailure in validationResult.Errors)
+                validationContext.AddFailure(validationFailure);
         }
 
         protected Dictionary<string, object> GetRequestJsonDictionaryCollectionItemDictionary<TDto>(

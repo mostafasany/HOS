@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using FluentValidation;
 
 namespace Nop.Plugin.Api.Common.DTOs.Product.Validator
 {
     public class SpecificationAttributeDtoValidator : AbstractValidator<SpecificationAttributeDto>
     {
-        public SpecificationAttributeDtoValidator(string httpMethod,
-            Dictionary<string, object> passedPropertyValuePaires)
+        public SpecificationAttributeDtoValidator(string httpMethod)
         {
             if (string.IsNullOrEmpty(httpMethod) ||
                 httpMethod.Equals("post", StringComparison.InvariantCultureIgnoreCase))

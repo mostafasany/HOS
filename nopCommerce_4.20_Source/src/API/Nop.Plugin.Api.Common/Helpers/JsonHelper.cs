@@ -17,7 +17,7 @@ namespace Nop.Plugin.Api.Common.Helpers
             _localizationService = localizationService;
 
             var language = languageService.GetAllLanguages().FirstOrDefault();
-            _languageId = language != null ? language.Id : 0;
+            _languageId = language?.Id ?? 0;
         }
 
         #endregion

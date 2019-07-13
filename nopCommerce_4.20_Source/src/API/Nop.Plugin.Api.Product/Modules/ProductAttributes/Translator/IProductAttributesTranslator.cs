@@ -3,8 +3,8 @@ using Nop.Plugin.Api.Product.Modules.ProductAttributes.Dto;
 
 namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Translator
 {
-    public interface IProductAttributesTransaltor
+    public interface IProductAttributesTranslator
     {
-        ProductAttributeDto PrepareProductAttributeDTO(ProductAttribute productAttribute);
+        ProductAttributeDto ToDto(ProductAttribute productAttribute);
     }
 }

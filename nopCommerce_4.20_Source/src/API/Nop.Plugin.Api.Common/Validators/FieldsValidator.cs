@@ -15,19 +15,9 @@ namespace Nop.Plugin.Api.Common.Validators
             // By specification if the property consists of several words, each word should be separetate from the others with underscore.
             fields = fields.Replace("_", string.Empty);
 
-            var validFields = new Dictionary<string, bool>();
             var fieldsAsList = GetPropertiesIntoList(fields);
 
-            foreach (var field in fieldsAsList)
-            {
-                var propertyExists =
-                    type.GetProperty(field, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) !=
-                    null;
-
-                if (propertyExists) validFields.Add(field, true);
-            }
-
-            return validFields;
+            return (from field in fieldsAsList let propertyExists = type.GetProperty(field, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) != null where propertyExists select field).ToDictionary(field => field, field => true);
         }
 
         private static IEnumerable<string> GetPropertiesIntoList(string fields)

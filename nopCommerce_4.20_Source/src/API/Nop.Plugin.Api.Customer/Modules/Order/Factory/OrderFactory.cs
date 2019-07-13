@@ -10,13 +10,15 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Factory
     {
         public Core.Domain.Orders.Order Initialize()
         {
-            var order = new Core.Domain.Orders.Order();
+            var order = new Core.Domain.Orders.Order
+            {
+                CreatedOnUtc = DateTime.UtcNow,
+                OrderGuid = new Guid(),
+                PaymentStatus = PaymentStatus.Pending,
+                ShippingStatus = ShippingStatus.NotYetShipped,
+                OrderStatus = OrderStatus.Pending
+            };
 
-            order.CreatedOnUtc = DateTime.UtcNow;
-            order.OrderGuid = new Guid();
-            order.PaymentStatus = PaymentStatus.Pending;
-            order.ShippingStatus = ShippingStatus.NotYetShipped;
-            order.OrderStatus = OrderStatus.Pending;
 
             return order;
         }

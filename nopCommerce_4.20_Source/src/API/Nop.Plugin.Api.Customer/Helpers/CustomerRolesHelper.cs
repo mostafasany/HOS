@@ -8,7 +8,7 @@ namespace Nop.Plugin.Api.Customer.Helpers
 {
     public class CustomerRolesHelper : ICustomerRolesHelper
     {
-        private const string CUSTOMERROLES_ALL_KEY = "Nop.customerrole.all-{0}";
+        private const string CustomerRolesAllKey = "Nop.customerrole.all-{0}";
         private readonly ICacheManager _cacheManager;
 
         private readonly ICustomerService _customerService;
@@ -21,19 +21,15 @@ namespace Nop.Plugin.Api.Customer.Helpers
 
         public IList<CustomerRole> GetValidCustomerRoles(List<int> roleIds)
         {
-            // This is needed because the caching messeup the entity framework context
-            // and when you try to send something TO the database it throws an exeption.
+            // This is needed because the caching mess up the entity framework context
+            // and when you try to send something TO the database it throws an exception.
             //TODO:4.2 Migration
-            //_cacheManager.RemoveByPattern(CUSTOMERROLES_ALL_KEY);
-            _cacheManager.Remove(CUSTOMERROLES_ALL_KEY);
+            //_cacheManager.RemoveByPattern(CustomerRolesAllKey);
+            _cacheManager.Remove(CustomerRolesAllKey);
 
             var allCustomerRoles = _customerService.GetAllCustomerRoles(true);
-            var newCustomerRoles = new List<CustomerRole>();
-            foreach (var customerRole in allCustomerRoles)
-                if (roleIds != null && roleIds.Contains(customerRole.Id))
-                    newCustomerRoles.Add(customerRole);
 
-            return newCustomerRoles;
+            return allCustomerRoles.Where(customerRole => roleIds != null && roleIds.Contains(customerRole.Id)).ToList();
         }
 
         public bool IsInGuestsRole(IList<CustomerRole> customerRoles)

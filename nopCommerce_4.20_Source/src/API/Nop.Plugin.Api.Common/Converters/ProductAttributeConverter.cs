@@ -42,11 +42,10 @@ namespace Nop.Plugin.Api.Common.Converters
                     case AttributeControlType.ImageSquares:
                     {
                         // there should be only one selected value for this attribute
-                        var selectedAttribute = attributeDtos.Where(x => x.Id == attribute.Id).FirstOrDefault();
+                        var selectedAttribute = attributeDtos.FirstOrDefault(x => x.Id == attribute.Id);
                         if (selectedAttribute != null)
                         {
-                            int selectedAttributeValue;
-                            var isInt = int.TryParse(selectedAttribute.Value, out selectedAttributeValue);
+                            var isInt = int.TryParse(selectedAttribute.Value, out var selectedAttributeValue);
                             if (isInt && selectedAttributeValue > 0)
                                 attributesXml = _productAttributeParser.AddProductAttribute(attributesXml,
                                     attribute, selectedAttributeValue.ToString());
@@ -59,16 +58,13 @@ namespace Nop.Plugin.Api.Common.Converters
                         var selectedAttributes = attributeDtos.Where(x => x.Id == attribute.Id);
                         foreach (var selectedAttribute in selectedAttributes)
                         {
-                            int selectedAttributeValue;
-                            var isInt = int.TryParse(selectedAttribute.Value, out selectedAttributeValue);
-                            if (isInt && selectedAttributeValue > 0)
-                            {
-                                // currently there is no support for attribute quantity
-                                var quantity = 1;
+                            var isInt = int.TryParse(selectedAttribute.Value, out var selectedAttributeValue);
+                            if (!isInt || selectedAttributeValue <= 0) continue;
+                            // currently there is no support for attribute quantity
+                            var quantity = 1;
 
-                                attributesXml = _productAttributeParser.AddProductAttribute(attributesXml,
-                                    attribute, selectedAttributeValue.ToString(), quantity);
-                            }
+                            attributesXml = _productAttributeParser.AddProductAttribute(attributesXml,
+                                attribute, selectedAttributeValue.ToString(), quantity);
                         }
                     }
                         break;
@@ -100,12 +96,10 @@ namespace Nop.Plugin.Api.Common.Converters
 
                         if (selectedAttribute != null)
                         {
-                            DateTime selectedDate;
-
                             // Since nopCommerce uses this format to keep the date in the database to keep it consisten we will expect the same format to be passed
                             var validDate = DateTime.TryParseExact(selectedAttribute.Value, "D",
                                 CultureInfo.CurrentCulture,
-                                DateTimeStyles.None, out selectedDate);
+                                DateTimeStyles.None, out var selectedDate);
 
                             if (validDate)
                                 attributesXml = _productAttributeParser.AddProductAttribute(attributesXml,
@@ -115,12 +109,11 @@ namespace Nop.Plugin.Api.Common.Converters
                         break;
                     case AttributeControlType.FileUpload:
                     {
-                        var selectedAttribute = attributeDtos.Where(x => x.Id == attribute.Id).FirstOrDefault();
+                        var selectedAttribute = attributeDtos.FirstOrDefault(x => x.Id == attribute.Id);
 
                         if (selectedAttribute != null)
                         {
-                            Guid downloadGuid;
-                            Guid.TryParse(selectedAttribute.Value, out downloadGuid);
+                            Guid.TryParse(selectedAttribute.Value, out var downloadGuid);
                             var download = _downloadService.GetDownloadByGuid(downloadGuid);
                             if (download != null)
                                 attributesXml = _productAttributeParser.AddProductAttribute(attributesXml,
@@ -128,6 +121,8 @@ namespace Nop.Plugin.Api.Common.Converters
                         }
                     }
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
             // No Gift Card attributes support yet
@@ -137,9 +132,9 @@ namespace Nop.Plugin.Api.Common.Converters
 
         public List<ProductItemAttributeDto> Parse(string attributesXml)
         {
-            var attributeDtos = new List<ProductItemAttributeDto>();
+            var attributeDto = new List<ProductItemAttributeDto>();
             if (string.IsNullOrEmpty(attributesXml))
-                return attributeDtos;
+                return attributeDto;
 
             try
             {
@@ -149,15 +144,15 @@ namespace Nop.Plugin.Api.Common.Converters
                 foreach (XmlNode attributeNode in xmlDoc.SelectNodes(@"//Attributes/ProductAttribute"))
                     if (attributeNode.Attributes != null && attributeNode.Attributes["ID"] != null)
                     {
-                        int attributeId;
-                        if (int.TryParse(attributeNode.Attributes["ID"].InnerText.Trim(), out attributeId))
-                            foreach (XmlNode attributeValue in attributeNode.SelectNodes("ProductAttributeValue"))
-                            {
-                                var value = attributeValue.SelectSingleNode("Value").InnerText.Trim();
-                                // no support for quantity yet
-                                //var quantityNode = attributeValue.SelectSingleNode("Quantity");
-                                attributeDtos.Add(new ProductItemAttributeDto {Id = attributeId, Value = value});
-                            }
+                        if (!int.TryParse(attributeNode.Attributes["ID"].InnerText.Trim(), out var attributeId))
+                            continue;
+                        foreach (XmlNode attributeValue in attributeNode.SelectNodes("ProductAttributeValue"))
+                        {
+                            var value = attributeValue.SelectSingleNode("Value").InnerText.Trim();
+                            // no support for quantity yet
+                            //var quantityNode = attributeValue.SelectSingleNode("Quantity");
+                            attributeDto.Add(new ProductItemAttributeDto {Id = attributeId, Value = value});
+                        }
                     }
             }
             catch
@@ -165,7 +160,7 @@ namespace Nop.Plugin.Api.Common.Converters
                 // ignored
             }
 
-            return attributeDtos;
+            return attributeDto;
         }
     }
 }

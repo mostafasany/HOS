@@ -4,10 +4,10 @@ using Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders;
 
 namespace Nop.Plugin.Api.Customer.Modules.Order.Translator
 {
-    public interface IOrderTransaltor
+    public interface IOrderTranslator
     {
-        OrderDto PrepareOrderDTO(Core.Domain.Orders.Order order);
+        OrderDto ToOrderDto(Core.Domain.Orders.Order order);
 
-        OrderItemDto PrepareOrderItemDTO(OrderItem orderItem);
+        OrderItemDto ToOrderItemDto(OrderItem orderItem);
     }
 }

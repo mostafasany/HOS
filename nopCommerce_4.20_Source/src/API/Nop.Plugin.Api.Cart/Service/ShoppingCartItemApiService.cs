@@ -8,7 +8,6 @@ using Nop.Core.Data;
 using Nop.Core.Domain.Catalog;
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
-using Nop.Core.Domain.Media;
 using Nop.Core.Domain.Orders;
 using Nop.Core.Domain.Shipping;
 using Nop.Core.Domain.Vendors;
@@ -44,11 +43,9 @@ namespace Nop.Plugin.Api.Cart.Service
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILocalizationService _localizationService;
-        private readonly MediaSettings _mediaSettings;
         private readonly IOrderProcessingService _orderProcessingService;
         private readonly OrderSettings _orderSettings;
         private readonly IPaymentPluginManager _paymentPluginManager;
-        private readonly IPaymentService _paymentService;
         private readonly IPriceCalculationService _priceCalculationService;
         private readonly IPriceFormatter _priceFormatter;
         private readonly IProductAttributeConverter _productAttributeConverter;
@@ -78,7 +75,6 @@ namespace Nop.Plugin.Api.Cart.Service
             IHttpContextAccessor httpContextAccessor,
             ILocalizationService localizationService,
             IOrderProcessingService orderProcessingService,
-            IPaymentService paymentService,
             IPriceCalculationService priceCalculationService,
             IPriceFormatter priceFormatter,
             IProductAttributeFormatter productAttributeFormatter,
@@ -89,7 +85,6 @@ namespace Nop.Plugin.Api.Cart.Service
             IUrlRecordService urlRecordService,
             IVendorService vendorService,
             IWorkContext workContext,
-            MediaSettings mediaSettings,
             OrderSettings orderSettings,
             ShippingSettings shippingSettings,
             ShoppingCartSettings shoppingCartSettings,
@@ -111,7 +106,6 @@ namespace Nop.Plugin.Api.Cart.Service
             _httpContextAccessor = httpContextAccessor;
             _localizationService = localizationService;
             _orderProcessingService = orderProcessingService;
-            _paymentService = paymentService;
             _priceCalculationService = priceCalculationService;
             _priceFormatter = priceFormatter;
             _productAttributeFormatter = productAttributeFormatter;
@@ -123,7 +117,6 @@ namespace Nop.Plugin.Api.Cart.Service
             _urlRecordService = urlRecordService;
             _vendorService = vendorService;
             _workContext = workContext;
-            _mediaSettings = mediaSettings;
             _orderSettings = orderSettings;
             _shippingSettings = shippingSettings;
             _shoppingCartSettings = shoppingCartSettings;

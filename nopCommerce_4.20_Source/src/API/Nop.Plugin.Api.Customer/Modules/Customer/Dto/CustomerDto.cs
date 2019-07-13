@@ -10,29 +10,14 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
     public class CustomerDto : BaseCustomerDto
     {
         private ICollection<AddressDto> _addresses;
-        //private ICollection<ShoppingCartItemDto> _shoppingCartItems;
-
+       
         [JsonIgnore]
         [JsonProperty("password")]
         public string Password { get; set; }
 
         #region Navigation properties
 
-        /// <summary>
-        ///     Gets or sets shopping cart items
-        /// </summary>
-        //[JsonProperty("shopping_cart_items")]
-        //[DoNotMap]
-        //public ICollection<ShoppingCartItemDto> ShoppingCartItems
-        //{
-        //    get
-        //    {
-        //        if (_shoppingCartItems == null) _shoppingCartItems = new List<ShoppingCartItemDto>();
-
-        //        return _shoppingCartItems;
-        //    }
-        //    set => _shoppingCartItems = value;
-        //}
+     
         /// <summary>
         ///     Default billing address
         /// </summary>
@@ -64,12 +49,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
         [JsonProperty("addresses")]
         public ICollection<AddressDto> Addresses
         {
-            get
-            {
-                if (_addresses == null) _addresses = new List<AddressDto>();
-
-                return _addresses;
-            }
+            get => _addresses ?? (_addresses = new List<AddressDto>());
             set => _addresses = value;
         }
 

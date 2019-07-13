@@ -115,12 +115,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
         [JsonProperty("role_ids")]
         public List<int> RoleIds
         {
-            get
-            {
-                if (_roleIds == null) _roleIds = new List<int>();
-
-                return _roleIds;
-            }
+            get => _roleIds ?? (_roleIds = new List<int>());
             set => _roleIds = value;
         }
     }

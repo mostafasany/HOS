@@ -24,7 +24,7 @@ namespace Nop.Plugin.Api.Product.Modules.Discount
     public class DiscountsController : BaseApiController
     {
         private readonly IDiscountApiService _discountApiService;
-        private readonly IDiscountTransaltor _dtoHelper;
+        private readonly IDiscountTranslator _dtoHelper;
 
         public DiscountsController(IDiscountApiService discountApiService,
             IJsonFieldsSerializer jsonFieldsSerializer,
@@ -36,7 +36,7 @@ namespace Nop.Plugin.Api.Product.Modules.Discount
             IDiscountService discountService,
             IAclService aclService,
             ICustomerService customerService,
-            IDiscountTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            IDiscountTranslator dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService)
         {
@@ -61,7 +61,7 @@ namespace Nop.Plugin.Api.Product.Modules.Discount
             IEnumerable<Core.Domain.Discounts.Discount> allDiscounts = _discountApiService.GetDiscounts(parameters.Ids);
 
             IList<DiscountDto> discountsAsDtos = allDiscounts.Select(discount =>
-                _dtoHelper.PrepateDiscountDto(discount)).ToList();
+                _dtoHelper.ToDiscountDto(discount)).ToList();
 
             var discountsRootObject = new DiscountsRootObject {Discounts = discountsAsDtos};
 

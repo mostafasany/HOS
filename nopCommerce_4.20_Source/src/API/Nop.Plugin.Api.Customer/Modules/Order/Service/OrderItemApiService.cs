@@ -16,7 +16,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Service
 
         public int GetOrderItemsCount(Core.Domain.Orders.Order order)
         {
-            var orderItemsCount = order.OrderItems.Count();
+            var orderItemsCount = order.OrderItems.Count;
 
             return orderItemsCount;
         }

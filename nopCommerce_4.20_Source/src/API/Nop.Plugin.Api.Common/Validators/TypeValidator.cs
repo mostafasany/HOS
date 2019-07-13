@@ -35,16 +35,17 @@ namespace Nop.Plugin.Api.Common.Validators
             {
                 var isCurrentPropertyValid = true;
 
-                if (jsonPropertyNameTypePair.ContainsKey(pair.Key))
-                {
-                    var propertyType = jsonPropertyNameTypePair[pair.Key];
+                if (!jsonPropertyNameTypePair.ContainsKey(pair.Key)) continue;
+                var propertyType = jsonPropertyNameTypePair[pair.Key];
 
+                switch (pair.Value)
+                {
                     // handle nested properties
-                    if (pair.Value is Dictionary<string, object> objects)
+                    // This case handles collections.
+                    case Dictionary<string, object> objects:
                         isCurrentPropertyValid = ValidateNestedProperty(propertyType, objects);
-                    // This case hadles collections.
-                    else if (pair.Value is ICollection<object> propertyValueAsCollection &&
-                             propertyType.GetInterface("IEnumerable") != null)
+                        break;
+                    case ICollection<object> propertyValueAsCollection when propertyType.GetInterface("IEnumerable") != null:
                     {
                         var elementsType = ReflectionHelper.GetGenericElementType(propertyType);
 
@@ -55,16 +56,18 @@ namespace Nop.Plugin.Api.Common.Validators
 
                             if (!isCurrentPropertyValid) break;
                         }
-                    }
-                    else
-                        isCurrentPropertyValid = IsCurrentPropertyValid(jsonPropertyNameTypePair[pair.Key], pair.Value);
 
-                    if (!isCurrentPropertyValid)
-                    {
-                        isValid = false;
-                        InvalidProperties.Add(pair.Key);
+                        break;
                     }
+
+                    default:
+                        isCurrentPropertyValid = IsCurrentPropertyValid(jsonPropertyNameTypePair[pair.Key], pair.Value);
+                        break;
                 }
+
+                if (isCurrentPropertyValid) continue;
+                isValid = false;
+                InvalidProperties.Add(pair.Key);
             }
 
             return isValid;

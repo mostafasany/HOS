@@ -28,10 +28,7 @@ namespace Nop.Plugin.Api.Common.ModelBinders
 
             // Languages are ordered by display order so the first language will be with the smallest display order.
             var firstLanguage = languageService.GetAllLanguages().FirstOrDefault();
-            if (firstLanguage != null)
-                _languageId = firstLanguage.Id;
-            else
-                _languageId = 0;
+            _languageId = firstLanguage?.Id ?? 0;
         }
 
         public Task BindModelAsync(ModelBindingContext bindingContext)
@@ -121,7 +118,7 @@ namespace Nop.Plugin.Api.Common.ModelBinders
             T dto)
         {
             // this method validates each property by checking if it has an attribute that inherits from BaseValidationAttribute
-            // these attribtues are different than FluentValidation attributes, so they need to be validated manually
+            // these attributes are different than FluentValidation attributes, so they need to be validated manually
 
             var dtoProperties = dto.GetType().GetProperties();
             foreach (var property in dtoProperties)
@@ -129,22 +126,17 @@ namespace Nop.Plugin.Api.Common.ModelBinders
                 // Check property type
                 var validationAttribute =
                     property.PropertyType.GetCustomAttribute(
-                        typeof(BaseValidationAttribute)) as BaseValidationAttribute;
+                        typeof(BaseValidationAttribute)) as BaseValidationAttribute ?? property.GetCustomAttribute(typeof(BaseValidationAttribute)) as BaseValidationAttribute;
 
                 // If not on property type, check the property itself.
-                if (validationAttribute == null)
-                    validationAttribute =
-                        property.GetCustomAttribute(typeof(BaseValidationAttribute)) as BaseValidationAttribute;
 
-                if (validationAttribute != null)
-                {
-                    validationAttribute.Validate(property.GetValue(dto));
-                    var errors = validationAttribute.GetErrors();
+                if (validationAttribute == null) continue;
+                validationAttribute.Validate(property.GetValue(dto));
+                var errors = validationAttribute.GetErrors();
 
-                    if (errors.Count > 0)
-                        foreach (var error in errors)
-                            bindingContext.ModelState.AddModelError(error.Key, error.Value);
-                }
+                if (errors.Count <= 0) continue;
+                foreach (var error in errors)
+                    bindingContext.ModelState.AddModelError(error.Key, error.Value);
             }
         }
 
@@ -167,9 +159,9 @@ namespace Nop.Plugin.Api.Common.ModelBinders
                             _localizationService.GetResource("Api.InvalidPropertyType", _languageId, false));
                 }
 
-            if (errors.Count > 0)
-                foreach (var error in errors)
-                    bindingContext.ModelState.AddModelError(error.Key, error.Value);
+            if (errors.Count <= 0) return;
+            foreach (var error in errors)
+                bindingContext.ModelState.AddModelError(error.Key, error.Value);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes
 {
     public class ProductAttributesController : BaseApiController
     {
-        private readonly IProductAttributesTransaltor _dtoHelper;
+        private readonly IProductAttributesTranslator _dtoHelper;
         private readonly IProductAttributesApiService _productAttributesApiService;
         private readonly IProductAttributeService _productAttributeService;
 
@@ -43,7 +43,7 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes
             IPictureService pictureService,
             IProductAttributeService productAttributeService,
             IProductAttributesApiService productAttributesApiService,
-            IProductAttributesTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            IProductAttributesTranslator dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService, localizationService,
             pictureService)
         {
@@ -76,7 +76,7 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes
                 LocalizationService.GetResource("ActivityLog.AddNewProductAttribute"), productAttribute);
 
             // Preparing the result dto of the new product
-            var productAttributeDto = _dtoHelper.PrepareProductAttributeDTO(productAttribute);
+            var productAttributeDto = _dtoHelper.ToDto(productAttribute);
 
             var productAttributesRootObjectDto = new ProductAttributesRootObjectDto();
 
@@ -134,7 +134,7 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes
 
             if (productAttribute == null) return Error(HttpStatusCode.NotFound, "product attribute", "not found");
 
-            var productAttributeDto = _dtoHelper.PrepareProductAttributeDTO(productAttribute);
+            var productAttributeDto = _dtoHelper.ToDto(productAttribute);
 
             var productAttributesRootObject = new ProductAttributesRootObjectDto();
 
@@ -170,7 +170,7 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes
                     parameters.SinceId);
 
             IList<ProductAttributeDto> productAttributesAsDtos = allProductAttributes
-                .Select(productAttribute => _dtoHelper.PrepareProductAttributeDTO(productAttribute)).ToList();
+                .Select(productAttribute => _dtoHelper.ToDto(productAttribute)).ToList();
 
             var productAttributesRootObject = new ProductAttributesRootObjectDto
             {
@@ -231,7 +231,7 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes
                 LocalizationService.GetResource("ActivityLog.EditProductAttribute"), productAttribute);
 
             // Preparing the result dto of the new product attribute
-            var productAttributeDto = _dtoHelper.PrepareProductAttributeDTO(productAttribute);
+            var productAttributeDto = _dtoHelper.ToDto(productAttribute);
 
             var productAttributesRootObjectDto = new ProductAttributesRootObjectDto();
 
