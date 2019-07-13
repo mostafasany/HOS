@@ -71,7 +71,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.Cart", "API\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.Category", "API\Nop.Plugin.Api.Category\Nop.Plugin.Api.Category.csproj", "{AB4D6499-CCBC-4552-AF88-91881881FEF9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.Content", "API\Nop.Plugin.Api.Content\Nop.Plugin.Api.Content.csproj", "{0B3C0372-0D8D-4414-8FD0-AFE8E3247DB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nop.Plugin.Api.Content", "API\Nop.Plugin.Api.Content\Nop.Plugin.Api.Content.csproj", "{0B3C0372-0D8D-4414-8FD0-AFE8E3247DB9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nop.Plugin.Api.Customer", "API\Nop.Plugin.Api.Customer\Nop.Plugin.Api.Customer.csproj", "{4FD23EEF-5519-46CC-9A62-44B2F6049D21}"
 EndProject

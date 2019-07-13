@@ -55,6 +55,7 @@
 
   <ItemGroup>
     <Folder Include="Plugins\" />
+    <Folder Include="Plugins\bin\" />
   </ItemGroup>
 
   <!-- This target execute after "Build" target.

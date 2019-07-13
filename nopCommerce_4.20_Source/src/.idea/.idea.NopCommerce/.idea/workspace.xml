@@ -2,215 +2,64 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fd367d32-9551-4075-aaa6-16f67f89a98f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Errors/ErrorObject.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/ApiAuthentication.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/CookiesService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/DelegationGrantValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/ICookiesService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/PasswordValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/ProfileService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Presentation/Nop.Web/App_Data/api-token-signing-key.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.NopCommerce/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.NopCommerce/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.NopCommerce/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.NopCommerce/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/ApiMapperConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/ApiMapperConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/DependencyRegister.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/DependencyRegister.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/DiscountDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/DiscountDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/DiscountsRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/DiscountsRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ExtendedShoppingCartItemsRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ExtendedShoppingCartItemsRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ProductsRootObjectDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ProductsRootObjectDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ShippingOptionDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ShippingOptionDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ShippingOptionRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ShippingOptionRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ShoppingCartItemDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ShoppingCartItemDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ShoppingCartItemsRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ShoppingCartItemsRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/Validator/ShoppingCartItemDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/Validator/ShoppingCartItemDtoValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Model/ShoppingCartItemsShipmentEstimationModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Model/ShoppingCartItemsShipmentEstimationModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Service/IShoppingCartItemApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Service/IShoppingCartItemApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Service/ShoppingCartItemApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Service/ShoppingCartItemApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/ShoppingCartItemsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/ShoppingCartItemsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/CartTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/Cartransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/DiscountTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/DiscountTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/ICartTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/ICartTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/IDiscountTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/IDiscountTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/ShoppingCartItemDtoMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/ShoppingCartItemDtoMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/ApiMapperConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/ApiMapperConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/CategoriesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/CategoriesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/DependencyRegister.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/DependencyRegister.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Dto/CategoriesCountRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Dto/CategoriesCountRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Dto/CategoriesRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Dto/CategoriesRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Dto/CategoryDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Dto/CategoryDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Dto/Validator/CategoryDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Dto/Validator/CategoryDtoValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Factory/CategoryFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Factory/CategoryFactory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Service/CategoryApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Service/CategoryApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Service/ICategoryApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Service/ICategoryApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Translator/CategoryDtoMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Translator/CategoryDtoMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Translator/CategoryTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Translator/CategoryTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Attributes/BaseAttributeInvoker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Attributes/BaseValidationAttribute.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Attributes/DoNotMap.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Attributes/DoNotMapAttribute.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Attributes/GetRequestsErrorInterceptorActionFilter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Attributes/GetRequestsErrorInterceptorActionFilter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Attributes/ImageAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Attributes/ImageValidationAttribute.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Attributes/ImageCollectionAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Attributes/ImageCollectionValidationAttribute.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/AutoMapper/AutoMapperApiConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/AutoMapper/AutoMapperApiConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Constants/ApiConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Constants/ApiConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Constants/Constants.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Constants/Constants.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Controllers/BaseApiController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Controllers/BaseApiController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ApiTypeConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ApiTypeConverter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ObjectConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ObjectConverter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ProductAttributeConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ProductAttributeConverter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/AddressDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/AddressDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Base/BaseDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Base/BaseDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Errors/ErrorsRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Errors/ErrorsRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/ImageDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/ImageDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/ImageMappingDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/ImageMappingDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductAttributeMappingDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductAttributeMappingDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductAttributeValueDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductAttributeValueDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductSpecificationAttributeDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductSpecificationAttributeDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductsFiltersDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductsFiltersDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/ProductDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/ProductDtoValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/ProductSpecificationAttributeDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/ProductSpecificationAttributeDtoValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/ProductTypeValidationAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/ProductTypeValidationAttribute.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/SpecificationAttributeDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/SpecificationAttributeDtoValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/SpecificationAttributeOptionDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/SpecificationAttributeOptionDtoValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/ValidateVendor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/ValidateVendor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/ProductDtoMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/ProductDtoMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/ProductItemAttributeDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/ProductItemAttributeDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/SpecificationAttributeDtoMapping.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/SpecificationAttributeDtoMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Data/ApiObjectContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Data/ApiObjectContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Delta/Delta.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Delta/Delta.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Factories/AddressFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Factories/AddressFactory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/CryptoHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/CryptoHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/IConfigManаgerHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/IConfigManagerHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/IMappingHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/IMappingHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/JTokenHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/JTokenHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/JsonHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/JsonHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/MappingHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/MappingHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/NopConfigManаgerHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/NopConfigManagerHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/ReflectionHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/ReflectionHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/JSON/ActionResults/ErrorActionResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/JSON/ActionResults/ErrorActionResult.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/JSON/ActionResults/RawJsonActionResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/JSON/ActionResults/RawJsonActionResult.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/JSON/Serializers/JsonFieldsSerializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/JSON/Serializers/JsonFieldsSerializer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/MappingExtensions/AddressDtoMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/MappingExtensions/AddressDtoMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/MappingExtensions/BaseMapping.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/MappingExtensions/BaseMapping.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/MappingExtensions/ConfigurationMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/MappingExtensions/ConfigurationMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Maps/IJsonPropertyMap.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Maps/IJsonPropertyMapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Maps/JsonPropertyMap.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Maps/JsonPropertyMapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/ModelBinders/JsonModelBinder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/ModelBinders/JsonModelBinder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/ModelBinders/ParametersModelBinder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/ModelBinders/ParametersModelBinder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Nop.Plugin.Api.Common.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Nop.Plugin.Api.Common.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/AddressDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/AddressDtoValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/BaseDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/BaseDtoValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/FieldsValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/FieldsValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/TypeValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/TypeValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/ApiMapperConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/ApiMapperConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/CountriesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/CountriesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/Dto/StateProvinceRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/Dto/StateProvinceRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/Service/StateProvinceApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/Service/StateProvinceApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/Translator/CountryTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/Translator/CountryTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/Dto/LanguagesRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/Dto/LanguagesRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/LanguagesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/LanguagesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/Translator/LanguageDtoMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/Translator/LanguageDtoMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/Translator/LanguageTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/Translator/LanguageTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Dto/ManufacturerDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Dto/ManufacturerDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Dto/ManufacturersCoutRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Dto/ManufacturersCoutRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Dto/ManufacturersRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Dto/ManufacturersRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/ManufacturersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/ManufacturersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Model/ManufacturersParamatersModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Model/ManufacturersParamatersModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Service/IManufacturerApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Service/IManufacturerApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Service/ManufacturerApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Service/ManufacturerApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Translator/ManufacturerTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Translator/ManufacturerTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Picture/PicturesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Picture/PicturesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/Dto/StoresRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/Dto/StoresRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/StoreController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/StoreController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/Translator/StoreDtoMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/Translator/StoreDtoMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/Translator/StoreTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/Translator/StoreTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Dto/TopicDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Dto/TopicDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Dto/TopicsCoutRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Dto/TopicsCountRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Dto/TopicsRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Dto/TopicsRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Model/TopicsParamatersModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Model/TopicsParamatersModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Service/ITopicApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Service/ITopicApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Service/TopicApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Service/TopicApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/TopicsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/TopicsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Translator/TopicTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Translator/TopicTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Nop.Plugin.Api.Content.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Nop.Plugin.Api.Content.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Helpers/CustomerRolesHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Helpers/CustomerRolesHelper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/ApiMapperConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/ApiMapperConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/CustomersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/CustomersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/BaseCustomerDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/BaseCustomerDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/ChangePasswordDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/ChangePasswordDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/CustomersCountRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/CustomersCountRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/CustomersRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/CustomersRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/ForgetDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/ForgetDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/InformationDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/InformationDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/LoginDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/LoginDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/Validator/CustomerDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/Validator/CustomerDtoValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Service/CustomerApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Service/CustomerApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Service/ICustomerApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Service/ICustomerApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Translator/CustomerDtoMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Translator/CustomerDtoMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/CustomerRoles/CustomerRolesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/CustomerRoles/CustomerRolesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/CustomerRoles/Dto/CustomerRoleDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/CustomerRoles/Dto/CustomerRoleDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/CustomerRoles/Dto/CustomerRolesRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/CustomerRoles/Dto/CustomerRolesRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/CustomerRoles/Translator/CustomerRoleDtoMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/CustomerRoles/Translator/CustomerRoleDtoMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/DependencyRegister.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/DependencyRegister.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/NewsLetterSubscription/Dto/NewsLetterSubscriptionsRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/NewsLetterSubscription/Dto/NewsLetterSubscriptionsRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/NewsLetterSubscription/NewsLetterSubscriptionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/NewsLetterSubscription/NewsLetterSubscriptionController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/NewsLetterSubscription/Service/INewsLetterSubscriptionApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/NewsLetterSubscription/Service/INewsLetterSubscriptionApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/NewsLetterSubscription/Service/NewsLetterSubscriptionApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/NewsLetterSubscription/Service/NewsLetterSubscriptionApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/NewsLetterSubscription/Translator/NewsLetterSubscriptoonDtoMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/NewsLetterSubscription/Translator/NewsLetterSubscriptoonDtoMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/OrderItems/OrderItemDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/OrderItems/OrderItemDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/OrderItems/OrderItemsCountRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/OrderItems/OrderItemsCountRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/OrderItems/OrderItemsRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/OrderItems/OrderItemsRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Orders/OrderDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Orders/OrderDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Orders/OrdersCountRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Orders/OrdersCountRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Orders/OrdersRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Orders/OrdersRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Orders/SingleOrderRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Orders/SingleOrderRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Validator/OrderDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Validator/OrderDtoValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Validator/OrderItemDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Validator/OrderItemDtoValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Model/OrderItemsParametersModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Model/OrderItemsParametersModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/OrderItemsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/OrderItemsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/OrdersController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/OrdersController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Service/IOrderApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Service/IOrderApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Service/OrderApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Service/OrderApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Service/OrderItemApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Service/OrderItemApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Translator/OrderDtoMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Translator/OrderDtoMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Translator/OrderItemDtoMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Translator/OrderItemDtoMappings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ApiAdminController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ApiMapperConfiguration.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/DependencyRegister.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Dto/Validator/ClientValidator.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ManageClientsAdminController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Model/ClientApiModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Nop.Plugin.Api.Admin.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Service/ClientService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Service/IClientService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Translator/ClientMappings.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ViewNames.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Clients/ClientSettings.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Clients/Create.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Clients/CreateOrUpdate.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Clients/Edit.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Clients/List.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Settings.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/_ViewImports.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/Cartransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/Cartransaltor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Domain/WebHooks.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Domain/WebHooks.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Translator/OrderTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Translator/OrderTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.HomeCarsoul/CarsoulController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.HomeCarsoul/CarsoulController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.HomeCarsoul/Dto/CarsoulDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.HomeCarsoul/Dto/CarsoulDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.HomeCarsoul/Dto/CarsoulRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.HomeCarsoul/Dto/CarsoulRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ApiMapperConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ApiMapperConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/DependencyRegister.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/DependencyRegister.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/DiscountsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/DiscountsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Dto/DiscountDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Dto/DiscountDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Dto/DiscountsRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Dto/DiscountsRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Service/DiscountApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Service/DiscountApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Translator/DiscountTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Translator/DiscountTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Dto/ProductReviewDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Dto/ProductReviewDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Dto/ProductsCountRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Dto/ProductsCountRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Dto/ProductsReviewRootObjectDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Dto/ProductsReviewRootObjectDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Dto/ProductsRootObjectDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Dto/ProductsRootObjectDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Model/ProductsRatingParametersModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Model/ProductsRatingParametersModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/ProductsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/ProductsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Service/IProductApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Service/IProductApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Service/ProductApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Service/ProductApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Translator/ProductTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Translator/ProductTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Dto/ProductAttributesCountRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Dto/ProductAttributesCountRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Dto/ProductAttributesRootObjectDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Dto/ProductAttributesRootObjectDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Dto/Validator/ProductAttributeDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Dto/Validator/ProductAttributeDtoValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/ProductAttributesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/ProductAttributesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Service/ProductAttributesApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Service/ProductAttributesApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Translator/ProductAttributeDtoMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Translator/ProductAttributeDtoMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Translator/ProductAttributesTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Translator/ProductAttributesTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Dto/ProductCategoryMappingsCountRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Dto/ProductCategoryMappingsCountRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Dto/ProductCategoryMappingsRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Dto/ProductCategoryMappingsRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Dto/Validator/ProductCategoryMappingDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Dto/Validator/ProductCategoryMappingDtoValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/ProductCategoryMappingsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/ProductCategoryMappingsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Service/IProductCategoryMappingsApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Service/IProductCategoryMappingsApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Service/ProductCategoryMappingsApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Service/ProductCategoryMappingsApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Translator/ProductCategoryMappingDtoMappings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Translator/ProductCategoryMappingDtoMappings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductSpecificationAttributes/ProductSpecificationAttributesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductSpecificationAttributes/ProductSpecificationAttributesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductSpecificationAttributes/Translator/IProductSpecificationAttributesTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductSpecificationAttributes/Translator/IProductSpecificationAttributesTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductSpecificationAttributes/Translator/ProductSpecificationAttributesTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductSpecificationAttributes/Translator/ProductSpecificationAttributesTransaltor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Dto/ProductSpecificationAttributesCountRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Dto/ProductSpecificationAttributesCountRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Dto/ProductSpecificationAttributesRootObjectDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Dto/ProductSpecificationAttributesRootObjectDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Dto/SpecificationAttributesCountRootObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Dto/SpecificationAttributesCountRootObject.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Dto/SpecificationAttributesRootObjectDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Dto/SpecificationAttributesRootObjectDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Service/ISpecificationAttributeApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Service/ISpecificationAttributeApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Service/SpecificationAttributesApiService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Service/SpecificationAttributesApiService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/SpecificationAttributesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/SpecificationAttributesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Translator/SpecificationAttributesTransaltor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Translator/SpecificationAttributesTransaltor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Policies/ActiveApiPluginAuthorizationPolicy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Policies/ActiveApiPluginAuthorizationPolicy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Policies/CustomerRoleAuthorizationPolicy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Policies/CustomerRoleAuthorizationPolicy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Policies/ValidSchemeAuthorizationPolicy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Policies/ValidSchemeAuthorizationPolicy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Requirements/ActiveApiPluginRequirement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Requirements/ActiveApiPluginRequirement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Requirements/AuthorizationSchemeRequirement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Requirements/AuthorizationSchemeRequirement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Requirements/CustomerRoleRequirement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Requirements/CustomerRoleRequirement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/ApiMapperConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/ApiMapperConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/DependencyRegister.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/DependencyRegister.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Endpoints/AuthorizeCallbackEndpoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Endpoints/AuthorizeEndpoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Endpoints/AuthorizeEndpointBase.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Endpoints/AuthorizeResponseExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Endpoints/AuthorizeResult.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Endpoints/TokenEndpoint.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Endpoints/TokenErrorResult.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Endpoints/TokenResult.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Extensions/NameValueCollectionExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Extensions/StringsExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Generators/CustomAuthorizeInteractionResponseGenerator.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Infrastructure/ObjectSerializer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Middlewares/IdentityServerScopeParameterMiddleware.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/IdentityServer/Services/ProfileService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiPlugin.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiPlugin.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiStartup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiStartup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Nop.Plugin.Api.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/Nop.Plugin.Api.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/upgrade_script.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NopCommerce.sln" beforeDir="false" afterPath="$PROJECT_DIR$/NopCommerce.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/Nop.Web/Nop.Web.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Nop.Web/Nop.Web.csproj" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -219,17 +68,69 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiStartup.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="275">
+              <caret line="253" column="28" selection-start-line="253" selection-start-column="28" selection-end-line="253" selection-end-column="28" />
+              <folding>
+                <marker date="1563006711483" expanded="false" signature="6:1158" ph="..." />
+                <marker date="1563006711483" expanded="true" signature="1199:11467" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="1243:11465" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="1431:2434" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="1567:1987" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="2074:2159" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="2490:3733" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="2563:2760" ph="/* During a clean install we should not register any middlewares i.e IdentityServer as it won't be able to create ... */" />
+                <marker date="1563006711483" expanded="true" signature="3625:3721" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="3811:5311" ph="/*     Adds an AssemblyResolve handler to redirect all attempts to load a specific assembly name to the specifie ... */" />
+                <marker date="1563006711483" expanded="true" signature="5387:6418" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="5459:6020" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="5585:6004" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="5781:5923" ph="/* policy.Requirements.Add(new ActiveClientRequirement()); ... */" />
+                <marker date="1563006711483" expanded="true" signature="6224:6408" ph="/* services.AddSingleton&lt;IAuthorizationHandler, ActiveClientAuthorizationPolicy&gt;(); ... */" />
+                <marker date="1563006711483" expanded="true" signature="6467:6689" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="6767:8239" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="7355:7600" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="7674:7919" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="8316:8971" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="8451:8961" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="9027:10198" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="9162:10188" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="9344:10174" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="9668:10033" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="10285:11230" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="10311:11060" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="10613:10993" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="11090:11220" ph="{...}" />
+                <marker date="1563006711483" expanded="true" signature="11295:11459" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>jwt</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Data/ApiObjectContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Constants/Constants.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Domain/WebHooks.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Requirements/CustomerRoleRequirement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Translator/ManufacturerTransaltor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiStartup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Translator/OrderTransaltor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DataMappings/WebHooksMap.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiPlugin.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/Cartransaltor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/Translator/LanguageTransaltor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/Translator/StoreTransaltor.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -239,6 +140,11 @@
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/Translator/LanguageTransaltor.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Translator/ManufacturerTransaltor.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/Translator/StoreTransaltor.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiPlugin.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Requirements/CustomerRoleRequirement.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/Cartransaltor.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Translator/OrderTransaltor.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Domain/WebHooks.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiStartup.cs" />
       </list>
     </option>
@@ -260,6 +166,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="FileSystemExplorer" />
       <pane id="SolutionExplorer">
         <subPane>
           <expand>
@@ -278,7 +185,6 @@
         <option name="show-all-files" value="false" />
       </pane>
       <pane id="AssemblyExplorer" />
-      <pane id="FileSystemExplorer" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -341,12 +247,15 @@
       <option name="presentableId" value="Default" />
       <updated>1562964599469</updated>
       <workItem from="1562964603507" duration="2046000" />
-      <workItem from="1562966895434" duration="4033000" />
+      <workItem from="1562966895434" duration="4120000" />
+      <workItem from="1562971346082" duration="64000" />
+      <workItem from="1562971567553" duration="1205000" />
+      <workItem from="1563006338966" duration="498000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6079000" />
+    <option name="totallyTimeSpent" value="7933000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -359,15 +268,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24606581" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25679544" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Inspection Results" weight="0.32891566" />
-      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32891566" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32891566" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -381,7 +289,9 @@
       <window_info anchor="bottom" id="REST Client" order="13" />
       <window_info anchor="bottom" id="Terminal" order="14" />
       <window_info anchor="bottom" id="Event Log" order="15" side_tool="true" />
-      <window_info anchor="bottom" id="Build" order="16" visible="true" weight="0.32891566" />
+      <window_info anchor="bottom" id="Build" order="16" weight="0.32891566" />
+      <window_info anchor="bottom" id="Inspection Results" order="17" weight="0.32891566" />
+      <window_info anchor="bottom" id="Messages" order="18" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -448,21 +358,168 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Domain/WebHooks.cs">
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Constants/Constants.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="64">
-          <caret line="4" column="7" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+          <caret line="6" column="32" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
           <folding>
-            <marker date="1562496704179" expanded="true" signature="55:286" ph="{...}" />
-            <marker date="1562496704179" expanded="true" signature="96:284" ph="{...}" />
+            <marker date="1562967931296" expanded="true" signature="41:2298" ph="{...}" />
+            <marker date="1562967931296" expanded="true" signature="77:2296" ph="{...}" />
+            <marker date="1562967931296" expanded="true" signature="117:594" ph="{...}" />
+            <marker date="1562967931296" expanded="true" signature="630:991" ph="{...}" />
+            <marker date="1562967931296" expanded="true" signature="1030:1112" ph="{...}" />
+            <marker date="1562967931296" expanded="true" signature="1156:2290" ph="{...}" />
+            <marker date="1562967931296" expanded="true" signature="1264:1588" ph="/* time is in seconds (10 years = 315360000 seconds) and should not exceed 2038 year ... */" />
+            <marker date="1562967931296" expanded="true" signature="1944:2118" ph="/* public const string PublishedStatus = &quot;published&quot;; ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Requirements/CustomerRoleRequirement.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="76" column="30" selection-start-line="76" selection-start-column="30" selection-end-line="76" selection-end-column="30" />
+          <folding>
+            <marker date="1562974708002" expanded="false" signature="6:304" ph="..." />
+            <marker date="1562974708002" expanded="true" signature="357:3335" ph="{...}" />
+            <marker date="1562974708002" expanded="true" signature="428:3333" ph="{...}" />
+            <marker date="1562974708002" expanded="true" signature="473:1332" ph="{...}" />
+            <marker date="1562974708002" expanded="true" signature="499:1218" ph="{...}" />
+            <marker date="1562974708002" expanded="true" signature="903:1204" ph="{...}" />
+            <marker date="1562974708002" expanded="true" signature="1142:1186" ph="{...}" />
+            <marker date="1562974708002" expanded="true" signature="1249:1295" ph="{...}" />
+            <marker date="1562974708002" expanded="true" signature="1414:1549" ph="{...}" />
+            <marker date="1562974708002" expanded="true" signature="1633:2042" ph="{...}" />
+            <marker date="1562974708002" expanded="true" signature="2129:2382" ph="{...}" />
+            <marker date="1562974708002" expanded="true" signature="2475:2733" ph="{...}" />
+            <marker date="1562974708002" expanded="true" signature="2818:3068" ph="{...}" />
+            <marker date="1562974708002" expanded="true" signature="3152:3327" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiPlugin.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="68" column="97" lean-forward="true" selection-start-line="68" selection-start-column="97" selection-end-line="68" selection-end-column="97" />
+          <folding>
+            <marker date="1562972062695" expanded="false" signature="6:278" ph="..." />
+            <marker date="1562972062695" expanded="true" signature="319:7260" ph="{...}" />
+            <marker date="1562972062695" expanded="true" signature="379:7258" ph="{...}" />
+            <marker date="1562972062695" expanded="true" signature="914:1160" ph="{...}" />
+            <marker date="1562972062695" expanded="true" signature="1200:4939" ph="{...}" />
+            <marker date="1562972062695" expanded="true" signature="4120:4449" ph="{...}" />
+            <marker date="1562972062695" expanded="true" signature="4194:4371" ph="{...}" />
+            <marker date="1562972062695" expanded="true" signature="4495:4624" ph="{...}" />
+            <marker date="1562972062695" expanded="true" signature="4668:4929" ph="/* Changes to Web.Config trigger application restart. ... */" />
+            <marker date="1562972062695" expanded="true" signature="4981:6179" ph="{...}" />
+            <marker date="1562972062695" expanded="true" signature="6007:6137" ph="{...}" />
+            <marker date="1562972062695" expanded="true" signature="6236:7252" ph="{...}" />
+            <marker date="1562972062695" expanded="true" signature="6710:6839" ph="{...}" />
+            <marker date="1562972062695" expanded="true" signature="6912:7185" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/Cartransaltor.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="79">
+          <caret line="82" column="28" selection-start-line="82" selection-start-column="28" selection-end-line="82" selection-end-column="28" />
+          <folding>
+            <marker date="1563006550690" expanded="false" signature="6:535" ph="..." />
+            <marker date="1563006550690" expanded="true" signature="577:15059" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="628:15057" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="1785:2647" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="2402:2637" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="2741:3511" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="2812:3086" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="3103:3414" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="3227:3400" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="3444:3472" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="3610:3871" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="3934:6392" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="5678:6236" ph="/* IList&lt;Language&gt; allLanguages = _languageService.GetAllLanguages(); ... */" />
+            <marker date="1563006550690" expanded="true" signature="6555:6633" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="6804:7427" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="7078:7417" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="7488:7825" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="7621:7787" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="7977:9051" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="8212:8992" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="9191:10500" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="9418:10441" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="10646:11203" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="10890:11193" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="11381:12188" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="11577:12178" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="12336:14018" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="12464:13962" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="12781:13112" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="13170:13948" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="13209:13504" ph="/* make sure that the picture is mapped to the product ... */" />
+            <marker date="1563006550690" expanded="true" signature="13712:13930" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="14129:15051" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="14423:15041" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="14548:15027" ph="{...}" />
+            <marker date="1563006550690" expanded="true" signature="14649:14947" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/share/dotnet/sdk/2.2.300/Microsoft.Common.CurrentVersion.targets">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="2105" column="4" selection-start-line="2105" selection-start-column="4" selection-end-line="2105" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Translator/OrderTransaltor.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="60" column="28" selection-start-line="60" selection-start-column="28" selection-end-line="60" selection-end-column="28" />
+          <folding>
+            <marker date="1563006554761" expanded="false" signature="6:395" ph="..." />
+            <marker date="1563006554761" expanded="true" signature="455:3171" ph="{...}" />
+            <marker date="1563006554761" expanded="true" signature="509:3169" ph="{...}" />
+            <marker date="1563006554761" expanded="true" signature="1143:1814" ph="{...}" />
+            <marker date="1563006554761" expanded="true" signature="1569:1804" ph="{...}" />
+            <marker date="1563006554761" expanded="true" signature="1887:2802" ph="{...}" />
+            <marker date="1563006554761" expanded="true" signature="2044:2704" ph="{...}" />
+            <marker date="1563006554761" expanded="true" signature="2219:2690" ph="{...}" />
+            <marker date="1563006554761" expanded="true" signature="2734:2762" ph="{...}" />
+            <marker date="1563006554761" expanded="true" signature="2872:3163" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DataMappings/WebHooksMap.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+          <folding>
+            <marker date="1562496704177" expanded="false" signature="6:151" ph="..." />
+            <marker date="1562496704177" expanded="true" signature="197:616" ph="{...}" />
+            <marker date="1562496704177" expanded="true" signature="267:614" ph="{...}" />
+            <marker date="1562496704177" expanded="true" signature="349:608" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Domain/WebHooks.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+          <folding>
+            <marker date="1563006611430" expanded="true" signature="55:246" ph="{...}" />
+            <marker date="1563006611430" expanded="true" signature="96:244" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Data/ApiObjectContext.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="125" column="48" selection-start-line="125" selection-start-column="48" selection-end-line="125" selection-end-column="48" />
+        <state relative-caret-position="-52">
+          <caret line="113" column="9" selection-start-line="113" selection-start-column="8" selection-end-line="113" selection-end-column="9" />
           <folding>
             <marker date="1562967931182" expanded="false" signature="6:206" ph="..." />
             <marker date="1562967931182" expanded="true" signature="244:4814" ph="{...}" />
@@ -493,41 +550,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DataMappings/WebHooksMap.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
-          <folding>
-            <marker date="1562496704177" expanded="false" signature="6:151" ph="..." />
-            <marker date="1562496704177" expanded="true" signature="197:616" ph="{...}" />
-            <marker date="1562496704177" expanded="true" signature="267:614" ph="{...}" />
-            <marker date="1562496704177" expanded="true" signature="349:608" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiStartup.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-959">
-          <caret line="39" column="31" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="31" />
+        <state relative-caret-position="275">
+          <caret line="253" column="28" selection-start-line="253" selection-start-column="28" selection-end-line="253" selection-end-column="28" />
           <folding>
-            <marker date="1562971157205" expanded="false" signature="6:392" ph="..." />
-            <marker date="1562971157205" expanded="true" signature="734:6785" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="778:6783" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="881:2753" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="1055:2743" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="1237:2729" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="1338:1570" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="1694:2571" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="1827:2544" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="2809:3715" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="3127:3332" ph="/* Need to enable rewind so we can read the request body multiple times ... */" />
-            <marker date="1562971157205" expanded="true" signature="3484:3703" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="3563:3683" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="3866:6777" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="3938:6483" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="4064:4396" ph="{...}" />
-            <marker date="1562971157205" expanded="true" signature="4415:6469" ph="/* options.AddPolicy(&quot;Admin&quot;, ... */" />
+            <marker date="1563006711483" expanded="false" signature="6:1158" ph="..." />
+            <marker date="1563006711483" expanded="true" signature="1199:11467" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="1243:11465" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="1431:2434" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="1567:1987" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="2074:2159" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="2490:3733" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="2563:2760" ph="/* During a clean install we should not register any middlewares i.e IdentityServer as it won't be able to create ... */" />
+            <marker date="1563006711483" expanded="true" signature="3625:3721" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="3811:5311" ph="/*     Adds an AssemblyResolve handler to redirect all attempts to load a specific assembly name to the specifie ... */" />
+            <marker date="1563006711483" expanded="true" signature="5387:6418" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="5459:6020" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="5585:6004" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="5781:5923" ph="/* policy.Requirements.Add(new ActiveClientRequirement()); ... */" />
+            <marker date="1563006711483" expanded="true" signature="6224:6408" ph="/* services.AddSingleton&lt;IAuthorizationHandler, ActiveClientAuthorizationPolicy&gt;(); ... */" />
+            <marker date="1563006711483" expanded="true" signature="6467:6689" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="6767:8239" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="7355:7600" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="7674:7919" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="8316:8971" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="8451:8961" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="9027:10198" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="9162:10188" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="9344:10174" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="9668:10033" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="10285:11230" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="10311:11060" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="10613:10993" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="11090:11220" ph="{...}" />
+            <marker date="1563006711483" expanded="true" signature="11295:11459" ph="{...}" />
           </folding>
         </state>
       </provider>

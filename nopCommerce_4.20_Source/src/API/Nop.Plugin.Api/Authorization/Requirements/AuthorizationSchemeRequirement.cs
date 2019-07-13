@@ -11,9 +11,7 @@ namespace Nop.Plugin.Api.Authorization.Requirements
             if (requestHeaders != null &&
                 requestHeaders.ContainsKey("Authorization") &&
                 requestHeaders["Authorization"].ToString().Contains(JwtBearerDefaults.AuthenticationScheme))
-            {
                 return true;
-            }
 
             return false;
         }

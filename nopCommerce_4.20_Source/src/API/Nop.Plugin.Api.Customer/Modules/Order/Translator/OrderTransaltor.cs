@@ -58,7 +58,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Translator
                     orderDto.ExpectedDeliveryDateTo = orderDto.CreatedOnUtc.Value.AddDays(int.Parse(endtDay));
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 

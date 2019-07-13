@@ -1,5 +1,6 @@
 ﻿using Nop.Core;
 using Nop.Core.Domain.Customers;
+using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Domain;
 using Nop.Services.Configuration;
 using Nop.Services.Customers;
@@ -36,20 +37,24 @@ namespace Nop.Plugin.Api.Infrastructure
             //locales
 
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api", "Api plugin");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Menu.ManageClients", "Manage Api Clients");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Menu.ManageClients",
+                "Manage Api Clients");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Configure", "Configure Web Api");
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.GeneralSettings", "General Settings");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.GeneralSettings",
+                "General Settings");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.EnableApi", "Enable Api");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.EnableApi.Hint",
-                                                                 "By checking this settings you can Enable/Disable the Web Api");
+                "By checking this settings you can Enable/Disable the Web Api");
 
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Menu.Title", "API");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Menu.Settings.Title", "Settings");
 
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Page.Settings.Title", "Api Settings");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Page.Settings.Title",
+                "Api Settings");
 
 
-            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Settings.GeneralSettingsTitle", "General Settings");
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Settings.GeneralSettingsTitle",
+                "General Settings");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.Api.Admin.Edit", "Edit");
 
             _localizationService.AddOrUpdatePluginLocaleResource("Api.Categories.Fields.Id.Invalid", "Id is invalid");
@@ -59,9 +64,12 @@ namespace Nop.Plugin.Api.Infrastructure
             _localizationService.AddOrUpdatePluginLocaleResource("Api.InvalidRootProperty", "Invalid root property");
             _localizationService.AddOrUpdatePluginLocaleResource("Api.NoJsonProvided", "No Json provided");
             _localizationService.AddOrUpdatePluginLocaleResource("Api.InvalidJsonFormat", "Json format is invalid");
-            _localizationService.AddOrUpdatePluginLocaleResource("Api.Category.InvalidImageAttachmentFormat", "Invalid image attachment base64 format");
-            _localizationService.AddOrUpdatePluginLocaleResource("Api.Category.InvalidImageSrc", "Invalid image source");
-            _localizationService.AddOrUpdatePluginLocaleResource("Api.Category.InvalidImageSrcType", "You have provided an invalid image source/attachment ");
+            _localizationService.AddOrUpdatePluginLocaleResource("Api.Category.InvalidImageAttachmentFormat",
+                "Invalid image attachment base64 format");
+            _localizationService.AddOrUpdatePluginLocaleResource("Api.Category.InvalidImageSrc",
+                "Invalid image source");
+            _localizationService.AddOrUpdatePluginLocaleResource("Api.Category.InvalidImageSrcType",
+                "You have provided an invalid image source/attachment ");
 
             _settingService.SaveSetting(new ApiSettings());
 
@@ -122,18 +130,17 @@ namespace Nop.Plugin.Api.Infrastructure
 
         public void ManageSiteMap(SiteMapNode rootNode)
         {
-            var pluginMenuName = _localizationService.GetResource("Plugins.Api.Admin.Menu.Title", _workContext.WorkingLanguage.Id, defaultValue: "API");
+            var pluginMenuName = _localizationService.GetResource("Plugins.Api.Admin.Menu.Title",
+                _workContext.WorkingLanguage.Id, defaultValue: "API");
 
-            var settingsMenuName = _localizationService.GetResource("Plugins.Api.Admin.Menu.Settings.Title", _workContext.WorkingLanguage.Id, defaultValue: "API");
+            var settingsMenuName = _localizationService.GetResource("Plugins.Api.Admin.Menu.Settings.Title",
+                _workContext.WorkingLanguage.Id, defaultValue: "API");
 
             const string adminUrlPart = "Admin/";
 
             var pluginMainMenu = new SiteMapNode
             {
-                Title = pluginMenuName,
-                Visible = true,
-                SystemName = "Api-Main-Menu",
-                IconClass = "fa-genderless"
+                Title = pluginMenuName, Visible = true, SystemName = "Api-Main-Menu", IconClass = "fa-genderless"
             };
 
             pluginMainMenu.ChildNodes.Add(new SiteMapNode

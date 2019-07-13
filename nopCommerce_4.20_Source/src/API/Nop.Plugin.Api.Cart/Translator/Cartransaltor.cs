@@ -74,13 +74,13 @@ namespace Nop.Plugin.Api.Cart.Translator
             try
             {
                 var fromToDays = shippingOption.Description.Split(':');
-                if (fromToDays.Count() > 0)
+                if (fromToDays.Any())
                 {
                     options.FromDays = int.Parse(fromToDays.First());
                     options.ToDays = int.Parse(fromToDays.Last());
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
 

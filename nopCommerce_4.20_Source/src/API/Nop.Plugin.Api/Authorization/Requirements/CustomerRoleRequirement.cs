@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Infrastructure;
-using Nop.Plugin.Api.Infrastructure;
+using Nop.Plugin.Api.Common.Constants;
 using Nop.Services.Customers;
 
 namespace Nop.Plugin.Api.Authorization.Requirements
@@ -19,7 +19,9 @@ namespace Nop.Plugin.Api.Authorization.Requirements
             {
                 var httpContextAccessor = EngineContext.Current.Resolve<IHttpContextAccessor>();
 
-                var customerIdClaim = httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m => m.Type == ClaimTypes.NameIdentifier);
+                var customerIdClaim =
+                    httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(m =>
+                        m.Type == ClaimTypes.NameIdentifier);
 
                 if (customerIdClaim != null && Guid.TryParse(customerIdClaim.Value, out var customerGuid))
                 {
@@ -27,10 +29,7 @@ namespace Nop.Plugin.Api.Authorization.Requirements
 
                     var customer = customerService.GetCustomerByGuid(customerGuid);
 
-                    if (customer != null)
-                    {
-                        return IsInApiRole(customer.CustomerRoles);
-                    }
+                    if (customer != null) return IsInApiRole(customer.CustomerRoles);
                 }
             }
             catch
@@ -45,46 +44,46 @@ namespace Nop.Plugin.Api.Authorization.Requirements
         {
             return customerRoles.FirstOrDefault(cr => cr.SystemName == Constants.Roles.ApiRoleSystemName) != null;
         }
+
         private static bool IsInAdminRole(IEnumerable<CustomerRole> customerRoles)
         {
             return customerRoles.FirstOrDefault(cr =>
-            cr.SystemName == Constants.Roles.AdminRoleName
-            || cr.SystemName == Constants.Roles.ForumModeratorsRoleName
-            || cr.SystemName == Constants.Roles.RegisteredRoleName
-            || cr.SystemName == Constants.Roles.GuestsRoleName
-            ) != null;
+                       cr.SystemName == Constants.Roles.AdminRoleName
+                       || cr.SystemName == Constants.Roles.ForumModeratorsRoleName
+                       || cr.SystemName == Constants.Roles.RegisteredRoleName
+                       || cr.SystemName == Constants.Roles.GuestsRoleName
+                   ) != null;
         }
+
         private static bool IsInRegisterRole(IEnumerable<CustomerRole> customerRoles)
         {
             return customerRoles.FirstOrDefault(cr =>
-             cr.SystemName == Constants.Roles.RegisteredRoleName
-            || cr.SystemName == Constants.Roles.GuestsRoleName
-            ) != null;
+                       cr.SystemName == Constants.Roles.RegisteredRoleName
+                       || cr.SystemName == Constants.Roles.GuestsRoleName
+                   ) != null;
         }
 
         private static bool IsInForumModeratorRole(IEnumerable<CustomerRole> customerRoles)
         {
             return customerRoles.FirstOrDefault(cr =>
-             cr.SystemName == Constants.Roles.ForumModeratorsRoleName
-               || cr.SystemName == Constants.Roles.GuestsRoleName
-            ) != null;
+                       cr.SystemName == Constants.Roles.ForumModeratorsRoleName
+                       || cr.SystemName == Constants.Roles.GuestsRoleName
+                   ) != null;
         }
 
         private static bool IsInVendorRole(IEnumerable<CustomerRole> customerRoles)
         {
             return customerRoles.FirstOrDefault(cr =>
-             cr.SystemName == Constants.Roles.VendorsRoleName
-               || cr.SystemName == Constants.Roles.GuestsRoleName
-            ) != null;
+                       cr.SystemName == Constants.Roles.VendorsRoleName
+                       || cr.SystemName == Constants.Roles.GuestsRoleName
+                   ) != null;
         }
 
         private static bool IsInGuestRole(IEnumerable<CustomerRole> customerRoles)
         {
             return customerRoles.FirstOrDefault(cr =>
-             cr.SystemName == Constants.Roles.GuestsRoleName
-            ) != null;
+                       cr.SystemName == Constants.Roles.GuestsRoleName
+                   ) != null;
         }
-       
     }
 }
-

@@ -28,6 +28,14 @@
             <e p="ApiMapperConfiguration.cs" t="Include" />
             <e p="DependencyRegister.cs" t="Include" />
           </e>
+          <e p="IdentityServer" t="Include">
+            <e p="ApiAuthentication.cs" t="Include" />
+            <e p="CookiesService.cs" t="Include" />
+            <e p="DelegationGrantValidator.cs" t="Include" />
+            <e p="ICookiesService.cs" t="Include" />
+            <e p="PasswordValidator.cs" t="Include" />
+            <e p="ProfileService.cs" t="Include" />
+          </e>
           <e p="Infrastructure" t="Include">
             <e p="ApiPlugin.cs" t="Include" />
             <e p="ApiStartup.cs" t="Include" />
@@ -41,7 +49,6 @@
             </e>
           </e>
           <e p="plugin.json" t="Include" />
-          <e p="upgrade_script.sql" t="Include" />
         </e>
         <e p="Nop.Plugin.Api.Admin" t="IncludeRecursive">
           <e p="Nop.Plugin.Api.Admin.csproj" t="IncludeRecursive" />
@@ -2568,6 +2575,7 @@
       <e p="Presentation" t="Include">
         <e p="Nop.Web" t="IncludeRecursive">
           <e p="App_Data" t="Include">
+            <e p="api-token-signing-key.json" t="Include" />
             <e p="browscap.crawlersonly.xml" t="Include" />
             <e p="browscap.xml" t="Include" />
             <e p="DataProtectionKeys" t="Include">
@@ -4531,11 +4539,6 @@
               <e p="IdentityServer4.EntityFramework.dll" t="Include" />
               <e p="IdentityServer4.EntityFramework.Storage.dll" t="Include" />
               <e p="IdentityServer4.Storage.dll" t="Include" />
-              <e p="Microsoft.AspNetCore.Rewrite.dll" t="Include" />
-              <e p="Nop.Core.dll" t="Include" />
-              <e p="Nop.Core.pdb" t="Include" />
-              <e p="Nop.Data.dll" t="Include" />
-              <e p="Nop.Data.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Cart.dll" t="Include" />
               <e p="Nop.Plugin.Api.Cart.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Category.dll" t="Include" />
@@ -4553,12 +4556,7 @@
               <e p="Nop.Plugin.Api.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Product.dll" t="Include" />
               <e p="Nop.Plugin.Api.Product.pdb" t="Include" />
-              <e p="Nop.Services.dll" t="Include" />
-              <e p="Nop.Services.pdb" t="Include" />
-              <e p="Nop.Web.Framework.dll" t="Include" />
-              <e p="Nop.Web.Framework.pdb" t="Include" />
               <e p="plugin.json" t="Include" />
-              <e p="System.IdentityModel.Tokens.Jwt.dll" t="Include" />
             </e>
             <e p="Payments.CheckMoneyOrder" t="ExcludeRecursive">
               <e p="logo.jpg" t="Include" />

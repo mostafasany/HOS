@@ -6,16 +6,13 @@ namespace Nop.Plugin.Api.Authorization.Policies
 {
     public class CustomerRoleAuthorizationPolicy : AuthorizationHandler<CustomerRoleRequirement>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, CustomerRoleRequirement requirement)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
+            CustomerRoleRequirement requirement)
         {
             if (requirement.IsCustomerInRole())
-            {
                 context.Succeed(requirement);
-            }
             else
-            {
                 context.Fail();
-            }
 
             return Task.CompletedTask;
         }

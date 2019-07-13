@@ -50,10 +50,10 @@
     </Reference>
   </ItemGroup>
  
-  <Target Name="FilterCopyLocalItems" AfterTargets="ResolveLockFileCopyLocalProjectDeps">
-    <ItemGroup>
-      <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" Condition="'%(Filename)' != 'IdentityServer4' AND '%(Filename)' != 'IdentityServer4.AccessTokenValidation' AND '%(Filename)' != 'IdentityServer4.EntityFramework' AND '%(Filename)' != 'Microsoft.AspNetCore.Rewrite' AND '%(Filename)' != 'IdentityModel.AspNetCore.OAuth2Introspection' AND '%(Filename)' != 'IdentityModel' AND '%(Filename)' != 'System.IdentityModel.Tokens.Jwt'" />
-    </ItemGroup>
-  </Target>
+  
 
+  <ItemGroup>
+    <PackageReference Include="IdentityServer4" Version="2.5.0-preview.2.6" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="2.5.0-preview.2.6" />
+  </ItemGroup>
 </Project>
