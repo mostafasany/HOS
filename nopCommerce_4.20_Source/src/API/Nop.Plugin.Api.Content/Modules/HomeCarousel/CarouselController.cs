@@ -1,11 +1,13 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
 using Nop.Plugin.Api.Common.JSON.Serializers;
-using Nop.Plugin.Api.HomeCarousel.Dto;
+using Nop.Plugin.Api.Content.Modules.HomeCarousel.Dto;
+using Nop.Services.Configuration;
 using Nop.Services.Customers;
 using Nop.Services.Discounts;
 using Nop.Services.Localization;
@@ -14,11 +16,15 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.HomeCarousel
+namespace Nop.Plugin.Api.Content.Modules.HomeCarousel
 {
     public class CarouselController : BaseApiController
     {
+        private readonly IPictureService _pictureService;
+        private readonly ISettingService _settingService;
+
         public CarouselController(
+            ISettingService settingService,
             IJsonFieldsSerializer jsonFieldsSerializer,
             ICustomerActivityService customerActivityService,
             ILocalizationService localizationService,
@@ -31,6 +37,8 @@ namespace Nop.Plugin.Api.HomeCarousel
             storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService)
         {
+            _settingService = settingService;
+            _pictureService = pictureService;
         }
 
 
@@ -48,13 +56,30 @@ namespace Nop.Plugin.Api.HomeCarousel
         public IActionResult GetCarousel()
         {
             var carousel = new CarouselRootObject();
-            carousel.Carousel.Add(new CarouselDto {Image = "assets/images/banner2.jpg", Topic = 17});
-            carousel.Carousel.Add(new CarouselDto {Image = "assets/images/banner3.jpg", Topic = 18});
-            carousel.Carousel.Add(new CarouselDto {Image = "assets/images/banner2.jpg", Topic = 19});
-            carousel.Carousel.Add(new CarouselDto {Image = "assets/images/banner2.jpg", Topic = 20});
-            carousel.Carousel.Add(new CarouselDto {Image = "assets/images/banner1.jpg", Topic = 21});
+            carousel.Carousel.Add(GetCarouselFromSettings(1));
+            carousel.Carousel.Add(GetCarouselFromSettings(2));
+            carousel.Carousel.Add(GetCarouselFromSettings(3));
+            carousel.Carousel.Add(GetCarouselFromSettings(4));
+            carousel.Carousel.Add(GetCarouselFromSettings(5));
             var json = JsonFieldsSerializer.Serialize(carousel, string.Empty);
             return new RawJsonActionResult(json);
+        }
+
+        private CarouselDto GetCarouselFromSettings(int number)
+        {
+            try
+            {
+                var pictureKey = $"nivoslidersettings.picture{number}id";
+                var topicIdKey = $"nivoslidersettings.link{number}";
+                var pictureId = _settingService.GetSettingByKey<int>(pictureKey);
+                var topicId = _settingService.GetSettingByKey<int>(topicIdKey);
+                var url = _pictureService.GetPictureUrl(pictureId);
+                return new CarouselDto {Image = url, Topic = topicId};
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
