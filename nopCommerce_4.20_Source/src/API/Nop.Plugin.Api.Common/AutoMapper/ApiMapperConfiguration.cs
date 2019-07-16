@@ -2,24 +2,16 @@
 using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Directory;
 using Nop.Core.Infrastructure.Mapper;
-using Nop.Plugin.Api.Common.AutoMapper;
-using Nop.Plugin.Api.Common.Domain;
 using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.MappingExtensions;
-using Nop.Plugin.Api.Common.Models;
 
-namespace Nop.Plugin.Api.Common
+namespace Nop.Plugin.Api.Common.AutoMapper
 {
     public class ApiMapperConfiguration : Profile, IOrderedMapperProfile
     {
         public ApiMapperConfiguration()
         {
-            CreateMap<ApiSettings, ConfigurationModel>();
-
-            CreateMap<ConfigurationModel, ApiSettings>();
-
             CreateAddressMap();
-
             CreateAddressDtoToEntityMap();
         }
 

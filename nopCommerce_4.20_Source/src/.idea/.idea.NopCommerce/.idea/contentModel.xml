@@ -14,10 +14,7 @@
         <e p="Nop.Plugin.Api" t="IncludeRecursive">
           <e p="ApiPlugin.cs" t="Include" />
           <e p="ApiStartup.cs" t="Include" />
-          <e p="Common" t="Include">
-            <e p="ApiMapperConfiguration.cs" t="Include" />
-            <e p="DependencyRegister.cs" t="Include" />
-          </e>
+          <e p="DependencyRegister.cs" t="Include" />
           <e p="IdentityServer" t="Include">
             <e p="ApiAuthentication.cs" t="Include" />
             <e p="Authorization" t="Include">
@@ -188,6 +185,7 @@
             <e p="ImageValidationAttribute.cs" t="Include" />
           </e>
           <e p="AutoMapper" t="Include">
+            <e p="ApiMapperConfiguration.cs" t="Include" />
             <e p="AutoMapperApiConfiguration.cs" t="Include" />
           </e>
           <e p="bin" t="ExcludeRecursive" />

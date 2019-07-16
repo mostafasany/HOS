@@ -10,7 +10,7 @@ using Nop.Plugin.Api.Common.Maps;
 using Nop.Plugin.Api.Common.ModelBinders;
 using Nop.Plugin.Api.IdentityServer;
 
-namespace Nop.Plugin.Api.Common
+namespace Nop.Plugin.Api
 {
     public class DependencyRegister : IDependencyRegistrar
     {
@@ -34,9 +34,9 @@ namespace Nop.Plugin.Api.Common
             builder.RegisterType<MappingHelper>().As<IMappingHelper>().InstancePerLifetimeScope();
 
             builder.RegisterType<JsonHelper>().As<IJsonHelper>().InstancePerLifetimeScope();
-            
+
             builder.RegisterType<JsonFieldsSerializer>().As<IJsonFieldsSerializer>().InstancePerLifetimeScope();
-            
+
             builder.RegisterType<ObjectConverter>().As<IObjectConverter>().InstancePerLifetimeScope();
 
             builder.RegisterType<ApiTypeConverter>().As<IApiTypeConverter>().InstancePerLifetimeScope();
@@ -46,7 +46,6 @@ namespace Nop.Plugin.Api.Common
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
 
             builder.RegisterType<CookiesService>().As<ICookiesService>().SingleInstance();
-
         }
     }
 }
