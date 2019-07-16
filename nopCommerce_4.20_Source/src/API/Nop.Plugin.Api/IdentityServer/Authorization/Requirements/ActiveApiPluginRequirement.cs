@@ -2,7 +2,7 @@
 using Nop.Core.Infrastructure;
 using Nop.Plugin.Api.Common.Domain;
 
-namespace Nop.Plugin.Api.Authorization.Requirements
+namespace Nop.Plugin.Api.IdentityServer.Authorization.Requirements
 {
     public class ActiveApiPluginRequirement : IAuthorizationRequirement
     {

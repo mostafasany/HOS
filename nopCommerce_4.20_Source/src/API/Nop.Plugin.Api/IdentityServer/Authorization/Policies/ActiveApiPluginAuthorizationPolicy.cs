@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Nop.Plugin.Api.Authorization.Requirements;
+using Nop.Plugin.Api.IdentityServer.Authorization.Requirements;
 
-namespace Nop.Plugin.Api.Authorization.Policies
+namespace Nop.Plugin.Api.IdentityServer.Authorization.Policies
 {
     public class ActiveApiPluginAuthorizationPolicy : AuthorizationHandler<ActiveApiPluginRequirement>
     {

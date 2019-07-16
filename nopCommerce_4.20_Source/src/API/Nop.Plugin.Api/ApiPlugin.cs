@@ -1,16 +1,16 @@
-﻿using Nop.Plugin.Api.Common.Data;
-using Nop.Plugin.Api.Common.Domain;
-using Nop.Services.Plugins;
-using IdentityServer4.EntityFramework.DbContexts;
+﻿using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Nop.Core;
 using Nop.Core.Infrastructure;
+using Nop.Plugin.Api.Common.Data;
+using Nop.Plugin.Api.Common.Domain;
 using Nop.Services.Configuration;
 using Nop.Services.Localization;
+using Nop.Services.Plugins;
 using Nop.Web.Framework.Menu;
 
-namespace Nop.Plugin.Api.Infrastructure
+namespace Nop.Plugin.Api
 {
     public class ApiPlugin : BasePlugin, IAdminMenuPlugin
     {

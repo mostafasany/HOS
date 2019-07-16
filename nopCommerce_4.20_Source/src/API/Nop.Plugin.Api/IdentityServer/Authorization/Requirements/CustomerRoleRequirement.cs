@@ -9,7 +9,7 @@ using Nop.Core.Infrastructure;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Services.Customers;
 
-namespace Nop.Plugin.Api.Authorization.Requirements
+namespace Nop.Plugin.Api.IdentityServer.Authorization.Requirements
 {
     public class CustomerRoleRequirement : IAuthorizationRequirement
     {

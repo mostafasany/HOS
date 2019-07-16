@@ -20,17 +20,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nop.Core.Data;
 using Nop.Core.Infrastructure;
-using Nop.Plugin.Api.Authorization.Policies;
-using Nop.Plugin.Api.Authorization.Requirements;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Data;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.IdentityServer;
+using Nop.Plugin.Api.IdentityServer.Authorization.Policies;
+using Nop.Plugin.Api.IdentityServer.Authorization.Requirements;
 using Nop.Web.Framework.Infrastructure;
 using Nop.Web.Framework.Infrastructure.Extensions;
 using ApiResource = IdentityServer4.EntityFramework.Entities.ApiResource;
 
-namespace Nop.Plugin.Api.Infrastructure
+namespace Nop.Plugin.Api
 {
     public class ApiStartup : INopStartup
     {

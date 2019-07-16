@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-namespace Nop.Plugin.Api.Authorization.Requirements
+namespace Nop.Plugin.Api.IdentityServer.Authorization.Requirements
 {
     public class AuthorizationSchemeRequirement : IAuthorizationRequirement
     {
