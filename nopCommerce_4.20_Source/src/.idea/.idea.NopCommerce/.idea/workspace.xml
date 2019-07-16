@@ -4,16 +4,12 @@
     <list default="true" id="fd367d32-9551-4075-aaa6-16f67f89a98f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.NopCommerce/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.NopCommerce/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.NopCommerce/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.NopCommerce/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Policies/ActiveApiPluginAuthorizationPolicy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Policies/ActiveApiPluginAuthorizationPolicy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Policies/CustomerRoleAuthorizationPolicy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Policies/CustomerRoleAuthorizationPolicy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Policies/ValidSchemeAuthorizationPolicy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Policies/ValidSchemeAuthorizationPolicy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Requirements/ActiveApiPluginRequirement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Requirements/ActiveApiPluginRequirement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Requirements/AuthorizationSchemeRequirement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Requirements/AuthorizationSchemeRequirement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Authorization/Requirements/CustomerRoleRequirement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Requirements/CustomerRoleRequirement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/ApiMapperConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/ApiMapperConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiPlugin.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/ApiPlugin.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiStartup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/ApiStartup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/PreFlightRequestMiddleware.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Factories/AddressFactory.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/IConfigManagerHelper.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/NopConfigManagerHelper.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/FieldsValidator.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/IFieldsValidator.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/DependencyRegister.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/DependencyRegister.cs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,25 +18,90 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Common/DependencyRegister.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-113">
+              <folding>
+                <marker date="1563308494446" expanded="true" signature="6:396" ph="..." />
+                <marker date="1563308494446" expanded="true" signature="429:1977" ph="{...}" />
+                <marker date="1563308494446" expanded="true" signature="490:1975" ph="{...}" />
+                <marker date="1563308494446" expanded="true" signature="593:702" ph="{...}" />
+                <marker date="1563308494446" expanded="true" signature="824:1032" ph="{...}" />
+                <marker date="1563308494446" expanded="true" signature="1103:1969" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Common/ApiMapperConfiguration.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="352">
+              <caret line="22" column="42" lean-forward="true" selection-start-line="16" selection-start-column="9" selection-end-line="22" selection-end-column="42" />
+              <folding>
+                <marker date="1563306771631" expanded="true" signature="6:311" ph="..." />
+                <marker date="1563306771631" expanded="true" signature="344:1819" ph="{...}" />
+                <marker date="1563306771631" expanded="true" signature="419:1817" ph="{...}" />
+                <marker date="1563306771631" expanded="true" signature="465:679" ph="{...}" />
+                <marker date="1563306771631" expanded="true" signature="763:995" ph="{...}" />
+                <marker date="1563306771631" expanded="true" signature="1036:1578" ph="{...}" />
+                <marker date="1563306771631" expanded="true" signature="1646:1811" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Models/ConfigurationModel.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="64">
+              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+              <folding>
+                <marker date="1562496704195" expanded="true" signature="81:766" ph="{...}" />
+                <marker date="1562496704195" expanded="true" signature="119:764" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Domain/ApiSettings.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="64">
+              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+              <folding>
+                <marker date="1562496704178" expanded="true" signature="69:333" ph="{...}" />
+                <marker date="1562496704178" expanded="true" signature="112:331" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/AutoMapper/AutoMapperApiConfiguration.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="64">
+              <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+              <folding>
+                <marker date="1562967931325" expanded="false" signature="6:49" ph="..." />
+                <marker date="1562967931325" expanded="true" signature="93:1764" ph="{...}" />
+                <marker date="1562967931325" expanded="true" signature="146:1762" ph="{...}" />
+                <marker date="1562967931325" expanded="true" signature="938:1404" ph="{...}" />
+                <marker date="1562967931325" expanded="true" signature="964:1394" ph="{...}" />
+                <marker date="1562967931325" expanded="true" signature="1108:1346" ph="{...}" />
+                <marker date="1562967931325" expanded="true" signature="1490:1572" ph="{...}" />
+                <marker date="1562967931325" expanded="true" signature="1684:1756" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>AddressModel</find>
-      <find>Initialize()</find>
-      <find>'Nop.Plugin.Api.Common.Factories.IFactory</find>
-      <find>'Nop.Plugin.Api.Common.Factories.IFactory`</find>
-      <find>FACTOR</find>
-      <find>_factory</find>
-      <find>IFactory&lt;ShoppingCartItem&gt;</find>
-      <find>_paymentService</find>
-      <find>_mediaSettings</find>
-      <find>Transl</find>
-      <find>IProductTransaltor</find>
-      <find>Transaltor</find>
-      <find>passedPropertyValuePaires</find>
-      <find>value</find>
-      <find>handleComplexTypeCollections</find>
       <find>Isettings</find>
       <find>public partial interface ISettingService</find>
       <find>ISettingService</find>
@@ -56,6 +117,21 @@
       <find>SA_PASSWORD</find>
       <find>HttpPost</find>
       <find>PreFlightRequestMiddleware</find>
+      <find>IFactory&lt;Address&gt;</find>
+      <find>IFactory</find>
+      <find>_factory</find>
+      <find>IHttpContextAccessor</find>
+      <find>_mappingHelper</find>
+      <find>NopConfigManagerHelper</find>
+      <find>IConfigManagerHelper</find>
+      <find>IFieldsValidator</find>
+      <find>IMappingHelper</find>
+      <find>IJsonHelper</find>
+      <find>IJsonFieldsSerializer</find>
+      <find>IObjectConverter</find>
+      <find>IApiTypeConverter</find>
+      <find>IJsonPropertyMapper</find>
+      <find>IOrderedMapperProfile</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -93,6 +169,7 @@
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/CustomersController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Maps/JsonPropertyMapper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Service/ProductApiService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Maps/IJsonPropertyMapper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Translator/IProductTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/BaseCustomerDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Delta/Delta.cs" root0="FORCE_HIGHLIGHTING" />
@@ -131,16 +208,18 @@
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ApiTypeConverter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Service/ProductAttributesApiService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Translator/IProductAttributesTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/IApiTypeConverter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Translator/ProductAttributesTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ProductAttributeConverter.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/IObjectConverter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ObjectConverter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/TypeValidator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/DependencyRegister.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/FieldsValidator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Libraries/Nop.Services/Configuration/SettingService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/BaseDtoValidator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Libraries/Nop.Services/Configuration/ISettingService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DataMappings/WebHooksMap.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/ModelBinders/ParametersModelBinder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/ModelBinders/JsonModelBinder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Service/ProductCategoryMappingsApiService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/HomeCarousel/CarouselController.cs" root0="FORCE_HIGHLIGHTING" />
@@ -154,6 +233,7 @@
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/AddressModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ExtendedShoppingCartItemDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Category/ApiMapperConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3C92B683-8618-4B5B-822B-A1E1428BECD4/83/6a63727f/HttpContextAccessor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Category/CategoriesController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Plugins/Nop.Plugin.DiscountRules.CustomerRoles/DiscountRequirementDefaults.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ShoppingCartItemDto.cs" root0="FORCE_HIGHLIGHTING" />
@@ -226,11 +306,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/ApiMapperConfiguration.cs" />
-        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/SpecificationAttributesController.cs" />
-        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Service/OrderItemApiService.cs" />
-        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Translator/ProductAttributesTranslator.cs" />
-        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Factory/ProductFactory.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Factory/OrderFactory.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/BaseCustomerDto.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/ValidateVendor.cs" />
@@ -250,7 +325,6 @@
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductDto.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ObjectConverter.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Helpers/CustomerRolesHelper.cs" />
-        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/FieldsValidator.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/ProductsController.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Translator/ProductTranslator.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/OrdersController.cs" />
@@ -275,8 +349,14 @@
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/ApiPlugin.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Constants/Constants.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Constants/Configurations.cs" />
-        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/ApiMapperConfiguration.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Policies/ActiveApiPluginAuthorizationPolicy.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Factories/AddressFactory.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/IConfigManagerHelper.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/NopConfigManagerHelper.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/FieldsValidator.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/IFieldsValidator.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/DependencyRegister.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api/Common/ApiMapperConfiguration.cs" />
       </list>
     </option>
   </component>
@@ -313,7 +393,14 @@
               <item name="" type="784c90a0:SolutionExplorerRootNode" />
               <item name="NopCommerce" type="24d0babc:SolutionExplorerModelNode" />
               <item name="API" type="24d0babc:SolutionExplorerModelNode" />
-              <item name="Nop.Plugin.Api" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Nop.Plugin.Api.Common" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+            <path>
+              <item name="" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="NopCommerce" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="API" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Nop.Plugin.Api.Common" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="AutoMapper" type="24d0babc:SolutionExplorerModelNode" />
             </path>
           </expand>
           <select />
@@ -393,12 +480,12 @@
       <workItem from="1563060859969" duration="12683000" />
       <workItem from="1563174325041" duration="1600000" />
       <workItem from="1563269622448" duration="1372000" />
-      <workItem from="1563306361853" duration="483000" />
+      <workItem from="1563306361853" duration="2153000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37718000" />
+    <option name="totallyTimeSpent" value="39388000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -411,13 +498,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.39985693" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.39985693" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32891566" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49427754" weight="0.26385543" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49427754" visible="true" weight="0.26385543" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -431,7 +519,7 @@
       <window_info anchor="bottom" id="REST Client" order="13" weight="0.32891566" />
       <window_info anchor="bottom" id="Terminal" order="14" weight="0.35421687" />
       <window_info anchor="bottom" id="Event Log" order="15" sideWeight="0.50429183" side_tool="true" weight="0.32891566" />
-      <window_info active="true" anchor="bottom" id="Build" order="16" sideWeight="0.49570817" visible="true" weight="0.32891566" />
+      <window_info anchor="bottom" id="Build" order="16" sideWeight="0.49570817" weight="0.32891566" />
       <window_info anchor="bottom" id="Inspection Results" order="17" weight="0.32891566" />
       <window_info anchor="bottom" id="Messages" order="18" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -439,7 +527,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Errors In Solution" order="3" />
       <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" id="Unit Tests Coverage" order="5" />
+      <window_info anchor="right" id="Unit Tests Coverage" order="5" weight="0.3297568" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -546,547 +634,23 @@
           </properties>
           <option name="timeStamp" value="40" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ObjectConverter.cs</url>
+          <line>48</line>
+          <properties documentPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ObjectConverter.cs" initialLine="48">
+            <startOffsets>
+              <option value="1648" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1686" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/FieldsValidator.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="17" column="61" selection-start-line="17" selection-start-column="61" selection-end-line="17" selection-end-column="61" />
-          <folding>
-            <marker date="1563060401087" expanded="false" signature="6:91" ph="..." />
-            <marker date="1563060401087" expanded="true" signature="135:1518" ph="{...}" />
-            <marker date="1563060401087" expanded="true" signature="189:1516" ph="{...}" />
-            <marker date="1563060401087" expanded="true" signature="276:1153" ph="{...}" />
-            <marker date="1563060401087" expanded="true" signature="441:684" ph="/* This is needed in case you pass the fields as you see them in the json representation of the objects. ... */" />
-            <marker date="1563060401087" expanded="true" signature="1234:1510" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Translator/ProductTranslator.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-32">
-          <caret line="229" column="59" selection-start-line="229" selection-start-column="59" selection-end-line="229" selection-end-column="59" />
-          <folding>
-            <marker date="1563054012854" expanded="true" signature="6:478" ph="..." />
-            <marker date="1563054012854" expanded="true" signature="597:13525" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="1758:2509" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="2579:4434" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="4508:5044" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="5208:5286" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="5458:6081" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="5732:6071" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="6140:6477" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="6273:6439" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="6629:7703" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="6864:7644" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="7843:9152" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="8070:9093" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="9297:9854" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="9541:9844" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="10031:10842" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="10227:10832" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="11010:12548" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="11438:11745" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="11846:12125" ph="/* make sure that the picture is mapped to the product ... */" />
-            <marker date="1563054012854" expanded="true" signature="12659:13519" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="12953:13509" ph="{...}" />
-            <marker date="1563054012854" expanded="true" signature="13163:13437" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/OrderItemsController.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-328">
-          <caret line="302" column="45" selection-start-line="302" selection-start-column="45" selection-end-line="302" selection-end-column="45" />
-          <folding>
-            <marker date="1563054012847" expanded="false" signature="6:1011" ph="..." />
-            <marker date="1563054012847" expanded="true" signature="1060:14864" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="1120:14862" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="2637:2993" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="3625:5614" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="4133:4927" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="6119:6489" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="7017:7373" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="7939:8620" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="9162:10235" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="9953:10076" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="10755:11184" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="11846:13440" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="13492:13728" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="13839:14856" ph="{...}" />
-            <marker date="1563054012847" expanded="true" signature="14346:14814" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/Validator/CustomerDtoValidator.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="92" column="12" selection-start-line="92" selection-start-column="12" selection-end-line="92" selection-end-column="12" />
-          <folding>
-            <marker date="1563056951578" expanded="false" signature="6:262" ph="..." />
-            <marker date="1563056951578" expanded="true" signature="380:6167" ph="{...}" />
-            <marker date="1563056951578" expanded="true" signature="452:6165" ph="{...}" />
-            <marker date="1563056951578" expanded="false" signature="467:578" ph="Private Fields" />
-            <marker date="1563056951578" expanded="false" signature="588:1234" ph="Constructors" />
-            <marker date="1563056951578" expanded="true" signature="891:1214" ph="{...}" />
-            <marker date="1563056951578" expanded="true" signature="1244:6159" ph="Private Methods" />
-            <marker date="1563056951578" expanded="true" signature="1316:2145" ph="{...}" />
-            <marker date="1563056951578" expanded="true" signature="1547:2133" ph="{...}" />
-            <marker date="1563056951578" expanded="true" signature="2191:2503" ph="{...}" />
-            <marker date="1563056951578" expanded="true" signature="2550:2864" ph="{...}" />
-            <marker date="1563056951578" expanded="true" signature="2901:3010" ph="{...}" />
-            <marker date="1563056951578" expanded="true" signature="3050:3168" ph="{...}" />
-            <marker date="1563056951578" expanded="true" signature="3205:5114" ph="{...}" />
-            <marker date="1563056951578" expanded="true" signature="3660:4204" ph="{...}" />
-            <marker date="1563056951578" expanded="true" signature="4432:4988" ph="{...}" />
-            <marker date="1563056951578" expanded="true" signature="5124:6139" ph="/* private void SetShoppingCartItemsRule() ... */" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/BaseDtoValidator.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-606">
-          <caret line="72" column="13" lean-forward="true" selection-start-line="72" selection-start-column="13" selection-end-line="72" selection-end-column="13" />
-          <folding>
-            <marker date="1563056961436" expanded="false" signature="6:320" ph="..." />
-            <marker date="1563056961436" expanded="true" signature="364:5476" ph="{...}" />
-            <marker date="1563056961436" expanded="true" signature="460:5474" ph="{...}" />
-            <marker date="1563056961436" expanded="false" signature="475:587" ph="Private Fields" />
-            <marker date="1563056961436" expanded="true" signature="597:2027" ph="Constructors" />
-            <marker date="1563056961436" expanded="true" signature="781:2007" ph="{...}" />
-            <marker date="1563056961436" expanded="true" signature="897:1536" ph="/* this is hacky - can't make requestJsonDictionary an optional parameter because Nop tries to resolve it ... */" />
-            <marker date="1563056961436" expanded="false" signature="2037:2134" ph="Public Properties" />
-            <marker date="1563056961436" expanded="true" signature="2144:2517" ph="Protected Properties" />
-            <marker date="1563056961436" expanded="true" signature="2527:4673" ph="Protected Methods" />
-            <marker date="1563056961436" expanded="true" signature="2666:2872" ph="{...}" />
-            <marker date="1563056961436" expanded="true" signature="3039:3459" ph="{...}" />
-            <marker date="1563056961436" expanded="true" signature="3615:3802" ph="{...}" />
-            <marker date="1563056961436" expanded="true" signature="3908:4052" ph="{...}" />
-            <marker date="1563056961436" expanded="true" signature="4209:4395" ph="{...}" />
-            <marker date="1563056961436" expanded="true" signature="4502:4653" ph="{...}" />
-            <marker date="1563056961436" expanded="false" signature="4683:5468" ph="Private Methods" />
-            <marker date="1563056961436" expanded="true" signature="4802:5271" ph="{...}" />
-            <marker date="1563056961436" expanded="true" signature="5313:5448" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/TypeValidator.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="42" column="25" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
-          <folding>
-            <marker date="1563060401080" expanded="false" signature="6:189" ph="..." />
-            <marker date="1563060401080" expanded="true" signature="233:4251" ph="{...}" />
-            <marker date="1563060401080" expanded="true" signature="269:4249" ph="{...}" />
-            <marker date="1563060401080" expanded="true" signature="306:378" ph="{...}" />
-            <marker date="1563060401080" expanded="true" signature="516:2786" ph="{...}" />
-            <marker date="1563060401080" expanded="true" signature="1167:2747" ph="{...}" />
-            <marker date="1563060401080" expanded="true" signature="1420:2596" ph="{...}" />
-            <marker date="1563060401080" expanded="true" signature="1459:1540" ph="/* handle nested properties ... */" />
-            <marker date="1563060401080" expanded="true" signature="2128:2342" ph="{...}" />
-            <marker date="1563060401080" expanded="true" signature="2863:3682" ph="{...}" />
-            <marker date="1563060401080" expanded="true" signature="2965:3438" ph="{...}" />
-            <marker date="1563060401080" expanded="true" signature="3455:3628" ph="{...}" />
-            <marker date="1563060401080" expanded="true" signature="3787:4243" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/JTokenHelper.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-406">
-          <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
-          <folding>
-            <marker date="1562967931280" expanded="false" signature="6:61" ph="..." />
-            <marker date="1562967931280" expanded="true" signature="102:2277" ph="{...}" />
-            <marker date="1562967931280" expanded="true" signature="141:2275" ph="{...}" />
-            <marker date="1562967931280" expanded="true" signature="285:2039" ph="{...}" />
-            <marker date="1562967931280" expanded="true" signature="344:1538" ph="{...}" />
-            <marker date="1562967931280" expanded="true" signature="467:1494" ph="{...}" />
-            <marker date="1562967931280" expanded="true" signature="668:985" ph="/* In the current json structure, the first level of properties is level 3. ... */" />
-            <marker date="1562967931280" expanded="true" signature="1111:1306" ph="/* If the level == 3 ( meaning we are on the first level of properties ), we should not take into account if the  ... */" />
-            <marker date="1562967931280" expanded="true" signature="1587:2002" ph="{...}" />
-            <marker date="1562967931280" expanded="true" signature="1698:1958" ph="{...}" />
-            <marker date="1562967931280" expanded="true" signature="2104:2269" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Maps/JsonPropertyMapper.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="45" column="138" selection-start-line="45" selection-start-column="138" selection-end-line="45" selection-end-column="138" />
-          <folding>
-            <marker date="1563060400937" expanded="false" signature="6:229" ph="..." />
-            <marker date="1563060400937" expanded="true" signature="267:2372" ph="{...}" />
-            <marker date="1563060400937" expanded="true" signature="327:2370" ph="{...}" />
-            <marker date="1563060400937" expanded="true" signature="618:1200" ph="{...}" />
-            <marker date="1563060400937" expanded="true" signature="1239:2364" ph="{...}" />
-            <marker date="1563060400937" expanded="true" signature="1633:2259" ph="{...}" />
-            <marker date="1563060400937" expanded="true" signature="2034:2246" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/MappingHelper.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-9">
-          <caret line="135" column="48" selection-start-line="135" selection-start-column="48" selection-end-line="135" selection-end-column="48" />
-          <folding>
-            <marker date="1563060400943" expanded="false" signature="6:244" ph="..." />
-            <marker date="1563060400943" expanded="true" signature="285:10954" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="403:10952" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="470:772" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="1023:1356" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="1465:1745" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="1995:2449" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="2711:4200" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="2770:3969" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="4407:4856" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="4914:5160" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="5465:6206" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="5587:6196" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="5959:6091" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="6419:10946" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="6896:8404" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="7036:8004" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="7544:7782" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="8556:10308" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="8791:8979" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="9172:9638" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="9773:10144" ph="{...}" />
-            <marker date="1563060400943" expanded="true" signature="10344:10936" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/CustomersController.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-80">
-          <caret line="622" column="50" selection-start-line="622" selection-start-column="50" selection-end-line="622" selection-end-column="50" />
-          <folding>
-            <marker date="1563060402087" expanded="false" signature="6:1246" ph="..." />
-            <marker date="1563060402087" expanded="true" signature="1298:34092" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="1463:34090" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="4161:5151" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="5162:5347" ph="///     Get a count of all customers ... " />
-            <marker date="1563060402087" expanded="true" signature="5737:6687" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="6301:6409" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="6697:6882" ph="///     Get a count of all customers ... " />
-            <marker date="1563060402087" expanded="true" signature="7204:7753" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="8176:12146" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="9084:9456" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="9115:9289" ph="/* we need to explicitly set the date as if it is not specified ... */" />
-            <marker date="1563060402087" expanded="true" signature="10530:10819" ph="/* We need to insert the entity first so we can have its id in order to map it to anything. ... */" />
-            <marker date="1563060402087" expanded="true" signature="10887:11064" ph="/* This is needed because the entity framework won't populate the navigation properties automatically ... */" />
-            <marker date="1563060402087" expanded="true" signature="11845:11994" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="12625:13640" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="13071:13392" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="13651:13836" ph="///     Get a count of all customers ... " />
-            <marker date="1563060402087" expanded="true" signature="14194:15815" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="14419:15463" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="15183:15310" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="15528:15644" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="15826:16221" ph="///     Retrieve customer by spcified id ... " />
-            <marker date="1563060402087" expanded="true" signature="16732:17265" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="17275:17520" ph="///     Retrieve all customers of a shop ... " />
-            <marker date="1563060402087" expanded="true" signature="17955:18766" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="18777:18962" ph="///     Get a count of all customers ... " />
-            <marker date="1563060402087" expanded="true" signature="19328:19577" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="19588:19773" ph="///     Get a count of all customers ... " />
-            <marker date="1563060402087" expanded="true" signature="20041:22021" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="20120:21259" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="22031:22288" ph="///     Search for customers matching supplied query ... " />
-            <marker date="1563060402087" expanded="true" signature="22680:23399" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="23992:28510" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="24594:25231" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="24834:25217" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="26277:26462" ph="/* TODO: Localization ... */" />
-            <marker date="1563060402087" expanded="true" signature="26535:26787" ph="/* This is needed because the entity framework won't populate the navigation properties automatically ... */" />
-            <marker date="1563060402087" expanded="true" signature="28520:28705" ph="///     Get a count of all customers ... " />
-            <marker date="1563060402087" expanded="true" signature="28990:29361" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="29456:30906" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="29604:29777" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="29840:30736" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="31024:32122" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="31244:31640" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="31661:32112" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="32316:33384" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="33462:33777" ph="{...}" />
-            <marker date="1563060402087" expanded="true" signature="33834:34084" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ApiTypeConverter.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="61" column="12" selection-start-line="61" selection-start-column="12" selection-end-line="61" selection-end-column="12" />
-          <folding>
-            <marker date="1563060401036" expanded="false" signature="6:94" ph="..." />
-            <marker date="1563060401036" expanded="true" signature="138:2820" ph="{...}" />
-            <marker date="1563060401036" expanded="true" signature="194:2818" ph="{...}" />
-            <marker date="1563060401036" expanded="true" signature="209:556" ph="///     Converts the value, which should be in ISO 8601 format to UTC time or null if not valid ... " />
-            <marker date="1563060401036" expanded="true" signature="617:1194" ph="{...}" />
-            <marker date="1563060401036" expanded="true" signature="672:852" ph="{...}" />
-            <marker date="1563060401036" expanded="true" signature="1234:1323" ph="{...}" />
-            <marker date="1563060401036" expanded="true" signature="1372:1486" ph="{...}" />
-            <marker date="1563060401036" expanded="true" signature="1540:2000" ph="{...}" />
-            <marker date="1563060401036" expanded="true" signature="1795:1887" ph="{...}" />
-            <marker date="1563060401036" expanded="true" signature="2045:2386" ph="{...}" />
-            <marker date="1563060401036" expanded="true" signature="2449:2812" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Service/IShoppingCartItemApiService.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
-          <folding>
-            <marker date="1562967194598" expanded="false" signature="6:147" ph="..." />
-            <marker date="1562967194598" expanded="true" signature="186:884" ph="{...}" />
-            <marker date="1562967194598" expanded="true" signature="237:882" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/OrdersController.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-824">
-          <caret line="435" column="21" selection-start-line="435" selection-start-column="21" selection-end-line="435" selection-end-column="21" />
-          <folding>
-            <marker date="1563060402033" expanded="true" signature="6:1246" ph="..." />
-            <marker date="1563060402033" expanded="true" signature="1295:24472" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="1351:24470" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="3524:4199" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="4779:8825" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="4942:5216" ph="/* if (orderDelta.Dto.CustomerId == null) return Error(); ... */" />
-            <marker date="1563060402033" expanded="true" signature="5425:5802" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="6366:6879" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="7874:7963" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="8038:8239" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="8496:8676" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="9360:9937" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="9947:10349" ph="///     Retrieve order by spcified id ... " />
-            <marker date="1563060402033" expanded="true" signature="10851:11412" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="11422:11663" ph="///     Receive a list of all Orders ... " />
-            <marker date="1563060402033" expanded="true" signature="12086:13189" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="13199:13574" ph="///     Retrieve all orders for customer ... " />
-            <marker date="1563060402033" expanded="true" signature="13958:14556" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="14566:14752" ph="///     Receive a count of all Orders ... " />
-            <marker date="1563060402033" expanded="true" signature="15196:15660" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="16235:18574" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="16755:17767" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="16981:17560" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="18720:19900" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="18873:19851" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="19028:19192" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="20060:20785" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="20232:20764" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="20938:21537" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="21036:21499" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="21843:21926" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="22047:22457" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="22136:22312" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="22681:24464" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="22803:23038" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="23101:23268" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="23285:24425" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="23579:24153" ph="{...}" />
-            <marker date="1563060402033" expanded="true" signature="24174:24411" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Service/ShoppingCartItemApiService.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4615">
-          <caret line="9" column="32" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
-          <folding>
-            <marker date="1563060400680" expanded="true" signature="6:899" ph="..." />
-            <marker date="1563060400680" expanded="true" signature="1014:27430" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="4353:5921" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="6250:6480" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="6541:6622" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="6633:7186" ph="///     Prepare the shopping cart model ... " />
-            <marker date="1563060400680" expanded="true" signature="7447:12906" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="8463:8941" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="9628:10266" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="10144:10250" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="10634:10734" ph="/* checkout attributes ... */" />
-            <marker date="1563060400680" expanded="true" signature="11011:11173" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="11187:11336" ph="/* TODO:4.2 Migration ... */" />
-            <marker date="1563060400680" expanded="true" signature="12136:12508" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="13150:14063" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="14073:14286" ph="///     Prepare the order review data model ... " />
-            <marker date="1563060400680" expanded="true" signature="14399:17983" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="14734:15034" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="14765:15020" ph="/* Comment ... */" />
-            <marker date="1563060400680" expanded="true" signature="15136:16928" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="15567:16056" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="15663:16038" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="15710:16016" ph="/* Comment ... */" />
-            <marker date="1563060400680" expanded="true" signature="16077:16536" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="16140:16455" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="16942:16989" ph="/* TODO:4.2 Migration ... */" />
-            <marker date="1563060400680" expanded="true" signature="17994:18309" ph="///     Prepare the shopping cart item model ... " />
-            <marker date="1563060400680" expanded="true" signature="18487:27424" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="18771:19433" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="19616:20968" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="19771:20954" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="20409:20936" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="20698:20914" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="21041:21208" ph="/* allow editing? ... */" />
-            <marker date="1563060400680" expanded="true" signature="21665:21733" ph="/* disable removal? ... */" />
-            <marker date="1563060400680" expanded="true" signature="22204:22321" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="22754:23369" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="23654:23944" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="23961:24570" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="24979:26637" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="25909:26623" ph="{...}" />
-            <marker date="1563060400680" expanded="true" signature="26150:26605" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/SpecificationAttributeDtoValidator.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="13" selection-start-column="13" selection-end-column="13" />
-          <folding>
-            <marker date="1563057067127" expanded="true" signature="6:37" ph="..." />
-            <marker date="1563057067127" expanded="true" signature="93:1038" ph="{...}" />
-            <marker date="1563057067127" expanded="true" signature="194:1036" ph="{...}" />
-            <marker date="1563057067127" expanded="true" signature="269:899" ph="{...}" />
-            <marker date="1563057067127" expanded="true" signature="419:620" ph="{...}" />
-            <marker date="1563057067127" expanded="true" signature="712:889" ph="{...}" />
-            <marker date="1563057067127" expanded="true" signature="937:1030" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Orders/OrderDto.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-216">
-          <caret line="255" column="19" lean-forward="true" selection-start-line="255" selection-start-column="19" selection-end-line="255" selection-end-column="19" />
-          <folding>
-            <marker date="1563057068160" expanded="false" signature="6:203" ph="..." />
-            <marker date="1563057068160" expanded="true" signature="263:10997" ph="{...}" />
-            <marker date="1563057068160" expanded="true" signature="304:369" ph="/* TODO:4.2 Migration ... */" />
-            <marker date="1563057068160" expanded="true" signature="405:10995" ph="{...}" />
-            <marker date="1563057068160" expanded="true" signature="546:690" ph="///     Gets or sets a value indicating whether a customer chose &quot;pick up in store&quot; shipping option ... " />
-            <marker date="1563057068160" expanded="true" signature="792:888" ph="///     Gets or sets the payment method system name ... " />
-            <marker date="1563057068160" expanded="true" signature="1011:1136" ph="///     Gets or sets the customer currency code (at the moment of order placing) ... " />
-            <marker date="1563057068160" expanded="true" signature="1252:1335" ph="///     Gets or sets the currency rate ... " />
-            <marker date="1563057068160" expanded="true" signature="1436:1542" ph="///     Gets or sets the customer tax display type identifier ... " />
-            <marker date="1563057068160" expanded="true" signature="1666:1783" ph="///     Gets or sets the VAT number (the European Union Value Added Tax) ... " />
-            <marker date="1563057068160" expanded="true" signature="1876:1971" ph="///     Gets or sets the order subtotal (incl tax) ... " />
-            <marker date="1563057068160" expanded="true" signature="2090:2185" ph="///     Gets or sets the order subtotal (excl tax) ... " />
-            <marker date="1563057068160" expanded="true" signature="2304:2408" ph="///     Gets or sets the order subtotal discount (incl tax) ... " />
-            <marker date="1563057068160" expanded="true" signature="2545:2649" ph="///     Gets or sets the order subtotal discount (excl tax) ... " />
-            <marker date="1563057068160" expanded="true" signature="2786:2881" ph="///     Gets or sets the order shipping (incl tax) ... " />
-            <marker date="1563057068160" expanded="true" signature="3000:3095" ph="///     Gets or sets the order shipping (excl tax) ... " />
-            <marker date="1563057068160" expanded="true" signature="3214:3324" ph="///     Gets or sets the payment method additional fee (incl tax) ... " />
-            <marker date="1563057068160" expanded="true" signature="3471:3581" ph="///     Gets or sets the payment method additional fee (excl tax) ... " />
-            <marker date="1563057068160" expanded="true" signature="3728:3807" ph="///     Gets or sets the tax rates ... " />
-            <marker date="1563057068160" expanded="true" signature="3898:3977" ph="///     Gets or sets the order tax ... " />
-            <marker date="1563057068160" expanded="true" signature="4070:4179" ph="///     Gets or sets the order discount (applied to order total) ... " />
-            <marker date="1563057068160" expanded="true" signature="4282:4363" ph="///     Gets or sets the order total ... " />
-            <marker date="1563057068160" expanded="true" signature="4460:4545" ph="///     Gets or sets the refunded amount ... " />
-            <marker date="1563057068160" expanded="true" signature="4650:4785" ph="///     Gets or sets the value indicating whether reward points were earned for this order ... " />
-            <marker date="1563057068160" expanded="true" signature="4903:5003" ph="///     Gets or sets the checkout attribute description ... " />
-            <marker date="1563057068160" expanded="true" signature="5135:5233" ph="///     Gets or sets the customer language identifier ... " />
-            <marker date="1563057068160" expanded="true" signature="5343:5433" ph="///     Gets or sets the affiliate identifier ... " />
-            <marker date="1563057068160" expanded="true" signature="5528:5617" ph="///     Gets or sets the customer IP address ... " />
-            <marker date="1563057068160" expanded="true" signature="5712:5818" ph="///     Gets or sets the authorization transaction identifier ... " />
-            <marker date="1563057068160" expanded="true" signature="5946:6046" ph="///     Gets or sets the authorization transaction code ... " />
-            <marker date="1563057068160" expanded="true" signature="6178:6280" ph="///     Gets or sets the authorization transaction result ... " />
-            <marker date="1563057068160" expanded="true" signature="6416:6516" ph="///     Gets or sets the capture transaction identifier ... " />
-            <marker date="1563057068160" expanded="true" signature="6632:6728" ph="///     Gets or sets the capture transaction result ... " />
-            <marker date="1563057068160" expanded="true" signature="6852:6957" ph="///     Gets or sets the subscription transaction identifier ... " />
-            <marker date="1563057068160" expanded="true" signature="7083:7171" ph="///     Gets or sets the paid date and time ... " />
-            <marker date="1563057068160" expanded="true" signature="7272:7357" ph="///     Gets or sets the shipping method ... " />
-            <marker date="1563057068160" expanded="true" signature="7460:7573" ph="///     Gets or sets the shipping rate computation method identifier ... " />
-            <marker date="1563057068160" expanded="true" signature="7730:7859" ph="///     Gets or sets the serialized CustomValues (values from ProcessPaymentRequest) ... " />
-            <marker date="1563057068160" expanded="true" signature="7965:8085" ph="///     Gets or sets a value indicating whether the entity has been deleted ... " />
-            <marker date="1563057068160" expanded="true" signature="8172:8273" ph="///     Gets or sets the date and time of order creation ... " />
-            <marker date="1563057068160" expanded="true" signature="8453:8538" ph="///     Gets or sets the billing address ... " />
-            <marker date="1563057068160" expanded="true" signature="8645:8731" ph="///     Gets or sets the shipping address ... " />
-            <marker date="1563057068160" expanded="true" signature="8840:8917" ph="///     Gets or sets order items ... " />
-            <marker date="1563057068160" expanded="true" signature="9007:9143" ph="{...}" />
-            <marker date="1563057068160" expanded="true" signature="9153:9235" ph="///     Gets or sets the order status ... " />
-            <marker date="1563057068160" expanded="true" signature="9332:9414" ph="///     Gets or sets the order status ... " />
-            <marker date="1563057068160" expanded="true" signature="9513:9597" ph="///     Gets or sets the payment status ... " />
-            <marker date="1563057068160" expanded="true" signature="9698:9783" ph="///     Gets or sets the shipping status ... " />
-            <marker date="1563057068160" expanded="true" signature="9886:9971" ph="///     Gets or sets the shipping status ... " />
-            <marker date="1563057068160" expanded="true" signature="10079:10174" ph="///     Gets or sets the customer tax display type ... " />
-            <marker date="1563057068160" expanded="true" signature="10295:10391" ph="///     Gets or sets the payment method system name ... " />
-            <marker date="1563057068160" expanded="true" signature="10493:10622" ph="///     Gets or sets the rental product end date (null if it's not a rental product) ... " />
-            <marker date="1563057068160" expanded="true" signature="10748:10877" ph="///     Gets or sets the rental product end date (null if it's not a rental product) ... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Domain/ApiSettings.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
-          <folding>
-            <marker date="1562496704178" expanded="true" signature="69:333" ph="{...}" />
-            <marker date="1562496704178" expanded="true" signature="112:331" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Plugins/Nop.Plugin.DiscountRules.CustomerRoles/Infrastructure/Cache/DiscountRequirementEventConsumer.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="40" column="101" lean-forward="true" selection-start-line="40" selection-start-column="101" selection-end-line="40" selection-end-column="101" />
-          <folding>
-            <marker date="1562495029741" expanded="false" signature="6:116" ph="..." />
-            <marker date="1562495029741" expanded="true" signature="187:1473" ph="{...}" />
-            <marker date="1562495029741" expanded="true" signature="194:311" ph="/// Discount requirement rule event consumer (used for removing unused settings) ... " />
-            <marker date="1562495029741" expanded="true" signature="422:1471" ph="{...}" />
-            <marker date="1562495029741" expanded="false" signature="437:538" ph="Fields" />
-            <marker date="1562495029741" expanded="false" signature="548:727" ph="Ctor" />
-            <marker date="1562495029741" expanded="true" signature="641:707" ph="{...}" />
-            <marker date="1562495029741" expanded="true" signature="737:1465" ph="Methods" />
-            <marker date="1562495029741" expanded="true" signature="762:913" ph="/// Handle discount requirement deleted event ... " />
-            <marker date="1562495029741" expanded="true" signature="999:1445" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Plugins/Nop.Plugin.DiscountRules.CustomerRoles/DiscountRequirementDefaults.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="16" column="62" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="62" />
-          <folding>
-            <marker date="1562495029741" expanded="true" signature="49:815" ph="{...}" />
-            <marker date="1562495029741" expanded="true" signature="56:151" ph="/// Represents constants for the discount requirement rule ... " />
-            <marker date="1562495029741" expanded="true" signature="203:813" ph="{...}" />
-            <marker date="1562495029741" expanded="true" signature="218:315" ph="/// The system name of the discount requirement rule ... " />
-            <marker date="1562495029741" expanded="true" signature="418:524" ph="/// The key of the settings to save restricted customer roles ... " />
-            <marker date="1562495029741" expanded="true" signature="632:728" ph="/// The HTML field prefix for discount requirements ... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5486B0B5-95C6-4BBE-8EDA-415056DF068B/ab/12faa6bf/Type.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Libraries/Nop.Services/Configuration/SettingService.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1">
@@ -1508,7 +1072,6 @@
           <caret line="336" column="9" selection-start-line="336" selection-start-column="9" selection-end-line="336" selection-end-column="9" />
           <folding>
             <marker date="1563060401337" expanded="false" signature="6:1111" ph="..." />
-            <marker date="1563060401337" expanded="true" signature="1161:31181" ph="{...}" />
             <marker date="1563060401337" expanded="true" signature="1219:31179" ph="{...}" />
             <marker date="1563060401337" expanded="true" signature="3070:3628" ph="{...}" />
             <marker date="1563060401337" expanded="true" signature="4048:5706" ph="{...}" />
@@ -1668,33 +1231,308 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Common/ApiMapperConfiguration.cs">
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/OrdersController.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-96">
-          <caret lean-forward="true" />
+        <state relative-caret-position="137">
+          <caret line="42" column="68" selection-start-line="42" selection-start-column="60" selection-end-line="42" selection-end-column="68" />
           <folding>
-            <marker date="1563306771631" expanded="false" signature="6:311" ph="..." />
-            <marker date="1563306771631" expanded="true" signature="344:1819" ph="{...}" />
-            <marker date="1563306771631" expanded="true" signature="419:1817" ph="{...}" />
-            <marker date="1563306771631" expanded="true" signature="465:679" ph="{...}" />
-            <marker date="1563306771631" expanded="true" signature="763:995" ph="{...}" />
-            <marker date="1563306771631" expanded="true" signature="1036:1578" ph="{...}" />
-            <marker date="1563306771631" expanded="true" signature="1646:1811" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="6:1246" ph="..." />
+            <marker date="1563060402033" expanded="true" signature="1295:24472" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="1351:24470" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="3524:4199" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="4771:8817" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="4934:5208" ph="/* if (orderDelta.Dto.CustomerId == null) return Error(); ... */" />
+            <marker date="1563060402033" expanded="true" signature="5417:5794" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="6358:6871" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="7866:7955" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="8030:8231" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="8488:8668" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="9352:9929" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="9939:10341" ph="///     Retrieve order by spcified id ... " />
+            <marker date="1563060402033" expanded="true" signature="10843:11404" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="11414:11655" ph="///     Receive a list of all Orders ... " />
+            <marker date="1563060402033" expanded="true" signature="12078:13181" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="13191:13566" ph="///     Retrieve all orders for customer ... " />
+            <marker date="1563060402033" expanded="true" signature="13950:14548" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="14558:14744" ph="///     Receive a count of all Orders ... " />
+            <marker date="1563060402033" expanded="true" signature="15188:15652" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="16227:18566" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="16747:17759" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="16973:17552" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="18712:19892" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="18865:19843" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="19020:19184" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="20052:20777" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="20224:20756" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="20942:21541" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="21040:21503" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="21627:21926" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="22047:22457" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="22136:22312" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="22681:24464" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="22803:23038" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="23101:23268" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="23285:24425" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="23579:24153" ph="{...}" />
+            <marker date="1563060402033" expanded="true" signature="24174:24411" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/share/dotnet/sdk/2.2.300/Sdks/Microsoft.NET.Sdk/targets/Microsoft.NET.Sdk.DefaultItems.targets">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="152" column="4" selection-start-line="152" selection-start-column="4" selection-end-line="152" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Factories/AddressFactory.cs">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3C92B683-8618-4B5B-822B-A1E1428BECD4/83/6a63727f/HttpContextAccessor.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="22" column="65" selection-start-line="22" selection-start-column="64" selection-end-line="22" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Factories/IFactory.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+          <folding>
+            <marker date="1562496704179" expanded="true" signature="41:114" ph="{...}" />
+            <marker date="1562496704179" expanded="true" signature="76:112" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ObjectConverter.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="15" column="14" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
+          <folding>
+            <marker date="1563060400981" expanded="false" signature="6:72" ph="..." />
+            <marker date="1563060400981" expanded="true" signature="116:2141" ph="{...}" />
+            <marker date="1563060400981" expanded="true" signature="170:2139" ph="{...}" />
+            <marker date="1563060400981" expanded="true" signature="306:376" ph="{...}" />
+            <marker date="1563060400981" expanded="true" signature="491:1159" ph="{...}" />
+            <marker date="1563060400981" expanded="true" signature="672:1117" ph="{...}" />
+            <marker date="1563060400981" expanded="true" signature="1204:1317" ph="{...}" />
+            <marker date="1563060400981" expanded="true" signature="1369:2133" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/ModelBinders/ParametersModelBinder.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="14" column="30" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="30" />
+          <folding>
+            <marker date="1562967931360" expanded="false" signature="6:147" ph="..." />
+            <marker date="1562967931360" expanded="true" signature="193:1314" ph="{...}" />
+            <marker date="1562967931360" expanded="true" signature="275:1312" ph="{...}" />
+            <marker date="1562967931360" expanded="true" signature="413:481" ph="{...}" />
+            <marker date="1562967931360" expanded="true" signature="553:1306" ph="{...}" />
+            <marker date="1562967931360" expanded="true" signature="734:1035" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ApiTypeConverter.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
+          <folding>
+            <marker date="1563060401036" expanded="false" signature="6:94" ph="..." />
+            <marker date="1563060401036" expanded="true" signature="138:2820" ph="{...}" />
+            <marker date="1563060401036" expanded="true" signature="194:2818" ph="{...}" />
+            <marker date="1563060401036" expanded="true" signature="209:556" ph="///     Converts the value, which should be in ISO 8601 format to UTC time or null if not valid ... " />
+            <marker date="1563060401036" expanded="true" signature="617:1194" ph="{...}" />
+            <marker date="1563060401036" expanded="true" signature="672:852" ph="{...}" />
+            <marker date="1563060401036" expanded="true" signature="1234:1323" ph="{...}" />
+            <marker date="1563060401036" expanded="true" signature="1372:1486" ph="{...}" />
+            <marker date="1563060401036" expanded="true" signature="1540:2000" ph="{...}" />
+            <marker date="1563060401036" expanded="true" signature="2045:2386" ph="{...}" />
+            <marker date="1563060401036" expanded="true" signature="2449:2812" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/IApiTypeConverter.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+          <folding>
+            <marker date="1562496704149" expanded="false" signature="6:47" ph="..." />
+            <marker date="1562496704149" expanded="true" signature="91:417" ph="{...}" />
+            <marker date="1562496704149" expanded="true" signature="132:415" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/IObjectConverter.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="4" column="7" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+          <folding>
+            <marker date="1562496704151" expanded="true" signature="77:239" ph="{...}" />
+            <marker date="1562496704151" expanded="true" signature="117:237" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/IFieldsValidator.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="10" column="3" selection-end-line="10" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/FieldsValidator.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="18" column="2" lean-forward="true" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/BaseDtoValidator.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="14" column="26" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
+          <folding>
+            <marker date="1563056961436" expanded="false" signature="6:320" ph="..." />
+            <marker date="1563056961436" expanded="true" signature="364:5476" ph="{...}" />
+            <marker date="1563056961436" expanded="true" signature="460:5474" ph="{...}" />
+            <marker date="1563056961436" expanded="false" signature="475:587" ph="Private Fields" />
+            <marker date="1563056961436" expanded="false" signature="597:2027" ph="Constructors" />
+            <marker date="1563056961436" expanded="true" signature="781:2007" ph="{...}" />
+            <marker date="1563056961436" expanded="true" signature="897:1536" ph="/* this is hacky - can't make requestJsonDictionary an optional parameter because Nop tries to resolve it ... */" />
+            <marker date="1563056961436" expanded="false" signature="2037:2134" ph="Public Properties" />
+            <marker date="1563056961436" expanded="false" signature="2144:2517" ph="Protected Properties" />
+            <marker date="1563056961436" expanded="false" signature="2527:4673" ph="Protected Methods" />
+            <marker date="1563056961436" expanded="true" signature="2666:2872" ph="{...}" />
+            <marker date="1563056961436" expanded="true" signature="3039:3459" ph="{...}" />
+            <marker date="1563056961436" expanded="true" signature="3615:3802" ph="{...}" />
+            <marker date="1563056961436" expanded="true" signature="3908:4052" ph="{...}" />
+            <marker date="1563056961436" expanded="true" signature="4209:4395" ph="{...}" />
+            <marker date="1563056961436" expanded="true" signature="4502:4653" ph="{...}" />
+            <marker date="1563056961436" expanded="false" signature="4683:5468" ph="Private Methods" />
+            <marker date="1563056961436" expanded="true" signature="4802:5271" ph="{...}" />
+            <marker date="1563056961436" expanded="true" signature="5313:5448" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/IConfigManagerHelper.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="9" column="7" selection-start-line="4" selection-start-column="6" selection-end-line="9" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/NopConfigManagerHelper.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2864">
+          <caret line="180" column="3" selection-end-line="180" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Maps/IJsonPropertyMapper.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="1" column="33" lean-forward="true" selection-start-line="1" selection-start-column="33" selection-end-line="1" selection-end-column="33" />
+          <folding>
+            <marker date="1562496704190" expanded="false" signature="6:47" ph="..." />
+            <marker date="1562496704190" expanded="true" signature="85:209" ph="{...}" />
+            <marker date="1562496704190" expanded="true" signature="128:207" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Model/ManufacturersParametersModel.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+          <folding>
+            <marker date="1563033603960" expanded="false" signature="6:169" ph="..." />
+            <marker date="1563033603960" expanded="true" signature="230:1670" ph="{...}" />
+            <marker date="1563033603960" expanded="true" signature="402:1668" ph="{...}" />
+            <marker date="1563033603960" expanded="true" signature="454:687" ph="{...}" />
+            <marker date="1563033603960" expanded="true" signature="697:788" ph="///     A comma-separated list of category ids ... " />
+            <marker date="1563033603960" expanded="true" signature="871:970" ph="///     Amount of results (default: 50) (maximum: 250) ... " />
+            <marker date="1563033603960" expanded="true" signature="1051:1129" ph="///     Page to show (default: 1) ... " />
+            <marker date="1563033603960" expanded="true" signature="1208:1303" ph="///     Restrict results to after the specified ID ... " />
+            <marker date="1563033603960" expanded="true" signature="1389:1499" ph="///     comma-separated list of fields to include in the response ... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/AutoMapper/AutoMapperApiConfiguration.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+          <folding>
+            <marker date="1562967931325" expanded="false" signature="6:49" ph="..." />
+            <marker date="1562967931325" expanded="true" signature="93:1764" ph="{...}" />
+            <marker date="1562967931325" expanded="true" signature="146:1762" ph="{...}" />
+            <marker date="1562967931325" expanded="true" signature="938:1404" ph="{...}" />
+            <marker date="1562967931325" expanded="true" signature="964:1394" ph="{...}" />
+            <marker date="1562967931325" expanded="true" signature="1108:1346" ph="{...}" />
+            <marker date="1562967931325" expanded="true" signature="1490:1572" ph="{...}" />
+            <marker date="1562967931325" expanded="true" signature="1684:1756" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Models/ConfigurationModel.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+          <folding>
+            <marker date="1562496704195" expanded="true" signature="81:766" ph="{...}" />
+            <marker date="1562496704195" expanded="true" signature="119:764" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Domain/ApiSettings.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="64">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+          <folding>
+            <marker date="1562496704178" expanded="true" signature="69:333" ph="{...}" />
+            <marker date="1562496704178" expanded="true" signature="112:331" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Common/DependencyRegister.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="592">
-          <caret line="51" column="42" selection-start-line="51" selection-start-column="42" selection-end-line="51" selection-end-column="42" />
+        <state relative-caret-position="-113">
           <folding>
-            <marker date="1562971317382" expanded="false" signature="6:539" ph="..." />
-            <marker date="1562971317382" expanded="true" signature="572:2500" ph="{...}" />
-            <marker date="1562971317382" expanded="true" signature="633:2498" ph="{...}" />
-            <marker date="1562971317382" expanded="true" signature="736:845" ph="{...}" />
-            <marker date="1562971317382" expanded="true" signature="967:1175" ph="{...}" />
-            <marker date="1562971317382" expanded="true" signature="1246:2492" ph="{...}" />
+            <marker date="1563308494446" expanded="true" signature="6:396" ph="..." />
+            <marker date="1563308494446" expanded="true" signature="429:1977" ph="{...}" />
+            <marker date="1563308494446" expanded="true" signature="490:1975" ph="{...}" />
+            <marker date="1563308494446" expanded="true" signature="593:702" ph="{...}" />
+            <marker date="1563308494446" expanded="true" signature="824:1032" ph="{...}" />
+            <marker date="1563308494446" expanded="true" signature="1103:1969" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Common/ApiMapperConfiguration.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="22" column="42" lean-forward="true" selection-start-line="16" selection-start-column="9" selection-end-line="22" selection-end-column="42" />
+          <folding>
+            <marker date="1563306771631" expanded="true" signature="6:311" ph="..." />
+            <marker date="1563306771631" expanded="true" signature="344:1819" ph="{...}" />
+            <marker date="1563306771631" expanded="true" signature="419:1817" ph="{...}" />
+            <marker date="1563306771631" expanded="true" signature="465:679" ph="{...}" />
+            <marker date="1563306771631" expanded="true" signature="763:995" ph="{...}" />
+            <marker date="1563306771631" expanded="true" signature="1036:1578" ph="{...}" />
+            <marker date="1563306771631" expanded="true" signature="1646:1811" ph="{...}" />
           </folding>
         </state>
       </provider>

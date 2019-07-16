@@ -1,17 +1,13 @@
-﻿using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using Microsoft.AspNetCore.Http;
 using Nop.Core.Configuration;
-using Nop.Core.Domain.Common;
 using Nop.Core.Infrastructure;
 using Nop.Core.Infrastructure.DependencyManagement;
 using Nop.Plugin.Api.Common.Converters;
-using Nop.Plugin.Api.Common.Factories;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.JSON.Serializers;
 using Nop.Plugin.Api.Common.Maps;
 using Nop.Plugin.Api.Common.ModelBinders;
-using Nop.Plugin.Api.Common.Validators;
 using Nop.Plugin.Api.IdentityServer;
 
 namespace Nop.Plugin.Api.Common
@@ -38,18 +34,12 @@ namespace Nop.Plugin.Api.Common
             builder.RegisterType<MappingHelper>().As<IMappingHelper>().InstancePerLifetimeScope();
 
             builder.RegisterType<JsonHelper>().As<IJsonHelper>().InstancePerLifetimeScope();
-
-            builder.RegisterType<NopConfigManagerHelper>().As<IConfigManagerHelper>().InstancePerLifetimeScope();
-
+            
             builder.RegisterType<JsonFieldsSerializer>().As<IJsonFieldsSerializer>().InstancePerLifetimeScope();
-
-            builder.RegisterType<FieldsValidator>().As<IFieldsValidator>().InstancePerLifetimeScope();
-
+            
             builder.RegisterType<ObjectConverter>().As<IObjectConverter>().InstancePerLifetimeScope();
 
             builder.RegisterType<ApiTypeConverter>().As<IApiTypeConverter>().InstancePerLifetimeScope();
-
-            builder.RegisterType<AddressFactory>().As<IFactory<Address>>().InstancePerLifetimeScope();
 
             builder.RegisterType<JsonPropertyMapper>().As<IJsonPropertyMapper>().InstancePerLifetimeScope();
 
@@ -57,7 +47,6 @@ namespace Nop.Plugin.Api.Common
 
             builder.RegisterType<CookiesService>().As<ICookiesService>().SingleInstance();
 
-            builder.RegisterType<Dictionary<string, object>>().SingleInstance();
         }
     }
 }

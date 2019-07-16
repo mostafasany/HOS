@@ -257,18 +257,15 @@
             <e p="SpecificationAttributeDtoMappings.cs" t="Include" />
           </e>
           <e p="Factories" t="Include">
-            <e p="AddressFactory.cs" t="Include" />
             <e p="IFactory.cs" t="Include" />
           </e>
           <e p="Helpers" t="Include">
             <e p="CryptoHelper.cs" t="Include" />
-            <e p="IConfigManagerHelper.cs" t="Include" />
             <e p="IJsonHelper.cs" t="Include" />
             <e p="IMappingHelper.cs" t="Include" />
             <e p="JsonHelper.cs" t="Include" />
             <e p="JTokenHelper.cs" t="Include" />
             <e p="MappingHelper.cs" t="Include" />
-            <e p="NopConfigManagerHelper.cs" t="Include" />
             <e p="ReflectionHelper.cs" t="Include" />
           </e>
           <e p="JSON" t="Include">
@@ -309,8 +306,6 @@
           <e p="Validators" t="Include">
             <e p="AddressDtoValidator.cs" t="Include" />
             <e p="BaseDtoValidator.cs" t="Include" />
-            <e p="FieldsValidator.cs" t="Include" />
-            <e p="IFieldsValidator.cs" t="Include" />
             <e p="TypeValidator.cs" t="Include" />
           </e>
         </e>
@@ -5707,6 +5702,9 @@
                 <e p="product_WomenTShirt.jpg" t="Include" />
               </e>
               <e p="thumbs" t="Include">
+                <e p="0000017_apple.jpg" t="Include" />
+                <e p="0000018_hp.jpg" t="Include" />
+                <e p="0000019_nike.jpg" t="Include" />
                 <e p="0000022_product-just-arrive-2.jpeg" t="Include" />
                 <e p="0000024_product-top-sales-2.jpeg" t="Include" />
                 <e p="0000024_product-top-sales-2_415.jpeg" t="Include" />
