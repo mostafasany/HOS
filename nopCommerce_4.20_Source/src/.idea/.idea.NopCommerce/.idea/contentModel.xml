@@ -4470,6 +4470,7 @@
               <e p="IdentityServer4.EntityFramework.dll" t="Include" />
               <e p="IdentityServer4.EntityFramework.Storage.dll" t="Include" />
               <e p="IdentityServer4.Storage.dll" t="Include" />
+              <e p="Microsoft.OpenApi.dll" t="Include" />
               <e p="Nop.Plugin.Api.Admin.dll" t="Include" />
               <e p="Nop.Plugin.Api.Cart.dll" t="Include" />
               <e p="Nop.Plugin.Api.Category.dll" t="Include" />
@@ -4494,17 +4495,13 @@
               <e p="placeholder.txt" t="Include" />
               <e p="RestSharp.dll" t="Include" />
               <e p="Square.Connect.dll" t="Include" />
+              <e p="Swashbuckle.AspNetCore.dll" t="Include" />
+              <e p="Swashbuckle.AspNetCore.Swagger.dll" t="Include" />
+              <e p="Swashbuckle.AspNetCore.SwaggerGen.dll" t="Include" />
+              <e p="Swashbuckle.AspNetCore.SwaggerUI.dll" t="Include" />
             </e>
             <e p="DiscountRules.CustomerRoles" t="ExcludeRecursive">
-              <e p="logo.jpg" t="Include" />
-              <e p="Nop.Plugin.DiscountRules.CustomerRoles.deps.json" t="Include" />
-              <e p="Nop.Plugin.DiscountRules.CustomerRoles.dll" t="Include" />
-              <e p="Nop.Plugin.DiscountRules.CustomerRoles.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
-              <e p="Views" t="Include">
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-              </e>
+              <e p="Views" t="Include" />
             </e>
             <e p="ExchangeRate.EcbExchange" t="ExcludeRecursive">
               <e p="logo.jpg" t="Include" />
@@ -4513,39 +4510,13 @@
             </e>
             <e p="ExternalAuth.Facebook" t="ExcludeRecursive">
               <e p="Content" t="Include">
-                <e p="facebookstyles.css" t="Include" />
-                <e p="Images" t="Include">
-                  <e p="facebook_logo.png" t="Include" />
-                </e>
+                <e p="Images" t="Include" />
               </e>
-              <e p="logo.jpg" t="Include" />
-              <e p="Nop.Plugin.ExternalAuth.Facebook.deps.json" t="Include" />
-              <e p="Nop.Plugin.ExternalAuth.Facebook.dll" t="Include" />
-              <e p="Nop.Plugin.ExternalAuth.Facebook.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
-              <e p="Views" t="Include">
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-                <e p="PublicInfo.cshtml" t="Include" />
-              </e>
+              <e p="Views" t="Include" />
             </e>
             <e p="Misc.SendinBlue" t="ExcludeRecursive">
-              <e p="Content" t="Include">
-                <e p="styles.css" t="Include" />
-              </e>
-              <e p="logo.jpg" t="Include" />
-              <e p="Nop.Plugin.Misc.SendinBlue.deps.json" t="Include" />
-              <e p="Nop.Plugin.Misc.SendinBlue.dll" t="Include" />
-              <e p="Nop.Plugin.Misc.SendinBlue.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
-              <e p="RestSharp.dll" t="Include" />
-              <e p="SendinBlue.ClientV3.45.dll" t="Include" />
-              <e p="SendinBlueMarketingAutomation.dll" t="Include" />
-              <e p="Views" t="Include">
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-                <e p="PublicInfo.cshtml" t="Include" />
-              </e>
+              <e p="Content" t="Include" />
+              <e p="Views" t="Include" />
             </e>
             <e p="Nop.Plugin.Api" t="ExcludeRecursive">
               <e p="IdentityModel.dll" t="Include" />
@@ -4553,6 +4524,7 @@
               <e p="IdentityServer4.EntityFramework.dll" t="Include" />
               <e p="IdentityServer4.EntityFramework.Storage.dll" t="Include" />
               <e p="IdentityServer4.Storage.dll" t="Include" />
+              <e p="Microsoft.OpenApi.dll" t="Include" />
               <e p="Nop.Plugin.Api.Admin.dll" t="Include" />
               <e p="Nop.Plugin.Api.Admin.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Cart.dll" t="Include" />
@@ -4565,258 +4537,78 @@
               <e p="Nop.Plugin.Api.Content.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Customer.dll" t="Include" />
               <e p="Nop.Plugin.Api.Customer.pdb" t="Include" />
-              <e p="Nop.Plugin.Api.deps.json" t="Include" />
-              <e p="Nop.Plugin.Api.dll" t="Include" />
-              <e p="Nop.Plugin.Api.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Product.dll" t="Include" />
               <e p="Nop.Plugin.Api.Product.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
+              <e p="Swashbuckle.AspNetCore.dll" t="Include" />
+              <e p="Swashbuckle.AspNetCore.Swagger.dll" t="Include" />
+              <e p="Swashbuckle.AspNetCore.SwaggerGen.dll" t="Include" />
+              <e p="Swashbuckle.AspNetCore.SwaggerUI.dll" t="Include" />
               <e p="Views" t="Include">
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Clients" t="Include">
-                  <e p="ClientSettings.cshtml" t="Include" />
-                  <e p="Create.cshtml" t="Include" />
-                  <e p="CreateOrUpdate.cshtml" t="Include" />
-                  <e p="Edit.cshtml" t="Include" />
-                  <e p="List.cshtml" t="Include" />
-                </e>
-                <e p="Settings.cshtml" t="Include" />
+                <e p="Clients" t="Include" />
               </e>
             </e>
             <e p="Payments.CheckMoneyOrder" t="ExcludeRecursive">
-              <e p="logo.jpg" t="Include" />
-              <e p="Nop.Plugin.Payments.CheckMoneyOrder.deps.json" t="Include" />
-              <e p="Nop.Plugin.Payments.CheckMoneyOrder.dll" t="Include" />
-              <e p="Nop.Plugin.Payments.CheckMoneyOrder.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
-              <e p="Views" t="Include">
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-                <e p="PaymentInfo.cshtml" t="Include" />
-              </e>
+              <e p="Views" t="Include" />
             </e>
             <e p="Payments.Manual" t="ExcludeRecursive">
-              <e p="logo.jpg" t="Include" />
-              <e p="Nop.Plugin.Payments.Manual.deps.json" t="Include" />
-              <e p="Nop.Plugin.Payments.Manual.dll" t="Include" />
-              <e p="Nop.Plugin.Payments.Manual.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
-              <e p="Views" t="Include">
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-                <e p="PaymentInfo.cshtml" t="Include" />
-              </e>
+              <e p="Views" t="Include" />
             </e>
             <e p="Payments.PayPalStandard" t="ExcludeRecursive">
-              <e p="logo.jpg" t="Include" />
-              <e p="Nop.Plugin.Payments.PayPalStandard.deps.json" t="Include" />
-              <e p="Nop.Plugin.Payments.PayPalStandard.dll" t="Include" />
-              <e p="Nop.Plugin.Payments.PayPalStandard.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
-              <e p="Views" t="Include">
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-                <e p="PaymentInfo.cshtml" t="Include" />
-              </e>
+              <e p="Views" t="Include" />
             </e>
             <e p="Payments.Qualpay" t="ExcludeRecursive">
-              <e p="logo.png" t="Include" />
-              <e p="Nop.Plugin.Payments.Qualpay.deps.json" t="Include" />
-              <e p="Nop.Plugin.Payments.Qualpay.dll" t="Include" />
-              <e p="Nop.Plugin.Payments.Qualpay.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
-              <e p="qpPg.dll" t="Include" />
-              <e p="qpPlatform.dll" t="Include" />
-              <e p="RestSharp.dll" t="Include" />
               <e p="Views" t="Include">
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-                <e p="Customer" t="Include">
-                  <e p="_CreateOrUpdate.Qualpay.cshtml" t="Include" />
-                </e>
-                <e p="PaymentInfo.cshtml" t="Include" />
+                <e p="Customer" t="Include" />
               </e>
             </e>
             <e p="Payments.Square" t="ExcludeRecursive">
-              <e p="Content" t="Include">
-                <e p="styles.css" t="Include" />
-              </e>
-              <e p="logo.png" t="Include" />
-              <e p="Nop.Plugin.Payments.Square.deps.json" t="Include" />
-              <e p="Nop.Plugin.Payments.Square.dll" t="Include" />
-              <e p="Nop.Plugin.Payments.Square.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
+              <e p="Content" t="Include" />
               <e p="RestSharp.dll" t="Include" />
               <e p="Square.Connect.dll" t="Include" />
-              <e p="Views" t="Include">
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-                <e p="PaymentInfo.cshtml" t="Include" />
-              </e>
+              <e p="Views" t="Include" />
             </e>
             <e p="Pickup.PickupInStore" t="ExcludeRecursive">
-              <e p="logo.png" t="Include" />
-              <e p="Nop.Plugin.Pickup.PickupInStore.deps.json" t="Include" />
-              <e p="Nop.Plugin.Pickup.PickupInStore.dll" t="Include" />
-              <e p="Nop.Plugin.Pickup.PickupInStore.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
-              <e p="Views" t="Include">
-                <e p="_CreateOrUpdate.cshtml" t="Include" />
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-                <e p="Create.cshtml" t="Include" />
-                <e p="Edit.cshtml" t="Include" />
-              </e>
+              <e p="Views" t="Include" />
             </e>
             <e p="Shipping.FixedByWeightByTotal" t="ExcludeRecursive">
-              <e p="logo.jpg" t="Include" />
-              <e p="Nop.Plugin.Shipping.FixedByWeightByTotal.deps.json" t="Include" />
-              <e p="Nop.Plugin.Shipping.FixedByWeightByTotal.dll" t="Include" />
-              <e p="Nop.Plugin.Shipping.FixedByWeightByTotal.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
-              <e p="Views" t="Include">
-                <e p="_ByWeightByTotal.cshtml" t="Include" />
-                <e p="_CreateOrUpdateRateByWeightByTotal.cshtml" t="Include" />
-                <e p="_FixedRate.cshtml" t="Include" />
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="AddRateByWeightByTotalPopup.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-                <e p="EditRateByWeightByTotalPopup.cshtml" t="Include" />
-              </e>
+              <e p="Views" t="Include" />
             </e>
             <e p="Shipping.UPS" t="ExcludeRecursive">
-              <e p="logo.jpg" t="Include" />
-              <e p="Nop.Plugin.Shipping.UPS.deps.json" t="Include" />
-              <e p="Nop.Plugin.Shipping.UPS.dll" t="Include" />
-              <e p="Nop.Plugin.Shipping.UPS.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
-              <e p="Views" t="Include">
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-              </e>
+              <e p="Views" t="Include" />
             </e>
             <e p="Tax.Avalara" t="ExcludeRecursive">
               <e p="Avalara.AvaTax.netstandard11.dll" t="Include" />
-              <e p="logo.png" t="Include" />
-              <e p="Nop.Plugin.Tax.Avalara.deps.json" t="Include" />
-              <e p="Nop.Plugin.Tax.Avalara.dll" t="Include" />
-              <e p="Nop.Plugin.Tax.Avalara.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
               <e p="Views" t="Include">
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Checkout" t="Include">
-                  <e p="AddressValidation.cshtml" t="Include" />
-                </e>
-                <e p="Configuration" t="Include">
-                  <e p="_Configuration.cshtml" t="Include" />
-                  <e p="Configure.cshtml" t="Include" />
-                </e>
-                <e p="EntityUseCode" t="Include">
-                  <e p="_EntityUseCodeField.cshtml" t="Include" />
-                  <e p="EntityUseCode.cshtml" t="Include" />
-                </e>
-                <e p="Log" t="Include">
-                  <e p="List.cshtml" t="Include" />
-                  <e p="View.cshtml" t="Include" />
-                </e>
-                <e p="Product" t="Include">
-                  <e p="_ExportItemsButton.cshtml" t="Include" />
-                  <e p="_ExportItemsForm.cshtml" t="Include" />
-                  <e p="ExportItems.cshtml" t="Include" />
-                </e>
-                <e p="Settings" t="Include">
-                  <e p="_TaxOriginAddressTypeField.cshtml" t="Include" />
-                  <e p="TaxOriginAddressType.cshtml" t="Include" />
-                </e>
-                <e p="Tax" t="Include">
-                  <e p="Categories.cshtml" t="Include" />
-                  <e p="TaxCodes.cshtml" t="Include" />
-                </e>
+                <e p="Checkout" t="Include" />
+                <e p="Configuration" t="Include" />
+                <e p="EntityUseCode" t="Include" />
+                <e p="Log" t="Include" />
+                <e p="Product" t="Include" />
+                <e p="Settings" t="Include" />
+                <e p="Tax" t="Include" />
               </e>
             </e>
             <e p="Tax.FixedOrByCountryStateZip" t="ExcludeRecursive">
-              <e p="logo.jpg" t="Include" />
-              <e p="Nop.Plugin.Tax.FixedOrByCountryStateZip.deps.json" t="Include" />
-              <e p="Nop.Plugin.Tax.FixedOrByCountryStateZip.dll" t="Include" />
-              <e p="Nop.Plugin.Tax.FixedOrByCountryStateZip.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
-              <e p="Views" t="Include">
-                <e p="_CountryStateZip.cshtml" t="Include" />
-                <e p="_FixedRate.cshtml" t="Include" />
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-              </e>
+              <e p="Views" t="Include" />
             </e>
             <e p="Widgets.GoogleAnalytics" t="ExcludeRecursive">
-              <e p="logo.jpg" t="Include" />
-              <e p="Nop.Plugin.Widgets.GoogleAnalytics.deps.json" t="Include" />
-              <e p="Nop.Plugin.Widgets.GoogleAnalytics.dll" t="Include" />
-              <e p="Nop.Plugin.Widgets.GoogleAnalytics.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
-              <e p="Views" t="Include">
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-                <e p="PublicInfo.cshtml" t="Include" />
-              </e>
+              <e p="Views" t="Include" />
             </e>
             <e p="Widgets.NivoSlider" t="ExcludeRecursive">
               <e p="Content" t="Include">
                 <e p="nivoslider" t="Include">
-                  <e p="license.txt" t="Include" />
-                  <e p="nivo-slider.css" t="Include" />
-                  <e p="README" t="Include" />
-                  <e p="sample-images" t="Include">
-                    <e p="banner1.jpg" t="Include" />
-                    <e p="banner2.jpg" t="Include" />
-                  </e>
+                  <e p="sample-images" t="Include" />
                   <e p="Themes" t="Include">
-                    <e p="bar" t="Include">
-                      <e p="arrows.png" t="Include" />
-                      <e p="bar.css" t="Include" />
-                      <e p="bullets.png" t="Include" />
-                      <e p="loading.gif" t="Include" />
-                    </e>
-                    <e p="custom" t="Include">
-                      <e p="arrows.png" t="Include" />
-                      <e p="bullets.png" t="Include" />
-                      <e p="custom.css" t="Include" />
-                      <e p="loading.gif" t="Include" />
-                    </e>
-                    <e p="dark" t="Include">
-                      <e p="arrows.png" t="Include" />
-                      <e p="bullets.png" t="Include" />
-                      <e p="dark.css" t="Include" />
-                      <e p="loading.gif" t="Include" />
-                    </e>
-                    <e p="default" t="Include">
-                      <e p="arrows.png" t="Include" />
-                      <e p="bullets.png" t="Include" />
-                      <e p="default.css" t="Include" />
-                      <e p="loading.gif" t="Include" />
-                    </e>
-                    <e p="light" t="Include">
-                      <e p="arrows.png" t="Include" />
-                      <e p="bullets.png" t="Include" />
-                      <e p="light.css" t="Include" />
-                      <e p="loading.gif" t="Include" />
-                    </e>
+                    <e p="bar" t="Include" />
+                    <e p="custom" t="Include" />
+                    <e p="dark" t="Include" />
+                    <e p="default" t="Include" />
+                    <e p="light" t="Include" />
                   </e>
                 </e>
               </e>
-              <e p="logo.jpg" t="Include" />
-              <e p="Nop.Plugin.Widgets.NivoSlider.deps.json" t="Include" />
-              <e p="Nop.Plugin.Widgets.NivoSlider.dll" t="Include" />
-              <e p="Nop.Plugin.Widgets.NivoSlider.pdb" t="Include" />
-              <e p="plugin.json" t="Include" />
-              <e p="Scripts" t="Include">
-                <e p="jquery.nivo.slider.js" t="Include" />
-              </e>
-              <e p="Views" t="Include">
-                <e p="_PublicInfo.SliderLine.cshtml" t="Include" />
-                <e p="_ViewImports.cshtml" t="Include" />
-                <e p="Configure.cshtml" t="Include" />
-                <e p="PublicInfo.cshtml" t="Include" />
-              </e>
+              <e p="Scripts" t="Include" />
+              <e p="Views" t="Include" />
             </e>
           </e>
           <e p="Program.cs" t="Include" />
