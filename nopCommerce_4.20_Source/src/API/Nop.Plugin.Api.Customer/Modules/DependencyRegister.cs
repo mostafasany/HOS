@@ -3,7 +3,6 @@ using Nop.Core.Configuration;
 using Nop.Core.Infrastructure;
 using Nop.Core.Infrastructure.DependencyManagement;
 using Nop.Plugin.Api.Common.Factories;
-using Nop.Plugin.Api.Customer.Helpers;
 using Nop.Plugin.Api.Customer.Modules.Customer.Factory;
 using Nop.Plugin.Api.Customer.Modules.Customer.Service;
 using Nop.Plugin.Api.Customer.Modules.NewsLetterSubscription.Service;

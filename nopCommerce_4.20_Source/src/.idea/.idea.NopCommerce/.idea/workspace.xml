@@ -4,6 +4,11 @@
     <list default="true" id="fd367d32-9551-4075-aaa6-16f67f89a98f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.NopCommerce/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.NopCommerce/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.NopCommerce/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.NopCommerce/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Helpers/CustomerRolesHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Service/CustomerRolesHelper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Helpers/ICustomerRolesHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Service/ICustomerRolesHelper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/Validator/CustomerDtoValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/Validator/CustomerDtoValidator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/DependencyRegister.cs" beforeDir="false" afterPath="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/DependencyRegister.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Presentation/Nop.Web/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Presentation/Nop.Web/Properties/launchSettings.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,41 +17,62 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/ApiStartup.cs">
+        <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/CustomersController.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="57" selection-start-line="57" selection-end-line="57" />
+            <state relative-caret-position="-981">
+              <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
               <folding>
-                <marker date="1563314363291" expanded="true" signature="6:1188" ph="..." />
-                <marker date="1563314363291" expanded="true" signature="1214:9845" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="1258:9843" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="1443:2398" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="1579:1999" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="2086:2171" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="2454:3696" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="2527:2723" ph="/* During a clean install we should not register any middleware i.e IdentityServer as it won't be able to create  ... */" />
-                <marker date="1563314363291" expanded="true" signature="3588:3684" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="3841:4872" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="3913:4474" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="4039:4458" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="4235:4377" ph="/* policy.Requirements.Add(new ActiveClientRequirement()); ... */" />
-                <marker date="1563314363291" expanded="true" signature="4678:4862" ph="/* services.AddSingleton&lt;IAuthorizationHandler, ActiveClientAuthorizationPolicy&gt;(); ... */" />
-                <marker date="1563314363291" expanded="true" signature="4921:5143" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="5221:6693" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="5809:6054" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="6128:6373" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="6770:7425" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="6905:7415" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="7481:8576" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="7616:8566" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="8100:8437" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="8663:9608" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="8689:9438" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="8991:9371" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="9468:9598" ph="{...}" />
-                <marker date="1563314363291" expanded="true" signature="9673:9837" ph="{...}" />
+                <marker date="1563060402087" expanded="false" signature="6:1246" ph="..." />
+                <marker date="1563060402087" expanded="true" signature="1298:34092" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="1463:34090" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="4161:5151" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="5162:5347" ph="///     Get a count of all customers ... " />
+                <marker date="1563060402087" expanded="true" signature="5737:6687" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="6301:6409" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="6697:6882" ph="///     Get a count of all customers ... " />
+                <marker date="1563060402087" expanded="true" signature="7204:7753" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="8176:12146" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="9084:9456" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="9115:9289" ph="/* we need to explicitly set the date as if it is not specified ... */" />
+                <marker date="1563060402087" expanded="true" signature="10530:10819" ph="/* We need to insert the entity first so we can have its id in order to map it to anything. ... */" />
+                <marker date="1563060402087" expanded="true" signature="10887:11064" ph="/* This is needed because the entity framework won't populate the navigation properties automatically ... */" />
+                <marker date="1563060402087" expanded="true" signature="11845:11994" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="12625:13640" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="13071:13392" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="13651:13836" ph="///     Get a count of all customers ... " />
+                <marker date="1563060402087" expanded="true" signature="14194:15815" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="14419:15463" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="15183:15310" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="15528:15644" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="15826:16221" ph="///     Retrieve customer by spcified id ... " />
+                <marker date="1563060402087" expanded="true" signature="16732:17265" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="17275:17520" ph="///     Retrieve all customers of a shop ... " />
+                <marker date="1563060402087" expanded="true" signature="17955:18766" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="18777:18962" ph="///     Get a count of all customers ... " />
+                <marker date="1563060402087" expanded="true" signature="19328:19577" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="19588:19773" ph="///     Get a count of all customers ... " />
+                <marker date="1563060402087" expanded="true" signature="20041:22021" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="20120:21259" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="22031:22288" ph="///     Search for customers matching supplied query ... " />
+                <marker date="1563060402087" expanded="true" signature="22680:23399" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="23992:28510" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="24594:25231" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="24834:25217" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="26277:26462" ph="/* TODO: Localization ... */" />
+                <marker date="1563060402087" expanded="true" signature="26535:26787" ph="/* This is needed because the entity framework won't populate the navigation properties automatically ... */" />
+                <marker date="1563060402087" expanded="true" signature="28520:28705" ph="///     Get a count of all customers ... " />
+                <marker date="1563060402087" expanded="true" signature="28990:29361" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="29456:30906" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="29604:29777" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="29840:30736" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="31024:32122" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="31244:31640" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="31661:32112" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="32316:33384" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="33462:33777" ph="{...}" />
+                <marker date="1563060402087" expanded="true" signature="33834:34084" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -56,7 +82,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>AdminApiSettings</find>
       <find>ManageSiteMap</find>
       <find>Plugins.Api.Admin.Menu.Settings.Title</find>
       <find>WebHooks</find>
@@ -86,34 +111,30 @@
       <find>SaveSelectedPanelName</find>
       <find>swagger</find>
       <find>houseofsupplements.azurewebsites.net</find>
+      <find>ActionFilterAttribute</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/PasswordValidator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/CookiesService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/DelegationGrantValidator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web.Framework/Extensions/HtmlExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/ICookiesService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Helpers/CustomerRolesHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Service/ICustomerRolesHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Service/CustomerRolesHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/ApiMapperConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5486B0B5-95C6-4BBE-8EDA-415056DF068B/ab/12faa6bf/Type.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/DependencyRegister.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Data/ApiObjectContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/OrderItemsController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/OrdersController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/CD244751-0325-4121-9FE0-724DAFC7E191/27/2502c53d/ParameterBinder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Orders/OrderDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Dto/Validator/OrderDtoValidator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ApiMapperConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductAttributeMappingDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Areas/Admin/Controllers/ReturnRequestController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Areas/Admin/Controllers/CustomerAttributeController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/DependencyRegister.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductDto.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/ProductsController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductAttributeValueDto.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web.Framework/Controllers/BaseController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Factory/OrderFactory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Service/OrderApiService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Service/OrderItemApiService.cs" root0="FORCE_HIGHLIGHTING" />
@@ -121,23 +142,18 @@
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/ValidateVendor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Order/Translator/IOrderTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/Validator/SpecificationAttributeDtoValidator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/AutoMapper/ApiMapperConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/DependencyRegister.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Areas/Admin/Controllers/ReviewTypeController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Areas/Admin/Controllers/AddressAttributeController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Factory/ProductFactory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/CustomersController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Maps/JsonPropertyMapper.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Service/ProductApiService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Maps/IJsonPropertyMapper.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Translator/IProductTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/BaseCustomerDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Delta/Delta.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Translator/ProductTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Domain/ApiSettings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Domain/WebHooks.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/CustomerDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Areas/Admin/Controllers/ProductController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/Nop.Plugin.Widgets.NivoSlider/Views/Configure.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Models/DefaultWeApiErrorsModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Models/ConfigurationModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Areas/Admin/Controllers/OrderController.cs" root0="FORCE_HIGHLIGHTING" />
@@ -147,50 +163,120 @@
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/JTokenHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/JsonHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/CD244751-0325-4121-9FE0-724DAFC7E191/1c/c0b4122c/ProducesResponseTypeAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Model/DiscountsParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/CryptoHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/MappingHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/Validator/CustomerDtoValidator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Translator/IDiscountTranslator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Translator/DiscountTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Constants/Constants.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Policies/ActiveApiPluginAuthorizationPolicy.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Areas/Admin/Controllers/CategoryController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Service/CustomerApiService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Translator/CustomerDtoMappings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Constants/Configurations.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Requirements/AuthorizationSchemeRequirement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Factories/IFactory.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Requirements/ActiveApiPluginRequirement.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Requirements/CustomerRoleRequirement.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Attributes/ImageValidationAttribute.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/ApiStartup.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/ApiPlugin.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Attributes/GetRequestsErrorInterceptorActionFilter.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/ApiMapperConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/ShoppingCartItemsController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Areas/Admin/Views/Setting/_Media.Common.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/AutoMapper/AutoMapperApiConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ApiTypeConverter.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Service/ProductAttributesApiService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Translator/IProductAttributesTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/IApiTypeConverter.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Translator/ProductAttributesTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Areas/Admin/Views/Setting/_GeneralCommon.Minification.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ProductAttributeConverter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/IObjectConverter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Converters/ObjectConverter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/TypeValidator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/DependencyRegister.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Libraries/Nop.Services/Configuration/SettingService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/BaseDtoValidator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Libraries/Nop.Services/Configuration/ISettingService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DataMappings/WebHooksMap.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/ModelBinders/ParametersModelBinder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/ModelBinders/JsonModelBinder.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Model/BaseCategoryMappingsParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Service/ProductCategoryMappingsApiService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Areas/Admin/Views/Setting/_Catalog.Tax.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/MappingExtensions/ConfigurationMappings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/MappingExtensions/AddressDtoMappings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/HomeCarousel/CarouselController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Areas/Admin/Views/Setting/_Catalog.Tags.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ManageClientsAdminController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/DependencyRegister.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ApiMapperConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ApiAdminController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ViewNames.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Areas/Admin/Views/Customer/AddressEdit.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/ApiMapperConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/DependencyRegister.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/StoreController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/Translator/IStoreTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Tests/Nop.Tests/TestExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/Translator/StoreTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/TopicsController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Model/TopicsParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Service/ITopicApiService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Service/TopicApiService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Translator/TopicTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Translator/ITopicTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Service/ClientService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/CountriesController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Settings.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Clients/List.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Clients/CreateOrUpdate.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Clients/Create.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Clients/ClientSettings.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/Translator/ICountryTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Clients/Edit.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/Nop.Plugin.ExternalAuth.Facebook/Views/Configure.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/Translator/CountryTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web.Framework/Models/BaseNopModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/Nop.Plugin.ExternalAuth.Facebook/Controllers/FacebookAuthenticationController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/Translator/ILanguageTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/Translator/LanguageTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/ManufacturersController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web.Framework/Models/BaseNopEntityModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Dto/ManufacturersCountRootObject.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Model/ManufacturersParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Service/IManufacturerApiService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Service/ManufacturerApiService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Translator/IManufacturerTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Translator/ManufacturerTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Libraries/Nop.Services/Tax/ITaxService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/PasswordValidator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/CookiesService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/DelegationGrantValidator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web.Framework/Extensions/HtmlExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ApiMapperConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/DependencyRegister.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/ProductsController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web.Framework/Controllers/BaseController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/AutoMapper/ApiMapperConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/DependencyRegister.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Factory/ProductFactory.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Service/ProductApiService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Translator/IProductTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Product/Translator/ProductTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Model/DiscountsParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Translator/IDiscountTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/Discount/Translator/DiscountTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Policies/ActiveApiPluginAuthorizationPolicy.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Requirements/AuthorizationSchemeRequirement.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Requirements/ActiveApiPluginRequirement.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Requirements/CustomerRoleRequirement.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/ApiStartup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Views/Customer/Addresses.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/ApiPlugin.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/ApiMapperConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Views/Customer/AddressAdd.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/ShoppingCartItemsController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Plugins/Nop.Plugin.Misc.SendinBlue/Controllers/SendinBlueController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Service/ProductAttributesApiService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Views/Customer/AddressEdit.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Translator/IProductAttributesTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductAttributes/Translator/ProductAttributesTranslator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/DependencyRegister.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Model/BaseCategoryMappingsParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Model/ProductCategoryMappingsParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Model/ProductCategoryMappingsCountParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductCategoryMappings/Service/ProductCategoryMappingsApiService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/SpecificationAttributesController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Libraries/Nop.Services/Catalog/IPriceCalculationService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Model/SpecifcationAttributesParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Model/SpecifcationAttributesCountParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Translator/SpecificationAttributesTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/SpecificationAttributes/Translator/ISpecificationAttributesTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Product/Modules/ProductSpecificationAttributes/ProductSpecificationAttributesController.cs" root0="FORCE_HIGHLIGHTING" />
@@ -208,72 +294,42 @@
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Category/DependencyRegister.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/ShoppingCartModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Dto/Validator/ShoppingCartItemDtoValidator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ManageClientsAdminController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/DependencyRegister.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ApiMapperConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ApiAdminController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ViewNames.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Areas/Admin/Views/Order/AddressEdit.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/9AEDA1EA-7722-4CA6-A7CA-C000AF27DEC0/aa/355ed56d/Type.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Libraries/Nop.Core/Caching/MemoryCacheManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Libraries/Nop.Core/Caching/ICacheManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Plugins/Nop.Plugin.DiscountRules.CustomerRoles/Controllers/DiscountRulesCustomerRolesController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/ApiMapperConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Plugins/Nop.Plugin.DiscountRules.CustomerRoles/Infrastructure/Cache/DiscountRequirementEventConsumer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Libraries/Nop.Core/Configuration/ISettings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Model/ShoppingCartItemsParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Dto/CategoriesRootObject.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Model/ShoppingCartItemsForCustomerParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Dto/CategoryDto.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Model/ShoppingCartItemsShipmentEstimationModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Dto/CategoriesCountRootObject.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/DependencyRegister.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Model/ShoppingCartItemsForCrossSellsParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/StoreController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Model/BaseShoppingCartItemsParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Dto/Validator/CategoryDtoValidator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web/Models/Common/AddressModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Service/ShoppingCartItemApiService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Service/IShoppingCartItemApiService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/IDiscountTranslator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/Translator/IStoreTranslator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Tests/Nop.Tests/TestExtensions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/CartTranslator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Store/Translator/StoreTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/DiscountTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/ICartTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/ShoppingCartItemDtoMappings.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/TopicsController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Model/TopicsParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Service/ITopicApiService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Service/TopicApiService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Translator/TopicTranslator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Topic/Translator/ITopicTranslator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Service/ClientService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/CountriesController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Settings.cshtml" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Libraries/Nop.Core/Infrastructure/EngineContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tests/Nop.Web.MVC.Tests/Public/Validators/Common/AddressValidatorTests.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/Translator/ICountryTranslator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Country/Translator/CountryTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Factory/CategoryFactory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Service/ICategoryApiService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Service/CategoryApiService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web.Framework/Models/BaseNopModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Translator/CategoryDtoMappings.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Translator/ICategoryTranslator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Category/Translator/CategoryTranslator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/Translator/ILanguageTranslator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Language/Translator/LanguageTranslator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/ManufacturersController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Presentation/Nop.Web.Framework/Models/BaseNopEntityModel.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Dto/ManufacturersCountRootObject.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Model/ManufacturersParametersModel.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Service/IManufacturerApiService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Service/ManufacturerApiService.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Translator/IManufacturerTranslator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Content/Modules/Manufacturer/Translator/ManufacturerTranslator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Libraries/Nop.Services/Tax/ITaxService.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/ShoppingCartItemsController.cs" />
-        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductAttributeValueDto.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/DTOs/Product/ProductAttributeMappingDto.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Attributes/ImageValidationAttribute.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/PasswordValidator.cs" />
@@ -323,6 +379,8 @@
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api/DependencyRegister.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ManageClientsAdminController.cs" />
         <option value="$PROJECT_DIR$/API/Nop.Plugin.Api/ApiStartup.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Service/ICustomerRolesHelper.cs" />
+        <option value="$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Service/CustomerRolesHelper.cs" />
       </list>
     </option>
   </component>
@@ -345,6 +403,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="FileSystemExplorer" />
+      <pane id="AssemblyExplorer" />
       <pane id="SolutionExplorer">
         <subPane>
           <expand>
@@ -357,13 +417,32 @@
               <item name="NopCommerce" type="24d0babc:SolutionExplorerModelNode" />
               <item name="API" type="24d0babc:SolutionExplorerModelNode" />
             </path>
+            <path>
+              <item name="" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="NopCommerce" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="API" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Nop.Plugin.Api.Customer" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+            <path>
+              <item name="" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="NopCommerce" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="API" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Nop.Plugin.Api.Customer" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Modules" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
+            <path>
+              <item name="" type="784c90a0:SolutionExplorerRootNode" />
+              <item name="NopCommerce" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="API" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Nop.Plugin.Api.Customer" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Modules" type="24d0babc:SolutionExplorerModelNode" />
+              <item name="Customer" type="24d0babc:SolutionExplorerModelNode" />
+            </path>
           </expand>
           <select />
         </subPane>
         <option name="show-all-files" value="false" />
       </pane>
-      <pane id="AssemblyExplorer" />
-      <pane id="FileSystemExplorer" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -440,7 +519,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45072000" />
+    <option name="totallyTimeSpent" value="45556000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -452,15 +531,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="3360" y="-92" width="1920" height="1080" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29765707" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3104435" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32891566" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49427754" visible="true" weight="0.21683168" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49427754" visible="true" weight="0.21566264" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -580,107 +659,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Cart/Translator/CartTranslator.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="158" column="64" selection-start-line="158" selection-start-column="25" selection-end-line="158" selection-end-column="64" />
-          <folding>
-            <marker date="1563060400779" expanded="false" signature="6:535" ph="..." />
-            <marker date="1563060400779" expanded="true" signature="577:14110" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="629:14108" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="1787:2538" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="2632:3429" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="2703:2977" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="2994:3305" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="3118:3291" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="3335:3390" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="3528:3789" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="3852:5624" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="5788:5866" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="6038:6661" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="6312:6651" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="6720:7057" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="6853:7019" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="7209:8283" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="7444:8224" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="8423:9732" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="8650:9673" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="9878:10435" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="10122:10425" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="10613:11424" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="10809:11414" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="11572:13131" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="12020:12327" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="12428:12708" ph="/* make sure that the picture is mapped to the product ... */" />
-            <marker date="1563060400779" expanded="true" signature="13242:14102" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="13536:14092" ph="{...}" />
-            <marker date="1563060400779" expanded="true" signature="13746:14020" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/ViewNames.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="5" column="94" selection-start-line="5" selection-start-column="94" selection-end-line="5" selection-end-column="94" />
-          <folding>
-            <marker date="1563133953730" expanded="true" signature="30:800" ph="{...}" />
-            <marker date="1563133953730" expanded="true" signature="59:798" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Service/ClientService.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="23" column="12" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#412#0" expanded="true" />
-            <marker date="1562496704134" expanded="true" signature="452:8436" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="502:8434" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="767:1165" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="1220:3916" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="1359:1749" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="1964:3057" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="2018:2149" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="2203:2329" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="2383:2506" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="2560:2682" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="2736:2858" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="2912:3043" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="3129:3287" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="3179:3273" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="3352:3765" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="3402:3552" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="3602:3751" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="3972:5016" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="5075:5384" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="5453:5774" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="5816:6239" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="6082:6229" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="6337:7266" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="6904:7256" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="7126:7240" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="7371:8428" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="7907:8418" ph="{...}" />
-            <marker date="1562496704134" expanded="true" signature="8126:8402" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/DependencyRegister.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
-          <folding>
-            <marker date="1562496704128" expanded="false" signature="6:163" ph="..." />
-            <marker date="1562496704128" expanded="true" signature="195:539" ph="{...}" />
-            <marker date="1562496704128" expanded="true" signature="256:537" ph="{...}" />
-            <marker date="1562496704128" expanded="true" signature="359:478" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Admin/Views/Settings.cshtml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-666">
@@ -903,7 +881,6 @@
           <caret line="92" column="29" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="29" />
           <folding>
             <marker date="1563060400829" expanded="true" signature="6:1030" ph="..." />
-            <marker date="1563060400829" expanded="true" signature="1061:29329" ph="{...}" />
             <marker date="1563060400829" expanded="true" signature="1128:29327" ph="{...}" />
             <marker date="1563060400829" expanded="true" signature="3056:3632" ph="{...}" />
             <marker date="1563060400829" expanded="true" signature="4261:6914" ph="{...}" />
@@ -943,13 +920,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/PreFlightRequestMiddleware.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="5" column="1" lean-forward="true" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Infrastructure/PreFlightRequestMiddleware.cs" />
     <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/IdentityServer/Authorization/Policies/ActiveApiPluginAuthorizationPolicy.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
@@ -1018,9 +989,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Factories/AddressFactory.cs">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Factories/AddressFactory.cs" />
     <entry file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3C92B683-8618-4B5B-822B-A1E1428BECD4/83/6a63727f/HttpContextAccessor.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
@@ -1045,7 +1014,6 @@
           <caret line="15" column="14" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
           <folding>
             <marker date="1563060400981" expanded="false" signature="6:72" ph="..." />
-            <marker date="1563060400981" expanded="true" signature="116:2141" ph="{...}" />
             <marker date="1563060400981" expanded="true" signature="170:2139" ph="{...}" />
             <marker date="1563060400981" expanded="true" signature="306:376" ph="{...}" />
             <marker date="1563060400981" expanded="true" signature="491:1159" ph="{...}" />
@@ -1114,20 +1082,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/IFieldsValidator.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="10" column="3" selection-end-line="10" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/FieldsValidator.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="18" column="2" lean-forward="true" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/IFieldsValidator.cs" />
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/FieldsValidator.cs" />
     <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Validators/BaseDtoValidator.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="64">
@@ -1156,20 +1112,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/IConfigManagerHelper.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="9" column="7" selection-start-line="4" selection-start-column="6" selection-end-line="9" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/NopConfigManagerHelper.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2864">
-          <caret line="180" column="3" selection-end-line="180" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/IConfigManagerHelper.cs" />
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Helpers/NopConfigManagerHelper.cs" />
     <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/Maps/IJsonPropertyMapper.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -1255,13 +1199,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Common/ApiMapperConfiguration.cs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="17" column="11" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api/Common/ApiMapperConfiguration.cs" />
     <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Common/AutoMapper/ApiMapperConfiguration.cs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="224">
@@ -1547,6 +1485,119 @@
             <marker date="1563314363291" expanded="true" signature="8991:9371" ph="{...}" />
             <marker date="1563314363291" expanded="true" signature="9468:9598" ph="{...}" />
             <marker date="1563314363291" expanded="true" signature="9673:9837" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Dto/Validator/CustomerDtoValidator.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="40" column="18" lean-forward="true" selection-start-line="40" selection-start-column="18" selection-end-line="40" selection-end-column="18" />
+          <folding>
+            <marker date="1563562124215" expanded="false" signature="6:279" ph="..." />
+            <marker date="1563562124215" expanded="true" signature="397:6184" ph="{...}" />
+            <marker date="1563562124215" expanded="true" signature="469:6182" ph="{...}" />
+            <marker date="1563562124215" expanded="true" signature="484:595" ph="Private Fields" />
+            <marker date="1563562124215" expanded="false" signature="605:1251" ph="Constructors" />
+            <marker date="1563562124215" expanded="true" signature="908:1231" ph="{...}" />
+            <marker date="1563562124215" expanded="false" signature="1261:6176" ph="Private Methods" />
+            <marker date="1563562124215" expanded="true" signature="1333:2162" ph="{...}" />
+            <marker date="1563562124215" expanded="true" signature="1564:2150" ph="{...}" />
+            <marker date="1563562124215" expanded="true" signature="2208:2520" ph="{...}" />
+            <marker date="1563562124215" expanded="true" signature="2567:2881" ph="{...}" />
+            <marker date="1563562124215" expanded="true" signature="2918:3027" ph="{...}" />
+            <marker date="1563562124215" expanded="true" signature="3067:3185" ph="{...}" />
+            <marker date="1563562124215" expanded="true" signature="3222:5131" ph="{...}" />
+            <marker date="1563562124215" expanded="true" signature="3677:4221" ph="{...}" />
+            <marker date="1563562124215" expanded="true" signature="4449:5005" ph="{...}" />
+            <marker date="1563562124215" expanded="true" signature="5141:6156" ph="/* private void SetShoppingCartItemsRule() ... */" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Service/CustomerRolesHelper.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="6" column="58" lean-forward="true" selection-start-line="6" selection-start-column="58" selection-end-line="6" selection-end-column="58" />
+          <folding>
+            <marker date="1563562124209" expanded="true" signature="6:139" ph="..." />
+            <marker date="1563562124209" expanded="true" signature="199:1747" ph="{...}" />
+            <marker date="1563562124209" expanded="true" signature="261:1745" ph="{...}" />
+            <marker date="1563562124209" expanded="true" signature="559:669" ph="{...}" />
+            <marker date="1563562124209" expanded="true" signature="746:1317" ph="{...}" />
+            <marker date="1563562124209" expanded="true" signature="769:1032" ph="/* This is needed because the caching mess up the entity framework context ... */" />
+            <marker date="1563562124209" expanded="true" signature="1388:1524" ph="{...}" />
+            <marker date="1563562124209" expanded="true" signature="1599:1739" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/Service/ICustomerRolesHelper.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32">
+          <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
+          <folding>
+            <marker date="1563562115111" expanded="false" signature="6:66" ph="..." />
+            <marker date="1563562115111" expanded="true" signature="126:386" ph="{...}" />
+            <marker date="1563562115111" expanded="true" signature="170:384" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/API/Nop.Plugin.Api.Customer/Modules/Customer/CustomersController.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-981">
+          <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
+          <folding>
+            <marker date="1563060402087" expanded="false" signature="6:1246" ph="..." />
+            <marker date="1563060402087" expanded="true" signature="1298:34092" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="1463:34090" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="4161:5151" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="5162:5347" ph="///     Get a count of all customers ... " />
+            <marker date="1563060402087" expanded="true" signature="5737:6687" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="6301:6409" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="6697:6882" ph="///     Get a count of all customers ... " />
+            <marker date="1563060402087" expanded="true" signature="7204:7753" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="8176:12146" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="9084:9456" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="9115:9289" ph="/* we need to explicitly set the date as if it is not specified ... */" />
+            <marker date="1563060402087" expanded="true" signature="10530:10819" ph="/* We need to insert the entity first so we can have its id in order to map it to anything. ... */" />
+            <marker date="1563060402087" expanded="true" signature="10887:11064" ph="/* This is needed because the entity framework won't populate the navigation properties automatically ... */" />
+            <marker date="1563060402087" expanded="true" signature="11845:11994" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="12625:13640" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="13071:13392" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="13651:13836" ph="///     Get a count of all customers ... " />
+            <marker date="1563060402087" expanded="true" signature="14194:15815" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="14419:15463" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="15183:15310" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="15528:15644" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="15826:16221" ph="///     Retrieve customer by spcified id ... " />
+            <marker date="1563060402087" expanded="true" signature="16732:17265" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="17275:17520" ph="///     Retrieve all customers of a shop ... " />
+            <marker date="1563060402087" expanded="true" signature="17955:18766" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="18777:18962" ph="///     Get a count of all customers ... " />
+            <marker date="1563060402087" expanded="true" signature="19328:19577" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="19588:19773" ph="///     Get a count of all customers ... " />
+            <marker date="1563060402087" expanded="true" signature="20041:22021" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="20120:21259" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="22031:22288" ph="///     Search for customers matching supplied query ... " />
+            <marker date="1563060402087" expanded="true" signature="22680:23399" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="23992:28510" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="24594:25231" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="24834:25217" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="26277:26462" ph="/* TODO: Localization ... */" />
+            <marker date="1563060402087" expanded="true" signature="26535:26787" ph="/* This is needed because the entity framework won't populate the navigation properties automatically ... */" />
+            <marker date="1563060402087" expanded="true" signature="28520:28705" ph="///     Get a count of all customers ... " />
+            <marker date="1563060402087" expanded="true" signature="28990:29361" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="29456:30906" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="29604:29777" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="29840:30736" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="31024:32122" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="31244:31640" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="31661:32112" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="32316:33384" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="33462:33777" ph="{...}" />
+            <marker date="1563060402087" expanded="true" signature="33834:34084" ph="{...}" />
           </folding>
         </state>
       </provider>

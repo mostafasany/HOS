@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Nop.Core.Domain.Customers;
 using Nop.Plugin.Api.Common.Helpers;
 using Nop.Plugin.Api.Common.Validators;
-using Nop.Plugin.Api.Customer.Helpers;
+using Nop.Plugin.Api.Customer.Modules.Customer.Service;
 
 //using Nop.Plugin.Api.Modules.Cart.Dto.Validator;
 
