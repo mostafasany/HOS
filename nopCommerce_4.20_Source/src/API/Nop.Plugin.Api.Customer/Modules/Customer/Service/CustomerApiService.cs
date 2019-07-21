@@ -21,6 +21,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
 {
     public class CustomerApiService : ICustomerApiService
     {
+        const string NewsletterSubscribersKey = "Nop.api.newslettersubscribers";
         private const string FirstName = "firstname";
         private const string LastName = "lastname";
         private const string Picture = "avatarpictureid";
@@ -209,7 +210,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Service
 
         private IEnumerable<string> GetAllNewsletterCustomersEmails()
         {
-            return _cacheManager.Get(Configurations.NEWSLETTER_SUBSCRIBERS_KEY, () =>
+            return _cacheManager.Get(NewsletterSubscribersKey, () =>
             {
                 IEnumerable<string> subscriberEmails = (from nls in _subscriptionRepository.Table
                     where nls.StoreId == _storeContext.CurrentStore.Id

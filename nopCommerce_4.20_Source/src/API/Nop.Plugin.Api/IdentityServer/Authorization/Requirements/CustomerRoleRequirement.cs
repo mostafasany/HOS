@@ -13,6 +13,17 @@ namespace Nop.Plugin.Api.IdentityServer.Authorization.Requirements
 {
     public class CustomerRoleRequirement : IAuthorizationRequirement
     {
+        private static class Roles
+        {
+            public const string ApiRoleSystemName = "ApiUserRole";
+            public const string ApiRoleName = "Api Users";
+            public const string AdminRoleName = "Administrators";
+            public const string ForumModeratorsRoleName = "Forum Moderators";
+            public const string RegisteredRoleName = "Registered";
+            public const string GuestsRoleName = "Guests";
+            public const string VendorsRoleName = "Vendors";
+        }
+        
         public bool IsCustomerInRole()
         {
             try
@@ -42,47 +53,47 @@ namespace Nop.Plugin.Api.IdentityServer.Authorization.Requirements
 
         private static bool IsInApiRole(IEnumerable<CustomerRole> customerRoles)
         {
-            return customerRoles.FirstOrDefault(cr => cr.SystemName == Constants.Roles.ApiRoleSystemName) != null;
+            return customerRoles.FirstOrDefault(cr => cr.SystemName == Roles.ApiRoleSystemName) != null;
         }
 
         private static bool IsInAdminRole(IEnumerable<CustomerRole> customerRoles)
         {
             return customerRoles.FirstOrDefault(cr =>
-                       cr.SystemName == Constants.Roles.AdminRoleName
-                       || cr.SystemName == Constants.Roles.ForumModeratorsRoleName
-                       || cr.SystemName == Constants.Roles.RegisteredRoleName
-                       || cr.SystemName == Constants.Roles.GuestsRoleName
+                       cr.SystemName == Roles.AdminRoleName
+                       || cr.SystemName == Roles.ForumModeratorsRoleName
+                       || cr.SystemName == Roles.RegisteredRoleName
+                       || cr.SystemName == Roles.GuestsRoleName
                    ) != null;
         }
 
         private static bool IsInRegisterRole(IEnumerable<CustomerRole> customerRoles)
         {
             return customerRoles.FirstOrDefault(cr =>
-                       cr.SystemName == Constants.Roles.RegisteredRoleName
-                       || cr.SystemName == Constants.Roles.GuestsRoleName
+                       cr.SystemName == Roles.RegisteredRoleName
+                       || cr.SystemName == Roles.GuestsRoleName
                    ) != null;
         }
 
         private static bool IsInForumModeratorRole(IEnumerable<CustomerRole> customerRoles)
         {
             return customerRoles.FirstOrDefault(cr =>
-                       cr.SystemName == Constants.Roles.ForumModeratorsRoleName
-                       || cr.SystemName == Constants.Roles.GuestsRoleName
+                       cr.SystemName == Roles.ForumModeratorsRoleName
+                       || cr.SystemName == Roles.GuestsRoleName
                    ) != null;
         }
 
         private static bool IsInVendorRole(IEnumerable<CustomerRole> customerRoles)
         {
             return customerRoles.FirstOrDefault(cr =>
-                       cr.SystemName == Constants.Roles.VendorsRoleName
-                       || cr.SystemName == Constants.Roles.GuestsRoleName
+                       cr.SystemName == Roles.VendorsRoleName
+                       || cr.SystemName == Roles.GuestsRoleName
                    ) != null;
         }
 
         private static bool IsInGuestRole(IEnumerable<CustomerRole> customerRoles)
         {
             return customerRoles.FirstOrDefault(cr =>
-                       cr.SystemName == Constants.Roles.GuestsRoleName
+                       cr.SystemName == Roles.GuestsRoleName
                    ) != null;
         }
     }

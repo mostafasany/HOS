@@ -13,10 +13,5 @@
         public const string DefaultOrder = "Id";
         public const int MaxLimit = 250;
         public const int MinLimit = 1;
-        public const string PublishedStatus = "published";
-        public const string UnpublishedStatus = "unpublished";
-        public const string AnyStatus = "any";
-        public const string JsonTypeMapsPattern = "json.maps";
-        public const string NEWSLETTER_SUBSCRIBERS_KEY = "Nop.api.newslettersubscribers";
     }
 }

@@ -39,7 +39,7 @@ namespace Nop.Plugin.Api.Common.Attributes
                 using (var streamReader = new StreamReader(actionExecutedContext.HttpContext.Response.Body))
                     responseBody = streamReader.ReadToEnd();
 
-                // reset reader possition.
+                // reset reader position.
                 actionExecutedContext.HttpContext.Response.Body.Position = 0;
 
                 var defaultWebApiErrorsModel = JsonConvert.DeserializeObject<DefaultWeApiErrorsModel>(responseBody);

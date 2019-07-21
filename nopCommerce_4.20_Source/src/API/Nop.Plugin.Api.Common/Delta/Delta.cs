@@ -17,14 +17,14 @@ namespace Nop.Plugin.Api.Common.Delta
         private TDto _dto;
 
         private Dictionary<string, object> _propertyValuePairs;
-        public Dictionary<object, object> ObjectPropertyNameValuePairs = new Dictionary<object, object>();
+        private readonly Dictionary<object, object> _objectPropertyNameValuePairs = new Dictionary<object, object>();
 
-        public Delta(Dictionary<string, object> passedChangedJsonPropertyValuePaires)
+        public Delta(Dictionary<string, object> passedChangedJsonPropertyValuePairs)
         {
             _jsonPropertyMapper = EngineContext.Current.Resolve<IJsonPropertyMapper>();
-            _changedJsonPropertyNames = passedChangedJsonPropertyValuePaires;
+            _changedJsonPropertyNames = passedChangedJsonPropertyValuePairs;
 
-            _mappingHelper.SetValues(PropertyValuePairs, Dto, typeof(TDto), ObjectPropertyNameValuePairs, true);
+            _mappingHelper.SetValues(PropertyValuePairs, Dto, typeof(TDto), _objectPropertyNameValuePairs, true);
         }
 
         private Dictionary<string, object> PropertyValuePairs =>
@@ -40,9 +40,9 @@ namespace Nop.Plugin.Api.Common.Delta
 
         public void Merge<TEntity>(object dto, TEntity entity, bool mergeComplexTypeCollections = true)
         {
-            if (dto != null && ObjectPropertyNameValuePairs.ContainsKey(dto))
+            if (dto != null && _objectPropertyNameValuePairs.ContainsKey(dto))
             {
-                var propertyValuePairs = ObjectPropertyNameValuePairs[dto] as Dictionary<string, object>;
+                var propertyValuePairs = _objectPropertyNameValuePairs[dto] as Dictionary<string, object>;
                 _mappingHelper.SetValues(propertyValuePairs, entity, entity.GetType(), null,
                     mergeComplexTypeCollections);
             }

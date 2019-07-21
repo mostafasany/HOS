@@ -11,22 +11,27 @@ namespace Nop.Plugin.Api.Common.Maps
 {
     public class JsonPropertyMapper : IJsonPropertyMapper
     {
+        const string JsonTypeMapsPattern = "json.maps";
         private IStaticCacheManager _cacheManager;
 
-        private IStaticCacheManager StaticCacheManager =>
-            _cacheManager ?? (_cacheManager = EngineContext.Current.Resolve<IStaticCacheManager>());
+        private IStaticCacheManager StaticCacheManager => _cacheManager ?? (_cacheManager = EngineContext.Current.Resolve<IStaticCacheManager>());
 
         public Dictionary<string, Tuple<string, Type>> GetMap(Type type)
         {
-            if (!StaticCacheManager.IsSet(Configurations.JsonTypeMapsPattern))
-                StaticCacheManager.Set(Configurations.JsonTypeMapsPattern,
-                    new Dictionary<string, Dictionary<string, Tuple<string, Type>>>(), int.MaxValue);
+            var isJsonTypeMapsPatternSet = StaticCacheManager.IsSet(JsonTypeMapsPattern);
+            if (!isJsonTypeMapsPatternSet)
+            {
+                var emptyDic = new Dictionary<string, Dictionary<string, Tuple<string, Type>>>();
+                StaticCacheManager.Set(JsonTypeMapsPattern, emptyDic, int.MaxValue);
+            }
 
-            var typeMaps =
-                StaticCacheManager.Get<Dictionary<string, Dictionary<string, Tuple<string, Type>>>>(
-                    Configurations.JsonTypeMapsPattern, () => null, 0);
+            var typeMaps = StaticCacheManager.Get<Dictionary<string, Dictionary<string, Tuple<string, Type>>>>
+                (JsonTypeMapsPattern, () => null, null);
 
-            if (!typeMaps.ContainsKey(type.Name)) Build(type);
+            if (!typeMaps.ContainsKey(type.Name))
+            {
+                Build(type);
+            }
 
             return typeMaps[type.Name];
         }
@@ -34,24 +39,32 @@ namespace Nop.Plugin.Api.Common.Maps
         private void Build(Type type)
         {
             var typeMaps =
-                StaticCacheManager.Get<Dictionary<string, Dictionary<string, Tuple<string, Type>>>>(
-                    Configurations.JsonTypeMapsPattern, () => null, 0);
+                StaticCacheManager.Get<Dictionary<string, Dictionary<string, Tuple<string, Type>>>>(JsonTypeMapsPattern, () => null, null);
 
             var mapForCurrentType = new Dictionary<string, Tuple<string, Type>>();
 
             var typeProps = type.GetProperties();
-
+            
             foreach (var property in typeProps)
+            {
+                var jsonAttribute = property.GetCustomAttribute(typeof(JsonPropertyAttribute)) as JsonPropertyAttribute;
+                var doNotMapAttribute = property.GetCustomAttribute(typeof(DoNotMapAttribute)) as DoNotMapAttribute;
+
                 // If it has json attribute set and is not marked as doNotMap
-                if (property.GetCustomAttribute(typeof(JsonPropertyAttribute)) is JsonPropertyAttribute jsonAttribute &&
-                    !(property.GetCustomAttribute(typeof(DoNotMapAttribute)) is DoNotMapAttribute doNotMapAttribute))
+                if (jsonAttribute != null && doNotMapAttribute == null)
+                {
                     if (!mapForCurrentType.ContainsKey(jsonAttribute.PropertyName))
                     {
                         var value = new Tuple<string, Type>(property.Name, property.PropertyType);
                         mapForCurrentType.Add(jsonAttribute.PropertyName, value);
                     }
-
-            if (!typeMaps.ContainsKey(type.Name)) typeMaps.Add(type.Name, mapForCurrentType);
+                }
+            }
+            
+            if (!typeMaps.ContainsKey(type.Name))
+            {
+                typeMaps.Add(type.Name, mapForCurrentType);
+            }
         }
     }
 }

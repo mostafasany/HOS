@@ -191,7 +191,6 @@
           <e p="bin" t="ExcludeRecursive" />
           <e p="Constants" t="Include">
             <e p="Configurations.cs" t="Include" />
-            <e p="Constants.cs" t="Include" />
           </e>
           <e p="Controllers" t="Include">
             <e p="BaseApiController.cs" t="Include" />

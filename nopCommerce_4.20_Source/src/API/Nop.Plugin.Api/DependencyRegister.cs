@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using Autofac;
 using Microsoft.AspNetCore.Http;
 using Nop.Core.Configuration;
 using Nop.Core.Infrastructure;
@@ -46,6 +47,8 @@ namespace Nop.Plugin.Api
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
 
             builder.RegisterType<CookiesService>().As<ICookiesService>().SingleInstance();
+            
+            builder.RegisterType<Dictionary<string, object>>().SingleInstance();
         }
     }
 }
