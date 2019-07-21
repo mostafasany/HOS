@@ -37,7 +37,7 @@
           </e>
           <e p="Nop.Plugin.Api.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Api.AssemblyInfo.cs" t="Include" />
               </e>
@@ -61,7 +61,7 @@
           </e>
           <e p="Nop.Plugin.Api.Admin.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Api.Admin.AssemblyInfo.cs" t="Include" />
               </e>
@@ -85,6 +85,40 @@
               <e p="List.cshtml" t="Include" />
             </e>
             <e p="Settings.cshtml" t="Include" />
+          </e>
+        </e>
+        <e p="Nop.Plugin.Api.Articles" t="IncludeRecursive">
+          <e p="ArticlesController.cs" t="Include" />
+          <e p="bin" t="ExcludeRecursive" />
+          <e p="DependencyRegister.cs" t="Include" />
+          <e p="Dto" t="Include">
+            <e p="ArticleGroupDto.cs" t="Include" />
+            <e p="ArticlesCountRootObject.cs" t="Include" />
+            <e p="ArticlesDto.cs" t="Include" />
+            <e p="ArticlesFilterDto.cs" t="Include" />
+            <e p="ArticlesGroupsRootObject.cs" t="Include" />
+            <e p="ArticlesRootObject.cs" t="Include" />
+          </e>
+          <e p="Model" t="Include">
+            <e p="ArticlelsParametersModel.cs" t="Include" />
+            <e p="ArticlesCountParametersModel.cs" t="Include" />
+            <e p="BaseArticlesParametersModel.cs" t="Include" />
+          </e>
+          <e p="Nop.Plugin.Api.Article.csproj" t="IncludeRecursive" />
+          <e p="obj" t="ExcludeRecursive">
+            <e p="Debug" t="Include">
+              <e p="netcoreapp2.2" t="Include">
+                <e p="Nop.Plugin.Api.Article.AssemblyInfo.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Service" t="Include">
+            <e p="ArticleApiService.cs" t="Include" />
+            <e p="IArticleApiService.cs" t="Include" />
+          </e>
+          <e p="Translator" t="Include">
+            <e p="ArticleTranslator.cs" t="Include" />
+            <e p="IArticleTranslator.cs" t="Include" />
           </e>
         </e>
         <e p="Nop.Plugin.Api.Cart" t="IncludeRecursive">
@@ -118,7 +152,7 @@
           </e>
           <e p="Nop.Plugin.Api.Cart.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Api.Cart.AssemblyInfo.cs" t="Include" />
               </e>
@@ -160,7 +194,7 @@
           </e>
           <e p="Nop.Plugin.Api.Category.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Api.Category.AssemblyInfo.cs" t="Include" />
               </e>
@@ -294,7 +328,7 @@
           </e>
           <e p="Nop.Plugin.Api.Common.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Api.Common.AssemblyInfo.cs" t="Include" />
               </e>
@@ -406,7 +440,7 @@
           </e>
           <e p="Nop.Plugin.Api.Content.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Api.Content.AssemblyInfo.cs" t="Include" />
               </e>
@@ -526,7 +560,7 @@
           </e>
           <e p="Nop.Plugin.Api.Customer.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Api.Customer.AssemblyInfo.cs" t="Include" />
               </e>
@@ -663,7 +697,7 @@
           </e>
           <e p="Nop.Plugin.Api.Product.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Api.Product.AssemblyInfo.cs" t="Include" />
               </e>
@@ -715,6 +749,12 @@
           <e p="Domain" t="Include">
             <e p="Affiliates" t="Include">
               <e p="Affiliate.cs" t="Include" />
+            </e>
+            <e p="Articles" t="Include">
+              <e p="FNS_Article.cs" t="Include" />
+              <e p="FNS_ArticleCategory.cs" t="Include" />
+              <e p="FNS_ArticleGroup.cs" t="Include" />
+              <e p="FNS_ArticleGroup_Mapping.cs" t="Include" />
             </e>
             <e p="Blogs" t="Include">
               <e p="BlogComment.cs" t="Include" />
@@ -1081,7 +1121,7 @@
           <e p="NopException.cs" t="Include" />
           <e p="NopVersion.cs" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Core.AssemblyInfo.cs" t="Include" />
               </e>
@@ -1114,6 +1154,11 @@
           <e p="Mapping" t="Include">
             <e p="Affiliates" t="Include">
               <e p="AffiliateMap.cs" t="Include" />
+            </e>
+            <e p="Articles" t="Include">
+              <e p="FNS_ArticleCategoryMap.cs" t="Include" />
+              <e p="FNS_ArticleGroupMap.cs" t="Include" />
+              <e p="FNS_ArticleMap.cs" t="Include" />
             </e>
             <e p="Blogs" t="Include">
               <e p="BlogCommentMap.cs" t="Include" />
@@ -1296,7 +1341,7 @@
           <e p="NopDataDefaults.cs" t="Include" />
           <e p="NopObjectContext.cs" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Data.AssemblyInfo.cs" t="Include" />
               </e>
@@ -1594,7 +1639,7 @@
           </e>
           <e p="Nop.Services.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Services.AssemblyInfo.cs" t="Include" />
               </e>
@@ -1814,7 +1859,7 @@
           <e p="Nop.Plugin.DiscountRules.CustomerRoles.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.DiscountRules.CustomerRoles.AssemblyInfo.cs" t="Include" />
               </e>
@@ -1832,7 +1877,7 @@
           <e p="Nop.Plugin.ExchangeRate.EcbExchange.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.ExchangeRate.EcbExchange.AssemblyInfo.cs" t="Include" />
               </e>
@@ -1867,7 +1912,7 @@
           <e p="Nop.Plugin.ExternalAuth.Facebook.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.ExternalAuth.Facebook.AssemblyInfo.cs" t="Include" />
               </e>
@@ -1911,7 +1956,7 @@
           <e p="Nop.Plugin.Misc.SendinBlue.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Misc.SendinBlue.AssemblyInfo.cs" t="Include" />
               </e>
@@ -1955,7 +2000,7 @@
           <e p="Nop.Plugin.Payments.CheckMoneyOrder.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Payments.CheckMoneyOrder.AssemblyInfo.cs" t="Include" />
               </e>
@@ -1985,7 +2030,7 @@
           <e p="Nop.Plugin.Payments.Manual.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Payments.Manual.AssemblyInfo.cs" t="Include" />
               </e>
@@ -2020,7 +2065,7 @@
           <e p="Nop.Plugin.Payments.PayPalStandard.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Payments.PayPalStandard.AssemblyInfo.cs" t="Include" />
               </e>
@@ -2075,7 +2120,7 @@
           <e p="Nop.Plugin.Payments.Qualpay.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Payments.Qualpay.AssemblyInfo.cs" t="Include" />
               </e>
@@ -2137,7 +2182,7 @@
           <e p="Nop.Plugin.Payments.Square.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Payments.Square.AssemblyInfo.cs" t="Include" />
               </e>
@@ -2190,7 +2235,7 @@
           <e p="Nop.Plugin.Pickup.PickupInStore.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Pickup.PickupInStore.AssemblyInfo.cs" t="Include" />
               </e>
@@ -2242,7 +2287,7 @@
           <e p="Nop.Plugin.Shipping.FixedByWeightByTotal.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Shipping.FixedByWeightByTotal.AssemblyInfo.cs" t="Include" />
               </e>
@@ -2285,7 +2330,7 @@
           <e p="Nop.Plugin.Shipping.UPS.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Shipping.UPS.AssemblyInfo.cs" t="Include" />
               </e>
@@ -2367,7 +2412,7 @@
           <e p="Nop.Plugin.Tax.Avalara.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Tax.Avalara.AssemblyInfo.cs" t="Include" />
               </e>
@@ -2446,7 +2491,7 @@
           <e p="Nop.Plugin.Tax.FixedOrByCountryStateZip.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Tax.FixedOrByCountryStateZip.AssemblyInfo.cs" t="Include" />
               </e>
@@ -2487,7 +2532,7 @@
           <e p="Nop.Plugin.Widgets.GoogleAnalytics.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Widgets.GoogleAnalytics.AssemblyInfo.cs" t="Include" />
               </e>
@@ -2565,7 +2610,7 @@
           <e p="Nop.Plugin.Widgets.NivoSlider.csproj" t="IncludeRecursive" />
           <e p="Notes.txt" t="Include" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Plugin.Widgets.NivoSlider.AssemblyInfo.cs" t="Include" />
               </e>
@@ -4454,7 +4499,7 @@
           </e>
           <e p="Nop.Web.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Web.AssemblyInfo.cs" t="Include" />
               </e>
@@ -4469,6 +4514,7 @@
               <e p="IdentityServer4.Storage.dll" t="Include" />
               <e p="Microsoft.OpenApi.dll" t="Include" />
               <e p="Nop.Plugin.Api.Admin.dll" t="Include" />
+              <e p="Nop.Plugin.Api.Article.dll" t="Include" />
               <e p="Nop.Plugin.Api.Cart.dll" t="Include" />
               <e p="Nop.Plugin.Api.Category.dll" t="Include" />
               <e p="Nop.Plugin.Api.Common.dll" t="Include" />
@@ -4558,6 +4604,8 @@
               <e p="Microsoft.OpenApi.dll" t="Include" />
               <e p="Nop.Plugin.Api.Admin.dll" t="Include" />
               <e p="Nop.Plugin.Api.Admin.pdb" t="Include" />
+              <e p="Nop.Plugin.Api.Article.dll" t="Include" />
+              <e p="Nop.Plugin.Api.Article.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Cart.dll" t="Include" />
               <e p="Nop.Plugin.Api.Cart.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Category.dll" t="Include" />
@@ -5771,6 +5819,10 @@
                 <e p="0000097_gift-5-50_75.jpg" t="Include" />
                 <e p="0000098_menu-2_75.png" t="Include" />
                 <e p="0000100_product-featured-1.png" t="Include" />
+                <e p="0000101_article-4.jpeg" t="Include" />
+                <e p="0000102_article-1.jpeg" t="Include" />
+                <e p="0000103_article-2.jpeg" t="Include" />
+                <e p="0000104_article-3.jpeg" t="Include" />
                 <e p="0000105_bracelet.png" t="Include" />
                 <e p="0000105_bracelet_75.png" t="Include" />
                 <e p="0000108_nike-shoes_75.jpeg" t="Include" />
@@ -7670,7 +7722,7 @@
           </e>
           <e p="Nop.Web.Framework.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Web.Framework.AssemblyInfo.cs" t="Include" />
               </e>
@@ -7798,7 +7850,7 @@
           </e>
           <e p="Nop.Core.Tests.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Core.Tests.AssemblyInfo.cs" t="Include" />
               </e>
@@ -7860,7 +7912,7 @@
           </e>
           <e p="Nop.Services.Tests.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Services.Tests.AssemblyInfo.cs" t="Include" />
               </e>
@@ -7904,7 +7956,7 @@
           <e p="ExceptionAssert.cs" t="Include" />
           <e p="Nop.Tests.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Tests.AssemblyInfo.cs" t="Include" />
               </e>
@@ -7942,7 +7994,7 @@
           </e>
           <e p="Nop.Web.MVC.Tests.csproj" t="IncludeRecursive" />
           <e p="obj" t="ExcludeRecursive">
-            <e p="Release" t="Include">
+            <e p="Debug" t="Include">
               <e p="netcoreapp2.2" t="Include">
                 <e p="Nop.Web.MVC.Tests.AssemblyInfo.cs" t="Include" />
               </e>

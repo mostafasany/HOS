@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Nop.Core.Domain.Customers;
 
 namespace Nop.Plugin.Api.Customer.Modules.Customer.Service

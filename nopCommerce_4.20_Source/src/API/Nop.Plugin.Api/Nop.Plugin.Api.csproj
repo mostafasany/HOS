@@ -37,6 +37,7 @@
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj" />
     <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Admin\Nop.Plugin.Api.Admin.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Articles\Nop.Plugin.Api.Article.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Cart\Nop.Plugin.Api.Cart.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Category\Nop.Plugin.Api.Category.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />

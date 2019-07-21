@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Nop.Core.Caching;
 using Nop.Core.Domain.Customers;
