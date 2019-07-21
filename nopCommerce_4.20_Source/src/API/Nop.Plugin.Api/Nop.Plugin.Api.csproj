@@ -43,6 +43,7 @@
     <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Content\Nop.Plugin.Api.Content.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Customer\Nop.Plugin.Api.Customer.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Menu\Nop.Plugin.Api.Menu.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Product\Nop.Plugin.Api.Product.csproj" />
   </ItemGroup>
  

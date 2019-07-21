@@ -567,6 +567,30 @@
             </e>
           </e>
         </e>
+        <e p="Nop.Plugin.Api.Menu" t="IncludeRecursive">
+          <e p="bin" t="ExcludeRecursive" />
+          <e p="DependencyRegister.cs" t="Include" />
+          <e p="Dto" t="Include">
+            <e p="MenuArticlesDto.cs" t="Include" />
+            <e p="MenuBrandDto.cs" t="Include" />
+            <e p="MenuCategoriesDto.cs" t="Include" />
+            <e p="MenuDto.cs" t="Include" />
+            <e p="MenuProductsDto.cs" t="Include" />
+          </e>
+          <e p="MenuController.cs" t="Include" />
+          <e p="Nop.Plugin.Api.Menu.csproj" t="IncludeRecursive" />
+          <e p="obj" t="ExcludeRecursive">
+            <e p="Debug" t="Include">
+              <e p="netcoreapp2.2" t="Include">
+                <e p="Nop.Plugin.Api.Menu.AssemblyInfo.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Service" t="Include">
+            <e p="IMenuApiService.cs" t="Include" />
+            <e p="MenuApiService.cs" t="Include" />
+          </e>
+        </e>
         <e p="Nop.Plugin.Api.Product" t="IncludeRecursive">
           <e p="bin" t="ExcludeRecursive" />
           <e p="Modules" t="Include">
@@ -4521,6 +4545,7 @@
               <e p="Nop.Plugin.Api.Content.dll" t="Include" />
               <e p="Nop.Plugin.Api.Customer.dll" t="Include" />
               <e p="Nop.Plugin.Api.dll" t="Include" />
+              <e p="Nop.Plugin.Api.Menu.dll" t="Include" />
               <e p="Nop.Plugin.Api.Product.dll" t="Include" />
               <e p="Nop.Plugin.DiscountRules.CustomerRoles.dll" t="Include" />
               <e p="Nop.Plugin.ExchangeRate.EcbExchange.dll" t="Include" />
@@ -4618,6 +4643,8 @@
               <e p="Nop.Plugin.Api.Customer.pdb" t="Include" />
               <e p="Nop.Plugin.Api.deps.json" t="Include" />
               <e p="Nop.Plugin.Api.dll" t="Include" />
+              <e p="Nop.Plugin.Api.Menu.dll" t="Include" />
+              <e p="Nop.Plugin.Api.Menu.pdb" t="Include" />
               <e p="Nop.Plugin.Api.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Product.dll" t="Include" />
               <e p="Nop.Plugin.Api.Product.pdb" t="Include" />
@@ -5771,27 +5798,37 @@
                 <e p="0000032_adobe-photoshop-cs4.jpeg" t="Include" />
                 <e p="0000033_stack-4.jpeg" t="Include" />
                 <e p="0000034_stack-1.jpeg" t="Include" />
+                <e p="0000035_nikon-d5500-dslr.jpeg" t="Include" />
                 <e p="0000035_nikon-d5500-dslr_75.jpeg" t="Include" />
                 <e p="0000037_canon-digital-slr-camera-black.jpeg" t="Include" />
                 <e p="0000037_canon-digital-slr-camera-black_75.jpeg" t="Include" />
                 <e p="0000038_canon-digital-slr-camera-silver.jpeg" t="Include" />
                 <e p="0000038_canon-digital-slr-camera-silver_75.jpeg" t="Include" />
                 <e p="0000039_leica-t-mirrorless-digital-camera.jpeg" t="Include" />
+                <e p="0000040_product-top-sales-1.jpeg" t="Include" />
                 <e p="0000041_htc-one-m8-android-l-50-lollipop.jpeg" t="Include" />
                 <e p="0000041_htc-one-m8-android-l-50-lollipop_415.jpeg" t="Include" />
+                <e p="0000042_htc-one-mini-blue.jpeg" t="Include" />
+                <e p="0000044_nokia-lumia-1020.jpeg" t="Include" />
                 <e p="0000044_nokia-lumia-1020_75.jpeg" t="Include" />
                 <e p="0000045_product-top-sales-4.jpeg" t="Include" />
                 <e p="0000046_product-top-sales-4.jpeg" t="Include" />
                 <e p="0000047_stack-2.jpeg" t="Include" />
+                <e p="0000048_portable-sound-speakers.jpeg" t="Include" />
                 <e p="0000053_adidas-consortium-campus-80s-running-shoes.jpg" t="Include" />
                 <e p="0000054_adidas-consortium-campus-80s-running-shoes.jpg" t="Include" />
                 <e p="0000055_adidas-consortium-campus-80s-running-shoes.jpg" t="Include" />
+                <e p="0000056_nike-shoes.jpg" t="Include" />
+                <e p="0000057_menu-2.jpg" t="Include" />
+                <e p="0000058_oversized-women-t-shirt.jpg" t="Include" />
                 <e p="0000059_product-just-arrive-1.jpeg" t="Include" />
                 <e p="0000062_obey-propaganda-hat.jpg" t="Include" />
                 <e p="0000063_product-featured-2.jpeg" t="Include" />
                 <e p="0000064_product-featured-1.jpg" t="Include" />
                 <e p="0000064_product-featured-1_70.jpg" t="Include" />
                 <e p="0000067_product-featured-4.jpeg" t="Include" />
+                <e p="0000068_fahrenheit-451-by-ray-bradbury.jpeg" t="Include" />
+                <e p="0000069_first-prize-pies.jpeg" t="Include" />
                 <e p="0000071_elegant-gemstone-necklace-rental.jpg" t="Include" />
                 <e p="0000072_bracelet.jpg" t="Include" />
                 <e p="0000073_stack-3.jpg" t="Include" />
