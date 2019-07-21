@@ -46,8 +46,7 @@ namespace Nop.Plugin.Api
                         .AllowAnyMethod()
                         .AllowCredentials()
                         .AllowAnyHeader()
-                        .WithExposedHeaders(".Nop.Customer")
-                        .AllowAnyOrigin();
+                        .WithExposedHeaders(".Nop.Customer");
                 }));
 
             services.AddDbContext<ApiObjectContext>(optionsBuilder =>
