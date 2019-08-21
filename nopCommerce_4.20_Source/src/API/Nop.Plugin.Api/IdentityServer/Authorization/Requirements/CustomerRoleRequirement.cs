@@ -6,24 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Infrastructure;
-using Nop.Plugin.Api.Common.Constants;
 using Nop.Services.Customers;
 
 namespace Nop.Plugin.Api.IdentityServer.Authorization.Requirements
 {
     public class CustomerRoleRequirement : IAuthorizationRequirement
     {
-        private static class Roles
-        {
-            public const string ApiRoleSystemName = "ApiUserRole";
-            public const string ApiRoleName = "Api Users";
-            public const string AdminRoleName = "Administrators";
-            public const string ForumModeratorsRoleName = "Forum Moderators";
-            public const string RegisteredRoleName = "Registered";
-            public const string GuestsRoleName = "Guests";
-            public const string VendorsRoleName = "Vendors";
-        }
-        
         public bool IsCustomerInRole()
         {
             try
@@ -95,6 +83,17 @@ namespace Nop.Plugin.Api.IdentityServer.Authorization.Requirements
             return customerRoles.FirstOrDefault(cr =>
                        cr.SystemName == Roles.GuestsRoleName
                    ) != null;
+        }
+
+        private static class Roles
+        {
+            public const string ApiRoleSystemName = "ApiUserRole";
+            public const string ApiRoleName = "Api Users";
+            public const string AdminRoleName = "Administrators";
+            public const string ForumModeratorsRoleName = "Forum Moderators";
+            public const string RegisteredRoleName = "Registered";
+            public const string GuestsRoleName = "Guests";
+            public const string VendorsRoleName = "Vendors";
         }
     }
 }

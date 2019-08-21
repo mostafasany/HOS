@@ -41,8 +41,8 @@ namespace Nop.Plugin.Api
             services.AddCors(options =>
                 options.AddPolicy(MyAllowSpecificOrigins, builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200", "https://hosweb-dev.azurewebsites.net",
-                            "https://hosweb.azurewebsites.net")
+                    builder.WithOrigins("http://localhost:4200", "http://167.71.59.237",
+                            "http://167.71.59.237:4200")
                         .AllowAnyMethod()
                         .AllowCredentials()
                         .AllowAnyHeader()
@@ -86,6 +86,7 @@ namespace Nop.Plugin.Api
 
             app.UseRewriter(rewriteOptions);
 
+            app.UseMiddleware<RequestResponseMiddleware>();
 
             UseIdentityServer(app);
 

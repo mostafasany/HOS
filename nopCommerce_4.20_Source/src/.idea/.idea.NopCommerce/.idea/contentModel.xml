@@ -44,6 +44,7 @@
             </e>
           </e>
           <e p="plugin.json" t="Include" />
+          <e p="RequestResponseMiddleware.cs" t="Include" />
         </e>
         <e p="Nop.Plugin.Api.Admin" t="IncludeRecursive">
           <e p="ApiAdminController.cs" t="Include" />
@@ -4531,42 +4532,7 @@
           </e>
           <e p="Plugins" t="Include">
             <e p="bin" t="Include">
-              <e p="IdentityModel.dll" t="Include" />
-              <e p="IdentityServer4.dll" t="Include" />
-              <e p="IdentityServer4.EntityFramework.dll" t="Include" />
-              <e p="IdentityServer4.EntityFramework.Storage.dll" t="Include" />
-              <e p="IdentityServer4.Storage.dll" t="Include" />
-              <e p="Microsoft.OpenApi.dll" t="Include" />
-              <e p="Nop.Plugin.Api.Admin.dll" t="Include" />
-              <e p="Nop.Plugin.Api.Article.dll" t="Include" />
-              <e p="Nop.Plugin.Api.Cart.dll" t="Include" />
-              <e p="Nop.Plugin.Api.Category.dll" t="Include" />
-              <e p="Nop.Plugin.Api.Common.dll" t="Include" />
-              <e p="Nop.Plugin.Api.Content.dll" t="Include" />
-              <e p="Nop.Plugin.Api.Customer.dll" t="Include" />
-              <e p="Nop.Plugin.Api.dll" t="Include" />
-              <e p="Nop.Plugin.Api.Menu.dll" t="Include" />
-              <e p="Nop.Plugin.Api.Product.dll" t="Include" />
-              <e p="Nop.Plugin.DiscountRules.CustomerRoles.dll" t="Include" />
-              <e p="Nop.Plugin.ExchangeRate.EcbExchange.dll" t="Include" />
-              <e p="Nop.Plugin.ExternalAuth.Facebook.dll" t="Include" />
-              <e p="Nop.Plugin.Payments.CheckMoneyOrder.dll" t="Include" />
-              <e p="Nop.Plugin.Payments.Manual.dll" t="Include" />
-              <e p="Nop.Plugin.Payments.PayPalStandard.dll" t="Include" />
-              <e p="Nop.Plugin.Payments.Square.dll" t="Include" />
-              <e p="Nop.Plugin.Pickup.PickupInStore.dll" t="Include" />
-              <e p="Nop.Plugin.Shipping.FixedByWeightByTotal.dll" t="Include" />
-              <e p="Nop.Plugin.Shipping.UPS.dll" t="Include" />
-              <e p="Nop.Plugin.Tax.FixedOrByCountryStateZip.dll" t="Include" />
-              <e p="Nop.Plugin.Widgets.GoogleAnalytics.dll" t="Include" />
-              <e p="Nop.Plugin.Widgets.NivoSlider.dll" t="Include" />
               <e p="placeholder.txt" t="Include" />
-              <e p="RestSharp.dll" t="Include" />
-              <e p="Square.Connect.dll" t="Include" />
-              <e p="Swashbuckle.AspNetCore.dll" t="Include" />
-              <e p="Swashbuckle.AspNetCore.Swagger.dll" t="Include" />
-              <e p="Swashbuckle.AspNetCore.SwaggerGen.dll" t="Include" />
-              <e p="Swashbuckle.AspNetCore.SwaggerUI.dll" t="Include" />
             </e>
             <e p="DiscountRules.CustomerRoles" t="ExcludeRecursive">
               <e p="logo.jpg" t="Include" />
@@ -4621,12 +4587,275 @@
               </e>
             </e>
             <e p="Nop.Plugin.Api" t="ExcludeRecursive">
+              <e p="af" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="ar" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="Autofac.dll" t="Include" />
+              <e p="Autofac.Extensions.DependencyInjection.dll" t="Include" />
+              <e p="AutoMapper.dll" t="Include" />
+              <e p="AutoMapper.Extensions.Microsoft.DependencyInjection.dll" t="Include" />
+              <e p="bg" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="bn-BD" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="BouncyCastle.Crypto.dll" t="Include" />
+              <e p="Castle.Core.dll" t="Include" />
+              <e p="cs" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="da" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="de" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="dotnet-bundle.dll" t="Include" />
+              <e p="EasyCaching.Core.dll" t="Include" />
+              <e p="EasyCaching.InMemory.dll" t="Include" />
+              <e p="el" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="EPPlus.dll" t="Include" />
+              <e p="es" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="fa" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="fi-FI" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="FluentValidation.AspNetCore.dll" t="Include" />
+              <e p="FluentValidation.DependencyInjectionExtensions.dll" t="Include" />
+              <e p="FluentValidation.dll" t="Include" />
+              <e p="fr" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="fr-BE" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="he" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="hr" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="hu" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="Humanizer.dll" t="Include" />
+              <e p="id" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
               <e p="IdentityModel.dll" t="Include" />
               <e p="IdentityServer4.dll" t="Include" />
               <e p="IdentityServer4.EntityFramework.dll" t="Include" />
               <e p="IdentityServer4.EntityFramework.Storage.dll" t="Include" />
               <e p="IdentityServer4.Storage.dll" t="Include" />
+              <e p="it" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="iTextSharp.LGPLv2.Core.dll" t="Include" />
+              <e p="ja" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="lv" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="MaxMind.Db.dll" t="Include" />
+              <e p="MaxMind.GeoIP2.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Antiforgery.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authentication.Abstractions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authentication.Cookies.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authentication.Core.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authentication.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authentication.Facebook.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authentication.Google.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authentication.JwtBearer.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authentication.MicrosoftAccount.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authentication.OAuth.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authentication.OpenIdConnect.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authentication.Twitter.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authentication.WsFederation.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authorization.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Authorization.Policy.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Connections.Abstractions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.CookiePolicy.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Cors.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Cryptography.Internal.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Cryptography.KeyDerivation.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.DataProtection.Abstractions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.DataProtection.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.DataProtection.Extensions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.DataProtection.Redis.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Diagnostics.Abstractions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Diagnostics.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Diagnostics.HealthChecks.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.HostFiltering.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Hosting.Abstractions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Hosting.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Html.Abstractions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Http.Abstractions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Http.Connections.Common.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Http.Connections.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Http.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Http.Extensions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Http.Features.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.HttpOverrides.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.HttpsPolicy.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Identity.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Identity.UI.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Identity.UI.Views.V3.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Identity.UI.Views.V4.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.JsonPatch.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Localization.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Localization.Routing.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.MiddlewareAnalysis.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.Abstractions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.ApiExplorer.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.Core.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.Cors.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.DataAnnotations.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.Formatters.Json.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.Formatters.Xml.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.Localization.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.Razor.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.Razor.Extensions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.RazorPages.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.TagHelpers.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Mvc.ViewFeatures.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.NodeServices.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Owin.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Razor.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Razor.Language.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Razor.Runtime.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.ResponseCaching.Abstractions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.ResponseCaching.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.ResponseCompression.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Rewrite.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Routing.Abstractions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Routing.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Server.HttpSys.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Server.IIS.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Server.IISIntegration.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Server.Kestrel.Core.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Server.Kestrel.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Server.Kestrel.Https.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.Session.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.SignalR.Common.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.SignalR.Core.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.SignalR.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.SignalR.Protocols.Json.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.SpaServices.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.SpaServices.Extensions.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.StaticFiles.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.WebSockets.dll" t="Include" />
+              <e p="Microsoft.AspNetCore.WebUtilities.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Razor.dll" t="Include" />
+              <e p="Microsoft.DotNet.PlatformAbstractions.dll" t="Include" />
+              <e p="Microsoft.EntityFrameworkCore.Abstractions.dll" t="Include" />
+              <e p="Microsoft.EntityFrameworkCore.Design.dll" t="Include" />
+              <e p="Microsoft.EntityFrameworkCore.dll" t="Include" />
+              <e p="Microsoft.EntityFrameworkCore.InMemory.dll" t="Include" />
+              <e p="Microsoft.EntityFrameworkCore.Proxies.dll" t="Include" />
+              <e p="Microsoft.EntityFrameworkCore.Relational.dll" t="Include" />
+              <e p="Microsoft.EntityFrameworkCore.SqlServer.dll" t="Include" />
+              <e p="Microsoft.Extensions.Caching.Abstractions.dll" t="Include" />
+              <e p="Microsoft.Extensions.Caching.Memory.dll" t="Include" />
+              <e p="Microsoft.Extensions.Caching.SqlServer.dll" t="Include" />
+              <e p="Microsoft.Extensions.Configuration.Abstractions.dll" t="Include" />
+              <e p="Microsoft.Extensions.Configuration.Binder.dll" t="Include" />
+              <e p="Microsoft.Extensions.Configuration.CommandLine.dll" t="Include" />
+              <e p="Microsoft.Extensions.Configuration.dll" t="Include" />
+              <e p="Microsoft.Extensions.Configuration.EnvironmentVariables.dll" t="Include" />
+              <e p="Microsoft.Extensions.Configuration.FileExtensions.dll" t="Include" />
+              <e p="Microsoft.Extensions.Configuration.Ini.dll" t="Include" />
+              <e p="Microsoft.Extensions.Configuration.Json.dll" t="Include" />
+              <e p="Microsoft.Extensions.Configuration.KeyPerFile.dll" t="Include" />
+              <e p="Microsoft.Extensions.Configuration.UserSecrets.dll" t="Include" />
+              <e p="Microsoft.Extensions.Configuration.Xml.dll" t="Include" />
+              <e p="Microsoft.Extensions.DependencyInjection.Abstractions.dll" t="Include" />
+              <e p="Microsoft.Extensions.DependencyInjection.dll" t="Include" />
+              <e p="Microsoft.Extensions.DependencyModel.dll" t="Include" />
+              <e p="Microsoft.Extensions.DiagnosticAdapter.dll" t="Include" />
+              <e p="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll" t="Include" />
+              <e p="Microsoft.Extensions.Diagnostics.HealthChecks.dll" t="Include" />
+              <e p="Microsoft.Extensions.FileProviders.Abstractions.dll" t="Include" />
+              <e p="Microsoft.Extensions.FileProviders.Composite.dll" t="Include" />
+              <e p="Microsoft.Extensions.FileProviders.Embedded.dll" t="Include" />
+              <e p="Microsoft.Extensions.FileProviders.Physical.dll" t="Include" />
+              <e p="Microsoft.Extensions.FileSystemGlobbing.dll" t="Include" />
+              <e p="Microsoft.Extensions.Hosting.Abstractions.dll" t="Include" />
+              <e p="Microsoft.Extensions.Hosting.dll" t="Include" />
+              <e p="Microsoft.Extensions.Http.dll" t="Include" />
+              <e p="Microsoft.Extensions.Identity.Core.dll" t="Include" />
+              <e p="Microsoft.Extensions.Identity.Stores.dll" t="Include" />
+              <e p="Microsoft.Extensions.Localization.Abstractions.dll" t="Include" />
+              <e p="Microsoft.Extensions.Localization.dll" t="Include" />
+              <e p="Microsoft.Extensions.Logging.Abstractions.dll" t="Include" />
+              <e p="Microsoft.Extensions.Logging.Configuration.dll" t="Include" />
+              <e p="Microsoft.Extensions.Logging.Console.dll" t="Include" />
+              <e p="Microsoft.Extensions.Logging.Debug.dll" t="Include" />
+              <e p="Microsoft.Extensions.Logging.dll" t="Include" />
+              <e p="Microsoft.Extensions.Logging.EventSource.dll" t="Include" />
+              <e p="Microsoft.Extensions.Logging.TraceSource.dll" t="Include" />
+              <e p="Microsoft.Extensions.ObjectPool.dll" t="Include" />
+              <e p="Microsoft.Extensions.Options.ConfigurationExtensions.dll" t="Include" />
+              <e p="Microsoft.Extensions.Options.DataAnnotations.dll" t="Include" />
+              <e p="Microsoft.Extensions.Options.dll" t="Include" />
+              <e p="Microsoft.Extensions.Primitives.dll" t="Include" />
+              <e p="Microsoft.Extensions.WebEncoders.dll" t="Include" />
+              <e p="Microsoft.IdentityModel.JsonWebTokens.dll" t="Include" />
+              <e p="Microsoft.IdentityModel.Logging.dll" t="Include" />
+              <e p="Microsoft.IdentityModel.Protocols.dll" t="Include" />
+              <e p="Microsoft.IdentityModel.Protocols.OpenIdConnect.dll" t="Include" />
+              <e p="Microsoft.IdentityModel.Protocols.WsFederation.dll" t="Include" />
+              <e p="Microsoft.IdentityModel.Tokens.dll" t="Include" />
+              <e p="Microsoft.IdentityModel.Tokens.Saml.dll" t="Include" />
+              <e p="Microsoft.IdentityModel.Xml.dll" t="Include" />
+              <e p="Microsoft.Net.Http.Headers.dll" t="Include" />
               <e p="Microsoft.OpenApi.dll" t="Include" />
+              <e p="Microsoft.Win32.SystemEvents.dll" t="Include" />
+              <e p="Microsoft.WindowsAzure.Storage.dll" t="Include" />
+              <e p="MiniProfiler.AspNetCore.dll" t="Include" />
+              <e p="MiniProfiler.AspNetCore.Mvc.dll" t="Include" />
+              <e p="MiniProfiler.EntityFrameworkCore.dll" t="Include" />
+              <e p="MiniProfiler.Shared.dll" t="Include" />
+              <e p="ms-MY" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="mt" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="nb" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="nb-NO" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="Newtonsoft.Json.Bson.dll" t="Include" />
+              <e p="Newtonsoft.Json.dll" t="Include" />
+              <e p="nl" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="Nop.Core.dll" t="Include" />
+              <e p="Nop.Core.pdb" t="Include" />
+              <e p="Nop.Data.dll" t="Include" />
+              <e p="Nop.Data.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Admin.dll" t="Include" />
               <e p="Nop.Plugin.Api.Admin.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Article.dll" t="Include" />
@@ -4648,11 +4877,83 @@
               <e p="Nop.Plugin.Api.pdb" t="Include" />
               <e p="Nop.Plugin.Api.Product.dll" t="Include" />
               <e p="Nop.Plugin.Api.Product.pdb" t="Include" />
+              <e p="Nop.Services.dll" t="Include" />
+              <e p="Nop.Services.pdb" t="Include" />
+              <e p="Nop.Web.Framework.dll" t="Include" />
+              <e p="Nop.Web.Framework.pdb" t="Include" />
+              <e p="NUglify.dll" t="Include" />
+              <e p="pl" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
               <e p="plugin.json" t="Include" />
+              <e p="pt" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="RedLockNet.Abstractions.StrongName.dll" t="Include" />
+              <e p="RedLockNet.SERedis.StrongName.dll" t="Include" />
+              <e p="Remotion.Linq.dll" t="Include" />
+              <e p="ro" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="ru" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="SixLabors.Core.dll" t="Include" />
+              <e p="SixLabors.ImageSharp.dll" t="Include" />
+              <e p="sk" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="sl" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="sr" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="sr-Latn" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="StackExchange.Redis.StrongName.dll" t="Include" />
+              <e p="sv" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
               <e p="Swashbuckle.AspNetCore.dll" t="Include" />
               <e p="Swashbuckle.AspNetCore.Swagger.dll" t="Include" />
               <e p="Swashbuckle.AspNetCore.SwaggerGen.dll" t="Include" />
               <e p="Swashbuckle.AspNetCore.SwaggerUI.dll" t="Include" />
+              <e p="System.Data.SqlClient.dll" t="Include" />
+              <e p="System.Drawing.Common.dll" t="Include" />
+              <e p="System.IdentityModel.Tokens.Jwt.dll" t="Include" />
+              <e p="System.Interactive.Async.dll" t="Include" />
+              <e p="System.IO.Pipelines.dll" t="Include" />
+              <e p="System.Linq.Dynamic.Core.dll" t="Include" />
+              <e p="System.Net.Http.Formatting.dll" t="Include" />
+              <e p="System.Net.WebSockets.WebSocketProtocol.dll" t="Include" />
+              <e p="System.Runtime.CompilerServices.Unsafe.dll" t="Include" />
+              <e p="System.Security.Cryptography.Pkcs.dll" t="Include" />
+              <e p="System.Security.Cryptography.Xml.dll" t="Include" />
+              <e p="System.Security.Permissions.dll" t="Include" />
+              <e p="System.ServiceModel.dll" t="Include" />
+              <e p="System.ServiceModel.Http.dll" t="Include" />
+              <e p="System.ServiceModel.Primitives.dll" t="Include" />
+              <e p="System.Text.Encoding.CodePages.dll" t="Include" />
+              <e p="System.Text.Encodings.Web.dll" t="Include" />
+              <e p="System.Threading.Channels.dll" t="Include" />
+              <e p="System.Xml.XPath.XmlDocument.dll" t="Include" />
+              <e p="tr" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="uk" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="uz-Cyrl-UZ" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="uz-Latn-UZ" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="vi" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
               <e p="Views" t="Include">
                 <e p="_ViewImports.cshtml" t="Include" />
                 <e p="Clients" t="Include">
@@ -4663,6 +4964,19 @@
                   <e p="List.cshtml" t="Include" />
                 </e>
                 <e p="Settings.cshtml" t="Include" />
+              </e>
+              <e p="WebMarkupMin.AspNet.Common.dll" t="Include" />
+              <e p="WebMarkupMin.AspNetCore2.dll" t="Include" />
+              <e p="WebMarkupMin.Core.dll" t="Include" />
+              <e p="WebMarkupMin.NUglify.dll" t="Include" />
+              <e p="zh-CN" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="zh-Hans" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
+              </e>
+              <e p="zh-Hant" t="Include">
+                <e p="Humanizer.resources.dll" t="Include" />
               </e>
             </e>
             <e p="Payments.CheckMoneyOrder" t="ExcludeRecursive">
@@ -5786,6 +6100,7 @@
                 <e p="0000018_hp.jpg" t="Include" />
                 <e p="0000019_nike.jpg" t="Include" />
                 <e p="0000022_product-just-arrive-2.jpeg" t="Include" />
+                <e p="0000022_product-just-arrive-2_80.jpeg" t="Include" />
                 <e p="0000024_product-top-sales-2.jpeg" t="Include" />
                 <e p="0000024_product-top-sales-2_415.jpeg" t="Include" />
                 <e p="0000025_product-top-sales-2.jpeg" t="Include" />
@@ -5796,6 +6111,7 @@
                 <e p="0000030_hp-envy-6-1180ca-156-inch-sleekbook.jpeg" t="Include" />
                 <e p="0000031_lenovo-thinkpad-x1-carbon-laptop.jpeg" t="Include" />
                 <e p="0000032_adobe-photoshop-cs4.jpeg" t="Include" />
+                <e p="0000032_adobe-photoshop-cs4_415.jpeg" t="Include" />
                 <e p="0000033_stack-4.jpeg" t="Include" />
                 <e p="0000034_stack-1.jpeg" t="Include" />
                 <e p="0000035_nikon-d5500-dslr.jpeg" t="Include" />
@@ -5807,35 +6123,54 @@
                 <e p="0000039_leica-t-mirrorless-digital-camera.jpeg" t="Include" />
                 <e p="0000040_product-top-sales-1.jpeg" t="Include" />
                 <e p="0000041_htc-one-m8-android-l-50-lollipop.jpeg" t="Include" />
+                <e p="0000041_htc-one-m8-android-l-50-lollipop_100.jpeg" t="Include" />
                 <e p="0000041_htc-one-m8-android-l-50-lollipop_415.jpeg" t="Include" />
+                <e p="0000041_htc-one-m8-android-l-50-lollipop_550.jpeg" t="Include" />
                 <e p="0000042_htc-one-mini-blue.jpeg" t="Include" />
+                <e p="0000042_htc-one-mini-blue_415.jpeg" t="Include" />
                 <e p="0000044_nokia-lumia-1020.jpeg" t="Include" />
+                <e p="0000044_nokia-lumia-1020_415.jpeg" t="Include" />
                 <e p="0000044_nokia-lumia-1020_75.jpeg" t="Include" />
                 <e p="0000045_product-top-sales-4.jpeg" t="Include" />
+                <e p="0000045_product-top-sales-4_100.jpeg" t="Include" />
+                <e p="0000045_product-top-sales-4_415.jpeg" t="Include" />
+                <e p="0000045_product-top-sales-4_550.jpeg" t="Include" />
+                <e p="0000045_product-top-sales-4_80.jpeg" t="Include" />
                 <e p="0000046_product-top-sales-4.jpeg" t="Include" />
+                <e p="0000046_product-top-sales-4_100.jpeg" t="Include" />
+                <e p="0000046_product-top-sales-4_550.jpeg" t="Include" />
                 <e p="0000047_stack-2.jpeg" t="Include" />
                 <e p="0000048_portable-sound-speakers.jpeg" t="Include" />
+                <e p="0000048_portable-sound-speakers_100.jpeg" t="Include" />
+                <e p="0000048_portable-sound-speakers_415.jpeg" t="Include" />
+                <e p="0000048_portable-sound-speakers_550.jpeg" t="Include" />
                 <e p="0000053_adidas-consortium-campus-80s-running-shoes.jpg" t="Include" />
+                <e p="0000053_adidas-consortium-campus-80s-running-shoes_415.jpg" t="Include" />
                 <e p="0000054_adidas-consortium-campus-80s-running-shoes.jpg" t="Include" />
                 <e p="0000055_adidas-consortium-campus-80s-running-shoes.jpg" t="Include" />
                 <e p="0000056_nike-shoes.jpg" t="Include" />
                 <e p="0000057_menu-2.jpg" t="Include" />
                 <e p="0000058_oversized-women-t-shirt.jpg" t="Include" />
                 <e p="0000059_product-just-arrive-1.jpeg" t="Include" />
+                <e p="0000059_product-just-arrive-1_80.jpeg" t="Include" />
                 <e p="0000062_obey-propaganda-hat.jpg" t="Include" />
                 <e p="0000063_product-featured-2.jpeg" t="Include" />
                 <e p="0000064_product-featured-1.jpg" t="Include" />
                 <e p="0000064_product-featured-1_70.jpg" t="Include" />
+                <e p="0000065_night-visions.jpeg" t="Include" />
                 <e p="0000067_product-featured-4.jpeg" t="Include" />
                 <e p="0000068_fahrenheit-451-by-ray-bradbury.jpeg" t="Include" />
                 <e p="0000069_first-prize-pies.jpeg" t="Include" />
+                <e p="0000070_pride-and-prejudice.jpeg" t="Include" />
                 <e p="0000071_elegant-gemstone-necklace-rental.jpg" t="Include" />
                 <e p="0000072_bracelet.jpg" t="Include" />
                 <e p="0000073_stack-3.jpg" t="Include" />
                 <e p="0000074_25-virtual-gift-card.jpeg" t="Include" />
                 <e p="0000074_25-virtual-gift-card_415.jpeg" t="Include" />
                 <e p="0000075_50-physical-gift-card.jpeg" t="Include" />
+                <e p="0000075_50-physical-gift-card_415.jpeg" t="Include" />
                 <e p="0000076_100-physical-gift-card.jpeg" t="Include" />
+                <e p="0000076_100-physical-gift-card_415.jpeg" t="Include" />
                 <e p="0000079_banner_1.jpg" t="Include" />
                 <e p="0000079_banner_1_100.jpg" t="Include" />
                 <e p="0000080_banner_2.jpg" t="Include" />
@@ -5862,6 +6197,7 @@
                 <e p="0000104_article-3.jpeg" t="Include" />
                 <e p="0000105_bracelet.png" t="Include" />
                 <e p="0000105_bracelet_75.png" t="Include" />
+                <e p="0000108_nike-shoes.jpeg" t="Include" />
                 <e p="0000108_nike-shoes_75.jpeg" t="Include" />
                 <e p="0000110_product-featured-3.png" t="Include" />
                 <e p="0000111_product-featured-1.png" t="Include" />
