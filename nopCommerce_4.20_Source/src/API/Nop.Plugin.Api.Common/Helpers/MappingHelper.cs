@@ -15,7 +15,7 @@ namespace Nop.Plugin.Api.Common.Helpers
     {
         public void Merge(object source, object destination)
         {
-            Dictionary<string, object> sourcePropertyValuePairs = source.GetType()
+            var sourcePropertyValuePairs = source.GetType()
                 .GetProperties()
                 .ToDictionary(property => property.Name, property => property.GetValue(source));
 
@@ -23,102 +23,107 @@ namespace Nop.Plugin.Api.Common.Helpers
         }
 
         public void SetValues(Dictionary<string, object> propertyNameValuePairs, object objectToBeUpdated,
-            Type propertyType, Dictionary<object, object> objectPropertyNameValuePairs, bool handleComplexTypeCollections = false)
+            Type propertyType, Dictionary<object, object> objectPropertyNameValuePairs,
+            bool handleComplexTypeCollections = false)
         {
             objectPropertyNameValuePairs?.Add(objectToBeUpdated, propertyNameValuePairs);
 
-            foreach (KeyValuePair<string, object> propertyNameValuePair in propertyNameValuePairs) SetValue(objectToBeUpdated, propertyNameValuePair, objectPropertyNameValuePairs, handleComplexTypeCollections);
+            foreach (var propertyNameValuePair in propertyNameValuePairs)
+                SetValue(objectToBeUpdated, propertyNameValuePair, objectPropertyNameValuePairs,
+                    handleComplexTypeCollections);
         }
 
         private void AddBaseItemInCollection(object newItem, IList collection, Type collectionElementsType)
         {
-            TypeConverter converter = TypeDescriptor.GetConverter(collectionElementsType);
+            var converter = TypeDescriptor.GetConverter(collectionElementsType);
 
-            string newItemValueToString = newItem.ToString();
+            var newItemValueToString = newItem.ToString();
 
             if (converter.IsValid(newItemValueToString)) collection.Add(converter.ConvertFrom(newItemValueToString));
         }
 
-        private void AddNewItemInCollection(Dictionary<string, object> newProperties, IList collection, Type collectionElementsType, Dictionary<object, object> objectPropertyNameValuePairs, bool handleComplexTypeCollections)
+        private void AddNewItemInCollection(Dictionary<string, object> newProperties, IList collection,
+            Type collectionElementsType, Dictionary<object, object> objectPropertyNameValuePairs,
+            bool handleComplexTypeCollections)
         {
-            object newInstance = Activator.CreateInstance(collectionElementsType);
+            var newInstance = Activator.CreateInstance(collectionElementsType);
 
-            PropertyInfo[] properties = collectionElementsType.GetProperties();
+            var properties = collectionElementsType.GetProperties();
 
             SetEveryDatePropertyThatIsNotSetToDateTimeUtcNow(newProperties, properties);
 
-            SetValues(newProperties, newInstance, collectionElementsType, objectPropertyNameValuePairs, handleComplexTypeCollections);
+            SetValues(newProperties, newInstance, collectionElementsType, objectPropertyNameValuePairs,
+                handleComplexTypeCollections);
 
             collection.Add(newInstance);
         }
 
-        private void AddOrUpdateComplexItemInCollection(Dictionary<string, object> newProperties, IList collection, Type collectionElementsType,
+        private void AddOrUpdateComplexItemInCollection(Dictionary<string, object> newProperties, IList collection,
+            Type collectionElementsType,
             Dictionary<object, object> objectPropertyNameValuePairs, bool handleComplexTypeCollections)
         {
             if (newProperties.ContainsKey("Id"))
             {
                 // Every element in collection, that is not System type should have an id.
-                int id = int.Parse(newProperties["Id"].ToString());
+                var id = int.Parse(newProperties["Id"].ToString());
 
-                object itemToBeUpdated = null;
+                var itemToBeUpdated = collection.Cast<object>()
+                    .FirstOrDefault(item => int.Parse(item.GetType()
+                                                .GetProperty("Id",
+                                                    BindingFlags.IgnoreCase | BindingFlags.Public |
+                                                    BindingFlags.Instance)
+                                                .GetValue(item)
+                                                .ToString()) == id);
 
                 // Check if there is already an item with this id in the collection.
-                foreach (object item in collection)
-                    if (int.Parse(item.GetType()
-                            .GetProperty("Id", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)
-                            .GetValue(item)
-                            .ToString()) == id)
-                    {
-                        itemToBeUpdated = item;
-                        break;
-                    }
 
                 if (itemToBeUpdated == null)
-                    AddNewItemInCollection(newProperties, collection, collectionElementsType, objectPropertyNameValuePairs, handleComplexTypeCollections);
+                    AddNewItemInCollection(newProperties, collection, collectionElementsType,
+                        objectPropertyNameValuePairs, handleComplexTypeCollections);
                 else
-                    SetValues(newProperties, itemToBeUpdated, collectionElementsType, objectPropertyNameValuePairs, handleComplexTypeCollections);
+                    SetValues(newProperties, itemToBeUpdated, collectionElementsType, objectPropertyNameValuePairs,
+                        handleComplexTypeCollections);
             }
             // It is a new item.
             else
-            {
-                AddNewItemInCollection(newProperties, collection, collectionElementsType, objectPropertyNameValuePairs, handleComplexTypeCollections);
-            }
+                AddNewItemInCollection(newProperties, collection, collectionElementsType, objectPropertyNameValuePairs,
+                    handleComplexTypeCollections);
         }
 
         // Used in the SetValue private method and also in the Delta.
-        private void ConvertAndSetValueIfValid(object objectToBeUpdated, PropertyInfo objectProperty, object propertyValue)
+        private void ConvertAndSetValueIfValid(object objectToBeUpdated, PropertyInfo objectProperty,
+            object propertyValue)
         {
-            TypeConverter converter = TypeDescriptor.GetConverter(objectProperty.PropertyType);
+            var converter = TypeDescriptor.GetConverter(objectProperty.PropertyType);
 
-            string propertyValueAsString = string.Format(CultureInfo.InvariantCulture, "{0}", propertyValue);
+            var propertyValueAsString = string.Format(CultureInfo.InvariantCulture, "{0}", propertyValue);
 
-            if (converter.IsValid(propertyValueAsString))
-            {
-                object convertedValue = converter.ConvertFromInvariantString(propertyValueAsString);
+            if (!converter.IsValid(propertyValueAsString)) return;
+            var convertedValue = converter.ConvertFromInvariantString(propertyValueAsString);
 
-                objectProperty.SetValue(objectToBeUpdated, convertedValue);
-            }
+            objectProperty.SetValue(objectToBeUpdated, convertedValue);
         }
 
         private IList CreateEmptyList(Type listItemType)
         {
-            Type listType = typeof(List<>);
-            Type constructedListType = listType.MakeGenericType(listItemType);
-            object list = Activator.CreateInstance(constructedListType);
+            var listType = typeof(List<>);
+            var constructedListType = listType.MakeGenericType(listItemType);
+            var list = Activator.CreateInstance(constructedListType);
 
             return list as IList;
         }
 
         // We need this method, because the default value of DateTime is not in the sql server DateTime range and we will get an exception if we use it.
-        private void SetEveryDatePropertyThatIsNotSetToDateTimeUtcNow(Dictionary<string, object> newProperties, PropertyInfo[] properties)
+        private void SetEveryDatePropertyThatIsNotSetToDateTimeUtcNow(Dictionary<string, object> newProperties,
+            PropertyInfo[] properties)
         {
-            foreach (PropertyInfo property in properties)
+            foreach (var property in properties)
                 if (property.PropertyType == typeof(DateTime))
                 {
                     var keyFound = false;
 
                     // We need to loop through the keys, because the key may contain underscores in its name, which won't match the jsonProperty name.
-                    foreach (string key in newProperties.Keys)
+                    foreach (var key in newProperties.Keys)
                         if (key.Equals(property.Name, StringComparison.InvariantCultureIgnoreCase))
                         {
                             keyFound = true;
@@ -129,98 +134,100 @@ namespace Nop.Plugin.Api.Common.Helpers
                 }
         }
 
-        private void SetValue(object objectToBeUpdated, KeyValuePair<string, object> propertyNameValuePair, Dictionary<object, object> objectPropertyNameValuePairs, bool handleComplexTypeCollections)
+        private void SetValue(object objectToBeUpdated, KeyValuePair<string, object> propertyNameValuePair,
+            Dictionary<object, object> objectPropertyNameValuePairs, bool handleComplexTypeCollections)
         {
-            string propertyName = propertyNameValuePair.Key;
-            object propertyValue = propertyNameValuePair.Value;
+            var propertyName = propertyNameValuePair.Key;
+            var propertyValue = propertyNameValuePair.Value;
 
-            PropertyInfo propertyToUpdate = objectToBeUpdated.GetType().GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+            var propertyToUpdate = objectToBeUpdated.GetType().GetProperty(propertyName,
+                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
 
-            if (propertyToUpdate != null)
+            if (propertyToUpdate == null) return;
+            // This case handles nested properties.
+            if (propertyValue is Dictionary<string, object> value)
             {
-                // This case handles nested properties.
-                if (propertyValue != null && propertyValue is Dictionary<string, object>)
+                var valueToUpdate = propertyToUpdate.GetValue(objectToBeUpdated);
+
+                if (valueToUpdate == null)
                 {
-                    object valueToUpdate = propertyToUpdate.GetValue(objectToBeUpdated);
+                    // Check if there is registered factory for this type.
+                    var factoryType = typeof(IFactory<>);
+                    var factoryTypeForCurrentProperty = factoryType.MakeGenericType(propertyToUpdate.PropertyType);
+                    var initializerFactory =
+                        ((NopEngine)EngineContext.Current).ServiceProvider
+                        .GetService(factoryTypeForCurrentProperty);
 
-                    if (valueToUpdate == null)
+                    if (initializerFactory != null)
                     {
-                        // Check if there is registered factory for this type.
-                        Type factoryType = typeof(IFactory<>);
-                        Type factoryTypeForCurrentProperty = factoryType.MakeGenericType(propertyToUpdate.PropertyType);
-                        object initializerFactory = ((NopEngine) EngineContext.Current).ServiceProvider.GetService(factoryTypeForCurrentProperty);
+                        var initializeMethod = factoryTypeForCurrentProperty.GetMethod("Initialize");
 
-                        if (initializerFactory != null)
-                        {
-                            MethodInfo initializeMethod = factoryTypeForCurrentProperty.GetMethod("Initialize");
-
-                            valueToUpdate = initializeMethod.Invoke(initializerFactory, null);
-                        }
-                        else
-                        {
-                            valueToUpdate = Activator.CreateInstance(propertyToUpdate.PropertyType);
-                        }
-
-                        propertyToUpdate.SetValue(objectToBeUpdated, valueToUpdate);
+                        valueToUpdate = initializeMethod.Invoke(initializerFactory, null);
                     }
+                    else
+                        valueToUpdate = Activator.CreateInstance(propertyToUpdate.PropertyType);
 
-                    // We need to use GetValue method to get the actual instance of the jsonProperty. objectProperty is the jsonProperty info.
-                    SetValues((Dictionary<string, object>) propertyValue, valueToUpdate,
-                        propertyToUpdate.PropertyType, objectPropertyNameValuePairs);
-                    // We expect the nested properties to be classes which are refrence types.
-                    return;
-                }
-                // This case hadles collections.
-
-                if (propertyValue != null && propertyValue is ICollection<object>)
-                {
-                    var propertyValueAsCollection = propertyValue as ICollection<object>;
-
-                    Type collectionElementsType = propertyToUpdate.PropertyType.GetGenericArguments()[0];
-                    object collection = propertyToUpdate.GetValue(objectToBeUpdated);
-
-                    if (collection == null)
-                    {
-                        collection = CreateEmptyList(collectionElementsType);
-                        propertyToUpdate.SetValue(objectToBeUpdated, collection);
-                    }
-
-                    //this is a hack to fix a bug when "collection" cannot be cast to IList (ex:  it's a HashSet for Order.OrderItems)
-                    var collectionAsList = collection as IList;
-                    if (collectionAsList == null)
-                    {
-                        collectionAsList = CreateEmptyList(collectionElementsType);
-
-                        var collectionAsEnumerable = collection as IEnumerable;
-                        foreach (object collectionItem in collectionAsEnumerable) collectionAsList.Add(collectionItem);
-
-                        collection = collectionAsList;
-                        propertyToUpdate.SetValue(objectToBeUpdated, collection);
-                    }
-
-                    foreach (object item in propertyValueAsCollection)
-                        if (collectionElementsType.Namespace != "System")
-                        {
-                            if (handleComplexTypeCollections)
-                                AddOrUpdateComplexItemInCollection(item as Dictionary<string, object>,
-                                    collection as IList,
-                                    collectionElementsType, objectPropertyNameValuePairs, handleComplexTypeCollections);
-                        }
-                        else
-                        {
-                            AddBaseItemInCollection(item, collection as IList, collectionElementsType);
-                        }
-
-                    return;
+                    propertyToUpdate.SetValue(objectToBeUpdated, valueToUpdate);
                 }
 
-                // This is where the new value is beeing set to the object jsonProperty using the SetValue function part of System.Reflection.
-                if (propertyValue == null)
+                // We need to use GetValue method to get the actual instance of the jsonProperty. objectProperty is the jsonProperty info.
+                SetValues(value, valueToUpdate,
+                    propertyToUpdate.PropertyType, objectPropertyNameValuePairs);
+                // We expect the nested properties to be classes which are reference types.
+                return;
+            }
+            // This case handles collections.
+
+            if (propertyValue != null && propertyValue is ICollection<object> propertyValueAsCollection)
+            {
+                var collectionElementsType = propertyToUpdate.PropertyType.GetGenericArguments()[0];
+                var collection = propertyToUpdate.GetValue(objectToBeUpdated);
+
+                if (collection == null)
+                {
+                    collection = CreateEmptyList(collectionElementsType);
+                    propertyToUpdate.SetValue(objectToBeUpdated, collection);
+                }
+
+                //this is a hack to fix a bug when "collection" cannot be cast to IList (ex:  it's a HashSet for Order.OrderItems)
+                if (!(collection is IList collectionAsList))
+                {
+                    collectionAsList = CreateEmptyList(collectionElementsType);
+
+                    if (collection is IEnumerable collectionAsEnumerable)
+                        foreach (var collectionItem in collectionAsEnumerable)
+                            collectionAsList.Add(collectionItem);
+
+                    collection = collectionAsList;
+                    propertyToUpdate.SetValue(objectToBeUpdated, collection);
+                }
+
+                foreach (var item in propertyValueAsCollection)
+                    if (collectionElementsType.Namespace != "System")
+                    {
+                        if (handleComplexTypeCollections)
+                            AddOrUpdateComplexItemInCollection(item as Dictionary<string, object>,
+                                collection as IList,
+                                collectionElementsType, objectPropertyNameValuePairs, handleComplexTypeCollections);
+                    }
+                    else
+                        AddBaseItemInCollection(item, collection as IList, collectionElementsType);
+
+                return;
+            }
+
+            switch (propertyValue)
+            {
+                // This is where the new value is being set to the object jsonProperty using the SetValue function part of System.Reflection.
+                case null:
                     propertyToUpdate.SetValue(objectToBeUpdated, null);
-                else if (propertyValue is IConvertible)
+                    break;
+                case IConvertible _:
                     ConvertAndSetValueIfValid(objectToBeUpdated, propertyToUpdate, propertyValue);
-                else
+                    break;
+                default:
                     propertyToUpdate.SetValue(objectToBeUpdated, propertyValue);
+                    break;
             }
         }
     }

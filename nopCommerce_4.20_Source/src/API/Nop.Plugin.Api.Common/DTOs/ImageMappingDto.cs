@@ -6,13 +6,10 @@ namespace Nop.Plugin.Api.Common.DTOs
     [ImageValidation]
     public class ImageMappingDto : ImageDto
     {
-        [JsonProperty("id")]
-        public int Id { get; set; }
+        [JsonProperty("id")] public int Id { get; set; }
 
-        [JsonProperty("pictureId")]
-        public int PictureId { get; set; }
+        [JsonProperty("pictureId")] public int PictureId { get; set; }
 
-        [JsonProperty("position")]
-        public int Position { get; set; }
+        [JsonProperty("position")] public int Position { get; set; }
     }
 }

@@ -113,11 +113,8 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.OrderItems
         ///// <summary>
         /////     Gets the product
         ///// </summary>
-        [JsonProperty("product")]
-        [DoNotMap]
-        public ProductDto Product { get; set; }
+        [JsonProperty("product")] [DoNotMap] public ProductDto Product { get; set; }
 
-        [JsonProperty("product_id")]
-        public int? ProductId { get; set; }
+        [JsonProperty("product_id")] public int? ProductId { get; set; }
     }
 }

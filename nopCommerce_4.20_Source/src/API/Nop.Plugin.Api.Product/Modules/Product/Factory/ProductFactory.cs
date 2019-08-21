@@ -19,30 +19,28 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Factory
 
         public Core.Domain.Catalog.Product Initialize()
         {
-            var defaultProduct = new Core.Domain.Catalog.Product();
+            var defaultProduct = new Core.Domain.Catalog.Product
+            {
+                Weight = _measureService.GetMeasureWeightById(_measureSettings.BaseWeightId).Ratio,
+                CreatedOnUtc = DateTime.UtcNow,
+                UpdatedOnUtc = DateTime.UtcNow,
+                ProductType = ProductType.SimpleProduct,
+                MaximumCustomerEnteredPrice = 1000,
+                MaxNumberOfDownloads = 10,
+                RecurringCycleLength = 100,
+                RecurringTotalCycles = 10,
+                RentalPriceLength = 1,
+                StockQuantity = 10000,
+                NotifyAdminForQuantityBelow = 1,
+                OrderMinimumQuantity = 1,
+                OrderMaximumQuantity = 10000,
+                UnlimitedDownloads = true,
+                IsShipEnabled = true,
+                AllowCustomerReviews = true,
+                Published = true,
+                VisibleIndividually = true
+            };
 
-            defaultProduct.Weight = _measureService.GetMeasureWeightById(_measureSettings.BaseWeightId).Ratio;
-
-            defaultProduct.CreatedOnUtc = DateTime.UtcNow;
-            defaultProduct.UpdatedOnUtc = DateTime.UtcNow;
-
-            defaultProduct.ProductType = ProductType.SimpleProduct;
-
-            defaultProduct.MaximumCustomerEnteredPrice = 1000;
-            defaultProduct.MaxNumberOfDownloads = 10;
-            defaultProduct.RecurringCycleLength = 100;
-            defaultProduct.RecurringTotalCycles = 10;
-            defaultProduct.RentalPriceLength = 1;
-            defaultProduct.StockQuantity = 10000;
-            defaultProduct.NotifyAdminForQuantityBelow = 1;
-            defaultProduct.OrderMinimumQuantity = 1;
-            defaultProduct.OrderMaximumQuantity = 10000;
-
-            defaultProduct.UnlimitedDownloads = true;
-            defaultProduct.IsShipEnabled = true;
-            defaultProduct.AllowCustomerReviews = true;
-            defaultProduct.Published = true;
-            defaultProduct.VisibleIndividually = true;
 
             return defaultProduct;
         }

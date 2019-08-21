@@ -10,7 +10,9 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Validator
     {
         #region Constructors
 
-        public OrderItemDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper, Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper, requestJsonDictionary)
+        public OrderItemDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper,
+            Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper,
+            requestJsonDictionary)
         {
             SetProductIdRule();
             SetQuantityRule();

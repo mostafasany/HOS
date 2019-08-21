@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Api.Common.DTOs.Product;
+using Nop.Web.Framework.Models;
 
 namespace Nop.Plugin.Api.Cart.Dto
 {

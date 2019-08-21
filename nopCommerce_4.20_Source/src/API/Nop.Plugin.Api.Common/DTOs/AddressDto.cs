@@ -6,7 +6,7 @@ namespace Nop.Plugin.Api.Common.DTOs
 {
     [JsonObject(Title = "address")]
     //TODO:4.2 Migration
-   // [Validator(typeof(AddressDtoValidator))]
+    // [Validator(typeof(AddressDtoValidator))]
     public class AddressDto : BaseDto
     {
         /// <summary>

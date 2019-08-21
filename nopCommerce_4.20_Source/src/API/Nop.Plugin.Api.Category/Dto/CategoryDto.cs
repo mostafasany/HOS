@@ -11,8 +11,7 @@ namespace Nop.Plugin.Api.Category.Dto
     [JsonObject(Title = "category")]
     public class CategoryDto : BaseDto
     {
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
 
         /// <summary>
         ///     Gets or sets the description
@@ -121,19 +120,14 @@ namespace Nop.Plugin.Api.Category.Dto
         [JsonProperty("updated_on_utc")]
         public DateTime? UpdatedOnUtc { get; set; }
 
-        [JsonProperty("role_ids")]
-        public List<int> RoleIds { get; set; }
+        [JsonProperty("role_ids")] public List<int> RoleIds { get; set; }
 
-        [JsonProperty("discount_ids")]
-        public List<int> DiscountIds { get; set; }
+        [JsonProperty("discount_ids")] public List<int> DiscountIds { get; set; }
 
-        [JsonProperty("store_ids")]
-        public List<int> StoreIds { get; set; }
+        [JsonProperty("store_ids")] public List<int> StoreIds { get; set; }
 
-        [JsonProperty("image")]
-        public ImageDto Image { get; set; }
+        [JsonProperty("image")] public ImageDto Image { get; set; }
 
-        [JsonProperty("se_name")]
-        public string SeName { get; set; }
+        [JsonProperty("se_name")] public string SeName { get; set; }
     }
 }

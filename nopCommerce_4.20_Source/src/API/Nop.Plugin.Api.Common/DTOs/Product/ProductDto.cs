@@ -514,16 +514,13 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
         {
             get
             {
-                int? productTypeId = _productTypeId;
-                if (productTypeId != null) return ((ProductType) productTypeId).ToString();
-
-                return null;
+                var productTypeId = _productTypeId;
+                return productTypeId != null ? ((ProductType)productTypeId).ToString() : null;
             }
             set
             {
-                ProductType productTypeId;
-                if (Enum.TryParse(value, out productTypeId))
-                    _productTypeId = (int) productTypeId;
+                if (Enum.TryParse(value, out ProductType productTypeId))
+                    _productTypeId = (int)productTypeId;
                 else _productTypeId = null;
             }
         }
@@ -531,17 +528,13 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
         [JsonProperty("parent_grouped_product_id")]
         public int? ParentGroupedProductId { get; set; }
 
-        [JsonProperty("role_ids")]
-        public List<int> RoleIds { get; set; }
+        [JsonProperty("role_ids")] public List<int> RoleIds { get; set; }
 
-        [JsonProperty("discount_ids")]
-        public List<int> DiscountIds { get; set; }
+        [JsonProperty("discount_ids")] public List<int> DiscountIds { get; set; }
 
-        [JsonProperty("store_ids")]
-        public List<int> StoreIds { get; set; }
+        [JsonProperty("store_ids")] public List<int> StoreIds { get; set; }
 
-        [JsonProperty("manufacturer_ids")]
-        public List<int> ManufacturerIds { get; set; }
+        [JsonProperty("manufacturer_ids")] public List<int> ManufacturerIds { get; set; }
 
         [ImageCollectionValidation]
         [JsonProperty("images")]
@@ -550,8 +543,7 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
         [JsonProperty("attributesCombinations")]
         public List<ProductAttributeCombinationDto> ProductAttributesCombinations { get; set; }
 
-        [JsonProperty("attributes")]
-        public List<ProductAttributeMappingDto> ProductAttributeMappings { get; set; }
+        [JsonProperty("attributes")] public List<ProductAttributeMappingDto> ProductAttributeMappings { get; set; }
 
         [JsonProperty("product_specification_attributes")]
         public List<ProductSpecificationAttributeDto> ProductSpecificationAttributes { get; set; }
@@ -559,14 +551,12 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
         [JsonProperty("associated_product_ids")]
         public List<int> AssociatedProductIds { get; set; }
 
-        [JsonProperty("tags")]
-        public List<string> Tags { get; set; }
+        [JsonProperty("tags")] public List<string> Tags { get; set; }
 
         [ValidateVendor]
         [JsonProperty("vendor_id")]
         public int? VendorId { get; set; }
 
-        [JsonProperty("se_name")]
-        public string SeName { get; set; }
+        [JsonProperty("se_name")] public string SeName { get; set; }
     }
 }

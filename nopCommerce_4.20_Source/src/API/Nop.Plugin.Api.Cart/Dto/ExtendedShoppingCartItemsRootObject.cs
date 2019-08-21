@@ -6,13 +6,21 @@ namespace Nop.Plugin.Api.Cart.Dto
 {
     public class ExtendedShoppingCartItemsRootObject : ISerializableObject
     {
-        public ExtendedShoppingCartItemsRootObject() => ShoppingCart = new ShoppingCartModel();
+        public ExtendedShoppingCartItemsRootObject()
+        {
+            ShoppingCart = new ShoppingCartModel();
+        }
 
-        [JsonProperty("shopping_cart")]
-        public ShoppingCartModel ShoppingCart { get; set; }
+        [JsonProperty("shopping_cart")] public ShoppingCartModel ShoppingCart { get; set; }
 
-        public string GetPrimaryPropertyName() => "shopping_cart";
+        public string GetPrimaryPropertyName()
+        {
+            return "shopping_cart";
+        }
 
-        public Type GetPrimaryPropertyType() => typeof(ExtendedShoppingCartDto);
+        public Type GetPrimaryPropertyType()
+        {
+            return typeof(ExtendedShoppingCartDto);
+        }
     }
 }

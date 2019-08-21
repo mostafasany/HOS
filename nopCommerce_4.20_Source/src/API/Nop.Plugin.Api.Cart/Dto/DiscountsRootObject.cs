@@ -3,17 +3,25 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Nop.Plugin.Api.Common.DTOs;
 
-namespace Nop.Plugin.Api.Cart.Modules.Discount.Dto
+namespace Nop.Plugin.Api.Cart.Dto
 {
     public class DiscountsRootObject : ISerializableObject
     {
-        public DiscountsRootObject() => Discounts = new List<DiscountDto>();
+        public DiscountsRootObject()
+        {
+            Discounts = new List<DiscountDto>();
+        }
 
-        [JsonProperty("discounts")]
-        public IList<DiscountDto> Discounts { get; set; }
+        [JsonProperty("discounts")] public IList<DiscountDto> Discounts { get; set; }
 
-        public string GetPrimaryPropertyName() => "discounts";
+        public string GetPrimaryPropertyName()
+        {
+            return "discounts";
+        }
 
-        public Type GetPrimaryPropertyType() => typeof(DiscountDto);
+        public Type GetPrimaryPropertyType()
+        {
+            return typeof(DiscountDto);
+        }
     }
 }

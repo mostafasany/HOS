@@ -16,16 +16,12 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Model
             Fields = string.Empty;
         }
 
-        [JsonProperty("limit")]
-        public int Limit { get; set; }
+        [JsonProperty("limit")] public int Limit { get; set; }
 
-        [JsonProperty("page")]
-        public int Page { get; set; }
+        [JsonProperty("page")] public int Page { get; set; }
 
-        [JsonProperty("since_id")]
-        public int SinceId { get; set; }
+        [JsonProperty("since_id")] public int SinceId { get; set; }
 
-        [JsonProperty("fields")]
-        public string Fields { get; set; }
+        [JsonProperty("fields")] public string Fields { get; set; }
     }
 }

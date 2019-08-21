@@ -15,8 +15,9 @@ namespace Nop.Plugin.Api.Category
         {
             builder.RegisterType<CategoryApiService>().As<ICategoryApiService>().InstancePerLifetimeScope();
 
-            builder.RegisterType<CategoryFactory>().As<IFactory<Core.Domain.Catalog.Category>>().InstancePerLifetimeScope();
-            builder.RegisterType<CategoryTransaltor>().As<ICategoryTransaltor>().InstancePerLifetimeScope();
+            builder.RegisterType<CategoryFactory>().As<IFactory<Core.Domain.Catalog.Category>>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<CategoryTranslator>().As<ICategoryTranslator>().InstancePerLifetimeScope();
         }
 
         public virtual int Order => short.MaxValue;

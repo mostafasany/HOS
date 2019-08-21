@@ -6,7 +6,6 @@ using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Base;
 using Nop.Plugin.Api.Common.DTOs.Product;
 
-
 namespace Nop.Plugin.Api.Cart.Dto
 {
     //TODO:4.2 Migration
@@ -66,23 +65,19 @@ namespace Nop.Plugin.Api.Cart.Dto
         {
             get
             {
-                int? shoppingCartTypeId = _shoppingCartTypeId;
+                var shoppingCartTypeId = _shoppingCartTypeId;
 
-                if (shoppingCartTypeId != null) return ((ShoppingCartType) shoppingCartTypeId).ToString();
-
-                return null;
+                return shoppingCartTypeId != null ? ((ShoppingCartType)shoppingCartTypeId).ToString() : null;
             }
             set
             {
-                ShoppingCartType shoppingCartType;
-                if (Enum.TryParse(value, true, out shoppingCartType))
-                    _shoppingCartTypeId = (int) shoppingCartType;
+                if (Enum.TryParse(value, true, out ShoppingCartType shoppingCartType))
+                    _shoppingCartTypeId = (int)shoppingCartType;
                 else _shoppingCartTypeId = null;
             }
         }
 
-        [JsonProperty("product_id")]
-        public int? ProductId { get; set; }
+        [JsonProperty("product_id")] public int? ProductId { get; set; }
 
         /// <summary>
         ///     Gets or sets the product
@@ -90,7 +85,6 @@ namespace Nop.Plugin.Api.Cart.Dto
         [JsonProperty("product")]
         public ProductDto ProductDto { get; set; }
 
-        [JsonProperty("customer_id")]
-        public int? CustomerId { get; set; }
+        [JsonProperty("customer_id")] public int? CustomerId { get; set; }
     }
 }

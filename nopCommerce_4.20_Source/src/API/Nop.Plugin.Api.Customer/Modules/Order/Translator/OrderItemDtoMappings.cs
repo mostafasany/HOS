@@ -6,6 +6,9 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Translator
 {
     public static class OrderItemDtoMappings
     {
-        public static OrderItemDto ToDto(this OrderItem orderItem) => orderItem.MapTo<OrderItem, OrderItemDto>();
+        public static OrderItemDto ToDto(this OrderItem orderItem)
+        {
+            return orderItem.MapTo<OrderItem, OrderItemDto>();
+        }
     }
 }

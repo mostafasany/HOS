@@ -20,11 +20,11 @@ namespace Nop.Plugin.Api.Content.Modules
             builder.RegisterType<ManufacturerApiService>().As<IManufacturerApiService>().InstancePerLifetimeScope();
             builder.RegisterType<TopicApiService>().As<ITopicApiService>().InstancePerLifetimeScope();
             builder.RegisterType<StateProvinceApiService>().As<IStateProvinceApiService>().InstancePerLifetimeScope();
-            builder.RegisterType<CountryTransaltor>().As<ICountryTransaltor>().InstancePerLifetimeScope();
-            builder.RegisterType<TopicTransaltor>().As<ITopicTransaltor>().InstancePerLifetimeScope();
-            builder.RegisterType<ManufacturerTransaltor>().As<IManufacturerTransaltor>().InstancePerLifetimeScope();
-            builder.RegisterType<LanguageTransaltor>().As<ILanguageTransaltor>().InstancePerLifetimeScope();
-            builder.RegisterType<StoreTransaltor>().As<IStoreTransaltor>().InstancePerLifetimeScope();
+            builder.RegisterType<CountryTranslator>().As<ICountryTranslator>().InstancePerLifetimeScope();
+            builder.RegisterType<TopicTranslator>().As<ITopicTranslator>().InstancePerLifetimeScope();
+            builder.RegisterType<ManufacturerTranslator>().As<IManufacturerTranslator>().InstancePerLifetimeScope();
+            builder.RegisterType<LanguageTranslator>().As<ILanguageTranslator>().InstancePerLifetimeScope();
+            builder.RegisterType<StoreTranslator>().As<IStoreTranslator>().InstancePerLifetimeScope();
         }
 
         public virtual int Order => short.MaxValue;

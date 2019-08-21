@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Nop.Core.Domain.Customers;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
@@ -18,7 +17,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules
+namespace Nop.Plugin.Api.Customer.Modules.CustomerRoles
 {
     public class CustomerRolesController : BaseApiController
     {
@@ -52,22 +51,19 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/customer_roles")]
-        [ProducesResponseType(typeof(CustomerRolesRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(CustomerRolesRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetAllCustomerRoles(string fields = "")
         {
-            IList<CustomerRole> allCustomerRoles = CustomerService.GetAllCustomerRoles();
+            var allCustomerRoles = CustomerService.GetAllCustomerRoles();
 
             IList<CustomerRoleDto> customerRolesAsDto = allCustomerRoles.Select(role => role.ToDto()).ToList();
 
-            var customerRolesRootObject = new CustomerRolesRootObject
-            {
-                CustomerRoles = customerRolesAsDto
-            };
+            var customerRolesRootObject = new CustomerRolesRootObject {CustomerRoles = customerRolesAsDto};
 
-            string json = JsonFieldsSerializer.Serialize(customerRolesRootObject, fields);
+            var json = JsonFieldsSerializer.Serialize(customerRolesRootObject, fields);
 
             return new RawJsonActionResult(json);
         }

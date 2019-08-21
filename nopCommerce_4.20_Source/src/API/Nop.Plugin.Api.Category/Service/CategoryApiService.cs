@@ -24,13 +24,16 @@ namespace Nop.Plugin.Api.Category.Service
             _storeMappingService = storeMappingService;
         }
 
-        public IList<Core.Domain.Catalog.Category> GetCategories(IList<int> ids = null,
-            DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
-            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId,
-            int? productId = null, int? parenttId = null,
+        public IEnumerable<Core.Domain.Catalog.Category> GetCategories(IList<int> ids = null,
+            DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null,
+            DateTime? updatedAtMax = null,
+            int limit = Configurations.DefaultLimit, int page = Configurations.DefaultPageValue,
+            int sinceId = Configurations.DefaultSinceId,
+            int? productId = null, int? parentId = null,
             bool? publishedStatus = null)
         {
-            IQueryable<Core.Domain.Catalog.Category> query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, publishedStatus, productId, parenttId, ids);
+            var query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax, publishedStatus,
+                productId, parentId, ids);
 
 
             if (sinceId > 0) query = query.Where(c => c.Id > sinceId);
@@ -43,7 +46,7 @@ namespace Nop.Plugin.Api.Category.Service
             if (id <= 0)
                 return null;
 
-            Core.Domain.Catalog.Category category = _categoryRepository.Table.FirstOrDefault(cat => cat.Id == id && !cat.Deleted);
+            var category = _categoryRepository.Table.FirstOrDefault(cat => cat.Id == id && !cat.Deleted);
 
             return category;
         }
@@ -52,17 +55,18 @@ namespace Nop.Plugin.Api.Category.Service
             DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
             bool? publishedStatus = null, int? productId = null)
         {
-            IQueryable<Core.Domain.Catalog.Category> query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
+            var query = GetCategoriesQuery(createdAtMin, createdAtMax, updatedAtMin, updatedAtMax,
                 publishedStatus, productId);
 
             return query.Count(c => _storeMappingService.Authorize(c));
         }
 
         private IQueryable<Core.Domain.Catalog.Category> GetCategoriesQuery(
-            DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null, DateTime? updatedAtMax = null,
-            bool? publishedStatus = null, int? productId = null, int? parenttId = null, IList<int> ids = null)
+            DateTime? createdAtMin = null, DateTime? createdAtMax = null, DateTime? updatedAtMin = null,
+            DateTime? updatedAtMax = null,
+            bool? publishedStatus = null, int? productId = null, int? parentId = null, ICollection<int> ids = null)
         {
-            IQueryable<Core.Domain.Catalog.Category> query = _categoryRepository.Table;
+            var query = _categoryRepository.Table;
 
             if (ids != null && ids.Count > 0) query = query.Where(c => ids.Contains(c.Id));
 
@@ -78,17 +82,18 @@ namespace Nop.Plugin.Api.Category.Service
 
             if (updatedAtMax != null) query = query.Where(c => c.UpdatedOnUtc < updatedAtMax.Value);
 
-            if (parenttId != null) query = query.Where(c => c.ParentCategoryId == parenttId);
+            if (parentId != null) query = query.Where(c => c.ParentCategoryId == parentId);
 
 
             if (productId != null)
             {
-                IQueryable<ProductCategory> categoryMappingsForProduct = from productCategoryMapping in _productCategoryMappingRepository.Table
+                var categoryMappingsForProduct = from productCategoryMapping in _productCategoryMappingRepository.Table
                     where productCategoryMapping.ProductId == productId
                     select productCategoryMapping;
 
                 query = from category in query
-                    join productCategoryMapping in categoryMappingsForProduct on category.Id equals productCategoryMapping.CategoryId
+                    join productCategoryMapping in categoryMappingsForProduct on category.Id equals
+                        productCategoryMapping.CategoryId
                     select category;
             }
 

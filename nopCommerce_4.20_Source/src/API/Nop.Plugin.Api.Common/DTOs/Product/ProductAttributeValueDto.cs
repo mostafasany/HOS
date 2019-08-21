@@ -89,8 +89,7 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
         [JsonProperty("pictureId")]
         public int? PictureId { get; set; }
 
-        [JsonProperty("product_image_id")]
-        public int? ProductPictureId { get; set; }
+        [JsonProperty("product_image_id")] public int? ProductPictureId { get; set; }
 
         /// <summary>
         ///     Gets or sets the attribute value type
@@ -98,11 +97,11 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
         [JsonProperty("type")]
         public string AttributeValueType
         {
-            get => ((AttributeValueType) AttributeValueTypeId).ToString();
+            get => ((AttributeValueType)AttributeValueTypeId).ToString();
             set
             {
-                AttributeValueType attributeValueTypeId;
-                if (Enum.TryParse(value, out attributeValueTypeId)) AttributeValueTypeId = (int) attributeValueTypeId;
+                if (Enum.TryParse(value, out AttributeValueType attributeValueTypeId))
+                    AttributeValueTypeId = (int)attributeValueTypeId;
             }
         }
     }

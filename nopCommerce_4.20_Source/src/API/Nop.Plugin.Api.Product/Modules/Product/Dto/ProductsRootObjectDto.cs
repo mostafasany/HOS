@@ -14,17 +14,20 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Dto
             Filters = new List<ProductsFiltersDto>();
         }
 
-        [JsonProperty("products")]
-        public IList<ProductDto> Products { get; set; }
+        [JsonProperty("products")] public IList<ProductDto> Products { get; set; }
 
-        [JsonProperty("filters")]
-        public List<ProductsFiltersDto> Filters { get; set; }
+        [JsonProperty("filters")] public List<ProductsFiltersDto> Filters { get; set; }
 
-        [JsonProperty("header_title")]
-        public string HeaderTitle { get; set; }
+        [JsonProperty("header_title")] public string HeaderTitle { get; set; }
 
-        public string GetPrimaryPropertyName() => "products";
+        public string GetPrimaryPropertyName()
+        {
+            return "products";
+        }
 
-        public Type GetPrimaryPropertyType() => typeof(ProductDto);
+        public Type GetPrimaryPropertyType()
+        {
+            return typeof(ProductDto);
+        }
     }
 }

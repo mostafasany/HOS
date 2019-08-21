@@ -8,13 +8,22 @@ namespace Nop.Plugin.Api.Product.Modules.SpecificationAttributes.Dto
 {
     public class SpecificationAttributesRootObjectDto : ISerializableObject
     {
-        public SpecificationAttributesRootObjectDto() => SpecificationAttributes = new List<SpecificationAttributeDto>();
+        public SpecificationAttributesRootObjectDto()
+        {
+            SpecificationAttributes = new List<SpecificationAttributeDto>();
+        }
 
         [JsonProperty("specification_attributes")]
         public IList<SpecificationAttributeDto> SpecificationAttributes { get; set; }
 
-        public string GetPrimaryPropertyName() => "specification_attributes";
+        public string GetPrimaryPropertyName()
+        {
+            return "specification_attributes";
+        }
 
-        public Type GetPrimaryPropertyType() => typeof(SpecificationAttributeDto);
+        public Type GetPrimaryPropertyType()
+        {
+            return typeof(SpecificationAttributeDto);
+        }
     }
 }

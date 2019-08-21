@@ -11,14 +11,18 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
             Value = value;
         }
 
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        [JsonProperty("name")] public string Name { get; set; }
 
-        [JsonProperty("value")]
-        public string Value { get; set; }
+        [JsonProperty("value")] public string Value { get; set; }
 
-        public string GetPrimaryPropertyName() => "name";
+        public string GetPrimaryPropertyName()
+        {
+            return "name";
+        }
 
-        public Type GetPrimaryPropertyType() => typeof(string);
+        public Type GetPrimaryPropertyType()
+        {
+            return typeof(string);
+        }
     }
 }

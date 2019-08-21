@@ -11,29 +11,32 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Service
     {
         private readonly IRepository<ProductAttribute> _productAttributesRepository;
 
-        public ProductAttributesApiService(IRepository<ProductAttribute> productAttributesRepository) => _productAttributesRepository = productAttributesRepository;
+        public ProductAttributesApiService(IRepository<ProductAttribute> productAttributesRepository)
+        {
+            _productAttributesRepository = productAttributesRepository;
+        }
 
         public IList<ProductAttribute> GetProductAttributes(int limit = Configurations.DefaultLimit,
             int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId)
         {
-            IQueryable<ProductAttribute> query = GetProductAttributesQuery(sinceId);
+            var query = GetProductAttributesQuery(sinceId);
 
             return new ApiList<ProductAttribute>(query, page - 1, limit);
         }
 
-        public int GetProductAttributesCount() => GetProductAttributesQuery().Count();
+        public int GetProductAttributesCount()
+        {
+            return GetProductAttributesQuery().Count();
+        }
 
         ProductAttribute IProductAttributesApiService.GetById(int id)
         {
-            if (id <= 0)
-                return null;
-
-            return _productAttributesRepository.GetById(id);
+            return id <= 0 ? null : _productAttributesRepository.GetById(id);
         }
 
         private IQueryable<ProductAttribute> GetProductAttributesQuery(int sinceId = Configurations.DefaultSinceId)
         {
-            IQueryable<ProductAttribute> query = _productAttributesRepository.Table;
+            var query = _productAttributesRepository.Table;
 
             if (sinceId > 0) query = query.Where(productAttribute => productAttribute.Id > sinceId);
 

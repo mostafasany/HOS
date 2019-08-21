@@ -60,7 +60,8 @@ namespace Nop.Plugin.Api.Customer.Modules
 
         private void CreateCustomerToDTOMap()
         {
-            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<Core.Domain.Customers.Customer, CustomerDto>()
+            AutoMapperApiConfiguration.MapperConfigurationExpression
+                .CreateMap<Core.Domain.Customers.Customer, CustomerDto>()
                 .IgnoreAllNonExisting()
                 .ForMember(x => x.Id, y => y.MapFrom(src => src.Id))
                 .ForMember(x => x.BillingAddress,
@@ -78,11 +79,12 @@ namespace Nop.Plugin.Api.Customer.Modules
 
         private void CreateCustomerToOrderCustomerDTOMap()
         {
-            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<Core.Domain.Customers.Customer, OrderCustomerDto>()
+            AutoMapperApiConfiguration.MapperConfigurationExpression
+                .CreateMap<Core.Domain.Customers.Customer, OrderCustomerDto>()
                 .IgnoreAllNonExisting();
         }
 
-        private new static void CreateMap<TSource, TDestination>()
+        private static new void CreateMap<TSource, TDestination>()
         {
             AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<TSource, TDestination>()
                 .IgnoreAllNonExisting();

@@ -4,6 +4,9 @@ using IdentityServer4.EntityFramework.Entities;
 using Nop.Core.Infrastructure.Mapper;
 using Nop.Plugin.Api.Admin.Model;
 using Nop.Plugin.Api.Common.AutoMapper;
+using Nop.Plugin.Api.Common.Domain;
+using Nop.Plugin.Api.Common.MappingExtensions;
+using Nop.Plugin.Api.Common.Models;
 
 namespace Nop.Plugin.Api.Admin
 {
@@ -11,11 +14,21 @@ namespace Nop.Plugin.Api.Admin
     {
         public ApiMapperConfiguration()
         {
+            CreateMap<ApiSettings, ConfigurationModel>();
+
+            CreateMap<ConfigurationModel, ApiSettings>();
+            
             CreateClientToClientApiModelMap();
         }
 
         public int Order => 0;
 
+        private new static void CreateMap<TSource, TDestination>()
+        {
+            AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<TSource, TDestination>()
+                .IgnoreAllNonExisting();
+        }
+        
         private static void CreateClientToClientApiModelMap()
         {
             AutoMapperApiConfiguration.MapperConfigurationExpression.CreateMap<Client, ClientApiModel>()

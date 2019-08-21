@@ -5,6 +5,9 @@ namespace Nop.Plugin.Api.Content.Modules.Store.Translator
 {
     public static class StoreDtoMappings
     {
-        public static StoreDto ToDto(this Core.Domain.Stores.Store store) => store.MapTo<Core.Domain.Stores.Store, StoreDto>();
+        public static StoreDto ToDto(this Core.Domain.Stores.Store store)
+        {
+            return store.MapTo<Core.Domain.Stores.Store, StoreDto>();
+        }
     }
 }

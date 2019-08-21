@@ -14,8 +14,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders
     {
         private ICollection<OrderItemDto> _orderItems;
 
-        [JsonProperty("store_id")]
-        public int? StoreId { get; set; }
+        [JsonProperty("store_id")] public int? StoreId { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether a customer chose "pick up in store" shipping option
@@ -234,8 +233,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders
         public DateTime? CreatedOnUtc { get; set; }
 
 
-        [JsonProperty("customer_id")]
-        public int? CustomerId { get; set; }
+        [JsonProperty("customer_id")] public int? CustomerId { get; set; }
 
         /// <summary>
         ///     Gets or sets the billing address
@@ -255,12 +253,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders
         [JsonProperty("order_items")]
         public ICollection<OrderItemDto> OrderItems
         {
-            get
-            {
-                if (_orderItems == null) _orderItems = new List<OrderItemDto>();
-
-                return _orderItems;
-            }
+            get => _orderItems ?? (_orderItems = new List<OrderItemDto>());
             set => _orderItems = value;
         }
 

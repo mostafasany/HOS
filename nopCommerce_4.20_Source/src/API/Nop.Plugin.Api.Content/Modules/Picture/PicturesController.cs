@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Nop.Core.Domain.Media;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
@@ -13,7 +12,7 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules
+namespace Nop.Plugin.Api.Content.Modules.Picture
 {
     public class PicturesController : BaseApiController
     {
@@ -30,7 +29,10 @@ namespace Nop.Plugin.Api.Modules
             IAclService aclService,
             ICustomerService customerService) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService,
-            localizationService, pictureService) => _pictureService = pictureService;
+            localizationService, pictureService)
+        {
+            _pictureService = pictureService;
+        }
 
 
         /// <summary>
@@ -41,13 +43,13 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/pictures/{id}")]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetPictures(int id)
         {
-            Picture picture = _pictureService.GetPictureById(id);
-            string url = _pictureService.GetPictureUrl(picture);
+            var picture = _pictureService.GetPictureById(id);
+            var url = _pictureService.GetPictureUrl(picture);
             return Ok(url);
         }
     }

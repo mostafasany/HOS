@@ -6,9 +6,11 @@ namespace Nop.Plugin.Api.Common.DTOs.Product.Validator
 {
     public class SpecificationAttributeOptionDtoValidator : AbstractValidator<SpecificationAttributeOptionDto>
     {
-        public SpecificationAttributeOptionDtoValidator(string httpMethod, Dictionary<string, object> passedPropertyValuePaires)
+        public SpecificationAttributeOptionDtoValidator(string httpMethod,
+            Dictionary<string, object> passedPropertyValuePaires)
         {
-            if (string.IsNullOrEmpty(httpMethod) || httpMethod.Equals("post", StringComparison.InvariantCultureIgnoreCase))
+            if (string.IsNullOrEmpty(httpMethod) ||
+                httpMethod.Equals("post", StringComparison.InvariantCultureIgnoreCase))
             {
                 //apply "create" rules
                 RuleFor(x => x.Id).Equal(0).WithMessage("id must be zero or null for new records");
@@ -23,7 +25,8 @@ namespace Nop.Plugin.Api.Common.DTOs.Product.Validator
 
                 if (passedPropertyValuePaires.ContainsKey("name")) ApplyNameRule();
 
-                if (passedPropertyValuePaires.ContainsKey("specification_attribute_id")) ApplySpecificationAttributeIdRule();
+                if (passedPropertyValuePaires.ContainsKey("specification_attribute_id"))
+                    ApplySpecificationAttributeIdRule();
             }
         }
 

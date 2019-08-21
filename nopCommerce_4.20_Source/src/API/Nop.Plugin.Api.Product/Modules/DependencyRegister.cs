@@ -31,27 +31,35 @@ namespace Nop.Plugin.Api.Product.Modules
         {
             builder.RegisterType<ProductApiService>().As<IProductApiService>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductCategoryMappingsApiService>().As<IProductCategoryMappingsApiService>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductCategoryMappingsApiService>().As<IProductCategoryMappingsApiService>()
+                .InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductAttributesApiService>().As<IProductAttributesApiService>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductAttributesApiService>().As<IProductAttributesApiService>()
+                .InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductAttributeConverter>().As<IProductAttributeConverter>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductAttributeConverter>().As<IProductAttributeConverter>()
+                .InstancePerLifetimeScope();
 
-            builder.RegisterType<SpecificationAttributesApiService>().As<ISpecificationAttributeApiService>().InstancePerLifetimeScope();
+            builder.RegisterType<SpecificationAttributesApiService>().As<ISpecificationAttributeApiService>()
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<DiscountApiService>().As<IDiscountApiService>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductFactory>().As<IFactory<Core.Domain.Catalog.Product>>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductFactory>().As<IFactory<Core.Domain.Catalog.Product>>()
+                .InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductTransaltor>().As<IProductTransaltor>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductTranslator>().As<IProductTranslator>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductSpecificationAttributesTransaltor>().As<IProductSpecificationAttributesTransaltor>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductSpecificationAttributesTranslator>()
+                .As<IProductSpecificationAttributesTranslator>().InstancePerLifetimeScope();
 
-            builder.RegisterType<SpecificationAttributesTransaltor>().As<ISpecificationAttributesTransaltor>().InstancePerLifetimeScope();
+            builder.RegisterType<SpecificationAttributesTranslator>().As<ISpecificationAttributesTranslator>()
+                .InstancePerLifetimeScope();
 
-            builder.RegisterType<ProductAttributesTransaltor>().As<IProductAttributesTransaltor>().InstancePerLifetimeScope();
+            builder.RegisterType<ProductAttributesTranslator>().As<IProductAttributesTranslator>()
+                .InstancePerLifetimeScope();
 
-            builder.RegisterType<DiscountTransaltor>().As<IDiscountTransaltor>().InstancePerLifetimeScope();
+            builder.RegisterType<DiscountTranslator>().As<IDiscountTranslator>().InstancePerLifetimeScope();
         }
     }
 }

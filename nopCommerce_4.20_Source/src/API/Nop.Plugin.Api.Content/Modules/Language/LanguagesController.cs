@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Nop.Core.Domain.Localization;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
@@ -18,11 +17,11 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules
+namespace Nop.Plugin.Api.Content.Modules.Language
 {
     public class LanguagesController : BaseApiController
     {
-        private readonly ILanguageTransaltor _dtoHelper;
+        private readonly ILanguageTranslator _dtoHelper;
         private readonly ILanguageService _languageService;
 
         public LanguagesController(IJsonFieldsSerializer jsonFieldsSerializer,
@@ -35,7 +34,7 @@ namespace Nop.Plugin.Api.Modules
             ILocalizationService localizationService,
             IPictureService pictureService,
             ILanguageService languageService,
-            ILanguageTransaltor dtoHelper)
+            ILanguageTranslator dtoHelper)
             : base(jsonFieldsSerializer,
                 aclService,
                 customerService,
@@ -58,22 +57,20 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/languages")]
-        [ProducesResponseType(typeof(LanguagesRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(LanguagesRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetAllLanguages(string fields = "")
         {
-            IList<Language> allLanguages = _languageService.GetAllLanguages();
+            var allLanguages = _languageService.GetAllLanguages();
 
-            IList<LanguageDto> languagesAsDto = allLanguages.Select(language => _dtoHelper.PrepateLanguageDto(language)).ToList();
+            IList<LanguageDto> languagesAsDto =
+                allLanguages.Select(language => _dtoHelper.ToDto(language)).ToList();
 
-            var languagesRootObject = new LanguagesRootObject
-            {
-                Languages = languagesAsDto
-            };
+            var languagesRootObject = new LanguagesRootObject {Languages = languagesAsDto};
 
-            string json = JsonFieldsSerializer.Serialize(languagesRootObject, fields);
+            var json = JsonFieldsSerializer.Serialize(languagesRootObject, fields);
 
             return new RawJsonActionResult(json);
         }

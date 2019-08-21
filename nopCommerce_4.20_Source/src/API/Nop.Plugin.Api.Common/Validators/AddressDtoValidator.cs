@@ -9,7 +9,9 @@ namespace Nop.Plugin.Api.Common.Validators
     {
         #region Constructors
 
-        public AddressDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper, Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper, requestJsonDictionary)
+        public AddressDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper,
+            Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper,
+            requestJsonDictionary)
         {
             SetFirstNameRule();
             SetLastNameRule();

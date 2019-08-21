@@ -22,7 +22,6 @@ namespace Nop.Plugin.Api.Customer.Modules.CustomerRoles.Dto
         ///     Gets or sets a value indicating whether the customer role is marked as tax exempt
         /// </summary>
         [JsonProperty("tax_exempt")]
-
         public bool? TaxExempt { get; set; }
 
         /// <summary>

@@ -9,7 +9,9 @@ namespace Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Dto.Validator
     {
         #region Constructors
 
-        public ProductCategoryMappingDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper, Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper, requestJsonDictionary)
+        public ProductCategoryMappingDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper,
+            Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper,
+            requestJsonDictionary)
         {
             SetCategoryIdRule();
             SetProductIdRule();

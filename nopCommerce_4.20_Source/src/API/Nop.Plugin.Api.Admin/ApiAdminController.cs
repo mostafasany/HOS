@@ -20,11 +20,12 @@ namespace Nop.Plugin.Api.Admin
     {
         private readonly ICustomerActivityService _customerActivityService;
         private readonly ILocalizationService _localizationService;
+        private readonly INotificationService _notificationService;
         private readonly ISettingService _settingService;
         private readonly IStoreContext _storeContext;
         private readonly IStoreService _storeService;
         private readonly IWorkContext _workContext;
-        private readonly INotificationService _notificationService;
+
         public ApiAdminController(
             IStoreService storeService,
             IStoreContext storeContext,
@@ -32,7 +33,7 @@ namespace Nop.Plugin.Api.Admin
             ISettingService settingService,
             ICustomerActivityService customerActivityService,
             ILocalizationService localizationService,
-             INotificationService notificationService)
+            INotificationService notificationService)
         {
             _storeService = storeService;
             _storeContext = storeContext;
@@ -46,11 +47,11 @@ namespace Nop.Plugin.Api.Admin
         [HttpGet]
         public ActionResult Settings()
         {
-            int storeScope = _storeContext.ActiveStoreScopeConfiguration;
+            var storeScope = _storeContext.ActiveStoreScopeConfiguration;
 
             var apiSettings = _settingService.LoadSetting<ApiSettings>(storeScope);
 
-            ConfigurationModel model = apiSettings.ToModel();
+            var model = apiSettings.ToModel();
 
             // Store Settings
             model.ActiveStoreScopeConfiguration = storeScope;
@@ -70,9 +71,9 @@ namespace Nop.Plugin.Api.Admin
         public ActionResult Settings(ConfigurationModel configurationModel)
         {
             //load settings for a chosen store scope
-            int storeScope = _storeContext.ActiveStoreScopeConfiguration;
+            var storeScope = _storeContext.ActiveStoreScopeConfiguration;
 
-            ApiSettings settings = configurationModel.ToEntity();
+            var settings = configurationModel.ToEntity();
 
             /* We do not clear cache after each setting update.
             * This behavior can increase performance because cached settings will not be cleared 

@@ -11,31 +11,34 @@ namespace Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Service
     {
         private readonly IRepository<ProductCategory> _productCategoryMappingsRepository;
 
-        public ProductCategoryMappingsApiService(IRepository<ProductCategory> productCategoryMappingsRepository) => _productCategoryMappingsRepository = productCategoryMappingsRepository;
+        public ProductCategoryMappingsApiService(IRepository<ProductCategory> productCategoryMappingsRepository)
+        {
+            _productCategoryMappingsRepository = productCategoryMappingsRepository;
+        }
 
         public IList<ProductCategory> GetMappings(int? productId = null,
             int? categoryId = null, int limit = Configurations.DefaultLimit,
             int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId)
         {
-            IQueryable<ProductCategory> query = GetMappingsQuery(productId, categoryId, sinceId);
+            var query = GetMappingsQuery(productId, categoryId, sinceId);
 
             return new ApiList<ProductCategory>(query, page - 1, limit);
         }
 
-        public int GetMappingsCount(int? productId = null, int? categoryId = null) => GetMappingsQuery(productId, categoryId).Count();
+        public int GetMappingsCount(int? productId = null, int? categoryId = null)
+        {
+            return GetMappingsQuery(productId, categoryId).Count();
+        }
 
         public ProductCategory GetById(int id)
         {
-            if (id <= 0)
-                return null;
-
-            return _productCategoryMappingsRepository.GetById(id);
+            return id <= 0 ? null : _productCategoryMappingsRepository.GetById(id);
         }
 
         private IQueryable<ProductCategory> GetMappingsQuery(int? productId = null,
             int? categoryId = null, int sinceId = Configurations.DefaultSinceId)
         {
-            IQueryable<ProductCategory> query = _productCategoryMappingsRepository.Table;
+            var query = _productCategoryMappingsRepository.Table;
 
             if (productId != null) query = query.Where(mapping => mapping.ProductId == productId);
 

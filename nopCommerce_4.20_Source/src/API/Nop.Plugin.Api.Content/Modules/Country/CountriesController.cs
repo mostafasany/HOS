@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Nop.Core.Domain.Directory;
 using Nop.Plugin.Api.Common.Attributes;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.DTOs.Errors;
@@ -19,11 +18,11 @@ using Nop.Services.Media;
 using Nop.Services.Security;
 using Nop.Services.Stores;
 
-namespace Nop.Plugin.Api.Modules
+namespace Nop.Plugin.Api.Content.Modules.Country
 {
     public class CountriesController : BaseApiController
     {
-        private readonly ICountryTransaltor _dtoHelper;
+        private readonly ICountryTranslator _dtoHelper;
         private readonly IStateProvinceApiService _stateProvinceApiService;
 
         public CountriesController(IStateProvinceApiService stateProvinceApiService,
@@ -36,7 +35,7 @@ namespace Nop.Plugin.Api.Modules
             IDiscountService discountService,
             IAclService aclService,
             ICustomerService customerService,
-            ICountryTransaltor dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
+            ICountryTranslator dtoHelper) : base(jsonFieldsSerializer, aclService, customerService,
             storeMappingService, storeService, discountService, customerActivityService,
             localizationService, pictureService)
         {
@@ -45,7 +44,7 @@ namespace Nop.Plugin.Api.Modules
         }
 
         /// <summary>
-        ///     Retrieve states by spcified id
+        ///     Retrieve states by specified id
         /// </summary>
         /// <param name="id">Id of the states</param>
         /// <param name="fields">Fields from the states you want your json to contain</param>
@@ -54,25 +53,25 @@ namespace Nop.Plugin.Api.Modules
         /// <response code="401">Unauthorized</response>
         [HttpGet]
         [Route("/api/countries/{id}/states")]
-        [ProducesResponseType(typeof(StateProvinceRootObject), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(ErrorsRootObject), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(StateProvinceRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
         [GetRequestsErrorInterceptorActionFilter]
         public IActionResult GetStateByCountryId(int id, string fields = "")
         {
             if (id <= 0) return Error(HttpStatusCode.BadRequest, "id", "invalid id");
 
-            IList<StateProvince> states = _stateProvinceApiService.GetStateProvincesByCountryId(id);
+            var states = _stateProvinceApiService.GetStateProvincesByCountryId(id);
 
             if (states == null) return Error(HttpStatusCode.NotFound, "states", "states not found");
 
-            IList<StateProvinceDto> statesAsDtos = states.Select(state =>
-                _dtoHelper.ConvertToDto(state)).ToList();
+            IList<StateProvinceDto> statesAsDto = states.Select(state =>
+                _dtoHelper.ToDto(state)).ToList();
 
-            var statesRootObject = new StateProvinceRootObject {States = statesAsDtos};
+            var statesRootObject = new StateProvinceRootObject {States = statesAsDto};
 
 
-            string json = JsonFieldsSerializer.Serialize(statesRootObject, fields);
+            var json = JsonFieldsSerializer.Serialize(statesRootObject, fields);
 
             return new RawJsonActionResult(json);
         }

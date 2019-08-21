@@ -5,6 +5,9 @@ namespace Nop.Plugin.Api.Content.Modules.Language.Translator
 {
     public static class LanguageDtoMappings
     {
-        public static LanguageDto ToDto(this Core.Domain.Localization.Language language) => language.MapTo<Core.Domain.Localization.Language, LanguageDto>();
+        public static LanguageDto ToDto(this Core.Domain.Localization.Language language)
+        {
+            return language.MapTo<Core.Domain.Localization.Language, LanguageDto>();
+        }
     }
 }
