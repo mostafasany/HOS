@@ -7,13 +7,21 @@ namespace Nop.Plugin.Api.Content.Modules.Country.Dto
 {
     public class StateProvinceRootObject : ISerializableObject
     {
-        public StateProvinceRootObject() => States = new List<StateProvinceDto>();
+        public StateProvinceRootObject()
+        {
+            States = new List<StateProvinceDto>();
+        }
 
-        [JsonProperty("states")]
-        public IList<StateProvinceDto> States { get; set; }
+        [JsonProperty("states")] public IList<StateProvinceDto> States { get; set; }
 
-        public string GetPrimaryPropertyName() => "States";
+        public string GetPrimaryPropertyName()
+        {
+            return "States";
+        }
 
-        public Type GetPrimaryPropertyType() => typeof(StateProvinceDto);
+        public Type GetPrimaryPropertyType()
+        {
+            return typeof(StateProvinceDto);
+        }
     }
 }

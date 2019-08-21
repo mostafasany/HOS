@@ -19,7 +19,6 @@ namespace Nop.Plugin.Api.Content.Modules.Manufacturer.Dto
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("image")]
-        public ImageDto Image { get; set; }
+        [JsonProperty("image")] public ImageDto Image { get; set; }
     }
 }

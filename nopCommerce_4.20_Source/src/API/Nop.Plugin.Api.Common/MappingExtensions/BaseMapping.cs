@@ -8,16 +8,20 @@ namespace Nop.Plugin.Api.Common.MappingExtensions
     {
         public static TResult GetWithDefault<TSource, TResult>(this TSource instance,
             Func<TSource, TResult> getter,
-            TResult defaultValue = default(TResult))
-            where TSource : class => instance != null ? getter(instance) : defaultValue;
-
-        public static IMappingExpression<TSource, TDestination> IgnoreAllNonExisting<TSource, TDestination>(this IMappingExpression<TSource, TDestination> expression)
+            TResult defaultValue = default)
+            where TSource : class
         {
-            BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
-            Type sourceType = typeof(TSource);
-            PropertyInfo[] destinationProperties = typeof(TDestination).GetProperties(flags);
+            return instance != null ? getter(instance) : defaultValue;
+        }
 
-            foreach (PropertyInfo property in destinationProperties)
+        public static IMappingExpression<TSource, TDestination> IgnoreAllNonExisting<TSource, TDestination>(
+            this IMappingExpression<TSource, TDestination> expression)
+        {
+            var flags = BindingFlags.Public | BindingFlags.Instance;
+            var sourceType = typeof(TSource);
+            var destinationProperties = typeof(TDestination).GetProperties(flags);
+
+            foreach (var property in destinationProperties)
                 if (sourceType.GetProperty(property.Name, flags) == null)
                     expression.ForMember(property.Name, opt => opt.Ignore());
             return expression;

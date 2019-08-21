@@ -7,13 +7,21 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Dto
 {
     public class ProductAttributesRootObjectDto : ISerializableObject
     {
-        public ProductAttributesRootObjectDto() => ProductAttributes = new List<ProductAttributeDto>();
+        public ProductAttributesRootObjectDto()
+        {
+            ProductAttributes = new List<ProductAttributeDto>();
+        }
 
-        [JsonProperty("product_attributes")]
-        public IList<ProductAttributeDto> ProductAttributes { get; set; }
+        [JsonProperty("product_attributes")] public IList<ProductAttributeDto> ProductAttributes { get; set; }
 
-        public string GetPrimaryPropertyName() => "product_attributes";
+        public string GetPrimaryPropertyName()
+        {
+            return "product_attributes";
+        }
 
-        public Type GetPrimaryPropertyType() => typeof(ProductAttributeDto);
+        public Type GetPrimaryPropertyType()
+        {
+            return typeof(ProductAttributeDto);
+        }
     }
 }

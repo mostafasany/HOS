@@ -8,7 +8,10 @@ namespace Nop.Plugin.Api.IdentityServer
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CookiesService(IHttpContextAccessor httpContextAccessor) => _httpContextAccessor = httpContextAccessor;
+        public CookiesService(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
 
         public void SetCustomerCookie(Guid customerGuid)
         {
@@ -20,8 +23,8 @@ namespace Nop.Plugin.Api.IdentityServer
             _httpContextAccessor.HttpContext.Response.Cookies.Delete(cookieName);
 
             //get date of cookie expiration
-            var cookieExpires = 24 * 365; //TODO make configurable
-            var cookieExpiresDate = DateTime.Now.AddHours(cookieExpires);
+            const int regCookieExpires = 24 * 365; //TODO make configurable
+            var cookieExpiresDate = DateTime.Now.AddHours(regCookieExpires);
 
             //if passed guid is empty set cookie as expired
             if (customerGuid == Guid.Empty)
@@ -29,13 +32,11 @@ namespace Nop.Plugin.Api.IdentityServer
 
             var options = new CookieOptions
             {
-                HttpOnly = true,
-                Secure = false,
-                Expires = cookieExpiresDate,
-                SameSite = SameSiteMode.None,
+                HttpOnly = true, Secure = false, Expires = cookieExpiresDate, SameSite = SameSiteMode.None
             };
             _httpContextAccessor.HttpContext.Response.Cookies.Append(cookieName, customerGuid.ToString(), options);
         }
+
         public void SetCustomerCookieAndHeader(Guid customerGuid)
         {
             var cookieName = $"{NopCookieDefaults.Prefix}{NopCookieDefaults.CustomerCookie}";
@@ -43,11 +44,5 @@ namespace Nop.Plugin.Api.IdentityServer
             _httpContextAccessor.HttpContext.Response.Headers.Remove(cookieName);
             _httpContextAccessor.HttpContext.Response.Headers.Add(cookieName, customerGuid.ToString());
         }
-    }
-
-    public interface ICookiesService
-    {
-        void SetCustomerCookie(Guid customerGuid);
-        void SetCustomerCookieAndHeader(Guid customerGuid);
     }
 }

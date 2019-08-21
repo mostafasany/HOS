@@ -9,7 +9,10 @@ namespace Nop.Plugin.Api.Common.DTOs.Product.Validator
     {
         private readonly Dictionary<string, string> _errors = new Dictionary<string, string>();
 
-        public override Dictionary<string, string> GetErrors() => _errors;
+        public override Dictionary<string, string> GetErrors()
+        {
+            return _errors;
+        }
 
         public override void Validate(object instance)
         {
@@ -18,7 +21,7 @@ namespace Nop.Plugin.Api.Common.DTOs.Product.Validator
             if (instance == null)
                 return;
 
-            bool isDefined = Enum.IsDefined(typeof(ProductType), instance);
+            var isDefined = Enum.IsDefined(typeof(ProductType), instance);
 
             if (!isDefined) _errors.Add("ProductType", "Invalid product type");
         }

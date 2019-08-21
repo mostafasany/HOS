@@ -6,8 +6,6 @@ namespace Nop.Plugin.Api.Common.Domain
     {
         public string User { get; set; }
 
-        public string Id { get; set; }
-
         public string ProtectedData { get; set; }
 
         public byte[] RowVer { get; set; }

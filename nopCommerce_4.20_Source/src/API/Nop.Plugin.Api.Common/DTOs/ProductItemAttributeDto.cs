@@ -6,7 +6,6 @@ namespace Nop.Plugin.Api.Common.DTOs
     [JsonObject(Title = "attribute")]
     public class ProductItemAttributeDto : BaseDto
     {
-        [JsonProperty("value")]
-        public string Value { get; set; }
+        [JsonProperty("value")] public string Value { get; set; }
     }
 }

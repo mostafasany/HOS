@@ -9,14 +9,14 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Service
     {
         public IList<OrderItem> GetOrderItemsForOrder(Core.Domain.Orders.Order order, int limit, int page, int sinceId)
         {
-            IQueryable<OrderItem> orderItems = order.OrderItems.AsQueryable();
+            var orderItems = order.OrderItems.AsQueryable();
 
             return new ApiList<OrderItem>(orderItems, page - 1, limit);
         }
 
         public int GetOrderItemsCount(Core.Domain.Orders.Order order)
         {
-            int orderItemsCount = order.OrderItems.Count();
+            var orderItemsCount = order.OrderItems.Count;
 
             return orderItemsCount;
         }

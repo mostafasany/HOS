@@ -13,24 +13,19 @@ namespace Nop.Plugin.Api.Cart.Dto.Validator
     {
         #region Constructors
 
-        public ShoppingCartItemDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper, Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper, requestJsonDictionary)
+        public ShoppingCartItemDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper,
+            Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper,
+            requestJsonDictionary)
         {
-            //SetCustomerIdRule(); //I use cookie not id
             SetProductIdRule();
             SetQuantityRule();
             SetShoppingCartTypeRule();
-
             SetRentalDateRules();
         }
 
         #endregion
 
         #region Private Methods
-
-        private void SetCustomerIdRule()
-        {
-            SetGreaterThanZeroCreateOrUpdateRule(x => x.CustomerId, "invalid customer_id", "customer_id");
-        }
 
         private void SetProductIdRule()
         {
@@ -44,28 +39,27 @@ namespace Nop.Plugin.Api.Cart.Dto.Validator
 
         private void SetRentalDateRules()
         {
-            if (RequestJsonDictionary.ContainsKey("rental_start_date_utc") || RequestJsonDictionary.ContainsKey("rental_end_date_utc"))
-            {
-                RuleFor(x => x.RentalStartDateUtc)
-                    .NotNull()
-                    .WithMessage("Please provide a rental start date");
+            if (!RequestJsonDictionary.ContainsKey("rental_start_date_utc") &&
+                !RequestJsonDictionary.ContainsKey("rental_end_date_utc")) return;
+            RuleFor(x => x.RentalStartDateUtc)
+                .NotNull()
+                .WithMessage("Please provide a rental start date");
 
-                RuleFor(x => x.RentalEndDateUtc)
-                    .NotNull()
-                    .WithMessage("Please provide a rental end date");
+            RuleFor(x => x.RentalEndDateUtc)
+                .NotNull()
+                .WithMessage("Please provide a rental end date");
 
-                RuleFor(dto => dto)
-                    .Must(dto => dto.RentalStartDateUtc < dto.RentalEndDateUtc)
-                    .WithMessage("Rental start date should be before rental end date");
+            RuleFor(dto => dto)
+                .Must(dto => dto.RentalStartDateUtc < dto.RentalEndDateUtc)
+                .WithMessage("Rental start date should be before rental end date");
 
-                RuleFor(dto => dto)
-                    .Must(dto => dto.RentalStartDateUtc > dto.CreatedOnUtc)
-                    .WithMessage("Rental start date should be the future date");
+            RuleFor(dto => dto)
+                .Must(dto => dto.RentalStartDateUtc > dto.CreatedOnUtc)
+                .WithMessage("Rental start date should be the future date");
 
-                RuleFor(dto => dto)
-                    .Must(dto => dto.RentalEndDateUtc > dto.CreatedOnUtc)
-                    .WithMessage("Rental end date should be the future date");
-            }
+            RuleFor(dto => dto)
+                .Must(dto => dto.RentalEndDateUtc > dto.CreatedOnUtc)
+                .WithMessage("Rental end date should be the future date");
         }
 
         private void SetShoppingCartTypeRule()
@@ -75,7 +69,7 @@ namespace Nop.Plugin.Api.Cart.Dto.Validator
                     .NotNull()
                     .Must(x =>
                     {
-                        bool parsed = Enum.TryParse(x, true, out ShoppingCartType _);
+                        var parsed = Enum.TryParse(x, true, out ShoppingCartType _);
                         return parsed;
                     })
                     .WithMessage("Please provide a valid shopping cart type");

@@ -23,29 +23,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Plugins\Nop.Plugin.Api\logo.jpg" />
-    <Content Remove="Plugins\bin\IdentityModel.dll" />
-    <Content Remove="Plugins\Nop.Plugin.Api\logo.jpg" />
-    <Content Remove="Plugins\bin\Nop.Plugin.Api.dll" />
-    <Content Remove="Plugins\bin\Nop.Plugin.Api.Category.dll" />
-    <Content Remove="Plugins\bin\Nop.Plugin.Api.Cart.dll" />
-    <Content Remove="Plugins\bin\Nop.Plugin.Api.HomeCarsoul.dll" />
-    <Content Remove="Plugins\bin\Nop.Plugin.Api.Authentication.dll" />
-    <Content Remove="Plugins\bin\Nop.Plugin.Api.Customer.dll" />
-    <Content Remove="Plugins\bin\Nop.Plugin.Api.Admin.dll" />
-    <Content Remove="Plugins\bin\Nop.Plugin.Api.Content.dll" />
-    <Content Remove="Plugins\bin\IdentityModel.dll" />
-    <Content Remove="Plugins\bin\Nop.Plugin.Api.Product.dll" />
-    <Content Remove="Plugins\bin\Nop.Plugin.Api.Common.dll" />
-    <Content Remove="Plugins\bin\Nop.Plugin.DiscountRules.CustomerRoles.dll" />
-    <Content Remove="Plugins\bin\Nop.Plugin.Payments.Manual.dll" />
-    <Content Remove="Plugins\bin\Nop.Plugin.Payments.PayPalStandard.dll" />
-    <Content Remove="Plugins\Tax.Avalara\Views\Checkout\AddressValidation.cshtml" />
+    <Content Remove="Plugins\ExchangeRate.EcbExchange\plugin.json" />
+    <Content Remove="Plugins\ExchangeRate.EcbExchange\logo.jpg" />
+    <Content Remove="Plugins\ExchangeRate.EcbExchange\Nop.Plugin.ExchangeRate.EcbExchange.deps.json" />
+    <Content Remove="Plugins\ExchangeRate.EcbExchange\Nop.Plugin.ExchangeRate.EcbExchange.dll" />
+    <Content Remove="Plugins\ExchangeRate.EcbExchange\Nop.Plugin.ExchangeRate.EcbExchange.pdb" />
   </ItemGroup>
   <ItemGroup>
     <!-- We copy the entire \App_Data directory. But we ignore JSON files and data protection keys  -->
-    <Content Include="App_Data\**" CopyToPublishDirectory="PreserveNewest" Exclude="App_Data\*.json" />
-    <Content Update="App_Data\*.json" CopyToPublishDirectory="Never" />
     <Content Update="App_Data\DataProtectionKeys\*.xml" CopyToPublishDirectory="Never" />
 
     <Compile Remove="Plugins\**" />

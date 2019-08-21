@@ -13,7 +13,7 @@ namespace Nop.Plugin.Api.IdentityServer
     {
         public void Configure(AuthenticationBuilder builder)
         {
-            RsaSecurityKey signingKey = CryptoHelper.CreateRsaSecurityKey();
+            var signingKey = CryptoHelper.CreateRsaSecurityKey();
 
             builder.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwt =>
             {
@@ -27,7 +27,7 @@ namespace Nop.Plugin.Api.IdentityServer
                     // Uncomment this if you are using an certificate to sign your tokens.
                     // IssuerSigningKey = new X509SecurityKey(cert),
                     IssuerSigningKeyResolver = (token, securityToken, kid, validationParameters) =>
-                        new List<RsaSecurityKey> { signingKey }
+                        new List<RsaSecurityKey> {signingKey}
                 };
             });
         }

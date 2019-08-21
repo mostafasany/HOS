@@ -8,7 +8,8 @@ namespace Nop.Plugin.Api.Product.Modules.ProductCategoryMappings.Service
     {
         ProductCategory GetById(int id);
 
-        IList<ProductCategory> GetMappings(int? productId = null, int? categoryId = null, int limit = Configurations.DefaultLimit,
+        IList<ProductCategory> GetMappings(int? productId = null, int? categoryId = null,
+            int limit = Configurations.DefaultLimit,
             int page = Configurations.DefaultPageValue, int sinceId = Configurations.DefaultSinceId);
 
         int GetMappingsCount(int? productId = null, int? categoryId = null);

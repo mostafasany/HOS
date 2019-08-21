@@ -12,7 +12,7 @@ namespace Nop.Plugin.Api.IdentityServer
         public Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             var claims = new List<Claim>();
-            string id = context.Subject.Claims.FirstOrDefault(a => a.Type == "id")?.Value;
+            var id = context.Subject.Claims.FirstOrDefault(a => a.Type == "id")?.Value;
             if (!string.IsNullOrEmpty(id))
                 claims.Add(new Claim("id", id));
             context.IssuedClaims = claims;

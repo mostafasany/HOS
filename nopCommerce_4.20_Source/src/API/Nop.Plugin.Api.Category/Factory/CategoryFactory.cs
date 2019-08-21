@@ -23,7 +23,7 @@ namespace Nop.Plugin.Api.Category.Factory
             var defaultCategory = new Core.Domain.Catalog.Category();
 
             // Set the first template as the default one.
-            CategoryTemplate firstTemplate = _categoryTemplateService.GetAllCategoryTemplates().FirstOrDefault();
+            var firstTemplate = _categoryTemplateService.GetAllCategoryTemplates().FirstOrDefault();
 
             if (firstTemplate != null) defaultCategory.CategoryTemplateId = firstTemplate.Id;
 

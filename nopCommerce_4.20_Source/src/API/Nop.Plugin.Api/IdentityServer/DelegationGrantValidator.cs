@@ -16,23 +16,21 @@ using Nop.Services.Localization;
 using Nop.Services.Logging;
 using Nop.Services.Orders;
 
-
 namespace Nop.Plugin.Api.IdentityServer
 {
     public class DelegationGrantValidator : IExtensionGrantValidator
     {
-        private readonly ITokenValidator _validator;
-
         private readonly IAuthenticationService _authenticationService;
+        private readonly ICookiesService _cookiesService;
         private readonly ICustomerActivityService _customerActivityService;
         private readonly ICustomerApiService _customerApiService;
         private readonly ICustomerService _customerService;
         private readonly IEventPublisher _eventPublisher;
+        private readonly IGenericAttributeService _genericAttributeService;
         private readonly ILocalizationService _localizationService;
         private readonly IShoppingCartService _shoppingCartService;
+        private readonly ITokenValidator _validator;
         private readonly IWorkContext _workContext;
-        private readonly IGenericAttributeService _genericAttributeService;
-        private readonly ICookiesService _cookiesService;
 
         public DelegationGrantValidator(ICustomerApiService customerApiService,
             ICustomerService customerService,
@@ -60,31 +58,6 @@ namespace Nop.Plugin.Api.IdentityServer
         }
 
         public string GrantType => "external";
-
-
-        private void InsertGenericAttributes(string firstName, string lastName, string gender,
-            string dob, string phone, string picture, Core.Domain.Customers.Customer newCustomer)
-        {
-            // we assume that if the first name is not sent then it will be null and in this case we don't want to update it
-            if (firstName != null)
-                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.FirstNameAttribute, firstName);
-
-            if (lastName != null)
-                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.LastNameAttribute, lastName);
-
-            if (gender != null)
-                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.GenderAttribute, gender);
-
-            if (phone != null)
-                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.PhoneAttribute, phone);
-
-            if (dob != null)
-                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.DateOfBirthAttribute, dob);
-
-            if (picture != null)
-                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.AvatarPictureIdAttribute, picture);
-
-        }
 
         public async Task ValidateAsync(ExtensionGrantValidationContext context)
         {
@@ -123,18 +96,14 @@ namespace Nop.Plugin.Api.IdentityServer
             {
                 customer = new Core.Domain.Customers.Customer
                 {
-                    Email = userEmail,
-                    Username = userEmail,
-                    Active = true,
-                    CustomerGuid = Guid.NewGuid()
+                    Email = userEmail, Username = userEmail, Active = true, CustomerGuid = Guid.NewGuid()
                 };
                 _customerService.InsertCustomer(customer);
-
             }
 
             InsertGenericAttributes(firstName, lastName, gender, dob, phone, picture, customer);
 
-            CustomerDto customerDto = _customerApiService.GetCustomerById(customer.Id);
+            var customerDto = _customerApiService.GetCustomerById(customer.Id);
 
             //migrate shopping cart
             _shoppingCartService.MigrateShoppingCart(_workContext.CurrentCustomer, customer, true);
@@ -161,23 +130,49 @@ namespace Nop.Plugin.Api.IdentityServer
             var dict = new Dictionary<string, object>
             {
                 {"grant_type", GrantType},
-                { "email", customerDto.Email},
-                { "user_name", customerDto.Username},
-                { "id",customerDto.Id},
-                { "full_name", firstName+" "+lastName},
-                { "provider", provider}
+                {"email", customerDto.Email},
+                {"user_name", customerDto.Username},
+                {"id", customerDto.Id},
+                {"full_name", firstName + " " + lastName},
+                {"provider", provider}
             };
             context.Result = new GrantValidationResult(dict);
             await Task.FromResult(context.Result);
+        }
+
+
+        private void InsertGenericAttributes(string firstName, string lastName, string gender,
+            string dob, string phone, string picture, Core.Domain.Customers.Customer newCustomer)
+        {
+            // we assume that if the first name is not sent then it will be null and in this case we don't want to update it
+            if (firstName != null)
+                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.FirstNameAttribute, firstName);
+
+            if (lastName != null)
+                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.LastNameAttribute, lastName);
+
+            if (gender != null)
+                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.GenderAttribute, gender);
+
+            if (phone != null)
+                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.PhoneAttribute, phone);
+
+            if (dob != null)
+                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.DateOfBirthAttribute, dob);
+
+            if (picture != null)
+                _genericAttributeService.SaveAttribute(newCustomer, NopCustomerDefaults.AvatarPictureIdAttribute,
+                    picture);
         }
 
         private void AddValidRoles(Core.Domain.Customers.Customer currentCustomer, int roleId)
         {
             var allCustomerRoles = _customerService.GetAllCustomerRoles(true);
             var customerRole = allCustomerRoles.FirstOrDefault(a => a.Id == roleId);
-            if (currentCustomer.CustomerCustomerRoleMappings.Count(mapping => mapping.CustomerRoleId == customerRole.Id) == 0)
-                currentCustomer.CustomerCustomerRoleMappings.Add(new CustomerCustomerRoleMapping { CustomerRole = customerRole });
-
+            if (currentCustomer.CustomerCustomerRoleMappings.Count(mapping =>
+                    customerRole != null && mapping.CustomerRoleId == customerRole.Id) == 0)
+                currentCustomer.CustomerCustomerRoleMappings.Add(
+                    new CustomerCustomerRoleMapping {CustomerRole = customerRole});
         }
     }
 }

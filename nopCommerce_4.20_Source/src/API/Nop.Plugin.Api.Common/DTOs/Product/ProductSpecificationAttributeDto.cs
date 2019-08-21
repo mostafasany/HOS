@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using Nop.Core.Domain.Catalog;
 
-
 namespace Nop.Plugin.Api.Common.DTOs.Product
 {
     [JsonObject(Title = "product_specification_attribute")]
@@ -64,8 +63,8 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
         [JsonProperty("attribute_type")]
         public string AttributeType
         {
-            get => ((SpecificationAttributeType) AttributeTypeId).ToString();
-            set => AttributeTypeId = (int) Enum.Parse(typeof(SpecificationAttributeType), value);
+            get => ((SpecificationAttributeType)AttributeTypeId).ToString();
+            set => AttributeTypeId = (int)Enum.Parse(typeof(SpecificationAttributeType), value);
         }
 
         /// <summary>

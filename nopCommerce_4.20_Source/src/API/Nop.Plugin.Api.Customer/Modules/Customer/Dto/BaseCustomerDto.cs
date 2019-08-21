@@ -9,8 +9,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
     {
         private List<int> _roleIds;
 
-        [JsonProperty("username")]
-        public string Username { get; set; }
+        [JsonProperty("username")] public string Username { get; set; }
 
         /// <summary>
         ///     Gets or sets the email
@@ -18,20 +17,15 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
         [JsonProperty("email")]
         public string Email { get; set; }
 
-        [JsonProperty("first_name")]
-        public string FirstName { get; set; }
+        [JsonProperty("first_name")] public string FirstName { get; set; }
 
-        [JsonProperty("last_name")]
-        public string LastName { get; set; }
+        [JsonProperty("last_name")] public string LastName { get; set; }
 
-        [JsonProperty("language_id")]
-        public string LanguageId { get; set; }
+        [JsonProperty("language_id")] public string LanguageId { get; set; }
 
-        [JsonProperty("date_of_birth")]
-        public string DateOfBirth { get; set; }
+        [JsonProperty("date_of_birth")] public string DateOfBirth { get; set; }
 
-        [JsonProperty("gender")]
-        public string Gender { get; set; }
+        [JsonProperty("gender")] public string Gender { get; set; }
 
         /// <summary>
         ///     Gets or sets the admin comment
@@ -121,12 +115,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Customer.Dto
         [JsonProperty("role_ids")]
         public List<int> RoleIds
         {
-            get
-            {
-                if (_roleIds == null) _roleIds = new List<int>();
-
-                return _roleIds;
-            }
+            get => _roleIds ?? (_roleIds = new List<int>());
             set => _roleIds = value;
         }
     }

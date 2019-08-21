@@ -9,7 +9,9 @@ namespace Nop.Plugin.Api.Common.DTOs.Product.Validator
     {
         #region Constructors
 
-        public ProductDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper, Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper, requestJsonDictionary)
+        public ProductDtoValidator(IHttpContextAccessor httpContextAccessor, IJsonHelper jsonHelper,
+            Dictionary<string, object> requestJsonDictionary) : base(httpContextAccessor, jsonHelper,
+            requestJsonDictionary)
         {
             SetNameRule();
         }

@@ -26,13 +26,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Remove="logo.jpg" />
     <None Remove="plugin.json" />
   </ItemGroup> 
   <ItemGroup>
-    <Content Include="logo.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="plugin.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -40,18 +36,15 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Nop.Core\Nop.Core.csproj" />
     <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Admin\Nop.Plugin.Api.Admin.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Articles\Nop.Plugin.Api.Article.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Cart\Nop.Plugin.Api.Cart.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Category\Nop.Plugin.Api.Category.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Common\Nop.Plugin.Api.Common.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Content\Nop.Plugin.Api.Content.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Customer\Nop.Plugin.Api.Customer.csproj" />
-    <ProjectReference Include="..\Nop.Plugin.Api.HomeCarsoul\Nop.Plugin.Api.HomeCarsoul.csproj" />
+    <ProjectReference Include="..\Nop.Plugin.Api.Menu\Nop.Plugin.Api.Menu.csproj" />
     <ProjectReference Include="..\Nop.Plugin.Api.Product\Nop.Plugin.Api.Product.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Web.Http">
-      <HintPath>..\..\..\..\..\.nuget\packages\microsoft.aspnet.webapi.core\5.2.6\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
   </ItemGroup>
  
   

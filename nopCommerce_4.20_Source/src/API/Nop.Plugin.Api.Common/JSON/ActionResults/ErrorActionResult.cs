@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 
@@ -25,15 +24,13 @@ namespace Nop.Plugin.Api.Common.JSON.ActionResults
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            HttpResponse response = context.HttpContext.Response;
+            var response = context.HttpContext.Response;
 
-            response.StatusCode = (int) _statusCode;
+            response.StatusCode = (int)_statusCode;
             response.ContentType = "application/json";
 
             using (TextWriter writer = new HttpResponseStreamWriter(response.Body, Encoding.UTF8))
-            {
                 writer.Write(_jsonString);
-            }
 
             return Task.CompletedTask;
         }

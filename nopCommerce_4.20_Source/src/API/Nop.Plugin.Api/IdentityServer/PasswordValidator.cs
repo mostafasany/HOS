@@ -20,6 +20,7 @@ namespace Nop.Plugin.Api.IdentityServer
     public class PasswordValidator : IResourceOwnerPasswordValidator
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly ICookiesService _cookiesService;
         private readonly ICustomerActivityService _customerActivityService;
         private readonly ICustomerApiService _customerApiService;
         private readonly ICustomerRegistrationService _customerRegistrationService;
@@ -29,7 +30,7 @@ namespace Nop.Plugin.Api.IdentityServer
         private readonly ILocalizationService _localizationService;
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IWorkContext _workContext;
-        private readonly ICookiesService _cookiesService;
+
         public PasswordValidator(ICustomerApiService customerApiService,
             ICustomerService customerService,
             CustomerSettings customerSettings,
@@ -57,63 +58,79 @@ namespace Nop.Plugin.Api.IdentityServer
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            string userName = context.UserName;
-            string password = context.Password;
+            var userName = context.UserName;
+            var password = context.Password;
 
-            CustomerLoginResults loginResult = _customerRegistrationService.ValidateCustomer(userName, password);
+            var loginResult = _customerRegistrationService.ValidateCustomer(userName, password);
             switch (loginResult)
             {
                 case CustomerLoginResults.Successful:
+                {
+                    var customer = _customerSettings.UsernamesEnabled
+                        ? _customerService.GetCustomerByUsername(userName)
+                        : _customerService.GetCustomerByEmail(userName);
+
+                    var customerDto = _customerApiService.GetCustomerById(customer.Id);
+
+                    //migrate shopping cart
+                    _shoppingCartService.MigrateShoppingCart(_workContext.CurrentCustomer, customer, true);
+
+                    //sign in new customer
+                    _authenticationService.SignIn(customer, true);
+
+                    //raise event       
+                    _eventPublisher.Publish(new CustomerLoggedinEvent(customer));
+
+                    //activity log
+                    _customerActivityService.InsertActivity(customer, "PublicStore.Login",
+                        _localizationService.GetResource("ActivityLog.PublicStore.Login"), customer);
+
+                    var customersRootObject = new CustomersRootObject();
+                    customersRootObject.Customers.Add(customerDto);
+
+                    _cookiesService.SetCustomerCookieAndHeader(customer.CustomerGuid);
+
+                    var dict = new Dictionary<string, object>
                     {
-                        Core.Domain.Customers.Customer customer = _customerSettings.UsernamesEnabled
-                            ? _customerService.GetCustomerByUsername(userName)
-                            : _customerService.GetCustomerByEmail(userName);
-
-                        CustomerDto customerDto = _customerApiService.GetCustomerById(customer.Id);
-
-                        //migrate shopping cart
-                        _shoppingCartService.MigrateShoppingCart(_workContext.CurrentCustomer, customer, true);
-
-                        //sign in new customer
-                        _authenticationService.SignIn(customer, true);
-
-                        //raise event       
-                        _eventPublisher.Publish(new CustomerLoggedinEvent(customer));
-
-                        //activity log
-                        _customerActivityService.InsertActivity(customer, "PublicStore.Login",
-                            _localizationService.GetResource("ActivityLog.PublicStore.Login"), customer);
-
-                        var customersRootObject = new CustomersRootObject();
-                        customersRootObject.Customers.Add(customerDto);
-
-                        _cookiesService.SetCustomerCookieAndHeader(customer.CustomerGuid);
-
-                        var dict = new Dictionary<string, object>
-                        {
-                            {"grant_type", "password"},
-                            { "email", customerDto.Email},
-                            { "user_name", customerDto.Username},
-                            { "id",customerDto.Id},
-                            { "full_name", customerDto.FirstName+" "+customerDto.LastName},
-                            { "provider", ""}
-                        };
-                        context.Result = new GrantValidationResult(
-                            userName,
-                            "Authenticated",
-                            DateTime.Now,
-                            CreateClaim(customerDto), "local", dict);
-                    }
+                        {"grant_type", "password"},
+                        {"email", customerDto.Email},
+                        {"user_name", customerDto.Username},
+                        {"id", customerDto.Id},
+                        {"full_name", customerDto.FirstName + " " + customerDto.LastName},
+                        {"provider", ""}
+                    };
+                    context.Result = new GrantValidationResult(
+                        userName,
+                        "Authenticated",
+                        DateTime.Now,
+                        CreateClaim(customerDto), "local", dict);
+                }
                     break;
+                case CustomerLoginResults.CustomerNotExist:
+                    break;
+                case CustomerLoginResults.WrongPassword:
+                    break;
+                case CustomerLoginResults.NotActive:
+                    break;
+                case CustomerLoginResults.Deleted:
+                    break;
+                case CustomerLoginResults.NotRegistered:
+                    break;
+                case CustomerLoginResults.LockedOut:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             await Task.FromResult(context.Result);
         }
 
-        private IEnumerable<Claim> CreateClaim(CustomerDto userInfo) => new List<Claim>
+        private IEnumerable<Claim> CreateClaim(BaseCustomerDto userInfo)
         {
-            new Claim(JwtClaimTypes.Email, userInfo.Email),
-            new Claim(JwtClaimTypes.Id, userInfo.Id.ToString())
-        };
+            return new List<Claim>
+            {
+                new Claim(JwtClaimTypes.Email, userInfo.Email), new Claim(JwtClaimTypes.Id, userInfo.Id.ToString())
+            };
+        }
     }
 }

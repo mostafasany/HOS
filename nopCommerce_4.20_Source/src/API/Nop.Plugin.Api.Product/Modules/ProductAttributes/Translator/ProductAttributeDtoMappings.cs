@@ -6,6 +6,9 @@ namespace Nop.Plugin.Api.Product.Modules.ProductAttributes.Translator
 {
     public static class ProductAttributeDtoMappings
     {
-        public static ProductAttributeDto ToDto(this ProductAttribute productAttribute) => productAttribute.MapTo<ProductAttribute, ProductAttributeDto>();
+        public static ProductAttributeDto ToDto(this ProductAttribute productAttribute)
+        {
+            return productAttribute.MapTo<ProductAttribute, ProductAttributeDto>();
+        }
     }
 }

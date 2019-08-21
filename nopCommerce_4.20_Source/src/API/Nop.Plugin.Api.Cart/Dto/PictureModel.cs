@@ -1,4 +1,6 @@
-﻿namespace Nop.Plugin.Api.Cart.Dto
+﻿using Nop.Web.Framework.Models;
+
+namespace Nop.Plugin.Api.Cart.Dto
 {
     public class PictureModel : BaseNopModel
     {

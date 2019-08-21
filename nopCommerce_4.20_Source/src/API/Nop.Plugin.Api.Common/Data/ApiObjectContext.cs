@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Nop.Core;
 using Nop.Data;
 using Nop.Data.Extensions;
@@ -22,21 +21,31 @@ namespace Nop.Plugin.Api.Common.Data
         /// </summary>
         /// <typeparam name="TEntity">Entity type</typeparam>
         /// <returns>A set for the given entity type</returns>
-        public new virtual DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity => base.Set<TEntity>();
+        public new virtual DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity
+        {
+            return base.Set<TEntity>();
+        }
 
         /// <summary>
         ///     Generate a script to create all tables for the current model
         /// </summary>
         /// <returns>A SQL script</returns>
-        public virtual string GenerateCreateScript() => Database.GenerateCreateScript();
+        public virtual string GenerateCreateScript()
+        {
+            return Database.GenerateCreateScript();
+        }
 
         /// <summary>
         ///     Creates a LINQ query for the query type based on a raw SQL query
         /// </summary>
         /// <typeparam name="TQuery">Query type</typeparam>
         /// <param name="sql">The raw SQL query</param>
+        /// <param name="parameters"></param>
         /// <returns>An IQueryable representing the raw SQL query</returns>
-        public IQueryable<TQuery> QueryFromSql<TQuery>(string sql, params object[] parameters) where TQuery : class => throw new NotImplementedException();
+        public IQueryable<TQuery> QueryFromSql<TQuery>(string sql, params object[] parameters) where TQuery : class
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         ///     Creates a LINQ query for the entity based on a raw SQL query
@@ -45,7 +54,11 @@ namespace Nop.Plugin.Api.Common.Data
         /// <param name="sql">The raw SQL query</param>
         /// <param name="parameters">The values to be assigned to parameters</param>
         /// <returns>An IQueryable representing the raw SQL query</returns>
-        public virtual IQueryable<TEntity> EntityFromSql<TEntity>(string sql, params object[] parameters) where TEntity : BaseEntity => throw new NotImplementedException();
+        public virtual IQueryable<TEntity> EntityFromSql<TEntity>(string sql, params object[] parameters)
+            where TEntity : BaseEntity
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         ///     Executes the given SQL against the database
@@ -61,11 +74,12 @@ namespace Nop.Plugin.Api.Common.Data
         /// </param>
         /// <param name="parameters">Parameters to use with the SQL</param>
         /// <returns>The number of rows affected</returns>
-        public virtual int ExecuteSqlCommand(RawSqlString sql, bool doNotEnsureTransaction = false, int? timeout = null, params object[] parameters)
+        public virtual int ExecuteSqlCommand(RawSqlString sql, bool doNotEnsureTransaction = false, int? timeout = null,
+            params object[] parameters)
         {
-            using (IDbContextTransaction transaction = Database.BeginTransaction())
+            using (var transaction = Database.BeginTransaction())
             {
-                int result = Database.ExecuteSqlCommand(sql, parameters);
+                var result = Database.ExecuteSqlCommand(sql, parameters);
                 transaction.Commit();
 
                 return result;

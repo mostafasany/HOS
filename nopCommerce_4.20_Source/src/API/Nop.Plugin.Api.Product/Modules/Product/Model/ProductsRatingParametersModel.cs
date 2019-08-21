@@ -7,19 +7,12 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Model
     //[ModelBinder(typeof(ParametersModelBinder<ProductsRatingParametersModel>))]
     public class ProductsRatingParametersModel
     {
-      
-        [JsonProperty("store_id")]
-        public int  StoreId { get; set; }
+        [JsonProperty("store_id")] public int StoreId { get; set; }
 
-        [JsonProperty("rating")]
-        public int Rating { get; set; }
+        [JsonProperty("rating")] public int Rating { get; set; }
 
-        [JsonProperty("title")]
-        public string Title { get; set; }
+        [JsonProperty("title")] public string Title { get; set; }
 
-        [JsonProperty("review_text")]
-        public string ReviewText { get; set; }
+        [JsonProperty("review_text")] public string ReviewText { get; set; }
     }
-
-
 }

@@ -55,11 +55,11 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
         [JsonProperty("attribute_control_type_name")]
         public string AttributeControlType
         {
-            get => ((AttributeControlType) AttributeControlTypeId).ToString();
+            get => ((AttributeControlType)AttributeControlTypeId).ToString();
             set
             {
-                AttributeControlType attributeControlTypeId;
-                if (Enum.TryParse(value, out attributeControlTypeId)) AttributeControlTypeId = (int) attributeControlTypeId;
+                if (Enum.TryParse(value, out AttributeControlType attributeControlTypeId))
+                    AttributeControlTypeId = (int)attributeControlTypeId;
             }
         }
 
