@@ -138,8 +138,8 @@ UpgradeLog*.XML
 UpgradeLog*.htm
 
 # SQL Server files
-App_Data/*.mdf
-App_Data/*.ldf
+# App_Data/*.mdf
+# App_Data/*.ldf
 
 #############
 ## Windows detritus
@@ -165,18 +165,18 @@ $RECYCLE.BIN/
 glob:*.user
 *.patch
 *.hg
-src/Presentation/Nop.Web/App_Data/browscap.crawlersonly.xml
-src/Presentation/Nop.Web/App_Data/installedPlugins.json
-src/Presentation/Nop.Web/App_Data/plugins.json
-src/Presentation/Nop.Web/App_Data/dataSettings.json
-src/Presentation/Nop.Web/App_Data/TempUploads/*
-!src/Presentation/Nop.Web/App_Data/TempUploads/Index.htm
-src/Presentation/Nop.Web/App_Data/DataProtectionKeys/*
-!src/Presentation/Nop.Web/App_Data/DataProtectionKeys/Index.htm
-src/Presentation/Nop.Web/Plugins/*
-!src/Presentation/Nop.Web/Plugins/bin
-src/Presentation/Nop.Web/Plugins/bin/*
-!src/Presentation/Nop.Web/Plugins/bin/placeholder.txt
+# src/Presentation/Nop.Web/App_Data/browscap.crawlersonly.xml
+# src/Presentation/Nop.Web/App_Data/installedPlugins.json
+# src/Presentation/Nop.Web/App_Data/plugins.json
+# src/Presentation/Nop.Web/App_Data/dataSettings.json
+# src/Presentation/Nop.Web/App_Data/TempUploads/*
+# !src/Presentation/Nop.Web/App_Data/TempUploads/Index.htm
+# src/Presentation/Nop.Web/App_Data/DataProtectionKeys/*
+# !src/Presentation/Nop.Web/App_Data/DataProtectionKeys/Index.htm
+# src/Presentation/Nop.Web/Plugins/*
+# !src/Presentation/Nop.Web/Plugins/bin
+# src/Presentation/Nop.Web/Plugins/bin/*
+# !src/Presentation/Nop.Web/Plugins/bin/placeholder.txt
 src/Presentation/Nop.Web/wwwroot/bundles/*
 !src/Presentation/Nop.Web/wwwroot/bundles/Index.htm
 src/Presentation/Nop.Web/wwwroot/db_backups/*.bak
