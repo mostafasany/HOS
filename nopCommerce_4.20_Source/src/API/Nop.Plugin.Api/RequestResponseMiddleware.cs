@@ -18,15 +18,6 @@ namespace Nop.Plugin.Api
 
         public async Task InvokeAsync(HttpContext context)
         {
-//            var headers = context.Request.Headers;
-//            if (headers.ContainsKey("Accept-Language"))
-//            {
-//                var lan = headers["Accept-Language"];
-//                if (lan.ToString() == "en")
-//                {
-//                    
-//                }
-//            }
             var cookieName = $"{NopCookieDefaults.Prefix}{NopCookieDefaults.CustomerCookie}";
             context.Response.OnStarting(() =>
             {
@@ -36,7 +27,6 @@ namespace Nop.Plugin.Api
 
                     if (!context.Response.Headers.ContainsKey(cookieName))
                         context.Response.Headers.Add(cookieName, workContext.CurrentCustomer.CustomerGuid.ToString());
-                    //context.Response.Cookies.Append(cookieName, workContext.CurrentCustomer.CustomerGuid.ToString());
                     return Task.FromResult(0);
                 }
                 catch (Exception e)

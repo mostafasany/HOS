@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Menu",
+  "FriendlyName": "MenuTree",
+  "SystemName": "MenuTree",
+  "Version": "1.0",
+  "SupportedVersions": [ "4.20" ],
+  "Author": "Amal",
+  "DisplayOrder": 0,
+  "FileName": "Nop.Plugin.MenuTree.dll",
+  "Description": "This plugin enables admin to create menu tree with items(category,brand,product)."
+}

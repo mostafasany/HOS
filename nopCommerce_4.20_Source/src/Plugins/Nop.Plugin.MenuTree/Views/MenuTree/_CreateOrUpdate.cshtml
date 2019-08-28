@@ -1,0 +1,16 @@
+﻿@model Nop.Plugin.MenuTree.Models.MenuTreeModel
+
+
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<div class="content">
+    <div class="form-horizontal">
+        <nop-panels id="menutree-panels">
+            <nop-panel asp-name="menutree-info" asp-icon="fa fa-info" asp-title="Info" asp-hide-block-attribute-name="MenuTree.HideInfoBlock" asp-hide=false >@await Html.PartialAsync("/Plugins/MenuTree/Views/MenuTree/_CreateOrUpdate.Info.cshtml", Model)</nop-panel>
+            <nop-panel asp-name="menutree-seo" asp-icon="fa fa-search-plus" asp-title="Seo" asp-hide-block-attribute-name="MenuTree.HideSEOBlock" asp-hide=false>@await Html.PartialAsync("/Plugins/MenuTree/Views/MenuTree/_CreateOrUpdate.Seo.cshtml", Model)</nop-panel>
+            <nop-panel asp-name="menutree-item" asp-icon="fa fa-search-plus" asp-title="Item" asp-hide-block-attribute-name="MenuTree.HideItemBlock" asp-hide=false>@await Html.PartialAsync("/Plugins/MenuTree/Views/MenuTree/_CreateOrUpdate.Item.cshtml", Model)</nop-panel>
+         </nop-panels>
+    </div>
+</div>
