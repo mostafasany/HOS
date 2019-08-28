@@ -1,0 +1,84 @@
+﻿@model Nop.Plugin.MenuTree.Models.MenuTreeModel
+
+<div class="panel-body">
+    @(Html.LocalizedEditor<Nop.Plugin.MenuTree.Models.MenuTreeModel, Nop.Plugin.MenuTree.Models.MenuTreeLocalizedModel>("menutree-name-localized",
+    @<div>
+         <div class="form-group">
+              <div class="col-md-3">
+                  <nop-label asp-for="@Model.Locales[item].Name" />
+              </div>
+              <div class="col-md-9">
+                  <nop-editor asp-for="@Model.Locales[item].Name" />
+                  <span asp-validation-for="@Model.Locales[item].Name"></span>
+              </div>
+         </div>
+         <input type="hidden" asp-for="@Model.Locales[item].LanguageId" />
+    </div>
+    ,
+    @<div>
+        <div class="form-group">
+            <div class="col-md-3">
+                <nop-label asp-for="Name" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="Name" asp-required="true" />
+                <span asp-validation-for="Name"></span>
+            </div>
+        </div>
+    </div>))
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="ParentId" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="ParentId" asp-items="Model.AvailableMenuTree" />
+            <span asp-validation-for="ParentId"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="EntityName" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="EntityName" asp-items="Model.AvailableEntities" />
+            <span asp-validation-for="EntityName"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="DisplayIn" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="DisplayIn" asp-items="Model.AvailableDisplayOptions" />
+            <span asp-validation-for="DisplayIn"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Published" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="Published" />
+            <span asp-validation-for="Published"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="DisplayOrder" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DisplayOrder" />
+            <span asp-validation-for="DisplayOrder"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="ShowOnHomePage" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="ShowOnHomePage" />
+            <span asp-validation-for="ShowOnHomePage"></span>
+        </div>
+    </div>
+</div>

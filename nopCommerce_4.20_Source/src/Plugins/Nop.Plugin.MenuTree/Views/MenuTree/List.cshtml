@@ -1,0 +1,110 @@
+@model Nop.Plugin.MenuTree.Models.MenuTreeSearchModel
+@using Nop.Web.Framework.Models.DataTables
+@using Nop.Plugin.MenuTree.Models
+
+@{
+    ViewBag.Title = "Menu Tree";
+    Html.SetActiveMenuItemSystemName("MenuTree");
+
+    Layout ="~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<nop-antiforgery-token />
+<div class="content-header clearfix">
+    <h1 class="pull-left">
+        Menu Tree
+    </h1>
+    <div class="pull-right">
+        <a asp-action="Create" class="btn bg-blue">
+            <i class="fa fa-plus-square"></i>
+            @T("Admin.Common.AddNew")
+        </a>
+    </div>
+</div>
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row search-row">
+                        <div class="search-text">@T("Admin.Common.Search")</div>
+                        <div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+                        <div class="icon-collapse"><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+                    </div>
+
+                    <div class="search-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <nop-label asp-for="SearchMenuTreeName" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <nop-editor asp-for="SearchMenuTreeName" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-8 col-md-offset-4">
+                                        <button type="button" id="search-menutree" class="btn btn-primary btn-search"><i class="fa fa-search"></i>@T("Admin.Common.Search")</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    @await Html.PartialAsync("Table", new Nop.Web.Framework.Models.DataTables.DataTablesModel
+               {
+                   Name = "menutree-grid",
+                   UrlRead = new Nop.Web.Framework.Models.DataTables.DataUrl("List", "MenuTree", null),
+                   SearchButtonId = "search-menutree",
+                   Length = Model.PageSize,
+                   LengthMenu = Model.AvailablePageSizes,
+                   Filters = new List<FilterParameter>
+                        {
+                            new FilterParameter(nameof(Model.SearchMenuTreeName)),
+                        },
+                   ColumnCollection = new List<ColumnProperty>
+                        {
+                            new ColumnProperty(nameof(MenuTreeModel.Name))
+                            {
+                                Title = "Name",
+                            },
+                            new ColumnProperty(nameof(MenuTreeModel.Published))
+                            {
+                                Title = "Published",
+                                Width = "100",
+                                ClassName = NopColumnClassDefaults.CenterAll,
+                                Render = new RenderBoolean()
+                            },
+                            new ColumnProperty(nameof(MenuTreeModel.ShowOnHomePage))
+                            {
+                                Title = "Show On Home Page",
+                                Width = "200",
+                                ClassName =  NopColumnClassDefaults.CenterAll,
+                                 Render = new RenderBoolean()
+                            },
+                             new ColumnProperty(nameof(MenuTreeModel.DisplayOrder))
+                            {
+                                Title = "Display Order",
+                                Width = "150",
+                                ClassName =  NopColumnClassDefaults.CenterAll
+                            },
+                            new ColumnProperty(nameof(MenuTreeModel.Id))
+                            {
+                                Title = T("Admin.Common.Edit").Text,
+                                Width = "100",
+                                ClassName =  NopColumnClassDefaults.Button,
+                                Render = new RenderButtonEdit(new DataUrl("Edit"))
+                            }
+                        }
+               })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

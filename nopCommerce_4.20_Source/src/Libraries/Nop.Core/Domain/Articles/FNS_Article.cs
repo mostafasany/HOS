@@ -53,4 +53,46 @@ namespace Nop.Core.Domain.Articles
             protected set => _articleCategories = value;
         }
     }
+
+    public class FNS_ArticleCategory : BaseEntity
+    {
+        public int ArticleId { get; set; }
+
+        public int CategoryId { get; set; }
+
+        public virtual Catalog.Category Category { get; set; }
+
+        public virtual FNS_Article FnsArticle { get; set; }
+    }
+
+    public class FNS_ArticleGroup : BaseEntity
+    {
+        public string Name { get; set; }
+
+        public string MetaTitle { get; set; }
+
+        public string MetaDescription { get; set; }
+
+        public int ParentGroupId { get; set; }
+
+        public DateTime CreatedOnUtc { get; set; }
+
+        public DateTime UpdatedOnUtc { get; set; }
+
+        public bool Published { get; set; }
+
+        public bool Deleted { get; set; }
+    }
+
+    public class FNS_ArticleGroup_Mapping : BaseEntity
+    {
+        public int ArticleId { get; set; }
+
+        public int GroupId { get; set; }
+
+        public virtual FNS_ArticleGroup Group { get; set; }
+
+        public virtual FNS_Article FnsArticle { get; set; }
+    }
+
 }

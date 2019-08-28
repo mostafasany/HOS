@@ -28,6 +28,29 @@
     <Content Remove="Plugins\ExchangeRate.EcbExchange\Nop.Plugin.ExchangeRate.EcbExchange.deps.json" />
     <Content Remove="Plugins\ExchangeRate.EcbExchange\Nop.Plugin.ExchangeRate.EcbExchange.dll" />
     <Content Remove="Plugins\ExchangeRate.EcbExchange\Nop.Plugin.ExchangeRate.EcbExchange.pdb" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Shipping.FixedByWeightByTotal.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Shipping.UPS.dll" />
+    <Content Remove="Plugins\bin\Swashbuckle.AspNetCore.dll" />
+    <Content Remove="Plugins\bin\Swashbuckle.AspNetCore.SwaggerUI.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Payments.PayPalStandard.dll" />
+    <Content Remove="Plugins\bin\Swashbuckle.AspNetCore.SwaggerGen.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Payments.Square.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Widgets.GoogleAnalytics.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Pickup.PickupInStore.dll" />
+    <Content Remove="Plugins\bin\RestSharp.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Payments.CheckMoneyOrder.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Tax.FixedOrByCountryStateZip.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Widgets.NivoSlider.dll" />
+    <Content Remove="Plugins\bin\Swashbuckle.AspNetCore.Swagger.dll" />
+    <Content Remove="Plugins\bin\Square.Connect.dll" />
+    <Content Remove="Plugins\bin\Swashbuckle.AspNetCore.Swagger.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.MenuTree.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.DiscountRules.CustomerRoles.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Payments.Manual.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Payments.PayPalStandard.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Shipping.UPS.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Tax.FixedOrByCountryStateZip.dll" />
+    <Content Remove="Plugins\bin\Nop.Plugin.Widgets.NivoSlider.dll" />
   </ItemGroup>
   <ItemGroup>
     <!-- We copy the entire \App_Data directory. But we ignore JSON files and data protection keys  -->

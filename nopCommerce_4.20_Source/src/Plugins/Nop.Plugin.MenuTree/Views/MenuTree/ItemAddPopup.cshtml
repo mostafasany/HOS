@@ -1,0 +1,255 @@
+﻿@model Nop.Plugin.MenuTree.Models.AddItemToMenuTreeSearchModel
+@using Nop.Web.Framework.Models.DataTables;
+@using  Nop.Plugin.MenuTree.Models;
+
+@{
+    Layout = "_AdminPopupLayout";
+
+    ViewBag.Title = "Add Items";
+}
+
+@if (ViewBag.RefreshPage == true)
+{
+    <script>
+        try {window.opener.document.forms['@(Context.Request.Query["formId"])'].@(Context.Request.Query["btnId"]).click();}
+        catch (e){}
+        window.close();
+    </script>
+}
+else
+{
+    <form asp-controller="MenuTree" asp-action="ItemAddPopup"
+          asp-route-MenutreeId="@Context.Request.Query["MenutreeId"]"
+          asp-route-btnId="@Context.Request.Query["btnId"]"
+          asp-route-formId="@Context.Request.Query["formId"]">
+        <div class="content-header clearfix">
+            <h1 class="pull-left">
+                Add Items
+            </h1>
+            <div class="pull-right">
+                &nbsp;
+            </div>
+        </div>
+        <div class="content">
+            <div class="form-horizontal">
+                <div class="panel-group">
+                    <div class="panel panel-default panel-search panel-popup">
+                        <div class="panel-body">
+                            <div class="row">
+                                   @if (Model.EntityName != null && Model.EntityName == "Article")
+                                   {
+                                    <div class="col-sm-6">
+                                        <div class="form-group" style="display:none;">
+                                            <div class="col-sm-5">
+                                                <nop-label asp-for="EntityName" />
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <nop-editor asp-for="EntityName" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-5">
+                                                <nop-label asp-for="SearchArticleName" />
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <nop-editor asp-for="SearchArticleName" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    }
+                                    @if (Model.EntityName!=null && Model.EntityName == "Brand")
+                                    {
+                                        <div class="col-sm-6">
+                                            <div class="form-group" style="display:none;">
+                                                <div class="col-sm-5">
+                                                    <nop-label asp-for="EntityName" />
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    <nop-editor asp-for="EntityName" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-5">
+                                                    <nop-label asp-for="SearchBrandName" />
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    <nop-editor asp-for="SearchBrandName" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group" @(Model.AvailableStores.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                                                <div class="col-sm-5">
+                                                    <nop-label asp-for="SearchStoreId" />
+                                                </div>
+                                                <div class="col-sm-7">
+                                                    <nop-select asp-for="SearchStoreId" asp-items="Model.AvailableStores" />
+                                                </div>
+                                            </div>
+                                            </div>
+                                            }
+                                            @if (Model.EntityName != null &&  Model.EntityName == "Category")
+                                            {
+                                                <div class="col-sm-6">
+                                                    <div class="form-group" style="display:none;">
+                                                        <div class="col-sm-5">
+                                                            <nop-label asp-for="EntityName" />
+                                                        </div>
+                                                        <div class="col-sm-7">
+                                                            <nop-editor asp-for="EntityName" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-5">
+                                                            <nop-label asp-for="SearchCategoryName" />
+                                                        </div>
+                                                        <div class="col-sm-7">
+                                                            <nop-editor asp-for="SearchCategoryName" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" @(Model.AvailableStores.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                                                        <div class="col-sm-5">
+                                                            <nop-label asp-for="SearchStoreId" />
+                                                        </div>
+                                                        <div class="col-sm-7">
+                                                            <nop-select asp-for="SearchStoreId" asp-items="Model.AvailableStores" />
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                    }
+                                                    @if (Model.EntityName != null &&  Model.EntityName == "Product")
+                                                    {
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group" style="display:none;">
+                                                                <div class="col-sm-5">
+                                                                    <nop-label asp-for="EntityName" />
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    <nop-editor asp-for="EntityName" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="col-sm-5">
+                                                                    <nop-label asp-for="SearchProductName" />
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    <nop-editor asp-for="SearchProductName" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group" @(Model.AvailableCategories.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                                                                <div class="col-sm-5">
+                                                                    <nop-label asp-for="SearchCategoryId" />
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    <nop-select asp-for="SearchCategoryId" asp-items="Model.AvailableCategories" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group" @(Model.AvailableVendors.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                                                                <div class="col-sm-5">
+                                                                    <nop-label asp-for="SearchVendorId" />
+                                                                </div>
+                                                                <div class="col-sm-7">
+                                                                    <nop-select asp-for="SearchVendorId" asp-items="Model.AvailableVendors" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group" @(Model.AvailableStores.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                                        <div class="col-sm-5">
+                                            <nop-label asp-for="SearchStoreId" />
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <nop-select asp-for="SearchStoreId" asp-items="Model.AvailableStores" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-5">
+                                            <nop-label asp-for="SearchProductTypeId" />
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <nop-select asp-for="SearchProductTypeId" asp-items="Model.AvailableProductTypes" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group" @(Model.AvailableManufacturers.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                                        <div class="col-sm-5">
+                                            <nop-label asp-for="SearchManufacturerId" />
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <nop-select asp-for="SearchManufacturerId" asp-items="Model.AvailableManufacturers" />
+                                        </div>
+                                    </div>
+                                </div>
+                               }
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button type="button" id="search-items" class="btn btn-primary btn-search">
+                                        <i class="fa fa-search"></i>
+                                        @T("Admin.Common.Search")
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            @await Html.PartialAsync("Table", new DataTablesModel
+                       {
+                           Name = "items-grid",
+                           UrlRead = new DataUrl("ItemAddPopupList", "MenuTree", null),
+                           SearchButtonId = "search-items",
+                           Length = Model.PageSize,
+                           LengthMenu = Model.AvailablePageSizes,
+                           Filters = new List<FilterParameter>
+                           {
+                               new FilterParameter(nameof(Model.SearchProductName)),
+                               new FilterParameter(nameof(Model.SearchBrandName)),
+                               new FilterParameter(nameof(Model.SearchArticleName)),
+                               new FilterParameter(nameof(Model.SearchCategoryName)),
+                               new FilterParameter(nameof(Model.SearchCategoryId)),
+                               new FilterParameter(nameof(Model.SearchManufacturerId)),
+                               new FilterParameter(nameof(Model.SearchStoreId)),
+                               new FilterParameter(nameof(Model.SearchVendorId)),
+                               new FilterParameter(nameof(Model.SearchProductTypeId)),
+                               new FilterParameter(nameof(Model.EntityName))
+                           },
+                           ColumnCollection = new List<ColumnProperty>
+                                {
+                                    new ColumnProperty(nameof(ItemModel.Id))
+                                    {
+                                        IsMasterCheckBox = true,
+                                        Render = new RenderCheckBox(nameof(AddItemToMenuTreeModel.SelectedItemIds)),
+                                        ClassName = NopColumnClassDefaults.CenterAll,
+                                        Width = "50"
+                                    },
+                                    new ColumnProperty(nameof(ItemModel.Name))
+                                    {
+                                        Title = "Name"
+                                    },
+                                    new ColumnProperty(nameof(ItemModel.Published))
+                                    {
+                                        Title = "Published",
+                                        Width = "100",
+                                        ClassName = NopColumnClassDefaults.CenterAll,
+                                        Render = new RenderBoolean()
+                                    },
+                                     new ColumnProperty(nameof(ItemModel.DisplayOrder))
+                                    {
+                                        Title = "Display Order",
+                                        Width = "100",
+                                        ClassName = NopColumnClassDefaults.CenterAll
+                                    }
+                                }
+                       })
+                        </div>
+                        <div class="panel-footer">
+                            <button type="submit" name="save" class="btn bg-blue">
+                                <i class="fa fa-floppy-o"></i>
+                                @T("Admin.Common.Save")
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}

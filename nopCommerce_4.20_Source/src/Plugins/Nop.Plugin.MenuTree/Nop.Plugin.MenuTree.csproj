@@ -1,0 +1,87 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Copyright>SOME_COPYRIGHT</Copyright>
+    <Company>YOUR_COMPANY</Company>
+    <Authors>SOME_AUTHORS</Authors>
+    <PackageLicenseUrl>PACKAGE_LICENSE_URL</PackageLicenseUrl>
+    <PackageProjectUrl>PACKAGE_PROJECT_URL</PackageProjectUrl>
+    <RepositoryUrl>REPOSITORY_URL</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <OutputPath>..\..\Presentation\Nop.Web\Plugins\MenuTree</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
+    <!--Set this parameter to true to get the dlls copied from the NuGet cache to the output of your project. You need to set this parameter to true if your plugin has a nuget package to ensure that the dlls copied from the NuGet cache to the output of your project-->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
+<ItemGroup>
+  <Compile Remove="Menustart.cs" />
+</ItemGroup>
+<ItemGroup>
+  <None Remove="plugin.json" />
+  <None Remove="Views\Configure.cshtml" />
+  <None Remove="Views\PublicInfo.cshtml" />
+  <None Remove="Views\_ViewImports.cshtml" />
+</ItemGroup>
+<ItemGroup>
+  <Content Include="plugin.json">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+  <Content Include="Views\Configure.cshtml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </Content>
+  <Content Include="Views\MenuTree\Create.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+  <Content Include="Views\MenuTree\Edit.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+  <Content Include="Views\MenuTree\List.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+  <Content Include="Views\MenuTree\ItemAddPopup.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+  <Content Include="Views\MenuTree\_CreateOrUpdate.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+  <Content Include="Views\MenuTree\_CreateOrUpdate.Info.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+  <Content Include="Views\MenuTree\_CreateOrUpdate.Item.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+  <Content Include="Views\MenuTree\_CreateOrUpdate.Seo.cshtml">
+    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+  <Content Include="Views\PublicInfo.cshtml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </Content>
+  <Content Include="Views\_ViewImports.cshtml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
+  
+    <ItemGroup>
+    <ProjectReference Include="..\..\Presentation\Nop.Web.Framework\Nop.Web.Framework.csproj" />
+    <ProjectReference Include="..\..\Presentation\Nop.Web\Nop.Web.csproj" />
+    </ItemGroup>
+  
+    <ItemGroup>
+      <None Update="logo.JPG">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+    <!-- This target execute after "Build" target -->
+    <Target Name="NopTarget" AfterTargets="Build">
+    <!-- Delete unnecessary libraries from plugins path -->
+    <MSBuild Projects="@(ClearPluginAssemblies)" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear" />
+    </Target>
+</Project>
