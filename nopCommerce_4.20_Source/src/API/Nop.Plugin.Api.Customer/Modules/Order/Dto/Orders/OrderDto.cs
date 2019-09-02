@@ -297,8 +297,15 @@ namespace Nop.Plugin.Api.Customer.Modules.Order.Dto.Orders
         ///     Gets or sets the payment method system name
         /// </summary>
         [JsonProperty("order_notes")]
-        public List<string> OrderNotes { get; set; }
+        [JsonIgnore]
+        public List<string> OrderNote { get; set; }
 
+
+        /// <summary>
+        ///     Gets or sets the payment method system name
+        /// </summary>
+        [JsonProperty("order_guid")]
+        public Guid OrderGuid { get; set; }
 
         /// <summary>
         ///     Gets or sets the rental product end date (null if it's not a rental product)

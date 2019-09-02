@@ -5,6 +5,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Core.Data;
+using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Customers;
 using Nop.Core.Domain.Orders;
 using Nop.Plugin.Api.Common.Attributes;
@@ -12,6 +13,7 @@ using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.Converters;
 using Nop.Plugin.Api.Common.Delta;
+using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.Factories;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
@@ -145,7 +147,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
                 isValid &= SetShippingOption(orderDelta.Dto.ShippingRateComputationMethodSystemName,
                     orderDelta.Dto.ShippingMethod,
                     orderDelta.Dto.StoreId ?? _storeContext.CurrentStore.Id,
-                    customer, shoppingCartItems);
+                    customer, shoppingCartItems,orderDelta.Dto.ShippingAddress);
 
                 if (!isValid) return Error(HttpStatusCode.BadRequest);
             }
@@ -164,8 +166,8 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
 
             var placeOrderResult = PlaceOrder(newOrder, customer);
             if (placeOrderResult != null && placeOrderResult.Success &&
-                orderDelta.Dto.OrderNotes != null && orderDelta.Dto.OrderNotes.Count > 0)
-                foreach (var order in orderDelta.Dto.OrderNotes)
+                orderDelta.Dto.OrderNote != null && orderDelta.Dto.OrderNote.Count > 0)
+                foreach (var order in orderDelta.Dto.OrderNote)
                     placeOrderResult.PlacedOrder.OrderNotes?.Add(new OrderNote
                     {
                         Note = order, CreatedOnUtc = DateTime.Now
@@ -378,7 +380,8 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
                         orderDelta.Dto.ShippingMethod,
                         storeId,
                         customer,
-                        BuildShoppingCartItemsFromOrderItems(currentOrder.OrderItems.ToList(), customer.Id, storeId));
+                        BuildShoppingCartItemsFromOrderItems(currentOrder.OrderItems.ToList(), customer.Id, storeId),
+                        orderDelta.Dto.ShippingAddress);
                 }
 
                 if (isValid)
@@ -492,7 +495,8 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
             {
                 StoreId = newOrder.StoreId,
                 CustomerId = customer.Id,
-                PaymentMethodSystemName = newOrder.PaymentMethodSystemName
+                PaymentMethodSystemName = newOrder.PaymentMethodSystemName,
+                OrderGuid=newOrder.OrderGuid,
             };
 
 
@@ -502,7 +506,7 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
         }
 
         private bool SetShippingOption(string shippingRateComputationMethodSystemName, string shippingOptionName,
-            int storeId, Core.Domain.Customers.Customer customer, IList<ShoppingCartItem> shoppingCartItems)
+            int storeId, Core.Domain.Customers.Customer customer, IList<ShoppingCartItem> shoppingCartItems, AddressDto shippingAddress)
         {
             var isValid = true;
 
@@ -522,7 +526,18 @@ namespace Nop.Plugin.Api.Customer.Modules.Order
             else
             {
                 var shippingOptionResponse = _shippingService.GetShippingOptions(shoppingCartItems,
-                    customer.ShippingAddress, customer,
+                    new Address
+                    {
+                        Address1 = shippingAddress.Address1,
+                        Address2 = shippingAddress.Address2,
+                        City= shippingAddress.City,
+                        CountryId = shippingAddress.CountryId,
+                        Id = shippingAddress.Id,
+                        StateProvinceId = shippingAddress.StateProvinceId,
+                        FirstName = shippingAddress.FirstName,
+                        LastName = shippingAddress.LastName,
+                        PhoneNumber=shippingAddress.PhoneNumber,
+                    }, customer,
                     shippingRateComputationMethodSystemName, storeId);
 
                 if (shippingOptionResponse.Success)
