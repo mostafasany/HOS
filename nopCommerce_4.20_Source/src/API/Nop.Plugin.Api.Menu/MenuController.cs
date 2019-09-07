@@ -56,5 +56,23 @@ namespace Nop.Plugin.Api.Menu
             var json = JsonFieldsSerializer.Serialize(menu, string.Empty);
             return new RawJsonActionResult(json);
         }
+
+        /// <summary>
+        ///     Get Menu
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/v2/menu")]
+        [ProducesResponseType(typeof(MenuDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetNewMenu()
+        {
+            var menu = _menuApiService.GetNewMenu();
+            var json = JsonFieldsSerializer.Serialize(new MenuRootDto { Menu = menu }, string.Empty);
+            return new RawJsonActionResult(json);
+        }
     }
 }

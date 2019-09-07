@@ -52,7 +52,7 @@ namespace Nop.Plugin.Api.Category.Translator
             if (imageDto != null) categoryDto.Image = imageDto;
 
             categoryDto.SeName = _urlRecordService.GetSeName(category);
-            categoryDto.DiscountIds = category.AppliedDiscounts.Select(discount => discount.Id).ToList();
+           // categoryDto.DiscountIds = category?.AppliedDiscounts?.Select(discount => discount.Id)?.ToList();
             categoryDto.RoleIds = _aclService.GetAclRecords(category).Select(acl => acl.CustomerRoleId).ToList();
             categoryDto.StoreIds = _storeMappingService.GetStoreMappings(category).Select(mapping => mapping.StoreId)
                 .ToList();

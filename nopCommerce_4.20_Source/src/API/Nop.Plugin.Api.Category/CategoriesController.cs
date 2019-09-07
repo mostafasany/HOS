@@ -181,6 +181,43 @@ namespace Nop.Plugin.Api.Category
             return new RawJsonActionResult(json);
         }
 
+
+        /// <summary>
+        ///     Receive a list of all Categories
+        /// </summary>
+        /// <response code="200">OK</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/v2/categories")]
+        [ProducesResponseType(typeof(CategoriesRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetNewCategories(CategoriesParametersModel parameters)
+        {
+            if (parameters.Limit < Configurations.MinLimit || parameters.Limit > Configurations.MaxLimit)
+                return Error(HttpStatusCode.BadRequest, "limit", "Invalid limit parameter");
+
+            if (parameters.Page < Configurations.DefaultPageValue)
+                return Error(HttpStatusCode.BadRequest, "page", "Invalid page parameter");
+
+            var allCategories = _categoryApiService.GetNewCategories(parameters.Ids, parameters.CreatedAtMin,
+                    parameters.CreatedAtMax,
+                    parameters.UpdatedAtMin, parameters.UpdatedAtMax,
+                    parameters.Limit, parameters.Page, parameters.SinceId,
+                    parameters.ProductId, parameters.ParentId, parameters.PublishedStatus)
+                .Where(c => StoreMappingService.Authorize(c));
+
+            IList<CategoryDto> categoriesAsDto =
+                allCategories.Select(category => _dtoHelper.PrepareCategoryDto(category)).ToList();
+
+            var categoriesRootObject = new CategoriesRootObject { Categories = categoriesAsDto };
+
+            var json = JsonFieldsSerializer.Serialize(categoriesRootObject, parameters.Fields);
+
+            return new RawJsonActionResult(json);
+        }
+
         /// <summary>
         ///     Receive a count of all Categories
         /// </summary>
@@ -225,6 +262,42 @@ namespace Nop.Plugin.Api.Category
             var category = _categoryApiService.GetCategoryById(id);
 
             if (category == null) return Error(HttpStatusCode.NotFound, "category", "category not found");
+
+            var categoryDto = _dtoHelper.PrepareCategoryDto(category);
+
+            var categoriesRootObject = new CategoriesRootObject();
+
+            categoriesRootObject.Categories.Add(categoryDto);
+
+            var json = JsonFieldsSerializer.Serialize(categoriesRootObject, fields);
+
+            return new RawJsonActionResult(json);
+        }
+
+
+        /// <summary>
+        ///     Retrieve category by specified id
+        /// </summary>
+        /// <param name="id">Id of the category</param>
+        /// <param name="fields">Fields from the category you want your json to contain</param>
+        /// <response code="200">OK</response>
+        /// <response code="404">Not Found</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet]
+        [Route("/api/v2/categories/{id}")]
+        [ProducesResponseType(typeof(CategoriesRootObject), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ErrorsRootObject), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Unauthorized)]
+        [GetRequestsErrorInterceptorActionFilter]
+        public IActionResult GetNewCategoryById(int id, string fields = "")
+        {
+            if (id <= 0)
+                return Error(HttpStatusCode.BadRequest, "id", "invalid id");
+
+            var category = _categoryApiService.GetNewCategoryById(id);
+
+            if (category == null)
+                return Error(HttpStatusCode.NotFound, "category", "category not found");
 
             var categoryDto = _dtoHelper.PrepareCategoryDto(category);
 

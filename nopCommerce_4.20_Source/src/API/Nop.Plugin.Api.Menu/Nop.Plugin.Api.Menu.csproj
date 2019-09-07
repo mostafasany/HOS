@@ -15,4 +15,7 @@
       <ProjectReference Include="..\Nop.Plugin.Api.Product\Nop.Plugin.Api.Product.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Domain\" />
+    </ItemGroup>
 </Project>
