@@ -68,7 +68,7 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Translator
             PrepareProductAttributes(product.ProductAttributeMappings, productDto);
             PrepareProductAttributesCombination(product.ProductAttributeCombinations, productDto);
             PrepareProductSpecificationAttributes(product.ProductSpecificationAttributes, productDto);
-
+            PrepareExtendedProductAttributes(productDto);
             productDto.SeName = _urlRecordService.GetSeName(product);
             productDto.DiscountIds = product.AppliedDiscounts.Select(discount => discount.Id).ToList();
             productDto.ManufacturerIds = product.ProductManufacturers.Select(pm => pm.ManufacturerId).ToList();
@@ -211,12 +211,13 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Translator
 
             foreach (var productAttributeCombination in productAttributeCombinations)
             {
-                var productAttributeCombinationDto =
-                    PrepareProductAttributeCombinationDto(productAttributeCombination);
+                var productAttributeCombinationDto =PrepareProductAttributeCombinationDto(productAttributeCombination);
                 var attributes = _productAttributeConverter.Parse(productAttributeCombinationDto.AttributesXml);
-                var attributeValue = attributes.FirstOrDefault(a => a.Id == 26);
-                if (attributeValue != null)
-                    productAttributeCombinationDto.ProductAttributId = int.Parse(attributeValue.Value);
+                productAttributeCombinationDto.AttributeValues = new Dictionary<int, string>();
+                foreach (var item in attributes)
+                {
+                    productAttributeCombinationDto.AttributeValues.Add(item.Id, item.Value);
+                }
                 productDto.ProductAttributesCombinations.Add(productAttributeCombinationDto);
             }
         }
@@ -273,6 +274,86 @@ namespace Nop.Plugin.Api.Product.Modules.Product.Translator
                 };
 
                 productDto.Images.Add(productImageDto);
+            }
+        }
+
+
+        private void PrepareExtendedProductAttributes(ProductDto productDto)
+        {
+            productDto.ExtendedProductAttributes = new List<ProductExtendedAttributeDto>();
+            foreach (var productAttribute in productDto.ProductAttributeMappings)
+            {
+                var values = new List<ProductExtendedAttributeValueDto>();
+                foreach (var productAttributeValue in productAttribute.ProductAttributeValues)
+                {
+                    int attributeId = productAttribute.Id;
+                    int attributeValueId = productAttributeValue.Id;
+                    var combination= productDto.ProductAttributesCombinations.FirstOrDefault(a => a.AttributeValues.Contains(new KeyValuePair<int, string>(attributeId, attributeValueId.ToString())));
+                    decimal? price = 0;
+                    int? stockQty = 0;
+                    int? pictureId = 0;
+                    if (combination!=null)
+                    {
+                        if(combination.OverriddenPrice.HasValue)
+                        {
+                            price = combination.OverriddenPrice.Value;
+                        }
+                        else if (productAttributeValue.PriceAdjustmentUsePercentage &&
+                            productAttributeValue.PriceAdjustment.HasValue &&
+                            productDto.Price.HasValue)
+                        {
+                            price = (productDto.Price.Value * productAttributeValue.PriceAdjustment.Value) / 100;
+                        }
+                        else if(productAttributeValue.PriceAdjustment.HasValue)
+                        {
+                            price = productAttributeValue.PriceAdjustment.Value;
+                        }
+
+                        stockQty = combination.StockQuantity;
+                    }
+                    else
+                    {
+                        if (productAttributeValue.PriceAdjustmentUsePercentage &&
+                               productAttributeValue.PriceAdjustment.HasValue &&
+                               productDto.Price.HasValue)
+                        {
+                            price = (productDto.Price.Value * productAttributeValue.PriceAdjustment.Value) / 100;
+                        }
+                        else if (productAttributeValue.PriceAdjustment.HasValue)
+                        {
+                            price = productAttributeValue.PriceAdjustment.Value;
+                        }
+                       
+                        stockQty = productAttributeValue.Quantity;
+
+                    }
+
+                    if (!price.HasValue || price.Value == 0)
+                    {
+                        price = productDto.Price.Value;
+                    }
+                    if (!stockQty.HasValue)
+                    {
+                        stockQty = productDto.StockQuantity;
+                    }
+
+                    pictureId = productAttributeValue.PictureId; //Always take productAttributeValue picture not comobination.
+
+                    values.Add(new ProductExtendedAttributeValueDto
+                    {
+                        Id = productAttributeValue.Id,
+                        Name = productAttributeValue.Name,
+                        Price= price,
+                        StockQty= stockQty,
+                        PictureId= pictureId,
+                    });
+                }
+                productDto.ExtendedProductAttributes.Add(new ProductExtendedAttributeDto
+                {
+                    Id = productAttribute.Id,
+                    Name = productAttribute.TextPrompt,
+                    Values= values,
+                });
             }
         }
     }

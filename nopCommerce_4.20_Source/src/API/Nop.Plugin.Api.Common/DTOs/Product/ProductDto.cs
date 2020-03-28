@@ -543,7 +543,13 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
         [JsonProperty("attributesCombinations")]
         public List<ProductAttributeCombinationDto> ProductAttributesCombinations { get; set; }
 
-        [JsonProperty("attributes")] public List<ProductAttributeMappingDto> ProductAttributeMappings { get; set; }
+        [JsonProperty("attributes")]
+        public List<ProductAttributeMappingDto> ProductAttributeMappings { get; set; }
+
+
+        [JsonProperty("extendedProductAttributes")]
+        public List<ProductExtendedAttributeDto> ExtendedProductAttributes { get; set; }
+        
 
         [JsonProperty("product_specification_attributes")]
         public List<ProductSpecificationAttributeDto> ProductSpecificationAttributes { get; set; }

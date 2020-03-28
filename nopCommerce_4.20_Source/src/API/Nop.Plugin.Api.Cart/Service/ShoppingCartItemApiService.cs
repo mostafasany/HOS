@@ -17,6 +17,7 @@ using Nop.Plugin.Api.Cart.Translator;
 using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Converters;
 using Nop.Plugin.Api.Common.DataStructures;
+using Nop.Plugin.Api.Common.DTOs;
 using Nop.Services.Catalog;
 using Nop.Services.Common;
 using Nop.Services.Customers;
@@ -393,7 +394,7 @@ namespace Nop.Plugin.Api.Cart.Service
                 Id = sci.Id,
                 Sku = _productService.FormatSku(sci.Product, sci.AttributesXml),
                 VendorName = vendors.FirstOrDefault(v => v.Id == sci.Product.VendorId)?.Name ?? string.Empty,
-                Product = _dtoHelper.PrepareProductDto(sci.Product),
+                Product = sci.Product.ToDto(),
                 ProductId = sci.Product.Id,
                 ProductName = _localizationService.GetLocalized(sci.Product, x => x.Name),
                 ProductSeName = _urlRecordService.GetSeName(sci.Product),

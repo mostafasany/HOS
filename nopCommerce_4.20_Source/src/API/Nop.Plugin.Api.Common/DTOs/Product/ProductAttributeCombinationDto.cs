@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Nop.Plugin.Api.Common.DTOs.Product
 {
@@ -17,6 +18,12 @@ namespace Nop.Plugin.Api.Common.DTOs.Product
         [JsonProperty("productAttributId")]
         public int ProductAttributId { get; set; }
 
+
+        /// <summary>
+        ///     Gets or sets the product identifier
+        /// </summary>
+        [JsonProperty("attributeValues")]
+        public Dictionary<int,string> AttributeValues { get; set; }
 
         /// <summary>
         ///     Gets or sets the attributes

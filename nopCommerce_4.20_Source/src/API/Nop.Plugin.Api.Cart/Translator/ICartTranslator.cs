@@ -8,7 +8,6 @@ namespace Nop.Plugin.Api.Cart.Translator
 {
     public interface ICartTranslator
     {
-        ProductDto PrepareProductDto(Product product);
         ShippingOptionDto PrepareShippingOptionItemDto(ShippingOption shoppingCartItem);
         ShoppingCartItemDto PrepareShoppingCartItemDto(ShoppingCartItem shoppingCartItem);
     }

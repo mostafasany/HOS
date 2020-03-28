@@ -15,6 +15,7 @@ using Nop.Plugin.Api.Common.Constants;
 using Nop.Plugin.Api.Common.Controllers;
 using Nop.Plugin.Api.Common.Converters;
 using Nop.Plugin.Api.Common.Delta;
+using Nop.Plugin.Api.Common.DTOs;
 using Nop.Plugin.Api.Common.DTOs.Errors;
 using Nop.Plugin.Api.Common.DTOs.Product;
 using Nop.Plugin.Api.Common.JSON.ActionResults;
@@ -202,7 +203,7 @@ namespace Nop.Plugin.Api.Cart
                 .Where(p => StoreMappingService.Authorize(p));
 
             IList<ProductDto> productsAsDtos =
-                allProducts.Select(product => _dtoHelper.PrepareProductDto(product)).ToList();
+                allProducts.Select(product => product.ToDto()).ToList();
 
             var productsRootObject = new ProductsRootObjectDto {Products = productsAsDtos};
 
